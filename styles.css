@@ -33,6 +33,11 @@ h1{
     text-decoration: underline;
 }
 
+.a1:active{
+    color: red;
+    text-decoration: underline;
+}
+
 .fa{
     opacity: 0.8;
 }
