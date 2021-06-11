@@ -19,12 +19,13 @@ h1{
     color: blue;
 }
 
-.a1:active{
-    color: blue;
+.a1:hover{
+    color: navy;
+    text-decoration: underline;
 }
 
 .fa{
-    opacity: 0.5;
+    opacity: 0.9;
 }
 
 .fa:hover{
