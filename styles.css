@@ -4,13 +4,16 @@ body{
     text-align: center;
 }
 
+.single-line{
+    white-space: nowrap;
+}
+
 h1{
     font-family: Arial, Helvetica, sans-serif;
     font-weight: normal;
     color: black;
     font-size: 96px;
     text-decoration: none;
-    white-space: nowrap;
 }
 
 .hyperlink{
