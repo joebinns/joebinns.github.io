@@ -59,7 +59,7 @@ a{
     opacity: 1.0;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark){
     h1{
         color: white;
     }
