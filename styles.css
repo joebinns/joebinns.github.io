@@ -14,6 +14,7 @@ h1{
     color: black;
     font-size: 40px;
     text-decoration: none;
+    line-height: 0.8;
 }
 
 .hyperlink{
@@ -41,6 +42,7 @@ a{
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
     font-size: 14px;
+    line-height: normal;
 }
 
 .hyperimage{
