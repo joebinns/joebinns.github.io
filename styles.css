@@ -4,6 +4,10 @@ body{
     text-align: center;
 }
 
+span.line {
+    display: inline-block;
+}
+
 .single-line{
     white-space: nowrap;
 }
