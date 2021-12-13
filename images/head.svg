@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg enable-background="new 0 0 496.149 496.149" version="1.1" viewBox="0 0 496.15 496.15" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title/></cc:Work></rdf:RDF></metadata>
-<g>
-	<g>
-		<path d="m282.48 0.149c-1.551-0.059-3.102-0.1-4.654-0.124-114.86-1.773-209.41 89.903-211.19 204.76l-52.96 123.52 52.96 23.84v112l128-16v48h32v-80l-128 16v-101.12l-44.64-19.04 43.04-100.48v-3.36c0.433-48.048 20.491-93.83 55.52-126.72 34.04-34.217 80.541-53.106 128.8-52.32 91.863 5.508 165.32 78.42 171.52 170.24 1.747 45.326-14.073 89.576-44.16 123.52l-4.96 5.92 32 165.6 29.76-5.92-28.48-150.72c27.703-34.708 43.57-77.372 45.279-121.75 4.423-114.79-85.048-211.43-199.84-215.85z"/>
-	</g>
-</g>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="7.4032mm" height="7.4032mm" version="1.1" viewBox="0 0 7.4032 7.4032" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(-61.31 -88.435)">
+  <path d="m61.857 88.435c-0.30198 0-0.54622 0.23872-0.54622 0.5333v6.3366c0 0.29489 0.24424 0.5333 0.54622 0.5333h2.1291s0.38618-1.5855 0.30179-1.6671c-0.0723-0.06985-1.2131 0.11341-1.2754 0.04289-0.0929-0.1051-0.0148-1.0154-0.13695-1.1017-0.10319-0.07292-0.78417 0.03008-0.69453-0.16381 0.64667-1.3987 0.70168-1.1783 0.69453-1.4624-0.0319-1.2671 1.0633-2.2789 2.3306-2.2593 0.0171 2.65e-4 0.0341 9e-4 0.0512 0.0016 1.2666 0.04879 2.2538 1.1152 2.205 2.3818-0.0189 0.48964-0.55214 1.098-0.49971 1.3431l0.83716 2.8851h0.36587c0.30168 0 0.54829-0.23841 0.54829-0.5333v-6.3366c0-0.29424-0.24605-0.53275-0.54726-0.5333z" stroke-width=".26458"/>
+ </g>
 </svg>
