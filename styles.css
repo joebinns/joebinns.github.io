@@ -52,6 +52,7 @@ a{
 
 .hyperimage{
     opacity: 0.8;
+    color:black;
 }
 
 .hyperimage:hover{
@@ -67,6 +68,9 @@ a{
     }
     body{
         background: black;
+        color: white;
+    }
+    .hyperimage{
         color: white;
     }
 }
