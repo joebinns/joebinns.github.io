@@ -18,10 +18,10 @@ h1{
 
 .hyperlink{
     text-decoration: none;
-    color: darkblue;
+    color: #34568B; /*classicblue*/
 }
 .hyperlink:hover{
-    color: midnightblue;
+    color: darkblue;
     text-decoration: underline;
 }
 .hyperlink:active{
