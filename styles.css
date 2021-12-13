@@ -4,15 +4,12 @@ body{
     color: black;
     text-align: center;
 }
-
 span.line{
     display: inline-block;
 }
-
 .single-line{
     white-space: nowrap;
 }
-
 h1{
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
@@ -21,19 +18,17 @@ h1{
     text-decoration: none;
     line-height: 0.5;
 }
-
 .hyperlink{
+    color: royalblue;
     text-decoration: none;
-    color: #34568B; /*classicblue*/
 }
 .hyperlink:hover{
-    color: darkblue;
+    color: #34568B; /*classicblue*/
     text-decoration: underline;
 }
 .hyperlink:active{
     color: firebrick;
 }
-
 .center{
     position: absolute;
     top: 50%;
@@ -41,7 +36,6 @@ h1{
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
-
 a{
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
@@ -52,11 +46,9 @@ a{
 .hyperimage{
     opacity: 0.8;
 }
-
 .hyperimage:hover{
     opacity: 1.0;
 }
-
 @media (prefers-color-scheme: dark){
     h1{
         color: white;
@@ -70,7 +62,7 @@ a{
     }
     .hyperimage{
         opacity: 1.0;
-    } 
+    }
     .hyperimage:hover{
         opacity: 0.8;
     }
