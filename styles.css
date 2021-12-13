@@ -51,7 +51,6 @@ a{
 
 .hyperimage{
     opacity: 0.8;
-    color:grey;
 }
 
 .hyperimage:hover{
@@ -70,10 +69,9 @@ a{
         color: white;
     }
     .hyperimage{
-        color: white;
+        opacity: 1.0;
+    } 
+    .hyperimage:hover{
+        opacity: 0.8;
     }
-}
-
-myicon{
-    fill:red;
 }
