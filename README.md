@@ -1,4 +1,4 @@
-# [joebinns.github.io](https:/joebinns.github.io)
+# [joebinns.github.io](https://joebinns.github.io)
 
 My personal website, where I host my curriculum vitae and link to platforms I'm using professionally!
 
