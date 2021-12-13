@@ -5,19 +5,6 @@ body{
     text-align: center;
 }
 
-@media (prefers-color-scheme: dark) {
-    h1{
-        color: white;
-    }
-    a{
-        color:white;
-    }
-    body{
-        background: black;
-        color: white;
-    }
-}
-
 span.line {
     display: inline-block;
 }
@@ -69,4 +56,17 @@ a{
 
 .hyperimage:hover{
     opacity: 1.0;
+}
+
+@media (prefers-color-scheme: dark) {
+    h1{
+        color: white;
+    }
+    a{
+        color:white;
+    }
+    body{
+        background: black;
+        color: white;
+    }
 }
