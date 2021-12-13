@@ -5,7 +5,7 @@ body{
     text-align: center;
 }
 
-span.line {
+span.line{
     display: inline-block;
 }
 
@@ -34,8 +34,7 @@ h1{
     color: firebrick;
 }
 
-
-.center {
+.center{
     position: absolute;
     top: 50%;
     left: 50%;
