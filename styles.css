@@ -9,35 +9,24 @@ body{
 }
 
 h1{
-    font-family: Arial, Helvetica, sans-serif;
+    /*font-family: Arial, Helvetica, sans-serif;*/
+    font-family: Georgia, 'Times New Roman', Times, sans-serif;
     font-weight: normal;
     color: black;
-    font-size: 96px;
+    font-size: 32px;
     text-decoration: none;
-}
-
-.h1-hyperlink{
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    color: black;
-    font-size: 96px;
-    text-decoration: none;
-}
-
-.h1-hyperlink:active{
-    color: red;
 }
 
 .hyperlink{
     text-decoration: none;
-    color: blue;
+    color: darkblue;
 }
 .hyperlink:hover{
-    color: navy;
+    color: midnightblue;
     text-decoration: underline;
 }
 .hyperlink:active{
-    color: red;
+    color: firebrick;
 }
 
 
@@ -50,9 +39,9 @@ h1{
 }
 
 a{
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, sans-serif;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 12px;
 }
 
 .hyperimage{
