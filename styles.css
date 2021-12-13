@@ -73,4 +73,8 @@ a{
     .hyperimage{
         color: white;
     }
+
+    .hyperimage path{
+        fill: orange;
+    }
 }
