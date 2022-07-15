@@ -31,10 +31,10 @@ h1{
 }
 .upperleft{
     position: absolute;
-    top: 0;
-    left: 0;
-    -ms-transform: translate(0%, 0%);
-    transform: translate(0%, 0%);
+    top: 0%;
+    left: 0%;
+    -ms-transform: translate(-100%, -100%);
+    transform: translate(-100%, -100%);
 }
 .center{
     position: absolute;
@@ -60,30 +60,36 @@ a{
 .fade-in-out{
     animation-iteration-count: infinite;
 
-    animation: fadeInOut ease 20s;
-    -webkit-animation: fadeInOut ease 20s;
-    -moz-animation: fadeInOut ease 20s;
-    -o-animation: fadeInOut ease 20s;
-    -ms-animation: fadeInOut ease 20s;
+    animation: fadeInOut ease 10s;
+    -webkit-animation: fadeInOut ease 10s;
+    -moz-animation: fadeInOut ease 10s;
+    -o-animation: fadeInOut ease 10s;
+    -ms-animation: fadeInOut ease 10s;
 }
 @keyframes fadeInOut {
     0% {
-      opacity:0;
-    }
-    50% {
+        opacity:0;
+      }
+      40% {
+          opacity:1;
+      }
+      60% {
         opacity:1;
     }
-    100% {
-      opacity:0;
-    }
+      100% {
+        opacity:0;
+      }
 }
 @-moz-keyframes fadeInOut {
     0% {
         opacity:0;
       }
-      50% {
+      40% {
           opacity:1;
       }
+      60% {
+        opacity:1;
+    }
       100% {
         opacity:0;
       }
@@ -92,9 +98,12 @@ a{
     0% {
         opacity:0;
       }
-      50% {
+      40% {
           opacity:1;
       }
+      60% {
+        opacity:1;
+    }
       100% {
         opacity:0;
       }
@@ -103,9 +112,12 @@ a{
     0% {
         opacity:0;
       }
-      50% {
+      40% {
           opacity:1;
       }
+      60% {
+        opacity:1;
+    }
       100% {
         opacity:0;
       }
@@ -114,9 +126,12 @@ a{
     0% {
         opacity:0;
       }
-      50% {
+      40% {
           opacity:1;
       }
+      60% {
+        opacity:1;
+    }
       100% {
         opacity:0;
       }
