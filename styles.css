@@ -30,9 +30,9 @@ h1{
     color: firebrick;
 }
 .upperleft{
-    position: relative;
-    top: 0%;
-    left: 0%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
 }
 .center{
     position: absolute;
@@ -56,15 +56,15 @@ a{
 }
 
 .fade-in-out{
-    animation: fadeInOut ease 6s;
-    -webkit-animation: fadeInOut ease 6s;
-    -moz-animation: fadeInOut ease 6s;
-    -o-animation: fadeInOut ease 6s;
-    -ms-animation: fadeInOut ease 6s;
+    animation: fadeInOut ease 4s;
+    -webkit-animation: fadeInOut ease 4s;
+    -moz-animation: fadeInOut ease 4s;
+    -o-animation: fadeInOut ease 4s;
+    -ms-animation: fadeInOut ease 4s;
 }
 @keyframes fadeInOut {
     0% {
-        opacity:0;
+        opacity:0.1;
       }
       40% {
           opacity:1;
@@ -73,12 +73,12 @@ a{
         opacity:1;
     }
       100% {
-        opacity:0;
+        opacity:0.1;
       }
 }
 @-moz-keyframes fadeInOut {
     0% {
-        opacity:0;
+        opacity:0.1;
       }
       40% {
           opacity:1;
@@ -87,12 +87,12 @@ a{
         opacity:1;
     }
       100% {
-        opacity:0;
+        opacity:0.1;
       }
 }
 @-webkit-keyframes fadeInOut {
     0% {
-        opacity:0;
+        opacity:0.1;
       }
       40% {
           opacity:1;
@@ -101,12 +101,12 @@ a{
         opacity:1;
     }
       100% {
-        opacity:0;
+        opacity:0.1;
       }
 } 
 @-o-keyframes fadeInOut {
     0% {
-        opacity:0;
+        opacity:0.1;
       }
       40% {
           opacity:1;
@@ -115,12 +115,12 @@ a{
         opacity:1;
     }
       100% {
-        opacity:0;
+        opacity:0.1;
       }
 }
 @-ms-keyframes fadeInOut {
     0% {
-        opacity:0;
+        opacity:0.1;
       }
       40% {
           opacity:1;
@@ -129,7 +129,7 @@ a{
         opacity:1;
     }
       100% {
-        opacity:0;
+        opacity:0.1;
       }
 }
 
