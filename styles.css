@@ -58,6 +58,8 @@ a{
 }
 
 .fade-in-out{
+    animation-iteration-count: infinite;
+
     animation: fadeInOut ease 20s;
     -webkit-animation: fadeInOut ease 20s;
     -moz-animation: fadeInOut ease 20s;
