@@ -9,7 +9,7 @@
 <body>
     <div class="upperleft fade-in-out" style="animation-iteration-count:infinite;padding:4px;">
         <p style="display:inline">
-            <a id="notification_hyper" class="greenhyperlink" href="mailto:joebinns.95@gmail.com" target="_blank">
+            <a id="notification_hyper" class="greenhyperlink" href="mailto:joebinns.95@gmail.com" target="_blank" onclick="someFunc()">
                 <img id="notification" style="display:inline;" src="images/circle_green_optimised.svg" alt="Green Circle" width="12" height="12"> Available for work
             </a>
         </p>
@@ -76,13 +76,8 @@
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
     }
-    var notificationHyper = document.getElementById("notification_hyper");
-    console.log(notificationHyper.className);
-    if(notificationHyper.classList.contains('active')){
-        console.log('active');
+    function swapCircleColour(){
         document.getElementById("notification").src="images/circle_red_optimised.svg";
-    }
-    else{console.log('not active');
     }
 </script>
 </html>
