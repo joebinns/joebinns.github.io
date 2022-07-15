@@ -9,7 +9,7 @@
 <body>
     <div class="upperleft fade-in-out" style="animation-iteration-count:infinite;padding:4px;">
         <p style="display:inline">
-            <a id="notification_hyper" class="greenhyperlink" href="mailto:joebinns.95@gmail.com" target="_blank" onclick="swapCircleColour()">
+            <a id="notification_hyper" class="greenhyperlink" href="mailto:joebinns.95@gmail.com" target="_blank" onmouseover="swapCircleColour()">
                 <img id="notification" style="display:inline;" src="images/circle_green_optimised.svg" alt="Green Circle" width="12" height="12"> Available for work
             </a>
         </p>
@@ -77,8 +77,7 @@
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
     }
     function swapCircleColour(){
-        console.log("swap");
-        document.getElementById("notification").src="images/circle_red_optimised.svg";
+        console.log("mouseover")
     }
 </script>
 </html>
