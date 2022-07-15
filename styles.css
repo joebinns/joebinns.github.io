@@ -30,6 +30,7 @@ h1{
     color: firebrick;
 }
 .upperleft{
+    position: relative;
     top: 0%;
     left: 0%;
 }
@@ -55,13 +56,11 @@ a{
 }
 
 .fade-in-out{
-    animation-iteration-count:infinite;
-
-    animation: fadeInOut ease 10s;
-    -webkit-animation: fadeInOut ease 10s;
-    -moz-animation: fadeInOut ease 10s;
-    -o-animation: fadeInOut ease 10s;
-    -ms-animation: fadeInOut ease 10s;
+    animation: fadeInOut ease 6s;
+    -webkit-animation: fadeInOut ease 6s;
+    -moz-animation: fadeInOut ease 6s;
+    -o-animation: fadeInOut ease 6s;
+    -ms-animation: fadeInOut ease 6s;
 }
 @keyframes fadeInOut {
     0% {
