@@ -60,10 +60,10 @@ a{
 }
 
 .hyperimage{
-    opacity: 0.8;
+    opacity: 1.0;
 }
 .hyperimage:hover{
-    opacity: 1.0;
+    opacity: 0.8;
 }
 
 .fade-in-out{
@@ -160,6 +160,12 @@ a{
         opacity: 1.0;
     }
     .hyperimage:hover{
+        opacity: 0.8;
+    }
+    .greenhyperlink{
+        opacity: 1.0;
+    }
+    .greenhyperlink:hover{
         opacity: 0.8;
     }
 }
