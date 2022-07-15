@@ -3,6 +3,7 @@ body{
     background: white;
     color: black;
     text-align: center;
+    min-height: 100%;
 }
 span.line{
     display: inline-block;
