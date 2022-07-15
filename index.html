@@ -78,8 +78,10 @@
     }
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
-            if (mutation.type === "classList") {
-                console.log("classList changed")
+            if (mutation.type === "attributes") {
+                if (mutation.attributeName === "classList"){
+                    console.log("classList changed")
+                }
             }
         });
     });
