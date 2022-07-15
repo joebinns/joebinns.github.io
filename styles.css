@@ -40,10 +40,6 @@ h1{
     opacity: 0.8;
     border-bottom: 1px solid #00d26a;
 }
-.greenhyperlink:active{
-    color: firebrick;
-    border-bottom: 1px solid firebrick;
-}
 .upperleft{
     position: fixed;
     top: 0px;

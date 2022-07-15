@@ -76,26 +76,5 @@
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
     }
-    function callback(mutationList) {
-        console.log("callback");
-        mutationList.forEach(function(mutation) {
-            switch(mutation.type) {
-            case "attributes":
-                switch(mutation.attributeName) {
-                case "classList":
-                    console.log("classList changed.");
-                    break;
-                }
-                break;
-            }
-        });
-    }
-    const notificationHyperElement = document.getElementById("notification_hyper");
-    const observer = new MutationObserver(callback);
-    const config = {'attributes': true}
-    observer.observe(notificationHyperElement, config);
-    setTimeout(() => {
-        notificationHyperElement.className = "div"
-    }, 1000);
 </script>
 </html>
