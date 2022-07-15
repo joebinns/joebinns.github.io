@@ -30,11 +30,8 @@ h1{
     color: firebrick;
 }
 .upperleft{
-    position: absolute;
     top: 0%;
     left: 0%;
-    -ms-transform: translate(-100%, -100%);
-    transform: translate(-100%, -100%);
 }
 .center{
     position: absolute;
@@ -58,7 +55,7 @@ a{
 }
 
 .fade-in-out{
-    animation-iteration-count: infinite;
+    animation-iteration-count:infinite;
 
     animation: fadeInOut ease 10s;
     -webkit-animation: fadeInOut ease 10s;
