@@ -76,20 +76,25 @@
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
     }
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            console.log(mutation.type);
-            if (mutation.type === "attributes") {
-                console.log(mutation.attributeName);
-                if (mutation.attributeName === "classList"){
-                    console.log("classList changed");
+    function callback(mutationList) {
+        mutationList.forEach(function(mutation) {
+            switch(mutation.type) {
+            case "attributes":
+                switch(mutation.attributeName) {
+                case "classList":
+                    console.log("classList changed.");
+                    break;
                 }
+                break;
             }
         });
-    });
-    var notification_hyper = document.getElementById("notification_hyper");
-    observer.observe(notification_hyper, {
-        attributes: true //configure it to listen to attribute changes
+    }
+    const notification_hyper = document.getElementById("notification_hyper");
+    const observer = new MutationObserver(callback);
+    observer.observe(userListElement, {
+        attributeFilter: ["classList"],
+        attributeOldValue: true,
+        subtree: true
     });
 </script>
 </html>
