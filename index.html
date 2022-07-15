@@ -92,10 +92,7 @@
     }
     const notificationHyperElement = document.getElementById("notification_hyper");
     const observer = new MutationObserver(callback);
-    observer.observe(notificationHyperElement, {
-        attributeFilter: ["classList"],
-        attributeOldValue: true,
-        subtree: true
-    });
+    const config = { characterData: true, attributes: false, childList: false, subtree: true }; // innerHTML
+    observer.observe(notificationHyperElement, config);
 </script>
 </html>
