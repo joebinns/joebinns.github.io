@@ -29,6 +29,13 @@ h1{
 .hyperlink:active{
     color: firebrick;
 }
+.upperleft{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    -ms-transform: translate(0%, 0%);
+    transform: translate(0%, 0%);
+}
 .center{
     position: absolute;
     top: 50%;
@@ -49,6 +56,71 @@ a{
 .hyperimage:hover{
     opacity: 1.0;
 }
+
+.fade-in-out{
+    animation: fadeInOut ease 20s;
+    -webkit-animation: fadeInOut ease 20s;
+    -moz-animation: fadeInOut ease 20s;
+    -o-animation: fadeInOut ease 20s;
+    -ms-animation: fadeInOut ease 20s;
+}
+@keyframes fadeInOut {
+    0% {
+      opacity:0;
+    }
+    50% {
+        opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+}
+@-moz-keyframes fadeInOut {
+    0% {
+        opacity:0;
+      }
+      50% {
+          opacity:1;
+      }
+      100% {
+        opacity:0;
+      }
+}
+@-webkit-keyframes fadeInOut {
+    0% {
+        opacity:0;
+      }
+      50% {
+          opacity:1;
+      }
+      100% {
+        opacity:0;
+      }
+} 
+@-o-keyframes fadeInOut {
+    0% {
+        opacity:0;
+      }
+      50% {
+          opacity:1;
+      }
+      100% {
+        opacity:0;
+      }
+}
+@-ms-keyframes fadeInOut {
+    0% {
+        opacity:0;
+      }
+      50% {
+          opacity:1;
+      }
+      100% {
+        opacity:0;
+      }
+}
+
+
 @media (prefers-color-scheme: dark){
     h1{
         color: white;
@@ -67,3 +139,4 @@ a{
         opacity: 0.8;
     }
 }
+
