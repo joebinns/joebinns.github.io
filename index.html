@@ -9,7 +9,7 @@
 <body>
     <div class="upperleft fade-in-out" style="animation-iteration-count:infinite;padding:4px;">
         <p style="display:inline">
-            <a id="notification_hyper" class="greenhyperlink" href="mailto:joebinns.95@gmail.com" target="_blank" onmouseover="swapCircleColour()">
+            <a id="notification_hyper" class="greenhyperlink" href="mailto:joebinns.95@gmail.com" target="_blank">
                 <img id="notification" style="display:inline;" src="images/circle_green_optimised.svg" alt="Green Circle" width="12" height="12"> Available for work
             </a>
         </p>
@@ -76,8 +76,15 @@
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
     }
-    function swapCircleColour(){
-        console.log("mouseover")
-    }
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === "classList") {
+                console.log("classList changed")
+            }
+        });
+    });
+    observer.observe(element, {
+        classList: true //configure it to listen to classList changes
+    });
 </script>
 </html>
