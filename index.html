@@ -76,8 +76,15 @@
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
     }
-    var notification_hyper = document.getElementById("notification_hyper");
-    if(notification_hyper.matches("notification_hyper:active")){
+    function isNotificationHyperActive() {
+        var activeElements = $(':active'),
+        activeElement  = activeElements.last(); // the last element is the event source
+        if (activeElement.prop("id") === "notification_hyper") {
+            return true;
+        }
+        return false;
+    }
+    if (isNotificationHyperActive()){
         document.getElementById("notification").src="images/circle_red_optimised.svg";
     }
 </script>
