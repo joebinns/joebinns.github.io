@@ -36,7 +36,7 @@ h1{
     left: 0px;
 }
 .center{
-    position: relative;
+    position: fixed;
     top: 50%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
