@@ -34,13 +34,13 @@ h1{
     color: #00d26a;
     opacity: 1.0;
     border-bottom: none;
-    text-decoration: none;
 }
 .green-hyperlink:hover{
     opacity: 0.8;
     border-bottom: 1px solid #00d26a;
 }
 .green-hyperlink:active{
+    color: firebrick;
     border-bottom: 1px solid firebrick;
 }
 .upperleft{

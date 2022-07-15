@@ -9,8 +9,8 @@
 <body>
     <div class="upperleft fade-in-out" style="animation-iteration-count:infinite;padding:4px;">
         <p style="display:inline">
-            <a class="green-hyperlink" href="mailto:joebinns.95@gmail.com" target="_blank">
-                <img style="display:inline;" src="images/circle_green_optimised.svg" alt="Green Circle" width="12" height="12"> Available for work
+            <a id="notification_hyper" class="green-hyperlink" href="mailto:joebinns.95@gmail.com" target="_blank">
+                <img id="notification" style="display:inline;" src="images/circle_green_optimised.svg" alt="Green Circle" width="12" height="12"> Available for work
             </a>
         </p>
     </div>
@@ -75,6 +75,13 @@
         document.getElementById("itchdotio").src="images/itchdotio_box_optimised_white.svg";
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
+    }
+    var notification_hyper = document.getElementById("notification_hyper");
+    if(notification_hyper === document.activeElement){
+        document.getElementById("notification").src="images/circle_red_optimised.svg";
+    }
+    else{
+        document.getElementById("notification").src="images/circle_green_optimised.svg";
     }
 </script>
 </html>

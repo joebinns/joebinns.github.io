@@ -27,14 +27,14 @@
      inkscape:pageshadow="2"
      inkscape:zoom="2.828427"
      inkscape:cx="497.62642"
-     inkscape:cy="240.23954"
+     inkscape:cy="240.06276"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="991"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:pagecheckerboard="0"
      inkscape:snap-text-baseline="true">
@@ -570,6 +570,12 @@
        id="path1433"
        cx="146.3969"
        cy="44.246471"
+       r="3" />
+    <circle
+       style="fill:#b22222;fill-opacity:1;stroke-width:1.96535;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:5;stroke-dasharray:5.89606, 5.89606;stroke-opacity:0.6;paint-order:fill markers stroke"
+       id="path1433-8"
+       cx="146.77107"
+       cy="53.507362"
        r="3" />
   </g>
 </svg>
