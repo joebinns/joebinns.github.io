@@ -32,12 +32,12 @@ h1{
 }
 .greenhyperlink{
     color: #00d26a;
-    opacity: 1.0;
+    opacity: 0.8;
     text-decoration: none;
     border-bottom: none;
 }
 .greenhyperlink:hover{
-    opacity: 0.8;
+    opacity: 1.0;
     border-bottom: 1px solid #00d26a;
 }
 .upperleft{
@@ -60,10 +60,10 @@ a{
 }
 
 .hyperimage{
-    opacity: 1.0;
+    opacity: 0.8;
 }
 .hyperimage:hover{
-    opacity: 0.8;
+    opacity: 1.0;
 }
 
 .fade-in-out{
