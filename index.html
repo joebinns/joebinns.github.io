@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width={h}, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1.0">
     <title>Joe Binns</title>
     <link rel="stylesheet" href="styles.css">
     <link id="shortcuticon" rel="shortcut icon" href="images/globe_box_optimised.svg">
@@ -78,16 +78,18 @@
     }
     var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
+            console.log(mutation.type);
             if (mutation.type === "attributes") {
+                console.log(mutation.attributeName);
                 if (mutation.attributeName === "classList"){
-                    console.log("classList changed")
+                    console.log("classList changed");
                 }
             }
         });
     });
     var notification_hyper = document.getElementById("notification_hyper");
     observer.observe(notification_hyper, {
-        attributes: true //configure it to listen to classList changes
+        attributes: true //configure it to listen to attribute changes
     });
 </script>
 </html>
