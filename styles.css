@@ -39,6 +39,7 @@ h1{
 .greenhyperlink:hover{
     opacity: 0.8;
     border-bottom: 1px solid #00d26a;
+    margin-bottom: 2px;
 }
 .upperleft{
     position: fixed;
