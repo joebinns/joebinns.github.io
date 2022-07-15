@@ -76,16 +76,13 @@
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
     }
-    function isNotificationHyperActive() {
-        var activeElements = $(':active'),
-        activeElement  = activeElements.last(); // the last element is the event source
-        if (activeElement.prop("id") === "notification_hyper") {
-            return true;
-        }
-        return false;
-    }
-    if (isNotificationHyperActive()){
+    var notificationHyper = document.getElementById("notification_hyper");
+    console.log(notificationHyper.className);
+    if(notificationHyper.classList.contains('active')){
+        console.log('active');
         document.getElementById("notification").src="images/circle_red_optimised.svg";
+    }
+    else{console.log('not active');
     }
 </script>
 </html>
