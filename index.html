@@ -89,9 +89,9 @@
             }
         });
     }
-    const notification_hyper = document.getElementById("notification_hyper");
+    const notificationHyperElement = document.getElementById("notification_hyper");
     const observer = new MutationObserver(callback);
-    observer.observe(userListElement, {
+    observer.observe(notificationHyperElement, {
         attributeFilter: ["classList"],
         attributeOldValue: true,
         subtree: true
