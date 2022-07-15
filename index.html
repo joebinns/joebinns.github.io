@@ -92,7 +92,10 @@
     }
     const notificationHyperElement = document.getElementById("notification_hyper");
     const observer = new MutationObserver(callback);
-    const config = { characterData: true, attributes: false, childList: false, subtree: true }; // innerHTML
+    const config = {'attributes': true}
     observer.observe(notificationHyperElement, config);
+    setTimeout(() => {
+        notificationHyperElement.className = "div"
+    }, 1000);
 </script>
 </html>
