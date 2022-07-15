@@ -31,8 +31,8 @@ h1{
 }
 .upperleft{
     position: absolute;
-    top: 0%;
-    left: 0%;
+    top: 0;
+    left: 0;
     -ms-transform: translate(0%, 0%);
     transform: translate(0%, 0%);
 }
