@@ -112,7 +112,7 @@
         scene.add( cube )
         */
 
-        camera.position.z = 5;
+        camera.position.z = 10;
 
         // importing models
         const loader = new GLTFLoader();
@@ -120,7 +120,8 @@
         loader.load('scenes/scene.glb', function(gltf)
         {
             gltf.scene.scale.set(0.0001, 0.0001, 0.0001); 
-            scene.add(gltf.scene);
+            const spaceStation5 = gltf.scene;
+            scene.add(spaceStation5);
         },
         undefined,
         function(error)
@@ -137,6 +138,8 @@
             cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
             */
+
+            spaceStation5.rotation.z += 0.01;
 
             renderer.render(scene, camera);
         };
