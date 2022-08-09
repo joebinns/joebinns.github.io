@@ -127,7 +127,28 @@
             spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
             spaceStation5.position.set(10, -5, 0);
             spaceStation5.rotation.set(-85*3.14/180, 120+52*3.14/180, 0);
-            spaceStation5.
+
+            /* Show wireframe
+            object.traverse(function(child) {
+                if (child.isMesh) {
+
+                    var wireframeGeomtry = new THREE.WireframeGeometry(child.geometry);
+                    var wireframeMaterial = new THREE.LineBasicMaterial({
+                        color: 0xffffff
+                    });
+                    var wireframe = new THREE.LineSegments(wireframeGeomtry, wireframeMaterial);
+
+                    // add to child so we get same orientation
+                    child.add(wireframe);
+                    // to parent of child. Using attach keeps our orietation
+                    child.parent.attach(wireframe);
+                    // remove child (we don't want child)
+                    child.parent.remove(child);
+
+                }
+            });
+            */
+
             scene.add(spaceStation5);
         },
         undefined,
