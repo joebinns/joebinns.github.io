@@ -65,7 +65,7 @@
         </p>
     </div>
     <script src="https://threejs.org/build/three.js"></script> <!--Including Three.js before accessing-->
-    <script>
+    <script>        
         class WebGL
         {
             static isWebGLAvailable() {
@@ -98,7 +98,8 @@
 
         camera.position.z = 5;
 
-        function animate() {
+        function animate()
+        {
             requestAnimationFrame( animate );
 
             cube.rotation.x += 0.01;
@@ -107,10 +108,23 @@
             renderer.render( scene, camera );
         };
 
-        if ( WebGL.isWebGLAvailable() )
+        function onWindowResize()
+        {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize( window.innerWidth, window.innerHeight );
+
+            render();
+
+        };
+
+        if (WebGL.isWebGLAvailable())
         {
             // Initiate function or other initializations here
             animate();
+            
+            window.addEventListener('resize', onWindowResize);
         }
     </script>
 </body>
