@@ -64,25 +64,42 @@
             <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
         </p>
     </div>
-    <script src="https://threejs.org/build/three.js"></script> <!--Including Three.js before accessing-->
-    <script>        
+    <!--Including Three.js before accessing-->
+    <!--<script src="https://threejs.org/build/three.js"></script>-->
+    <!--<script src="https://cdn.skypack.dev/three@0.129.0/build/three.module.js"></script>
+    <script src="https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js"></script>-->
+    <!--<script type="module">
+        import three from 'https://cdn.skypack.dev/three';
+    </script>-->
+    <script type="importmap">
+        {
+            "imports":
+            {
+                "three": "https://unpkg.com/three/build/three.module.js",
+                "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js"
+            }
+        }
+    </script>
+    <script type="module">
         class WebGL
         {
-            static isWebGLAvailable() {
-
-                try {
-
+            static isWebGLAvailable()
+            {
+                try
+                {
                     const canvas = document.createElement( 'canvas' );
                     return !! ( window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) ) );
-
-                } catch ( e ) {
-
+                }
+                catch (e)
+                {
                     return false;
-
                 }
 
             }
         }
+
+        import * as THREE from 'three';
+        import {GLTFLoader} from 'gltfloader';
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -97,6 +114,24 @@
         scene.add( cube );
 
         camera.position.z = 5;
+
+        // importing models
+        const loader = new GLTFLoader();
+
+        loader.load('scenes/scene.glb', function(gltf)
+        {
+
+            scene.add(gltf.scene);
+
+        },
+        undefined,
+        function(error)
+        {
+
+            console.error(error);
+
+        }
+        );
 
         function animate()
         {
