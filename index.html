@@ -125,8 +125,8 @@
         {
             spaceStation5 = gltf.scene;
             spaceStation5.scale.set(0.00025, 0.00025, 0.00025);
-            spaceStation5.position.set(4, -2, 0);
-            spaceStation5.rotation.set(-100*3.14/180, -36*3.14/180, 0);
+            spaceStation5.position.set(10, -5, 0);
+            spaceStation5.rotation.set(-80*3.14/180, -52*3.14/180, 0);
             scene.add(spaceStation5);
         },
         undefined,
@@ -149,7 +149,7 @@
 
             if (spaceStation5) 
             {
-                spaceStation5.rotation.z += 0.001;
+                spaceStation5.rotation.z += 0.002;
             }
 
             renderer.render(scene, camera);
