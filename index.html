@@ -126,10 +126,10 @@
             spaceStation5 = gltf.scene;
             spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
             spaceStation5.position.set(10, -5, 0);
-            spaceStation5.rotation.set(-85*3.14/180, 120+52*3.14/180, 0);
+            spaceStation5.rotation.set(-85*3.14/180, -172*3.14/180, 0);
 
             /* Show wireframe
-            object.traverse(function(child) {
+            spaceStation5.traverse(function(child) {
                 if (child.isMesh) {
 
                     var wireframeGeomtry = new THREE.WireframeGeometry(child.geometry);
