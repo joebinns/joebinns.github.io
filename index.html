@@ -132,6 +132,8 @@
         }
         );
 
+        console.log(spaceStation5);
+
         function animate()
         {
             requestAnimationFrame(animate);
@@ -141,7 +143,10 @@
             cube.rotation.y += 0.01;
             */
 
-            if (this.spaceStation5) this.spaceStation5.rotation.z += 0.01;
+            if (spaceStation5) 
+            {
+                spaceStation5.rotation.z += 0.01;
+            }
 
             renderer.render(scene, camera);
         };
