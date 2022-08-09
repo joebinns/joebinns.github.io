@@ -118,11 +118,13 @@
         // importing models
         const loader = new GLTFLoader();
 
+        var spaceStation5;
+
         loader.load('scenes/scene.glb',
         function(gltf)
         {
-            gltf.scene.scale.set(0.0001, 0.0001, 0.0001); 
-            var spaceStation5 = gltf.scene;
+            spaceStation5 = gltf.scene;
+            spaceStation5.scale.set(0.0001, 0.0001, 0.0001);
             scene.add(spaceStation5);
         },
         undefined,
