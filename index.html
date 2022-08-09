@@ -101,9 +101,10 @@
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 
-        // White directional light at half intensity shining from the top.
-        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-        scene.add( directionalLight );
+        // White directional light.
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(1,1,1); // origin position of the lighting (to 0,0,0 target default).
+        scene.add(directionalLight);
 
         /* Renders a cube...
         const geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -117,7 +118,8 @@
         // importing models
         const loader = new GLTFLoader();
 
-        loader.load('scenes/scene.glb', function(gltf)
+        loader.load('scenes/scene.glb',
+        function(gltf)
         {
             gltf.scene.scale.set(0.0001, 0.0001, 0.0001); 
             const spaceStation5 = gltf.scene;
@@ -139,7 +141,7 @@
             cube.rotation.y += 0.01;
             */
 
-            spaceStation5.rotation.z += 0.01;
+            if (spaceStation5) spaceStation5.rotation.z += 0.01;
 
             renderer.render(scene, camera);
         };
