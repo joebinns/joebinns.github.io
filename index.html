@@ -119,6 +119,7 @@
         const loader = new GLTFLoader();
 
         var spaceStation5;
+        var orion;
 
         loader.load('scenes/space_station_5.glb',
         function(gltf)
@@ -172,7 +173,57 @@
         }
         );
 
-        console.log(spaceStation5);
+        loader.load('scenes/orion.glb',
+        function(gltf)
+        {
+            orion = gltf.scene;
+            /*
+            spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
+            spaceStation5.position.set(10, -5, 0);
+            spaceStation5.rotation.set(0, -90*3.14/180, -30*3.14/180);
+            */
+            //spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
+            //spaceStation5.position.set(10, -5, 0);
+            //spaceStation5.rotation.set(0, 0, -30*3.14/180);
+            //spaceStation5.rotation.z += -30*3.14/180;
+
+            // Show wireframe
+            orion.traverse(function(child) {
+                if (child.isMesh) {
+
+                    var wireframeGeomtry = new THREE.WireframeGeometry(child.geometry);
+                    var wireframeMaterial = new THREE.LineBasicMaterial({
+                        color: 0xffffff
+                    });
+                    var wireframe = new THREE.LineSegments(wireframeGeomtry, wireframeMaterial);
+
+                    // add to child so we get same orientation
+                    child.add(wireframe);
+                    // to parent of child. Using attach keeps our orietation
+                    child.parent.attach(wireframe);
+                    // remove child (we don't want child)
+                    child.parent.remove(child);
+
+                }
+            });
+            
+
+            const group = new THREE.Group();
+            group.add(orion);
+
+            group.position.set(-10, 5, 0);
+            group.rotation.set(0, 0, -30*3.14/180);
+
+            scene.add(group);
+
+            //scene.add(spaceStation5);
+        },
+        undefined,
+        function(error)
+        {
+            console.error(error);
+        }
+        );
 
         function animate()
         {
@@ -186,6 +237,10 @@
             if (spaceStation5) 
             {
                 spaceStation5.rotation.x += 0.002;
+            }
+            if (orion) 
+            {
+                orion.rotation.x += 0.002;
             }
 
             renderer.render(scene, camera);
