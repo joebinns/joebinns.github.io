@@ -128,9 +128,9 @@
         document.body.appendChild( renderer.domElement );
 
         // White directional light.
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(1,1,1); // origin position of the lighting (to 0,0,0 target default).
-        scene.add(directionalLight);
+        //const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        //directionalLight.position.set(1,1,1); // origin position of the lighting (to 0,0,0 target default).
+        //scene.add(directionalLight);
 
         camera.position.z = 10;
 
@@ -280,7 +280,6 @@
             window.addEventListener("resize", onWindowResize, false);
         }
 
-        scene.background = new THREE.Color(0xff0000);
         //if(!userPrefersDark){
         //    scene.background = new THREE.Color(0xff0000);//(0x000000);
         //}
