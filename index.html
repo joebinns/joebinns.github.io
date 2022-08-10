@@ -130,7 +130,7 @@
             spaceStation5.rotation.set(0, -90*3.14/180, -30*3.14/180);
             */
             //spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
-            spaceStation5.position.set(10, -5, 0);
+            //spaceStation5.position.set(10, -5, 0);
             //spaceStation5.rotation.set(0, 0, -30*3.14/180);
             //spaceStation5.rotation.z += -30*3.14/180;
 
@@ -155,7 +155,15 @@
             });
             */
 
-            scene.add(spaceStation5);
+            const group = new THREE.Group();
+            group.add(spaceStation5);
+
+            group.position.set(10, -5, 0);
+            group.rotation.set(0, 0, -30*3.14/180);
+
+            scene.add(group);
+
+            //scene.add(spaceStation5);
         },
         undefined,
         function(error)
