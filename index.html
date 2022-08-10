@@ -63,7 +63,19 @@
             <a> </a>
             <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
         </p>
-    </div>
+    </div>  
+    <script>
+        const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if(userPrefersDark){
+            document.getElementById("shortcuticon").href="images/globe_box_optimised_white.svg";
+            document.getElementById("github").src="images/github_box_optimised_white.svg";
+            document.getElementById("mail").src="images/mail_box_optimised_white.svg";
+            //document.getElementById("twitter").src="images/twitter_box_optimised_white.svg";
+            document.getElementById("itchdotio").src="images/itchdotio_box_optimised_white.svg";
+            document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
+            document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
+        }
+    </script>
     <script type="importmap">
         {
             "imports":
@@ -274,16 +286,4 @@
         }
     </script>
 </body>
-<script>
-    const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if(userPrefersDark){
-        document.getElementById("shortcuticon").href="images/globe_box_optimised_white.svg";
-        document.getElementById("github").src="images/github_box_optimised_white.svg";
-        document.getElementById("mail").src="images/mail_box_optimised_white.svg";
-        //document.getElementById("twitter").src="images/twitter_box_optimised_white.svg";
-        document.getElementById("itchdotio").src="images/itchdotio_box_optimised_white.svg";
-        document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
-        document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
-    }
-</script>
 </html>
