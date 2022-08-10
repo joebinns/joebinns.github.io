@@ -280,10 +280,10 @@
             window.addEventListener("resize", onWindowResize, false);
         }
 
-        //const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if(!userPrefersDark){
-            scene.background = new THREE.Color(0xff0000);//(0x000000);
-        }
+        scene.background = new THREE.Color(0xff0000);
+        //if(!userPrefersDark){
+        //    scene.background = new THREE.Color(0xff0000);//(0x000000);
+        //}
     </script>
 </body>
 </html>
