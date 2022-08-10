@@ -112,6 +112,7 @@
 
         const renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setPixelRatio( window.devicePixelRatio ); // Adjust pixel ratio (to improve mobile quality)
         document.body.appendChild( renderer.domElement );
 
         // White directional light.
@@ -121,20 +122,12 @@
 
         camera.position.z = 10;
 
-        // Set up post processing
-        // Create a render target that holds a depthTexture so we can use it in the outline pass
-        // See: https://threejs.org/docs/index.html#api/en/renderers/WebGLRenderTarget.depthBuffer
-        const depthTexture = new THREE.DepthTexture();
         const renderTarget = new THREE.WebGLRenderTarget(
         window.innerWidth,
-        window.innerHeight,
-        {
-            depthTexture: depthTexture,
-            depthBuffer: true,
-        }
+        window.innerHeight
         );
 
-        // Initial render pass.
+        // Regular scene render pass. This is step 1 in the pipeline described in CustomOutlinePass.js
         const composer = new EffectComposer(renderer, renderTarget);
         //const pass = new RenderPass(scene, camera);
         //composer.addPass(pass);
