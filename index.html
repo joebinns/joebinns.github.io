@@ -267,6 +267,11 @@
             update();
             window.addEventListener("resize", onWindowResize, false);
         }
+
+        //const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if(!userPrefersDark){
+            scene.background = new THREE.Color(0xff0000);//(0x000000);
+        }
     </script>
 </body>
 <script>
@@ -279,11 +284,6 @@
         document.getElementById("itchdotio").src="images/itchdotio_box_optimised_white.svg";
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
-
-        
-    }
-    else{
-        scene.background = new THREE.Color(0xffffff);//(0x000000);
     }
 </script>
 </html>
