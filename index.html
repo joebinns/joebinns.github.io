@@ -131,7 +131,7 @@
             */
             //spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
             spaceStation5.position.set(10, -5, 0);
-            //spaceStation5.rotation.set(0, -90*3.14/180, -30*3.14/180);
+            spaceStation5.rotation.set(0, 0, -30*3.14/180);
 
             /* Show wireframe
             spaceStation5.traverse(function(child) {
@@ -176,7 +176,7 @@
 
             if (spaceStation5) 
             {
-                spaceStation5.rotation.z += 0.002;
+                spaceStation5.rotation.x += 0.002;
             }
 
             renderer.render(scene, camera);
