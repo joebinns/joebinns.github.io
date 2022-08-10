@@ -282,8 +282,8 @@
 
         // Change outline colour
         const uniforms = customOutline.fsQuad.material.uniforms;
-        if(!userPrefersDark){
-            uniforms.outlineColor.value.set(new THREE.Color(0x000000)); // black
+        if(userPrefersDark){
+            uniforms.outlineColor.value.set(new THREE.Color(0xffffff)); // black
         }
 
         //if(!userPrefersDark){

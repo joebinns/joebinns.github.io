@@ -300,8 +300,8 @@ class CustomOutlinePass extends Pass {
 				depthBuffer: {},
                 normalBuffer: {},
                 nonOutlinesDepthBuffer: {},
-                //outlineColor: { value: new THREE.Color(0xffffff) }, // White
-                outlineColor: { value: new THREE.Color(0xd9611e) }, // Orange
+                outlineColor: { value: new THREE.Color(0x000000) }, // Black
+                //outlineColor: { value: new THREE.Color(0xd9611e) }, // Orange
 				//4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
 				multiplierParameters: { value: new THREE.Vector4(1, 1, 1, 1) },
 				cameraNear: { value: this.renderCamera.near },
