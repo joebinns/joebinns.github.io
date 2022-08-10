@@ -69,7 +69,7 @@ class CustomOutlinePass extends Pass {
     }
     
 	// Helper functions for hiding/showing objects based on whether they should have outlines applied 
-	setOutlineObjectsVisibile(bVisible) {
+	setOutlineObjectsVisible(bVisible) {
 		this.renderScene.traverse( function( node ) {
 		    if (node.applyOutline == true && node.type == 'Mesh') {
 
@@ -148,9 +148,9 @@ class CustomOutlinePass extends Pass {
 		// 2. Re-render the scene to capture depth of objects that do NOT have outlines
 		renderer.setRenderTarget(this.depthTarget);
 
-		this.setOutlineObjectsVisibile(false);
+		this.setOutlineObjectsVisible(false);
 		renderer.render(this.renderScene, this.renderCamera);
-		this.setOutlineObjectsVisibile(true);
+		this.setOutlineObjectsVisible(true);
 
 		this.fsQuad.material.uniforms["depthBuffer"].value = this.normalTarget.depthTexture;
 
@@ -300,8 +300,8 @@ class CustomOutlinePass extends Pass {
 				depthBuffer: {},
                 normalBuffer: {},
                 nonOutlinesDepthBuffer: {},
-                outlineColor: { value: new THREE.Color(0xffffff) }, // White
-                //outlineColorSecondary: { value: new THREE.Color(0xd9611e) }, // Orange
+                //outlineColor: { value: new THREE.Color(0xffffff) }, // White
+                outlineColor: { value: new THREE.Color(0xd9611e) }, // Orange
 				//4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
 				multiplierParameters: { value: new THREE.Vector4(1, 1, 1, 1) },
 				cameraNear: { value: this.renderCamera.near },
