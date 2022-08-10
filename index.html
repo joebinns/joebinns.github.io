@@ -69,7 +69,11 @@
             "imports":
             {
                 "three": "https://unpkg.com/three/build/three.module.js",
-                "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js"
+                "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
+                "effectcomposer": "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
+                "renderpass": "https://unpkg.com/three/examples/jsm/postprocessing/RenderPass.js",
+                "shaderpass": "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
+                "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js"
             }
         }
     </script>
@@ -90,10 +94,19 @@
 
             }
         }
-
+        // Three.js
         import * as THREE from 'three';
+        // glTF model loader
         import {GLTFLoader} from 'gltfloader';
+        // Custom outline pre-requisites (?)
+        import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+        import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+        import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+        import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
+        // Custom outline
+        import { CustomOutlinePass } from "./CustomOutlinePass.js";
 
+        // Init scene
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
@@ -106,16 +119,44 @@
         directionalLight.position.set(1,1,1); // origin position of the lighting (to 0,0,0 target default).
         scene.add(directionalLight);
 
-        /* Renders a cube...
-        const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-        const cube = new THREE.Mesh( geometry, material );
-        scene.add( cube )
-        */
-
         camera.position.z = 10;
 
-        // importing models
+        // Set up post processing
+        // Create a render target that holds a depthTexture so we can use it in the outline pass
+        // See: https://threejs.org/docs/index.html#api/en/renderers/WebGLRenderTarget.depthBuffer
+        const depthTexture = new THREE.DepthTexture();
+        const renderTarget = new THREE.WebGLRenderTarget(
+        window.innerWidth,
+        window.innerHeight,
+        {
+            depthTexture: depthTexture,
+            depthBuffer: true,
+        }
+        );
+
+        // Initial render pass.
+        const composer = new EffectComposer(renderer, renderTarget);
+        const pass = new RenderPass(scene, camera);
+        composer.addPass(pass);
+
+        // Outline pass.
+        const customOutline = new CustomOutlinePass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        scene,
+        camera
+        );
+        composer.addPass(customOutline);
+
+        // Antialias pass.
+        const effectFXAA = new ShaderPass(FXAAShader);
+        effectFXAA.uniforms["resolution"].value.set(
+        1 / window.innerWidth,
+        1 / window.innerHeight
+        );
+        composer.addPass(effectFXAA);
+
+
+        // Import models
         const loader = new GLTFLoader();
 
         var spaceStation5;
@@ -179,38 +220,6 @@
         function(gltf)
         {
             orion = gltf.scene;
-            /*
-            spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
-            spaceStation5.position.set(10, -5, 0);
-            spaceStation5.rotation.set(0, -90*3.14/180, -30*3.14/180);
-            */
-            //spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
-            //spaceStation5.position.set(10, -5, 0);
-            //spaceStation5.rotation.set(0, 0, -30*3.14/180);
-            //spaceStation5.rotation.z += -30*3.14/180;
-
-            // Show wireframe
-            /*
-            orion.traverse(function(child) {
-                if (child.isMesh) {
-
-                    var wireframeGeomtry = new THREE.WireframeGeometry(child.geometry);
-                    var wireframeMaterial = new THREE.LineBasicMaterial({
-                        color: 0xffffff
-                    });
-                    var wireframe = new THREE.LineSegments(wireframeGeomtry, wireframeMaterial);
-
-                    // add to child so we get same orientation
-                    child.add(wireframe);
-                    // to parent of child. Using attach keeps our orietation
-                    child.parent.attach(wireframe);
-                    // remove child (we don't want child)
-                    child.parent.remove(child);
-
-                }
-            });
-            */
-            
 
             const group = new THREE.Group();
             group.add(orion);
@@ -219,8 +228,6 @@
             group.rotation.set(0, 0, -26.5*3.14/180);
 
             scene.add(group);
-
-            //scene.add(spaceStation5);
         },
         undefined,
         function(error)
@@ -229,14 +236,10 @@
         }
         );
 
-        function animate()
+        // Render loop
+        function update()
         {
-            requestAnimationFrame(animate);
-
-            /* Rotates cube
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            */
+            requestAnimationFrame(update);
 
             if (spaceStation5) 
             {
@@ -247,23 +250,25 @@
                 orion.rotation.x += 0.002;
             }
 
-            renderer.render(scene, camera);
-        };
+            composer.render();
+        }
 
         function onWindowResize()
         {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
 
-            renderer.setSize( window.innerWidth, window.innerHeight );
-        };
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+            effectFXAA.setSize(window.innerWidth, window.innerHeight);
+            customOutline.setSize(window.innerWidth, window.innerHeight);
+        }
 
         if (WebGL.isWebGLAvailable())
         {
             // Initiate function or other initializations here
-            animate();
-            
-            window.addEventListener('resize', onWindowResize);
+            update();
+            window.addEventListener("resize", onWindowResize, false);
         }
     </script>
 </body>
