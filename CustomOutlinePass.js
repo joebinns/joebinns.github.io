@@ -22,7 +22,7 @@ class CustomOutlinePass extends Pass {
 			this.resolution.x,
 			this.resolution.y
 		);
-		normalTarget.texture.format = THREE.RGBFormat;
+		normalTarget.texture.format = THREE.RGBAFormat;
 		normalTarget.texture.minFilter = THREE.NearestFilter;
 		normalTarget.texture.magFilter = THREE.NearestFilter;
 		normalTarget.texture.generateMipmaps = false;
@@ -300,7 +300,8 @@ class CustomOutlinePass extends Pass {
 				depthBuffer: {},
                 normalBuffer: {},
                 nonOutlinesDepthBuffer: {},
-				outlineColor: { value: new THREE.Color(0xffffff) },
+                outlineColor: { value: new THREE.Color(0xffffff) }, // White
+                //outlineColorSecondary: { value: new THREE.Color(0xd9611e) }, // Orange
 				//4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
 				multiplierParameters: { value: new THREE.Vector4(1, 1, 1, 1) },
 				cameraNear: { value: this.renderCamera.near },
