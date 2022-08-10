@@ -240,11 +240,11 @@
 
             if (spaceStation5) 
             {
-                spaceStation5.rotation.x += 0.002;
+                spaceStation5.rotation.x += 0.001;
             }
             if (orion) 
             {
-                orion.rotation.x += 0.002;
+                orion.rotation.x += 0.001;
             }
 
             composer.render();
@@ -279,6 +279,11 @@
         document.getElementById("itchdotio").src="images/itchdotio_box_optimised_white.svg";
         document.getElementById("youtube").src="images/youtube_box_optimised_white.svg";
         document.getElementById("linkedin").src="images/linkedin_box_optimised_white.svg";
+
+        
+    }
+    else{
+        scene.background = new THREE.Color(0xffffff);//(0x000000);
     }
 </script>
 </html>
