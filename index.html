@@ -215,6 +215,23 @@
         }
         );
 
+        
+        // Declare Custom Outline uniforms
+        // Change outline colour
+        const uniforms = customOutline.fsQuad.material.uniforms;
+        if(userPrefersDark){
+            uniforms.outlineColor.value.set(new THREE.Color(0xffffff)); // black
+        }
+
+        //uniforms.multiplierParameters.value.z = 2.5; //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
+        uniforms.multiplierParameters.value.x = 0.25;
+        uniforms.multiplierParameters.value.y = 10;
+        uniforms.multiplierParameters.value.z = 1;
+        uniforms.multiplierParameters.value.w = 0;
+
+        uniforms.outlineOpacity.value = 0;
+
+
         // Render loop
         function update()
         {
@@ -266,20 +283,6 @@
             window.addEventListener("resize", onWindowResize, false);
              
         }
-
-        // Change outline colour
-        const uniforms = customOutline.fsQuad.material.uniforms;
-        if(userPrefersDark){
-            uniforms.outlineColor.value.set(new THREE.Color(0xffffff)); // black
-        }
-
-        //uniforms.multiplierParameters.value.z = 2.5; //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
-        uniforms.multiplierParameters.value.x = 0.25;
-        uniforms.multiplierParameters.value.y = 10;
-        uniforms.multiplierParameters.value.z = 1;
-        uniforms.multiplierParameters.value.w = 0;
-
-        uniforms.outlineOpacity.value = 0;
 
 
         //if(!userPrefersDark){
