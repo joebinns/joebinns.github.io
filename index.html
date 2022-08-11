@@ -262,8 +262,7 @@
 
             if (t*0.01 < 1)
             {
-                THREE.MathUtils.lerp(uniforms.outlineColor.value, targetOutlineColor, t*0.01)
-                uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+                uniforms.outlineColor.value.set(new THREE.MathUtils.lerp(uniforms.outlineColor.value, targetOutlineColor, t*0.01));
             }
 
             composer.render();
