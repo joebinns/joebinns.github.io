@@ -127,6 +127,8 @@
         renderer.setPixelRatio( window.devicePixelRatio ); // Adjust pixel ratio (to improve mobile quality)
         document.body.appendChild( renderer.domElement );
 
+        var mouse = new THREE.Vector2();
+
         // White directional light.
         //const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         //directionalLight.position.set(1,1,1); // origin position of the lighting (to 0,0,0 target default).
@@ -276,11 +278,20 @@
             customOutline.setSize(window.innerWidth, window.innerHeight);
         }
 
+        function onDocumentMouseMove(event)
+        {
+            event.preventDefault();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        }
+
         if (WebGL.isWebGLAvailable())
         {
             // Initiate function or other initializations here
             update();
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
             window.addEventListener("resize", onWindowResize, false);
+             
         }
 
         // Change outline colour
