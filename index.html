@@ -231,6 +231,9 @@
 
             camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -(( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 30, 0.1);
             camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
+      
+            camera.rotation.y = THREE.MathUtils.clamp(camera.rotation.y, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
+            camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
 
             composer.render();
         }
@@ -251,9 +254,6 @@
             event.preventDefault();
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-            mouse.x = THREE.MathUtils.clamp(mouse.x, -1, 1);
-            mouse.y = THREE.MathUtils.clamp(mouse.y, -1, 1);
         }
 
         if (WebGL.isWebGLAvailable())
