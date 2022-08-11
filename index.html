@@ -300,11 +300,13 @@
 
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
-            orionSpeed = THREE.MathUtils.lerp(orionSpeed, 1, 0.5);
+            //orionSpeed = THREE.MathUtils.lerp(orionSpeed, 1, 0.5);
+            orionSpeed = THREE.MathUtils.lerp(0, 1, orionSpeed);
         };
         function onDocumentKeyUp(event) {
             var keyCode = event.which;
-            orionSpeed = THREE.MathUtils.lerp(orionSpeed, 0, 0.5);
+            //orionSpeed = THREE.MathUtils.lerp(orionSpeed, 0, 0.5);
+            orionSpeed = THREE.MathUtils.lerp(1, 0, orionSpeed);
         };
 
         if (WebGL.isWebGLAvailable())
