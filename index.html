@@ -222,6 +222,7 @@
 
         var startOutlineColor;
         var targetOutlineColor;
+        let currentColor = new THREE.Color();
         if(userPrefersDark){
             startOutlineColor = new THREE.Color(0x000000); // black
             uniforms.outlineColor.value.set(startOutlineColor); 
@@ -233,6 +234,7 @@
             uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
             targetOutlineColor = new THREE.Color(0x000000); // black
         }
+        currentColor = startOutlineColor;
 
         //uniforms.multiplierParameters.value.z = 2.5; //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
         uniforms.multiplierParameters.value.x = 0.25;
@@ -266,7 +268,7 @@
             if (t < 1)
             {
                 //uniforms.outlineColor.value.set(THREE.MathUtils.lerp(uniforms.outlineColor.value, targetOutlineColor, t));
-                uniforms.outlineColor.value.set(THREE.Color.lerpColors(startOutlineColor, targetOutlineColor, t));
+                uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
             composer.render();
