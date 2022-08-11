@@ -167,7 +167,7 @@
         var spaceStation5;
         var orion;
 
-        loader.load('scenes/space_station_5/space_station_5_2.glb',
+        loader.load('scenes/space_station_5/space_station_5.glb',
         function(gltf)
         {
             spaceStation5 = gltf.scene;
@@ -223,7 +223,7 @@
         }
         );
 
-        loader.load('scenes/orion/orion_2.glb',
+        loader.load('scenes/orion/orion.glb',
         function(gltf)
         {
             orion = gltf.scene;
@@ -286,7 +286,12 @@
             uniforms.outlineColor.value.set(new THREE.Color(0xffffff)); // black
         }
 
-        uniforms.multiplierParameters.value.z = 2.5; //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
+        //uniforms.multiplierParameters.value.z = 2.5; //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
+        uniforms.multiplierParameters.value.x = 0.25;
+        uniforms.multiplierParameters.value.y = 5;
+        uniforms.multiplierParameters.value.z = 5;
+        uniforms.multiplierParameters.value.w = 0;
+
 
         //if(!userPrefersDark){
         //    scene.background = new THREE.Color(0xff0000);//(0x000000);
