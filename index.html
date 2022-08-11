@@ -173,38 +173,6 @@
         function(gltf)
         {
             spaceStation5 = gltf.scene;
-            /*
-            spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
-            spaceStation5.position.set(10, -5, 0);
-            spaceStation5.rotation.set(0, -90*3.14/180, -30*3.14/180);
-            */
-            //spaceStation5.scale.set(0.00035, 0.00035, 0.00035);
-            //spaceStation5.position.set(10, -5, 0);
-            //spaceStation5.rotation.set(0, 0, -30*3.14/180);
-            //spaceStation5.rotation.z += -30*3.14/180;
-
-            // Show wireframe
-            /*
-            spaceStation5.traverse(function(child) {
-                if (child.isMesh) {
-
-                    var wireframeGeomtry = new THREE.WireframeGeometry(child.geometry);
-                    var wireframeMaterial = new THREE.LineBasicMaterial({
-                        color: 0xffffff
-                    });
-                    var wireframe = new THREE.LineSegments(wireframeGeomtry, wireframeMaterial);
-
-                    // add to child so we get same orientation
-                    child.add(wireframe);
-                    // to parent of child. Using attach keeps our orietation
-                    child.parent.attach(wireframe);
-                    // remove child (we don't want child)
-                    child.parent.remove(child);
-
-                }
-            });
-            */
-            
 
             const group = new THREE.Group();
             group.add(spaceStation5);
@@ -261,8 +229,8 @@
                 orion.rotation.x += 0.001;
             }
 
-            camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, (( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 10, 0.1)
-            camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, (( mouse.y - (window.innerHeight / 2) ) * Math.PI) / 10, 0.1)
+            camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, (( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 20, 0.1);
+            camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 20, 0.1);
 
             composer.render();
         }
