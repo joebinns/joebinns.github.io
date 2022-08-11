@@ -5,6 +5,7 @@
     <title>Joe Binns</title>
     <link rel="stylesheet" href="styles.css">
     <link id="shortcuticon" rel="shortcut icon" href="images/globe_box_optimised.svg">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> <!--https://github.com/mrdoob/three.js/issues/11166-->
 </head>
 <body>
     <div class="upperleft fade-in-out" style="animation-iteration-count:infinite;padding:4px;">
@@ -289,7 +290,7 @@
         //uniforms.multiplierParameters.value.z = 2.5; //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
         uniforms.multiplierParameters.value.x = 0.25;
         uniforms.multiplierParameters.value.y = 10;
-        uniforms.multiplierParameters.value.z = 5;
+        uniforms.multiplierParameters.value.z = 1;
         uniforms.multiplierParameters.value.w = 0;
 
 
