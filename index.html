@@ -286,7 +286,7 @@
             uniforms.outlineColor.value.set(new THREE.Color(0xffffff)); // black
         }
 
-        uniforms.multiplierParameters.value.z.set(2.5);
+        uniforms.multiplierParameters.value.set(new THREE.Vector4(1, 1, 2.5, 1)); //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
 
         //if(!userPrefersDark){
         //    scene.background = new THREE.Color(0xff0000);//(0x000000);
