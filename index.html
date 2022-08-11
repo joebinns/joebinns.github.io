@@ -244,6 +244,7 @@
 
         // Render loop
         var t = 0;
+        var orientSpeed = 0;
         function update()
         {
             t += 0.0005;
@@ -271,6 +272,8 @@
                 uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
+            orient.position.x += orientSpeed * 0.005;
+
             composer.render();
         }
 
@@ -292,13 +295,23 @@
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         }
 
+        function onDocumentKeyDown(event) {
+            var keyCode = event.which;
+            orientSpeed = THREE.MathUtils.lerp(orientSpeed, 1, 0.1);
+        };
+        function onDocumentKeyUp(event) {
+            var keyCode = event.which;
+            orientSpeed = THREE.MathUtils.lerp(orientSpeed, 0, 0.1);
+        };
+
         if (WebGL.isWebGLAvailable())
         {
             // Initiate function or other initializations here
             update();
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            document.addEventListener("mousemove", onDocumentMouseMove, false);
+            document.addEventListener("keydown", onDocumentKeyDown, false);
+            document.addEventListener("keyup", onDocumentKeyUp, false);
             window.addEventListener("resize", onWindowResize, false);
-             
         }
 
         //if(!userPrefersDark){
