@@ -235,6 +235,8 @@
             //camera.rotation.y = THREE.MathUtils.clamp(camera.rotation.y, -1 * THREE.MathUtils.degToRad(90), 1 * THREE.MathUtils.degToRad(90));
             //camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
 
+            uniforms.outlineOpacity.value += 0.01;
+
             composer.render();
         }
 
@@ -276,6 +278,8 @@
         uniforms.multiplierParameters.value.y = 10;
         uniforms.multiplierParameters.value.z = 1;
         uniforms.multiplierParameters.value.w = 0;
+
+        uniforms.outlineOpacity.value = 0;
 
 
         //if(!userPrefersDark){
