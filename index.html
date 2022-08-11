@@ -272,11 +272,13 @@
                 uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
+            /*
             if (orion) 
             {
                 orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, orionSpeed);
                 orion.position.x += orionSpeed * 0.005;
             }
+            */
 
             composer.render();
         }
@@ -303,17 +305,17 @@
         var targetOrionSpeed = 1;
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
-            //orionSpeed = THREE.MathUtils.lerp(orionSpeed, 1, 0.5);
-            startOrionSpeed = 0;
-            targetOrionSpeed = 1;
+            //startOrionSpeed = 0;
+            //targetOrionSpeed = 1;
+            orion.position.x += orionSpeed * 0.005;
         };
+        /*
         function onDocumentKeyUp(event) {
             var keyCode = event.which;
-            //orionSpeed = THREE.MathUtils.lerp(orionSpeed, 0, 0.5);
-            startOrionSpeed = 1;
-            targetOrionSpeed = 0;
+            //startOrionSpeed = 1;
+            //targetOrionSpeed = 0;
         };
-
+        */
 
         if (WebGL.isWebGLAvailable())
         {
