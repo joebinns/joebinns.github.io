@@ -272,7 +272,10 @@
                 uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
-            orion.position.x += orionSpeed * 0.005;
+            if (orion) 
+            {
+                orion.position.x += orionSpeed * 0.005;
+            }
 
             composer.render();
         }
