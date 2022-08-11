@@ -266,7 +266,7 @@
             if (t < 1)
             {
                 //uniforms.outlineColor.value.set(THREE.MathUtils.lerp(uniforms.outlineColor.value, targetOutlineColor, t));
-                uniforms.outlineColor.value.set(Three.Color.lerpColors(startOutlineColor, targetOutlineColor, t));
+                uniforms.outlineColor.value.set(THREE.Color.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
             composer.render();
