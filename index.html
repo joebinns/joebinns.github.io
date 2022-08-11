@@ -274,6 +274,7 @@
 
             if (orion) 
             {
+                orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, orionSpeed);
                 orion.position.x += orionSpeed * 0.005;
             }
 
@@ -298,16 +299,21 @@
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         }
 
+        var startOrionSpeed = 0;
+        var targetOrionSpeed = 1;
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
             //orionSpeed = THREE.MathUtils.lerp(orionSpeed, 1, 0.5);
-            orionSpeed = THREE.MathUtils.lerp(0, 1, orionSpeed);
+            startOrionSpeed = 0;
+            targetOrionSpeed = 1;
         };
         function onDocumentKeyUp(event) {
             var keyCode = event.which;
             //orionSpeed = THREE.MathUtils.lerp(orionSpeed, 0, 0.5);
-            orionSpeed = THREE.MathUtils.lerp(1, 0, orionSpeed);
+            startOrionSpeed = 1;
+            targetOrionSpeed = 0;
         };
+
 
         if (WebGL.isWebGLAvailable())
         {
