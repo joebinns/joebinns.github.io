@@ -252,7 +252,7 @@
             //camera.rotation.y = THREE.MathUtils.clamp(camera.rotation.y, -1 * THREE.MathUtils.degToRad(90), 1 * THREE.MathUtils.degToRad(90));
             //camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
 
-            uniforms.outlineOpacity.value += 0.01;
+            uniforms.outlineOpacity.value += 0.001;
 
             composer.render();
         }
