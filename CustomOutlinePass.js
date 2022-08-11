@@ -200,7 +200,6 @@ class CustomOutlinePass extends Pass {
 			uniform float cameraFar;
 			uniform vec4 screenSize;
 			uniform vec3 outlineColor;
-			uniform float outlineOpacity;
 			uniform vec4 multiplierParameters;
 			uniform int debugVisualize;
 			varying vec2 vUv;
@@ -271,7 +270,7 @@ class CustomOutlinePass extends Pass {
 				}
 			
 				// Combine outline with scene color.
-				vec4 outlineColor = vec4(outlineColor * outlineOpacity, 1);
+				vec4 outlineColor = vec4(outlineColor, 1);
 				gl_FragColor = vec4(mix(sceneColor, outlineColor, outline));
 				// For debug visualization of the different inputs to this shader.
 				if (debugVisualize == 1) {
@@ -302,7 +301,6 @@ class CustomOutlinePass extends Pass {
                 normalBuffer: {},
                 nonOutlinesDepthBuffer: {},
                 outlineColor: { value: new THREE.Color(0x000000) }, // Black
-				outlineOpacity: { value: 0 },
 				//4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
 				multiplierParameters: { value: new THREE.Vector4(1, 1, 1, 1) },
 				cameraNear: { value: this.renderCamera.near },

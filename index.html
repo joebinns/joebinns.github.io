@@ -219,8 +219,16 @@
         // Declare Custom Outline uniforms
         // Change outline colour
         const uniforms = customOutline.fsQuad.material.uniforms;
+
+        var targetOutlineColor;
         if(userPrefersDark){
-            uniforms.outlineColor.value.set(new THREE.Color(0xffffff)); // black
+            uniforms.outlineColor.value.set(new THREE.Color(0x000000)); // black
+            targetOutlineColor = new THREE.Color(0xffffff); // white
+        }
+        else
+        {
+            uniforms.outlineColor.value.set(new THREE.Color(0xffffff)); // white
+            targetOutlineColor = new THREE.Color(0x000000); // black
         }
 
         //uniforms.multiplierParameters.value.z = 2.5; //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
@@ -229,12 +237,12 @@
         uniforms.multiplierParameters.value.z = 1;
         uniforms.multiplierParameters.value.w = 0;
 
-        uniforms.outlineOpacity.value = 0;
-
-
         // Render loop
+        var t;
         function update()
         {
+            t += 1;
+
             requestAnimationFrame(update);
 
             if (spaceStation5) 
@@ -252,7 +260,11 @@
             //camera.rotation.y = THREE.MathUtils.clamp(camera.rotation.y, -1 * THREE.MathUtils.degToRad(90), 1 * THREE.MathUtils.degToRad(90));
             //camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
 
-            uniforms.outlineOpacity.value += 0.001;
+            if (t*0.01 < 1)
+            {
+                THREE.MathUtils.lerp(uniforms.outlineColor.value, targetOutlineColor, t*0.01)
+                uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+            }
 
             composer.render();
         }
