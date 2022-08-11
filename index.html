@@ -229,8 +229,8 @@
                 orion.rotation.x += 0.001;
             }
 
-            camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, (( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 20, 0.1);
-            camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 20, 0.1);
+            camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -(( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 20, 0.1);
+            camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, -mouse.y * Math.PI / 20, 0.1);
 
             composer.render();
         }
