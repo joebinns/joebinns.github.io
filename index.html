@@ -220,14 +220,17 @@
         // Change outline colour
         const uniforms = customOutline.fsQuad.material.uniforms;
 
+        var startOutlineColor;
         var targetOutlineColor;
         if(userPrefersDark){
-            uniforms.outlineColor.value.set(new THREE.Color(0x000000)); // black
+            startOutlineColor = new THREE.Color(0x000000); // black
+            uniforms.outlineColor.value.set(startOutlineColor); 
             targetOutlineColor = new THREE.Color(0xffffff); // white
         }
         else
         {
-            uniforms.outlineColor.value.set(new THREE.Color(0xffffff)); // white
+            startOutlineColor = new THREE.Color(0xffffff); // white
+            uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
             targetOutlineColor = new THREE.Color(0x000000); // black
         }
 
@@ -241,7 +244,7 @@
         var t;
         function update()
         {
-            t += 1;
+            t += 0.01;
 
             requestAnimationFrame(update);
 
@@ -260,9 +263,10 @@
             //camera.rotation.y = THREE.MathUtils.clamp(camera.rotation.y, -1 * THREE.MathUtils.degToRad(90), 1 * THREE.MathUtils.degToRad(90));
             //camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
 
-            if (t*0.01 < 1)
+            if (t < 1)
             {
-                uniforms.outlineColor.value.set(new THREE.MathUtils.lerp(uniforms.outlineColor.value, targetOutlineColor, t*0.01));
+                //uniforms.outlineColor.value.set(THREE.MathUtils.lerp(uniforms.outlineColor.value, targetOutlineColor, t));
+                uniforms.outlineColor.value.set(Three.Color.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
             composer.render();
@@ -294,7 +298,6 @@
             window.addEventListener("resize", onWindowResize, false);
              
         }
-
 
         //if(!userPrefersDark){
         //    scene.background = new THREE.Color(0xff0000);//(0x000000);
