@@ -166,25 +166,55 @@
         // Import models
         const loader = new GLTFLoader();
 
-        var spaceStation5;
-        var orion;
+        //var spaceStationV;
+        //var orion;
 
+
+        let spaceStationV, orion;
+
+        let promiseSpaceStationV = loadModel('scenes/space_station_5/space_station_5.glb').then(result => { spaceStationV = result.scene; });
+        let promiseOrion = loadModel('scenes/orion/orion.glb').then(result => { orion = result.scene; });
+
+        var areModelsLoaded = false;
+        //if all Promises resolved 
+        Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
+            //group objects
+            const group = new THREE.Group();
+            group.add(spaceStationV);
+            group.add(orion);
+
+            //rotate group
+            group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
+
+            //move models independently
+            spaceStationV.position.set(10, 0, 0);
+            orion.position.set(-4, 0, 0);
+
+            //add model to the scene
+            scene.add(group);
+            
+            //continue the process
+            areModelsLoaded = true;
+        });
+
+
+        /*
         loader.load('scenes/space_station_5/space_station_5.glb',
         function(gltf)
         {
-            spaceStation5 = gltf.scene;
+            spaceStationV = gltf.scene;
 
             const group = new THREE.Group();
-            group.add(spaceStation5);
+            group.add(spaceStationV);
 
             group.position.set(10, -5, -2.5);
             group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
 
-            spaceStation5.traverse(node => node.applyOutline = true);
+            spaceStationV.traverse(node => node.applyOutline = true);
 
             scene.add(group);
 
-            //scene.add(spaceStation5);
+            //scene.add(spaceStationV);
         },
         undefined,
         function(error)
@@ -202,7 +232,7 @@
             group.add(orion);
 
             group.position.set(-3.75, 1.875, 0.9375);
-            group.rotation.set(0, 14.5*3.14/180, -26.5*3.14/180);
+            group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
 
             orion.traverse(node => node.applyOutline = true);
 
@@ -214,6 +244,7 @@
             console.error(error);
         }
         );
+        */
 
         
         // Declare Custom Outline uniforms
@@ -256,9 +287,9 @@
             requestAnimationFrame(update);
 
             /*
-            if (spaceStation5) 
+            if (spaceStationV) 
             {
-                spaceStation5.rotation.x += 0.001;
+                spaceStationV.rotation.x += 0.001;
             }
             if (orion) 
             {
@@ -339,7 +370,7 @@
         };
         
 
-        if (WebGL.isWebGLAvailable())
+        if (WebGL.isWebGLAvailable() & areModelsLoaded)
         {
             // Initiate function or other initializations here
             update();
