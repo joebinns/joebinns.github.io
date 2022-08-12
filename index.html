@@ -277,7 +277,7 @@
             
             if (orion) 
             {
-                orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, Math.abs(orionSpeed - startOrionSpeed));
+                orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, Math.abs(0.1 + orionSpeed - startOrionSpeed));
                 orion.position.x += orionSpeed * 1;
             }
             
