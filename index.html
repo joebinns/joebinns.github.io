@@ -302,6 +302,7 @@
         var prevTime = performance.now();
         var orionShouldMove = false;
         var orionSpeed = 0;
+        var objectiveComplete = false;
         //var startOrionSpeed = 0;
         //var targetOrionSpeed = 1;
         function update()
@@ -331,7 +332,6 @@
                 uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
-            var objectiveComplete = false;
             if (orion)
             {
                 if (orion.position.x - orionStartPosition < totalDistance)
