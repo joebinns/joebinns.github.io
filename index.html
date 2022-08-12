@@ -255,6 +255,7 @@
 
             requestAnimationFrame(update);
 
+            /*
             if (spaceStation5) 
             {
                 spaceStation5.rotation.x += 0.001;
@@ -263,6 +264,7 @@
             {
                 orion.rotation.x += 0.001;
             }
+            */
 
             camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -(( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 30, 0.1);
             camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
@@ -289,7 +291,7 @@
                 var deltaTime = ( time - prevTime ) / 1000;
                 
                 //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                orionSpeed -= orionSpeed * 0.2 * deltaTime;
+                orionSpeed -= orionSpeed * 1.0 * deltaTime;
                 //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
                 if ( orionShouldMove ) orionSpeed += 1.0 * deltaTime;
                 
