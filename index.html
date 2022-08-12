@@ -272,13 +272,13 @@
                 uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
-            /*
+            
             if (orion) 
             {
-                orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, orionSpeed);
-                orion.position.x += orionSpeed * 0.005;
+                orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, Math.abs(orionSpeed - startOrionSpeed));
+                orion.position.x += orionSpeed * 0.01;
             }
-            */
+            
 
             composer.render();
         }
@@ -305,17 +305,17 @@
         var targetOrionSpeed = 1;
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
-            //startOrionSpeed = 0;
-            //targetOrionSpeed = 1;
-            orion.position.x += 0.01;
+            startOrionSpeed = 0;
+            targetOrionSpeed = 1;
+            //orion.position.x += 0.01;
         };
-        /*
+        
         function onDocumentKeyUp(event) {
             var keyCode = event.which;
-            //startOrionSpeed = 1;
-            //targetOrionSpeed = 0;
+            startOrionSpeed = 1;
+            targetOrionSpeed = 0;
         };
-        */
+        
 
         if (WebGL.isWebGLAvailable())
         {
@@ -323,7 +323,7 @@
             update();
             document.addEventListener("mousemove", onDocumentMouseMove, false);
             document.addEventListener("keydown", onDocumentKeyDown, false);
-            //document.addEventListener("keyup", onDocumentKeyUp, false);
+            document.addEventListener("keyup", onDocumentKeyUp, false);
             window.addEventListener("resize", onWindowResize, false);
         }
 
