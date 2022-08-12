@@ -185,6 +185,7 @@
         const spaceStationVDistance = 10;
         const orionDistance = 8;
         const totalDistance = spaceStationVDistance + orionDistance;
+        var orionStartPosition;
         //var areModelsLoaded = false;
         //if all Promises resolved 
         Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
@@ -209,13 +210,16 @@
             scene.add(group);
             
             //continue the process
+            orionStartPosition = orion.position.x;
             //areModelsLoaded = true;
         });
         
+        /*
         if (orion)
         {
             const orionStartPosition = orion.position.x;
         }
+        */
 
 
         /*
