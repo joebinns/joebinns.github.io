@@ -331,28 +331,30 @@
             }
 
             
-            if (orion & orion.position.x - orionStartPosition < totalDistance) 
+            if (orion)
             {
-                /*
-                orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, Math.abs(0.1 + orionSpeed - startOrionSpeed));
-                orion.position.x += orionSpeed * 0.1;
-                */
+                if (orion.position.x - orionStartPosition < totalDistance)
+                {
+                    /*
+                    orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, Math.abs(0.1 + orionSpeed - startOrionSpeed));
+                    orion.position.x += orionSpeed * 0.1;
+                    */
 
-                //lets make sure we can move camera smoothly based on user's performance. 
-                var time = performance.now();
-                var deltaTime = ( time - prevTime ) / 1000;
-                
-                //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                orionSpeed -= orionSpeed * 1.0 * deltaTime;
-                //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
-                if ( orionShouldMove ) orionSpeed += 1.0 * deltaTime;
-                
-                //pass velocity as an argument to translateZ and call it on camera.
-                orion.position.x += ( orionSpeed * deltaTime );
-                
-                prevTime = time;
+                    //lets make sure we can move camera smoothly based on user's performance. 
+                    var time = performance.now();
+                    var deltaTime = ( time - prevTime ) / 1000;
+                    
+                    //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
+                    orionSpeed -= orionSpeed * 1.0 * deltaTime;
+                    //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
+                    if ( orionShouldMove ) orionSpeed += 1.0 * deltaTime;
+                    
+                    //pass velocity as an argument to translateZ and call it on camera.
+                    orion.position.x += ( orionSpeed * deltaTime );
+                    
+                    prevTime = time;
+                }
             }
-    
 
             composer.render();
         }
