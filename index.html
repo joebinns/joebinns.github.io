@@ -324,7 +324,7 @@
             }
 
             
-            if (orion & totalDistance < orion.position.x - orionStartPosition) 
+            if (orion & orion.position.x - orionStartPosition < totalDistance) 
             {
                 /*
                 orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, Math.abs(0.1 + orionSpeed - startOrionSpeed));
