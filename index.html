@@ -309,11 +309,13 @@
             //camera.rotation.y = THREE.MathUtils.clamp(camera.rotation.y, -1 * THREE.MathUtils.degToRad(90), 1 * THREE.MathUtils.degToRad(90));
             //camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
 
+            /*
             if (t < 1)
             {
-                //uniforms.outlineColor.value.set(THREE.MathUtils.lerp(uniforms.outlineColor.value, targetOutlineColor, t));
                 uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
+            */
+            uniforms.outlineColor.value.set(targetOutlineColor);
 
             
             if (orion) 
