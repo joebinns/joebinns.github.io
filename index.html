@@ -244,9 +244,11 @@
 
         // Render loop
         var t = 0;
-        var orionSpeed = 0;
-        var startOrionSpeed = 0;
-        var targetOrionSpeed = 1;
+        var prevTime = performance.now();
+        var orionShouldMove = false;
+        //var orionSpeed = 0;
+        //var startOrionSpeed = 0;
+        //var targetOrionSpeed = 1;
         function update()
         {
             t += 0.0005;
@@ -277,10 +279,26 @@
             
             if (orion) 
             {
+                /*
                 orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, Math.abs(0.1 + orionSpeed - startOrionSpeed));
-                orion.position.x += orionSpeed * 1;
+                orion.position.x += orionSpeed * 0.1;
+                */
+
+                //lets make sure we can move camera smoothly based on user's performance. 
+                var time = performance.now();
+                var deltaTime = ( time - prevTime ) / 1000;
+                
+                //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
+                orionSpeed -= orionSpeed * 10.0 * deltaTime;
+                //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
+                if ( orionShouldMove ) orionSpeed -= 400.0 * deltaTime;
+                
+                //pass velocity as an argument to translateZ and call it on camera.
+                orion.position.x += ( orionSpeed * deltaTime );
+                
+                prevTime = time;
             }
-            
+    
 
             composer.render();
         }
@@ -305,15 +323,17 @@
 
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
-            startOrionSpeed = 0;
-            targetOrionSpeed = 1;
+            orionShouldMove = true;
+            //startOrionSpeed = 0;
+            //targetOrionSpeed = 1;
             //orion.position.x += 0.01;
         };
         
         function onDocumentKeyUp(event) {
             var keyCode = event.which;
-            startOrionSpeed = 1;
-            targetOrionSpeed = 0;
+            orionShouldMove = false;
+            //startOrionSpeed = 1;
+            //targetOrionSpeed = 0;
         };
         
 
