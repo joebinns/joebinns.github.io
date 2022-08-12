@@ -245,6 +245,8 @@
         // Render loop
         var t = 0;
         var orionSpeed = 0;
+        var startOrionSpeed = 0;
+        var targetOrionSpeed = 1;
         function update()
         {
             t += 0.0005;
@@ -276,7 +278,7 @@
             if (orion) 
             {
                 orionSpeed = THREE.MathUtils.lerp(startOrionSpeed, targetOrionSpeed, Math.abs(orionSpeed - startOrionSpeed));
-                orion.position.x += orionSpeed * 0.01;
+                orion.position.x += orionSpeed * 1;
             }
             
 
@@ -301,8 +303,6 @@
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         }
 
-        var startOrionSpeed = 0;
-        var targetOrionSpeed = 1;
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
             startOrionSpeed = 0;
