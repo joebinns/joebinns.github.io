@@ -193,8 +193,8 @@
             group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
 
             //move models independently
-            spaceStationV.position.set(1, 0, 0);
-            orion.position.set(-0.4, 0, 0);
+            spaceStationV.position.set(5, 0, 0);
+            orion.position.set(-2, 0, 0);
 
             //add model to the scene
             scene.add(group);
@@ -268,7 +268,7 @@
         else
         {
             startOutlineColor = new THREE.Color(0xffffff); // white
-            uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+            uniforms.outlineColor.value.set(startOutlineColor);
             targetOutlineColor = new THREE.Color(0x000000); // black
         }
         currentColor = startOutlineColor;
