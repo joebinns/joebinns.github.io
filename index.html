@@ -196,6 +196,10 @@
             spaceStationV.position.set(5, 0, 0);
             orion.position.set(-2, 0, 0);
 
+            //apply custom outlines to select objects
+            spaceStationV.traverse(node => node.applyOutline = true);
+            orion.traverse(node => node.applyOutline = true);
+
             //add model to the scene
             scene.add(group);
             
