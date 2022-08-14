@@ -292,6 +292,7 @@
             sound.setBuffer( buffer );
             sound.setLoop( false );
             sound.setVolume( 0.5 );
+            sound.playbackRate = playbackRate;
             sound.play();
         });
 
@@ -406,6 +407,7 @@
             }
 
             playbackRate = orionSpeed;
+            sound.playbackRate = playbackRate;
 
             composer.render();
         }
