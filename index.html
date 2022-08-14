@@ -188,10 +188,10 @@
                     orionShouldMove = true;
                     sound.play();
 
-                    $('html,body').css('cursor', 'pointer');
+                    document.body.style.cursor = 'pointer';
                 }
                 else {
-                    $('html,body').css('cursor', 'default');
+                    document.body.style.cursor = 'default';
                 }
             }
         }
