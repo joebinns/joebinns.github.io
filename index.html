@@ -88,11 +88,11 @@
                 "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
                 "audio": "https://unpkg.com/three/src/audio/Audio.js",
                 "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
-                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
-                "threexdomevents": "https://unpkg.com/threex.domevents/threex.domevents.js"
+                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js"
             }
         }
     </script>
+    <script src="https://unpkg.com/threex.domevents/threex.domevents.js"></script> <!-- "threexdomevents": "https://unpkg.com/threex.domevents/threex.domevents.js" -->
     <script type="module">
         class WebGL
         {
@@ -124,7 +124,7 @@
         import { Audio } from "audio";
         import { AudioLoader } from "audioloader";
         import { AudioListener } from "audiolistener";
-        import { THREEx } from "threexdomevents";
+        //import { THREEx } from "threexdomevents";
 
         // Init scene
         const scene = new THREE.Scene();
