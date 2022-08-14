@@ -303,24 +303,24 @@
         var orionShouldMove = false;
         var orionSpeed = 0;
         var objectiveComplete = false;
-        var timeRate = 1;
+        var colorTimeRate = 1;
         //var startOrionSpeed = 0;
         //var targetOrionSpeed = 1;
         function update()
         {
             var time = performance.now();
-            var deltaTime = ( time - prevTime ) / 1000;
+            var deltaTime = ( time - prevTime );
             prevTime = time;
-            
-            t += deltaTime * timeRate;
+
+            t += deltaTime;
 
             requestAnimationFrame(update);
 
             
             if (areModelsLoaded) 
             {
-                spaceStationV.rotation.x += 0.001;
-                orion.rotation.x += 0.001;
+                spaceStationV.rotation.x += deltaTime;
+                orion.rotation.x += deltaTime;
                 //group.rotation.y += 0.001;
             }
             
@@ -334,10 +334,13 @@
             
             if (areModelsLoaded)
             {
-                if (t < 1)
+                if (t * colorTimeRate < 1)
                 {
-                    uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
-                    console.log(t);
+                    uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t * colorTimeRate));
+                }
+                else
+                {
+                    uniforms.outlineColor.value.set(targetOutlineColor);
                 }
             }
 
@@ -354,9 +357,9 @@
 
                     
                     //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                    orionSpeed -= orionSpeed * 1.0 * deltaTime;
+                    orionSpeed -= orionSpeed * 0.001 * deltaTime;
                     //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
-                    if ( orionShouldMove ) orionSpeed += 1.0 * deltaTime;
+                    if ( orionShouldMove ) orionSpeed += 0.001 * deltaTime;
                     
                     //pass velocity as an argument to translateZ and call it on camera.
                     orion.position.x += ( orionSpeed * deltaTime );
@@ -370,7 +373,7 @@
                         startOutlineColor = targetOutlineColor;
                         targetOutlineColor = new THREE.Color(0x00974c);
                         objectiveComplete = true;
-                        timeRate = 5;
+                        timeRate = 10;
                     }
                 }
             }
