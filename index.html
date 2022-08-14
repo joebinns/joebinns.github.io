@@ -88,7 +88,8 @@
                 "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
                 "audio": "https://unpkg.com/three/src/audio/Audio.js",
                 "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
-                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js"
+                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
+                "threexdomevents": "https://unpkg.com/threex.domevents/threex.domevents.js"
             }
         }
     </script>
@@ -123,6 +124,7 @@
         import { Audio } from "audio";
         import { AudioLoader } from "audioloader";
         import { AudioListener } from "audiolistener";
+        import "threexdomevents";
 
         // Init scene
         const scene = new THREE.Scene();
@@ -169,6 +171,15 @@
         composer.addPass(effectFXAA);
 
 
+        var domEvents	= new THREEx.DomEvents(camera, renderer.domElement); // swap to composer?
+
+        THREEx.DomEvents.eventNames.forEach(function(eventName){
+			if( eventName === 'mousemove' )	return
+			domEvents.addEventListener(mesh, eventName, function(event){
+                console.log("eventName");
+			}, false)
+		});
+
         // Import models
         //const loader = new GLTFLoader();
 
@@ -188,7 +199,7 @@
         let promiseOrion = loadGLTF('scenes/orion/orion.glb').then(result => { orion = result.scene; });
 
 
-        var raycaster = new THREE.Raycaster();
+        //var raycaster = new THREE.Raycaster();
 
 
 
@@ -214,8 +225,8 @@
             orion.position.set(-orionDistance, 0, 0);
 
             // to check if clicked
-            spaceStationV.callback = debugLog("AHGHAGJHGHAJG");
-            orion.callback = debugLog("meow");
+            //spaceStationV.callback = debugLog("AHGHAGJHGHAJG");
+            //orion.callback = debugLog("meow");
 
             //apply custom outlines to select objects
             spaceStationV.traverse(node => node.applyOutline = true);
@@ -462,6 +473,7 @@
             //targetOrionSpeed = 0;
         };
 
+        /*
         function onDocumentMouseDown( event ) {
             event.preventDefault();
 
@@ -475,6 +487,7 @@
 
             }
         };
+        */
         
 
         if (WebGL.isWebGLAvailable())
