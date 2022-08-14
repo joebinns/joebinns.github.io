@@ -303,12 +303,12 @@
         var orionShouldMove = false;
         var orionSpeed = 0;
         var objectiveComplete = false;
-        var timeRate = 0.0005;
+        var timeRate = 1;
         //var startOrionSpeed = 0;
         //var targetOrionSpeed = 1;
         function update()
         {
-            t += timeRate * deltaTime;
+            t += deltaTime * timeRate;
 
             requestAnimationFrame(update);
 
@@ -368,7 +368,7 @@
                         startOutlineColor = targetOutlineColor;
                         targetOutlineColor = new THREE.Color(0x00974c);
                         objectiveComplete = true;
-                        timeRate = 0.01;
+                        timeRate = 5;
                     }
                 }
             }
