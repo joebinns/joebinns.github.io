@@ -188,6 +188,11 @@
         let promiseOrion = loadGLTF('scenes/orion/orion.glb').then(result => { orion = result.scene; });
 
 
+        var raycaster = new THREE.Raycaster();
+
+
+
+
         const spaceStationVDistance = 10;
         const orionDistance = 8;
         const totalDistance = spaceStationVDistance + orionDistance - 1.7; // take off the distance from the center of SpaceStationV to the hangar
@@ -208,6 +213,10 @@
             spaceStationV.position.set(spaceStationVDistance, 0, 0);
             orion.position.set(-orionDistance, 0, 0);
 
+            // to check if clicked
+            spaceStationV.callback = debugLog();
+            orion.callback = debugLog();
+
             //apply custom outlines to select objects
             spaceStationV.traverse(node => node.applyOutline = true);
             orion.traverse(node => node.applyOutline = true);
@@ -219,6 +228,10 @@
             orionStartPosition = orion.position.x;
             areModelsLoaded = true;
         });
+
+        function debugLog(text){
+            console.log(text);
+        };
         
         /*
         if (orion)
@@ -398,6 +411,7 @@
                     if (objectiveComplete == false)
                     {
                         t = 0;
+                        orionSpeed = maxSpeed;
                         startOutlineColor = targetOutlineColor;
                         targetOutlineColor = new THREE.Color(0x00974c);
                         objectiveComplete = true;
@@ -410,7 +424,7 @@
             sound.setPlaybackRate(playbackRate * (1 / maxSpeed));
 
             composer.render();
-        }
+        };
 
         function onWindowResize()
         {
@@ -421,14 +435,14 @@
             composer.setSize(window.innerWidth, window.innerHeight);
             effectFXAA.setSize(window.innerWidth, window.innerHeight);
             customOutline.setSize(window.innerWidth, window.innerHeight);
-        }
+        };
 
         function onDocumentMouseMove(event)
         {
             event.preventDefault();
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        }
+        };
 
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
@@ -444,6 +458,20 @@
             orionShouldMove = false;
             //startOrionSpeed = 1;
             //targetOrionSpeed = 0;
+        };
+
+        function onDocumentMouseDown( event ) {
+            event.preventDefault();
+
+            raycaster.setFromCamera( mouse, camera );
+
+            var intersects = raycaster.intersectObjects( group ); 
+
+            if ( intersects.length > 0 ) {
+
+                intersects[0].object.callback();
+
+            }
         };
         
 
