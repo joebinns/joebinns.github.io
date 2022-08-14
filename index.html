@@ -357,7 +357,7 @@
 
                     
                     //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                    orionSpeed -= orionSpeed * 0.000001 * deltaTime;
+                    orionSpeed -= orionSpeed * 0.00001 * deltaTime;
                     //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
                     if ( orionShouldMove ) orionSpeed += 0.000001 * deltaTime;
                     
