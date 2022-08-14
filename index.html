@@ -362,7 +362,7 @@
                     //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
                     else orionSpeed -= orionSpeed * 0.01 * deltaTime;
 
-                    orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, 0.1);
+                    orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, 0.001);
                     
                     //pass velocity as an argument to translateZ and call it on camera.
                     orion.position.x += ( orionSpeed * deltaTime );
