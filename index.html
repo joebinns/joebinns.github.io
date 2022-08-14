@@ -88,8 +88,7 @@
                 "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
                 "audio": "https://unpkg.com/three/src/audio/Audio.js",
                 "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
-                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
-                "threeinteraction": "https://unpkg.com/three.interaction/build/three.interaction.js"
+                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js"
             }
         }
     </script>
@@ -125,8 +124,6 @@
         import { Audio } from "audio";
         import { AudioLoader } from "audioloader";
         import { AudioListener } from "audiolistener";
-        // THREE interactions
-        import { Interaction } from "threeinteraction";
 
         // Init scene
         const scene = new THREE.Scene();
@@ -173,9 +170,40 @@
         composer.addPass(effectFXAA);
 
 
-        const interaction = new Interaction(renderer, scene, camera);
-        orion.cursor = 'pointer';
-        orion.on('mouseover', function(ev) {console.log("woop")});
+
+        class PickHelper {
+            constructor() {
+                this.raycaster = new THREE.Raycaster();
+                this.pickedObject = null;
+                this.pickedObjectSavedColor = 0;
+            }
+            pick(normalizedPosition, scene, camera, time) {
+                // restore the color if there is a picked object
+                if (this.pickedObject) {
+                    this.pickedObject.material.emissive.setHex(this.pickedObjectSavedColor);
+                    this.pickedObject = undefined;
+                }
+
+                // cast a ray through the frustum
+                this.raycaster.setFromCamera(normalizedPosition, camera);
+                // get the list of objects the ray intersected
+                const intersectedObjects = this.raycaster.intersectObjects(scene.children);
+                if (intersectedObjects.length) {
+                    // pick the first object. It's the closest one
+                    this.pickedObject = intersectedObjects[0].object;
+                    // save its color
+                    this.pickedObjectSavedColor = this.pickedObject.material.emissive.getHex();
+                    // set its emissive color to flashing red/yellow
+                    this.pickedObject.material.emissive.setHex((time * 8) % 2 > 1 ? 0xFFFF00 : 0xFF0000);
+                    this.pickedObject.rotation.y += 0.1 ;
+                    //slowDown();
+                }
+            }
+        }
+
+        const pickHelper = new PickHelper();
+
+        
 
         // Import models
         //const loader = new GLTFLoader();
@@ -429,6 +457,8 @@
                     }
                 }
             }
+
+            pickHelper.pick(mouse, scene, camera, time);
 
             playbackRate = orionSpeed;
             sound.setPlaybackRate(playbackRate * (1 / maxSpeed));
