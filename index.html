@@ -85,7 +85,10 @@
                 "effectcomposer": "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
                 "renderpass": "https://unpkg.com/three/examples/jsm/postprocessing/RenderPass.js",
                 "shaderpass": "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
-                "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js"
+                "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
+                "audio": "https://unpkg.com/three/src/audio/Audio.js",
+                "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
+                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js"
             }
         }
     </script>
@@ -117,6 +120,9 @@
         import { FXAAShader } from "fxaashader";
         // Custom outline
         import { CustomOutlinePass } from "./CustomOutlinePass.js";
+        import { Audio } from "audio";
+        import { AudioLoader } from "audioloader";
+        import { AudioListener } from "audiolistener";
 
         // Init scene
         const scene = new THREE.Scene();
@@ -269,6 +275,23 @@
         }
         );
         */
+
+
+        // create an AudioListener and add it to the camera
+        const listener = new THREE.AudioListener();
+        camera.add( listener );
+
+        // create a global audio source
+        const sound = new THREE.Audio( listener );
+
+        // load a sound and set it as the Audio object's buffer
+        const audioLoader = new THREE.AudioLoader();
+        audioLoader.load( "audio/blue_danube.ogg", function( buffer ) {
+            sound.setBuffer( buffer );
+            sound.setLoop( false );
+            sound.setVolume( 0.5 );
+            sound.play();
+        });
 
         
         // Declare Custom Outline uniforms
