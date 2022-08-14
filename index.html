@@ -292,8 +292,7 @@
             sound.setBuffer( buffer );
             sound.setLoop( false );
             sound.setVolume( 0.5 );
-            sound.playbackRate = playbackRate;
-            sound.play();
+            sound.setPlaybackRate(playbackRate);
         });
 
         
@@ -385,9 +384,9 @@
                     
 
                     //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
-                    if ( orionShouldMove ) orionSpeed += 0.00001 * deltaTime;
+                    if ( orionShouldMove ) orionSpeed += maxSpeed * 0.01 * deltaTime;
                     //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                    else orionSpeed -= orionSpeed * 0.01 * deltaTime;
+                    else orionSpeed -= orionSpeed * 10 * deltaTime;
 
                     orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
                     
@@ -408,7 +407,7 @@
             }
 
             playbackRate = orionSpeed;
-            sound.playbackRate = playbackRate * (1 / maxSpeed);
+            sound.setPlaybackRate(playbackRate * (1 / maxSpeed));
 
             composer.render();
         }
@@ -434,6 +433,7 @@
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
             orionShouldMove = true;
+            sound.play();
             //startOrionSpeed = 0;
             //targetOrionSpeed = 1;
             //orion.position.x += 0.01;
