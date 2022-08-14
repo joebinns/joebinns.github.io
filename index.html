@@ -330,6 +330,7 @@
         var orionSpeed = 0;
         var objectiveComplete = false;
         var colorTimeRate = 0.00001;
+        const maxSpeed = 0.001;
         //var startOrionSpeed = 0;
         //var targetOrionSpeed = 1;
         function update()
@@ -388,7 +389,7 @@
                     //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
                     else orionSpeed -= orionSpeed * 0.01 * deltaTime;
 
-                    orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, 0.001);
+                    orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
                     
                     //pass velocity as an argument to translateZ and call it on camera.
                     orion.position.x += ( orionSpeed * deltaTime );
@@ -407,7 +408,7 @@
             }
 
             playbackRate = orionSpeed;
-            sound.playbackRate = playbackRate;
+            sound.playbackRate = playbackRate * (1 / maxSpeed);
 
             composer.render();
         }
