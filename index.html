@@ -319,8 +319,8 @@
             
             if (areModelsLoaded) 
             {
-                spaceStationV.rotation.x += deltaTime * 0.001;
-                orion.rotation.x += deltaTime * 0.001;
+                spaceStationV.rotation.x += deltaTime * 0.0001;
+                orion.rotation.x += deltaTime * 0.0001;
                 //group.rotation.y += 0.001;
             }
             
@@ -357,9 +357,9 @@
 
                     
                     //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                    orionSpeed -= orionSpeed * 0.0001 * deltaTime;
+                    orionSpeed -= orionSpeed * 0.00001 * deltaTime;
                     //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
-                    if ( orionShouldMove ) orionSpeed += 0.0001 * deltaTime;
+                    if ( orionShouldMove ) orionSpeed += 0.00001 * deltaTime;
                     
                     //pass velocity as an argument to translateZ and call it on camera.
                     orion.position.x += ( orionSpeed * deltaTime );
