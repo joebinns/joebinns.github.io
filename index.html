@@ -342,7 +342,7 @@
         var orionSpeed = 0;
         var objectiveComplete = false;
         var colorTimeRate = 0.00001;
-        const maxSpeed = 0.001;
+        const maxSpeed = 0.0005;
         //var startOrionSpeed = 0;
         //var targetOrionSpeed = 1;
         function update()
@@ -358,9 +358,11 @@
             
             if (areModelsLoaded) 
             {
-                spaceStationV.rotation.x += deltaTime * 0.00025;
-                orion.rotation.x += deltaTime * 0.00025;
+                //spaceStationV.rotation.x += deltaTime * 0.00025;
+                //orion.rotation.x += deltaTime * 0.00025;
                 //group.rotation.y += 0.001;
+                spaceStationV.rotation.x += deltaTime * orionSpeed;
+                orion.rotation.x += deltaTime * orionSpeed;
             }
             
 
