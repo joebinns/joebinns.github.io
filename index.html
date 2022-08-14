@@ -327,9 +327,13 @@
             //camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
 
             
-            if (t < 1)
+            if (areModelsLoaded)
             {
-                uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
+                if (t < 1)
+                {
+                    uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
+                    console.log(t)
+                }
             }
 
             if (areModelsLoaded)
