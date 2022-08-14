@@ -284,6 +284,8 @@
         // create a global audio source
         const sound = new THREE.Audio( listener );
 
+        var playbackRate = 0; 
+
         // load a sound and set it as the Audio object's buffer
         const audioLoader = new THREE.AudioLoader();
         audioLoader.load( "audio/blue_danube.ogg", function( buffer ) {
@@ -402,6 +404,8 @@
                     }
                 }
             }
+
+            playbackRate = orionSpeed;
 
             composer.render();
         }
