@@ -355,12 +355,15 @@
                     
                     prevTime = time;
                 }
-                else if (objectiveComplete = false)
+                else
                 {
-                    objectiveComplete = true;
-                    t = 0;
-                    startOutlineColor = targetOutlineColor;
-                    targetOutlineColor = new THREE.Color(0x00974c);
+                    if (objectiveComplete == false)
+                    {
+                        t = 0;
+                        startOutlineColor = targetOutlineColor;
+                        targetOutlineColor = new THREE.Color(0x00974c);
+                        objectiveComplete = true;
+                    }
                 }
             }
 
