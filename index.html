@@ -187,7 +187,7 @@
         const totalDistance = spaceStationVDistance + orionDistance - 1.7; // take off the distance from the center of SpaceStationV to the hangar
         var orionStartPosition;
         const group = new THREE.Group();
-        //var areModelsLoaded = false;
+        var areModelsLoaded = false;
         //if all Promises resolved 
         Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
             //group objects
@@ -211,7 +211,7 @@
             
             //continue the process
             orionStartPosition = orion.position.x;
-            //areModelsLoaded = true;
+            areModelsLoaded = true;
         });
         
         /*
@@ -312,7 +312,7 @@
             requestAnimationFrame(update);
 
             
-            if (spaceStationV & orion) 
+            if (areModelsLoaded) 
             {
                 spaceStationV.rotation.x += 0.001;
                 orion.rotation.x += 0.001;
@@ -332,7 +332,7 @@
                 uniforms.outlineColor.value.set(currentColor.lerpColors(startOutlineColor, targetOutlineColor, t));
             }
 
-            if (orion)
+            if (areModelsLoaded)
             {
                 if (orion.position.x - orionStartPosition < totalDistance)
                 {
