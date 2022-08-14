@@ -88,15 +88,11 @@
                 "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
                 "audio": "https://unpkg.com/three/src/audio/Audio.js",
                 "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
-                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js"
+                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
+                "threeinteraction"; "https://unpkg.com/three.interaction/build/three.interaction.js"
             }
         }
     </script>
-    <!--
-        <script src="https://unpkg.com/threex.domevents/threex.domevents.js"></script>
-        "threexdomevents": "https://unpkg.com/threex.domevents/threex.domevents.js"
-    -->
-    <script src="./threex.domevents.js"></script>
     <script type="module">
         class WebGL
         {
@@ -125,10 +121,12 @@
         import { FXAAShader } from "fxaashader";
         // Custom outline
         import { CustomOutlinePass } from "./CustomOutlinePass.js";
+        // Audio
         import { Audio } from "audio";
         import { AudioLoader } from "audioloader";
         import { AudioListener } from "audiolistener";
-        //import { THREEx } from "threexdomevents";
+        // THREE interactions
+        import { Interaction } from "threeinteraction";
 
         // Init scene
         const scene = new THREE.Scene();
@@ -175,14 +173,9 @@
         composer.addPass(effectFXAA);
 
 
-        var domEvents	= new THREEx.DomEvents(camera, renderer.domElement); // swap to composer?
-
-        THREEx.DomEvents.eventNames.forEach(function(eventName){
-			if( eventName === 'mousemove' )	return
-			domEvents.addEventListener(mesh, eventName, function(event){
-                console.log("eventName");
-			}, false)
-		});
+        const interaction = new Interaction(renderer, scene, camera);
+        orion.cursor = 'pointer';
+        orion.on('mouseover', function(ev) {console.log("woop")});
 
         // Import models
         //const loader = new GLTFLoader();
