@@ -308,6 +308,10 @@
         //var targetOrionSpeed = 1;
         function update()
         {
+            var time = performance.now();
+            var deltaTime = ( time - prevTime ) / 1000;
+            prevTime = time;
+            
             t += deltaTime * timeRate;
 
             requestAnimationFrame(update);
@@ -347,8 +351,7 @@
                     */
 
                     //lets make sure we can move camera smoothly based on user's performance. 
-                    var time = performance.now();
-                    var deltaTime = ( time - prevTime ) / 1000;
+
                     
                     //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
                     orionSpeed -= orionSpeed * 1.0 * deltaTime;
@@ -357,8 +360,7 @@
                     
                     //pass velocity as an argument to translateZ and call it on camera.
                     orion.position.x += ( orionSpeed * deltaTime );
-                    
-                    prevTime = time;
+                
                 }
                 else
                 {
