@@ -392,6 +392,7 @@
         var prevTime = performance.now();
         var orionShouldMove = false;
         var orionSpeed = 0;
+        var hoverSpeed = 0;
         var objectiveComplete = false;
         var colorTimeRate = 0.00001;
         const maxSpeed = 0.0005;
@@ -437,8 +438,19 @@
                 }
             }
 
+
+
             if (areModelsLoaded)
             {
+                //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
+                if ( pickHelper.pickedObject ) hoverSpeed += maxSpeed * 0.01 * deltaTime;
+                //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
+                else hoverSpeed -= hoverSpeed * 10 * deltaTime;
+                hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
+
+
+
+
                 //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
                 if ( orionShouldMove ) orionSpeed += maxSpeed * 0.01 * deltaTime;
                 //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
@@ -470,11 +482,12 @@
             }
 
             var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
+            var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
 
             if (areModelsLoaded)
             {
-                var scaleOrion = 1 + 0.1 * normalisedOrionSpeed;// scale from 1 to 1.1
-                var scaleSpaceStationV = 1 + 0.05 * normalisedOrionSpeed;// scale from 1 to 1.05
+                var scaleOrion = 1 + 0.1 * normalisedHoverSpeed;// scale from 1 to 1.1
+                var scaleSpaceStationV = 1 + 0.05 * normalisedHoverSpeed;// scale from 1 to 1.05
                 orion.scale.set(scaleOrion, scaleOrion, scaleOrion);
                 spaceStationV.scale.set(scaleSpaceStationV, scaleSpaceStationV, scaleSpaceStationV);
             }
