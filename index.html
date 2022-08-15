@@ -176,11 +176,11 @@
                 this.raycaster = new THREE.Raycaster();
                 this.pickedObject = null;
             }
-            pick(normalizedPosition, scene, camera, time) {
+            pick(normalizedPosition, scene, camera) {
                 // cast a ray through the frustum
                 this.raycaster.setFromCamera(normalizedPosition, camera);
                 // get the list of objects the ray intersected
-                const intersectedObjects = this.raycaster.intersectObjects(scene);
+                const intersectedObjects = this.raycaster.intersectObjects(scene.children);
                 if (intersectedObjects.length) {
                     // pick the first object. It's the closest one
                     this.pickedObject = intersectedObjects[0].object.parent;
@@ -401,7 +401,7 @@
 
             requestAnimationFrame(update);
 
-            pickHelper.pick(mouse, scene, camera, time);
+            pickHelper.pick(mouse, scene, camera);
 
             if (pickHelper.pickedObject)
             {
