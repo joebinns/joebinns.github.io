@@ -171,6 +171,8 @@
 
 
 
+        var startScale = new THREE.Vector3(1, 1, 1);
+        var targetScale = new THREE.Vector3(1, 1, 1)
         class PickHelper {
             constructor() {
                 this.raycaster = new THREE.Raycaster();
@@ -187,22 +189,29 @@
 
                     // increase object scale
                     // TODO: Lerp the scale
-                    this.pickedObject.scale.set(1.1, 1.1, 1.1);
+                    //this.pickedObject.scale.set(1.1, 1.1, 1.1);
 
                     // make the cursor a pointer hand
-                    document.body.style.cursor = 'pointer';
+                    if (!hasUserInteracted)
+                    {
+                        document.body.style.cursor = 'pointer';
+                    }
+                    else
+                    {
+                        document.body.style.cursor = 'default';
+                    }
                 }
                 else {
                     // reset object scale
                     // TODO: Lerp the scale
-                    if (this.pickedObject)
-                    {
-                        this.pickedObject.scale.set(1, 1, 1);
-                    }
+                    //if (this.pickedObject)
+                    //{
+                    //    this.pickedObject.scale.set(1, 1, 1);
+                    //}
 
                     // reset the cursor
                     document.body.style.cursor = 'default';
-
+                    
                     // reset the object
                     this.pickedObject = null;
                 }
@@ -341,15 +350,13 @@
         // create a global audio source
         const sound = new THREE.Audio( listener );
 
-        var playbackRate = 0; 
-
         // load a sound and set it as the Audio object's buffer
         const audioLoader = new THREE.AudioLoader();
         audioLoader.load( "audio/blue_danube.ogg", function( buffer ) {
             sound.setBuffer( buffer );
             sound.setLoop( false );
             sound.setVolume( 0.5 );
-            sound.setPlaybackRate(playbackRate);
+            sound.setPlaybackRate(0);
             //sound.play();
         });
 
@@ -469,7 +476,7 @@
                     if (objectiveComplete == false)
                     {
                         t = 0;
-                        orionSpeed = maxSpeed;
+                        orionSpeed = 0;
                         startOutlineColor = targetOutlineColor;
                         targetOutlineColor = new THREE.Color(0x00974c);
                         objectiveComplete = true;
@@ -478,8 +485,21 @@
                 }
             }
 
-            playbackRate = orionSpeed;
-            sound.setPlaybackRate(playbackRate * (1 / maxSpeed));
+            var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
+
+            var playbackRate = normalisedOrionSpeed;
+            if (objectiveComplete)
+            {
+                playbackRate = 1;
+            }
+            sound.setPlaybackRate(playbackRate);
+
+            if (areModelsLoaded)
+            {
+                var scale = 1 + 0.1 * normalisedOrionSpeed;// scale from 1 to 1.1
+                orion.scale.set(scale, scale, scale);
+                spaceStationV.scale.set(scale, scale, scale);
+            }
 
             composer.render();
         };
