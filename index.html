@@ -402,13 +402,16 @@
 
             pickHelper.pick(mouse, scene, camera);
 
-            if (pickHelper.pickedObject & hasUserInteracted)
+            if (hasUserInteracted)
             {
-                orionShouldMove = true;
-            }
-            else
-            {
-                orionShouldMove = false;
+                if (pickHelper.pickedObject)
+                {
+                    orionShouldMove = true;
+                }
+                else
+                {
+                    orionShouldMove = false;
+                }
             }
             
             if (areModelsLoaded) 
