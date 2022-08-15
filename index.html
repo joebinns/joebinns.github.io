@@ -195,7 +195,10 @@
                 else {
                     // reset object scale
                     // TODO: Lerp the scale
-                    this.pickedObject.scale.set(1, 1, 1);
+                    if (this.pickedObject)
+                    {
+                        this.pickedObject.scale.set(1, 1, 1);
+                    }
 
                     // reset the cursor
                     document.body.style.cursor = 'default';
