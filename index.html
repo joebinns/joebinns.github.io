@@ -420,18 +420,6 @@
                     orionShouldMove = false;
                 }
             }
-            
-            if (areModelsLoaded) 
-            {
-                //spaceStationV.rotation.x += deltaTime * 0.00025;
-                //orion.rotation.x += deltaTime * 0.00025;
-                //group.rotation.y += 0.001;
-                spaceStationV.rotation.x += deltaTime * orionSpeed * 0.5;
-                orion.rotation.x += deltaTime * orionSpeed * 0.5;
-
-                camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -(( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 30, 0.1);
-                camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
-            }
       
             //camera.rotation.y = THREE.MathUtils.clamp(camera.rotation.y, -1 * THREE.MathUtils.degToRad(90), 1 * THREE.MathUtils.degToRad(90));
             //camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
@@ -451,6 +439,12 @@
 
             if (areModelsLoaded)
             {
+                //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
+                if ( orionShouldMove ) orionSpeed += maxSpeed * 0.01 * deltaTime;
+                //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
+                else orionSpeed -= orionSpeed * 10 * deltaTime;
+                orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
+
                 if (orion.position.x - orionStartPosition < totalDistance)
                 {
                     /*
@@ -458,16 +452,6 @@
                     orion.position.x += orionSpeed * 0.1;
                     */
 
-                    //lets make sure we can move camera smoothly based on user's performance. 
-
-                    
-                    //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
-                    if ( orionShouldMove ) orionSpeed += maxSpeed * 0.01 * deltaTime;
-                    //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                    else orionSpeed -= orionSpeed * 10 * deltaTime;
-
-                    orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
-                    
                     //pass velocity as an argument to translateZ and call it on camera.
                     orion.position.x += ( orionSpeed * deltaTime );
                 }
@@ -476,7 +460,7 @@
                     if (objectiveComplete == false)
                     {
                         t = 0;
-                        orionSpeed = maxSpeed;
+                        //orionSpeed = maxSpeed;
                         startOutlineColor = targetOutlineColor;
                         targetOutlineColor = new THREE.Color(0x00974c);
                         objectiveComplete = true;
@@ -487,13 +471,28 @@
 
             var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
 
-            sound.setPlaybackRate(playbackRate);
-
             if (areModelsLoaded)
             {
-                var scale = 1 + 0.1 * normalisedOrionSpeed;// scale from 1 to 1.1
-                orion.scale.set(scale, scale, scale);
-                spaceStationV.scale.set(scale, scale, scale);
+                var scaleOrion = 1 + 0.1 * normalisedOrionSpeed;// scale from 1 to 1.1
+                var scaleSpaceStationV = 1 + 0.05 * normalisedOrionSpeed;// scale from 1 to 1.05
+                orion.scale.set(scaleOrion, scaleOrion, scaleOrion);
+                spaceStationV.scale.set(scaleSpaceStationV, scaleSpaceStationV, scaleSpaceStationV);
+            }
+
+            if (objectiveComplete) normalisedOrionSpeed = 1;
+
+            sound.setPlaybackRate(normalisedOrionSpeed);
+
+            if (areModelsLoaded) 
+            {
+                //spaceStationV.rotation.x += deltaTime * 0.00025;
+                //orion.rotation.x += deltaTime * 0.00025;
+                //group.rotation.y += 0.001;
+                spaceStationV.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
+                orion.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
+
+                camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -(( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 30, 0.1);
+                camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
             }
 
             composer.render();
