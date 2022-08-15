@@ -399,6 +399,15 @@
             requestAnimationFrame(update);
 
             pickHelper.pick(mouse, scene, camera, time);
+
+            if (pickHelper.pickedObject)
+            {
+                orionShouldMove = true;
+            }
+            else
+            {
+                orionShouldMove = false;
+            }
             
             if (areModelsLoaded) 
             {
@@ -518,7 +527,6 @@
                         case 1: // left click
                             hasUserInteracted = true;
                             console.log("Initial user interaction")
-                            orionShouldMove = true;
                             sound.play();
                     }
                 }
