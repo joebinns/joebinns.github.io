@@ -228,8 +228,8 @@
             });
         }
 
-        let promiseSpaceStationV = loadGLTF('scenes/space_station_5/space_station_5.glb').then(result => { spaceStationV = result.scene; });
-        let promiseOrion = loadGLTF('scenes/orion/orion.glb').then(result => { orion = result.scene; });
+        let promiseSpaceStationV = loadGLTF('scenes/space_station_v/SpaceStationV_Simplified.glb').then(result => { spaceStationV = result.scene; });
+        let promiseOrion = loadGLTF('scenes/orion/Orion_Simplified.glb').then(result => { orion = result.scene; });
 
 
         //var raycaster = new THREE.Raycaster();
@@ -246,6 +246,10 @@
         var hasInteracted;
         //if all Promises resolved 
         Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
+            var spaceStationVChildren = [];
+            spaceStationVChildren.push( spaceStationV );
+            child.userData.parent = root_parent_object;
+
             //group objects
             group.add(spaceStationV);
             group.add(orion);
