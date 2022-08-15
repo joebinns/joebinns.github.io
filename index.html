@@ -246,10 +246,6 @@
         var hasInteracted;
         //if all Promises resolved 
         Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
-            var spaceStationVChildren = [];
-            spaceStationVChildren.push( spaceStationV );
-            child.userData.parent = root_parent_object;
-
             //group objects
             group.add(spaceStationV);
             group.add(orion);
