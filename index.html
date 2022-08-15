@@ -185,17 +185,23 @@
                     // pick the first object. It's the closest one
                     this.pickedObject = intersectedObjects[0].object;
 
-                    orionShouldMove = true;
-                    sound.play();
+                    // increase object scale
+                    // TODO: Lerp the scale
+                    this.pickedObject.scale(1.1, 1.1, 1.1);
 
+                    // make the cursor a pointer hand
                     document.body.style.cursor = 'pointer';
-
-                    console.log("hovering")
                 }
                 else {
-                    orionShouldMove = false;
+                    // reset object scale
+                    // TODO: Lerp the scale
+                    this.pickedObject.scale(1, 1, 1);
 
+                    // reset the cursor
                     document.body.style.cursor = 'default';
+
+                    // reset the object
+                    this.pickedObject = null;
                 }
             }
         }
@@ -234,6 +240,7 @@
         var orionStartPosition;
         const group = new THREE.Group();
         var areModelsLoaded = false;
+        var hasInteracted;
         //if all Promises resolved 
         Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
             //group objects
@@ -341,6 +348,7 @@
             sound.setLoop( false );
             sound.setVolume( 0.5 );
             sound.setPlaybackRate(playbackRate);
+            //sound.play();
         });
 
         
@@ -390,19 +398,19 @@
 
             requestAnimationFrame(update);
 
+            pickHelper.pick(mouse, scene, camera, time);
             
             if (areModelsLoaded) 
             {
                 //spaceStationV.rotation.x += deltaTime * 0.00025;
                 //orion.rotation.x += deltaTime * 0.00025;
                 //group.rotation.y += 0.001;
-                spaceStationV.rotation.x += deltaTime * orionSpeed;
-                orion.rotation.x += deltaTime * orionSpeed;
-            }
-            
+                spaceStationV.rotation.x += deltaTime * orionSpeed * 0.5;
+                orion.rotation.x += deltaTime * orionSpeed * 0.5;
 
-            camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -(( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 30, 0.1);
-            camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
+                camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -(( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 30, 0.1);
+                camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
+            }
       
             //camera.rotation.y = THREE.MathUtils.clamp(camera.rotation.y, -1 * THREE.MathUtils.degToRad(90), 1 * THREE.MathUtils.degToRad(90));
             //camera.rotation.x = THREE.MathUtils.clamp(camera.rotation.x, -1 * THREE.MathUtils.degToRad(15), 1 * THREE.MathUtils.degToRad(15));
@@ -457,8 +465,6 @@
                 }
             }
 
-            pickHelper.pick(mouse, scene, camera, time);
-
             playbackRate = orionSpeed;
             sound.setPlaybackRate(playbackRate * (1 / maxSpeed));
 
@@ -483,6 +489,7 @@
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         };
 
+        /*
         function onDocumentKeyDown(event) {
             var keyCode = event.which;
             orionShouldMove = true;
@@ -498,6 +505,25 @@
             //startOrionSpeed = 1;
             //targetOrionSpeed = 0;
         };
+        */
+
+        var hasUserInteracted = false;
+        function onDocumentMouseDown(event)
+        {
+            if (!hasUserInteracted)
+            {
+                if (pickHelper.pickedObject)
+                {
+                    switch (event.which) {
+                        case 1: // left click
+                            hasUserInteracted = true;
+                            console.log("Initial user interaction")
+                            orionShouldMove = true;
+                            sound.play();
+                    }
+                }
+            }
+        }
 
         /*
         function onDocumentMouseDown( event ) {
@@ -521,8 +547,9 @@
             // Initiate function or other initializations here
             update();
             document.addEventListener("mousemove", onDocumentMouseMove, false);
-            document.addEventListener("keydown", onDocumentKeyDown, false);
-            document.addEventListener("keyup", onDocumentKeyUp, false);
+            document.addEventListener("mousedown", onDocumentMouseDown, false);
+            //document.addEventListener("keydown", onDocumentKeyDown, false);
+            //document.addEventListener("keyup", onDocumentKeyUp, false);
             window.addEventListener("resize", onWindowResize, false);
         }
 
