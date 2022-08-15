@@ -476,7 +476,7 @@
                     if (objectiveComplete == false)
                     {
                         t = 0;
-                        orionSpeed = 0;
+                        orionSpeed = maxSpeed;
                         startOutlineColor = targetOutlineColor;
                         targetOutlineColor = new THREE.Color(0x00974c);
                         objectiveComplete = true;
@@ -487,11 +487,6 @@
 
             var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
 
-            var playbackRate = normalisedOrionSpeed;
-            if (objectiveComplete)
-            {
-                playbackRate = 1;
-            }
             sound.setPlaybackRate(playbackRate);
 
             if (areModelsLoaded)
