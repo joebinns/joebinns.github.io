@@ -187,7 +187,7 @@
 
                     // increase object scale
                     // TODO: Lerp the scale
-                    this.pickedObject.scale(1.1, 1.1, 1.1);
+                    this.pickedObject.scale.set(1.1, 1.1, 1.1);
 
                     // make the cursor a pointer hand
                     document.body.style.cursor = 'pointer';
@@ -195,7 +195,7 @@
                 else {
                     // reset object scale
                     // TODO: Lerp the scale
-                    this.pickedObject.scale(1, 1, 1);
+                    this.pickedObject.scale.set(1, 1, 1);
 
                     // reset the cursor
                     document.body.style.cursor = 'default';
