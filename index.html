@@ -243,7 +243,6 @@
         var orionStartPosition;
         const group = new THREE.Group();
         var areModelsLoaded = false;
-        var hasInteracted;
         //if all Promises resolved 
         Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
             //group objects
@@ -403,7 +402,7 @@
 
             pickHelper.pick(mouse, scene, camera);
 
-            if (pickHelper.pickedObject != null)
+            if (pickHelper.pickedObject & hasUserInteracted)
             {
                 orionShouldMove = true;
             }
@@ -452,7 +451,6 @@
                     //lets make sure we can move camera smoothly based on user's performance. 
 
                     
-
                     //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
                     if ( orionShouldMove ) orionSpeed += maxSpeed * 0.01 * deltaTime;
                     //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
@@ -524,7 +522,7 @@
         {
             if (!hasUserInteracted)
             {
-                if (pickHelper.pickedObject != null)
+                if (pickHelper.pickedObject)
                 {
                     switch (event.which) {
                         case 1: // left click
