@@ -492,6 +492,8 @@
                 spaceStationV.scale.set(scaleSpaceStationV, scaleSpaceStationV, scaleSpaceStationV);
             }
 
+            sound.setVolume( 0.25 + normalisedHoverSpeed * 0.25 );
+
             if (objectiveComplete) normalisedOrionSpeed = 1;
 
             sound.setPlaybackRate(normalisedOrionSpeed);
