@@ -180,14 +180,14 @@
                 // cast a ray through the frustum
                 this.raycaster.setFromCamera(normalizedPosition, camera);
                 // get the list of objects the ray intersected
-                const intersectedObjects = this.raycaster.intersectObjects(scene, false);
+                const intersectedObjects = this.raycaster.intersectObjects(scene);
                 if (intersectedObjects.length) {
                     // pick the first object. It's the closest one
                     this.pickedObject = intersectedObjects[0].object;
 
                     // increase object scale
                     // TODO: Lerp the scale
-                    this.pickedObject.scale.set(1.1, 1.1, 1.1);
+                    this.pickedObject.parent.scale.set(1.1, 1.1, 1.1);
 
                     // make the cursor a pointer hand
                     document.body.style.cursor = 'pointer';
@@ -197,7 +197,7 @@
                     // TODO: Lerp the scale
                     if (this.pickedObject)
                     {
-                        this.pickedObject.scale.set(1, 1, 1);
+                        this.pickedObject.parent.scale.set(1, 1, 1);
                     }
 
                     // reset the cursor
