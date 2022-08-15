@@ -180,10 +180,10 @@
                 // cast a ray through the frustum
                 this.raycaster.setFromCamera(normalizedPosition, camera);
                 // get the list of objects the ray intersected
-                const intersectedObjects = this.raycaster.intersectObjects(scene.children);
-                if (intersectedObjects.length) {
+                const intersectedObject = this.raycaster.intersectObject(scene);
+                if (intersectedObject) {
                     // pick the first object. It's the closest one
-                    this.pickedObject = intersectedObjects[0].object;
+                    this.pickedObject = intersectedObject;
 
                     // increase object scale
                     // TODO: Lerp the scale
