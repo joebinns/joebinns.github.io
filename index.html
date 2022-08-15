@@ -403,8 +403,7 @@
 
             pickHelper.pick(mouse, scene, camera);
 
-            console.log(pickHelper.pickedObject);
-            if (pickHelper.pickedObject)
+            if (pickHelper.pickedObject != null)
             {
                 orionShouldMove = true;
             }
@@ -525,7 +524,7 @@
         {
             if (!hasUserInteracted)
             {
-                if (pickHelper.pickedObject)
+                if (pickHelper.pickedObject != null)
                 {
                     switch (event.which) {
                         case 1: // left click
