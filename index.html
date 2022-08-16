@@ -259,7 +259,7 @@
         const groupConvex = new THREE.Group();
         var areModelsLoaded = false;
         //if all Promises resolved 
-        Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
+        Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
             //group objects
             group.add(spaceStationV);
             group.add(orion);
