@@ -443,18 +443,18 @@
             if (areModelsLoaded)
             {
                 //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
-                if ( pickHelper.pickedObject ) hoverSpeed += maxSpeed * 0.01 * deltaTime;
+                if ( pickHelper.pickedObject ) hoverSpeed += maxSpeed * 0.005 * deltaTime;
                 //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                else hoverSpeed -= hoverSpeed * 10 * deltaTime;
+                else hoverSpeed -= hoverSpeed * 5 * deltaTime;
                 hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
 
 
 
 
                 //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
-                if ( orionShouldMove ) orionSpeed += maxSpeed * 0.01 * deltaTime;
+                if ( orionShouldMove ) orionSpeed += maxSpeed * 0.005 * deltaTime;
                 //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                else orionSpeed -= orionSpeed * 10 * deltaTime;
+                else orionSpeed -= orionSpeed * 5 * deltaTime;
                 orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
 
                 if (orion.position.x - orionStartPosition < totalDistance)
