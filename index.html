@@ -127,6 +127,7 @@
 
         // Init scene
         const scene = new THREE.Scene();
+        const convexScene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
         const renderer = new THREE.WebGLRenderer();
@@ -230,6 +231,7 @@
 
 
         var spaceStationV, orion;
+        var spaceStationVConvex, orionConvex;
 
         function loadGLTF(path) {
             return new Promise(resolve => {
@@ -239,6 +241,9 @@
 
         let promiseSpaceStationV = loadGLTF('scenes/space_station_v/SpaceStationV_Simplified.glb').then(result => { spaceStationV = result.scene; });
         let promiseOrion = loadGLTF('scenes/orion/Orion_Simplified.glb').then(result => { orion = result.scene; });
+
+        let promiseSpaceStationVConvex = loadGLTF('scenes/space_station_v/SpaceStationV_Simplified_Convex.glb').then(result => { spaceStationVConvex = result.scene; });
+        let promiseOrionConvex = loadGLTF('scenes/orion/Orion_Simplified_Convex.glb').then(result => { orionConvex = result.scene; });
 
 
         //var raycaster = new THREE.Raycaster();
@@ -251,6 +256,7 @@
         const totalDistance = spaceStationVDistance + orionDistance - 1.7; // take off the distance from the center of SpaceStationV to the hangar
         var orionStartPosition;
         const group = new THREE.Group();
+        const groupConvex = new THREE.Group();
         var areModelsLoaded = false;
         //if all Promises resolved 
         Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
@@ -258,13 +264,21 @@
             group.add(spaceStationV);
             group.add(orion);
 
+            groupConvex.add(spaceStationVConvex);
+            groupConvex.add(orionConvex);
+
             //rotate group
             group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
+
+            groupConvex.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
 
             //move models independently
             
             spaceStationV.position.set(spaceStationVDistance, 0, 0);
             orion.position.set(-orionDistance, 0, 0);
+
+            spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
+            orionConvex.position.set(-orionDistance, 0, 0);
 
             // to check if clicked
             //spaceStationV.callback = debugLog("AHGHAGJHGHAJG");
@@ -276,6 +290,8 @@
 
             //add model to the scene
             scene.add(group);
+
+            convexScene.add(groupConvex);
             
             //continue the process
             orionStartPosition = orion.position.x;
@@ -408,7 +424,7 @@
 
             requestAnimationFrame(update);
 
-            pickHelper.pick(mouse, scene, camera);
+            pickHelper.pick(mouse, sceneConvex, camera);
 
             if (hasUserInteracted)
             {
