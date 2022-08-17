@@ -157,7 +157,7 @@
         // Outline pass.
         const customOutline = new CustomOutlinePass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        scene,
+        convexScene, //scene when not debugging
         camera
         );
         composer.addPass(customOutline);
@@ -285,8 +285,10 @@
             //orion.callback = debugLog("meow");
 
             //apply custom outlines to select objects
-            spaceStationV.traverse(node => node.applyOutline = true);
-            orion.traverse(node => node.applyOutline = true);
+            //spaceStationV.traverse(node => node.applyOutline = true);
+            //orion.traverse(node => node.applyOutline = true);
+            spaceStationVConvex.traverse(node => node.applyOutline = true);
+            orionConvex.traverse(node => node.applyOutline = true);
 
             //add model to the scene
             scene.add(group);
@@ -457,7 +459,7 @@
                 //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
                 if ( pickHelper.pickedObject ) hoverSpeed += maxSpeed * 0.005 * deltaTime;
                 //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                else hoverSpeed -= hoverSpeed * 5 * deltaTime;
+                else hoverSpeed -= hoverSpeed * 2.5 * deltaTime;
                 hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
 
 
@@ -466,7 +468,7 @@
                 //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
                 if ( orionShouldMove ) orionSpeed += maxSpeed * 0.005 * deltaTime;
                 //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-                else orionSpeed -= orionSpeed * 5 * deltaTime;
+                else orionSpeed -= orionSpeed * 2.5 * deltaTime;
                 orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
 
                 if (orion.position.x - orionStartPosition < totalDistance)
