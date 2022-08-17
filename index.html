@@ -533,6 +533,9 @@
                 spaceStationV.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
                 orion.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
 
+                spaceStationVConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
+                orionConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
+
                 //camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -(( mouse.x - (window.innerWidth / 2) ) * Math.PI) / 30, 0.1);
                 camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -mouse.x * Math.PI / 30, 0.1);
                 camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
