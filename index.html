@@ -279,8 +279,8 @@
             spaceStationV.position.set(spaceStationVDistance, 0, 0);
             orion.position.set(-orionDistance, 0, 0);
 
-            spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
-            orionConvex.position.set(-orionDistance, 0, 0);
+            spaceStationVConvex.position.set(spaceStationVDistance, 0, 4);
+            orionConvex.position.set(-orionDistance, 0, 4);
 
             // to check if clicked
             //spaceStationV.callback = debugLog("AHGHAGJHGHAJG");
@@ -289,12 +289,12 @@
             //apply custom outlines to select objects
             spaceStationV.traverse(node => node.applyOutline = true);
             orion.traverse(node => node.applyOutline = true);
-            //spaceStationVConvex.traverse(node => node.applyOutline = true);
-            //orionConvex.traverse(node => node.applyOutline = true);
+            spaceStationVConvex.traverse(node => node.applyOutline = true);
+            orionConvex.traverse(node => node.applyOutline = true);
 
             //add model to the scene
             scene.add(group);
-            //scene.add(groupConvex);
+            scene.add(groupConvex);
 
             //convexScene.add(groupConvex);
             
@@ -483,6 +483,7 @@
 
                     //pass velocity as an argument to translateZ and call it on camera.
                     orion.position.x += ( orionSpeed * deltaTime );
+                    orionConvex.position.x += ( orionSpeed * deltaTime );
                 }
                 else
                 {
