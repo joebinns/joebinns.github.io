@@ -127,7 +127,7 @@
 
         // Init scene
         const scene = new THREE.Scene();
-        const convexScene = new THREE.Scene();
+        //const convexScene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
         const renderer = new THREE.WebGLRenderer();
@@ -157,7 +157,7 @@
         // Outline pass.
         const customOutline = new CustomOutlinePass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        convexScene, //scene when not debugging
+        scene,
         camera
         );
         composer.addPass(customOutline);
@@ -256,21 +256,23 @@
         const totalDistance = spaceStationVDistance + orionDistance - 1.7; // take off the distance from the center of SpaceStationV to the hangar
         var orionStartPosition;
         const group = new THREE.Group();
-        const groupConvex = new THREE.Group();
+        //const groupConvex = new THREE.Group();
         var areModelsLoaded = false;
         //if all Promises resolved 
         Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
             //group objects
             group.add(spaceStationV);
             group.add(orion);
+            group.add(spaceStationVConvex);
+            group.add(orionConvex);
 
-            groupConvex.add(spaceStationVConvex);
-            groupConvex.add(orionConvex);
+            //groupConvex.add(spaceStationVConvex);
+            //groupConvex.add(orionConvex);
 
             //rotate group
             group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
 
-            groupConvex.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
+            //groupConvex.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
 
             //move models independently
             
@@ -285,15 +287,16 @@
             //orion.callback = debugLog("meow");
 
             //apply custom outlines to select objects
-            //spaceStationV.traverse(node => node.applyOutline = true);
-            //orion.traverse(node => node.applyOutline = true);
-            spaceStationVConvex.traverse(node => node.applyOutline = true);
-            orionConvex.traverse(node => node.applyOutline = true);
+            spaceStationV.traverse(node => node.applyOutline = true);
+            orion.traverse(node => node.applyOutline = true);
+            //spaceStationVConvex.traverse(node => node.applyOutline = true);
+            //orionConvex.traverse(node => node.applyOutline = true);
 
             //add model to the scene
             scene.add(group);
+            //scene.add(groupConvex);
 
-            convexScene.add(groupConvex);
+            //convexScene.add(groupConvex);
             
             //continue the process
             orionStartPosition = orion.position.x;
@@ -422,7 +425,7 @@
 
             requestAnimationFrame(update);
 
-            pickHelper.pick(mouse, convexScene, camera);
+            pickHelper.pick(mouse, scene, camera);
 
             if (hasUserInteracted)
             {
