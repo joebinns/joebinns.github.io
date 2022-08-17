@@ -286,8 +286,8 @@
             spaceStationV.position.set(spaceStationVDistance, 0, 0);
             orion.position.set(-orionDistance, 0, 0);
 
-            spaceStationVConvex.position.set(spaceStationVDistance, 0, 4);
-            orionConvex.position.set(-orionDistance, 0, 4);
+            spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
+            orionConvex.position.set(-orionDistance, 0, 0);
 
             // to check if clicked
             //spaceStationV.callback = debugLog("AHGHAGJHGHAJG");
@@ -296,7 +296,7 @@
             //apply custom outlines to select objects
             spaceStationV.traverse(node => node.applyOutline = true);
             orion.traverse(node => node.applyOutline = true);
-            
+
             spaceStationVConvex.traverse(node => node.applyOutline = true);
             orionConvex.traverse(node => node.applyOutline = true);
 
