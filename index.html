@@ -151,6 +151,7 @@
 
         // Regular scene render pass. This is step 1 in the pipeline described in CustomOutlinePass.js
         const composer = new EffectComposer(renderer, renderTarget);
+        const dummyComposer = new EffectComposer(new THREE.WebGLRenderer(), renderTarget);
         //const pass = new RenderPass(scene, camera);
         //composer.addPass(pass);
 
@@ -167,7 +168,7 @@
         convexScene,
         camera
         );
-        //composer.addPass(customOutline2);
+        dummyComposer.addPass(customOutline2);
 
         // Antialias pass.
         const effectFXAA = new ShaderPass(FXAAShader);
