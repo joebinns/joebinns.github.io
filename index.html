@@ -167,7 +167,7 @@
         convexScene,
         camera
         );
-        composer.addPass(customOutline2);
+        //composer.addPass(customOutline2);
 
         // Antialias pass.
         const effectFXAA = new ShaderPass(FXAAShader);
@@ -297,8 +297,8 @@
             spaceStationV.traverse(node => node.applyOutline = true);
             orion.traverse(node => node.applyOutline = true);
 
-            spaceStationVConvex.traverse(node => node.applyOutline = true);
-            orionConvex.traverse(node => node.applyOutline = true);
+            //spaceStationVConvex.traverse(node => node.applyOutline = true);
+            //orionConvex.traverse(node => node.applyOutline = true);
 
             //add model to the scene
             scene.add(group);
