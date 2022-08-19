@@ -1,4 +1,4 @@
-// Import scripts
+/* ----------------------------- Import scripts ----------------------------- */
 // Three.js
 import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 // glTF model loader
@@ -14,18 +14,6 @@ import { CustomOutlinePass } from './CustomOutlinePass.js';
 import { Audio } from 'https://unpkg.com/three/src/audio/Audio.js';
 import { AudioLoader } from 'https://unpkg.com/three/src/loaders/AudioLoader.js';
 import { AudioListener } from 'https://unpkg.com/three/src/audio/AudioListener.js';
-
-
-function isWebGLAvailable()
-{
-    try {
-        const canvas = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-    }
-    catch (e) {
-        return false;
-    }
-}
 
 
 /* ---------------------------- Declare scenes --------------------------- */
@@ -387,6 +375,19 @@ function update()
     composer.render();
     dummyComposer.render();
 };
+
+
+/* ----------------------- Check if WebGL is available ---------------------- */
+function isWebGLAvailable()
+{
+    try {
+        const canvas = document.createElement('canvas');
+        return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+    }
+    catch (e) {
+        return false;
+    }
+}
 
 
 /* ---------------- Call render loop and add event listeners ---------------- */
