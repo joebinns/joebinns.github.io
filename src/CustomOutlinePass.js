@@ -1,12 +1,11 @@
 
-/*
-import * as THREE from "https://unpkg.com/three/build/three.module.js";//"three";
-import { Pass } from "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js";//"three/examples/jsm/postprocessing/Pass.js";
-import { FullScreenQuad } from "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js";//"three/examples/jsm/postprocessing/Pass.js";
-*/
+import * as THREE from "https://unpkg.com/three/build/three.module.js";
+import {Pass, FullScreenQuad} from "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js";
 
+/*
 import * as THREE from 'three';
 import {Pass, FullScreenQuad} from 'three/examples/jsm/postprocessing/Pass';
+*/
 
 // Follows the structure of
 // 		https://github.com/mrdoob/three.js/blob/master/examples/jsm/postprocessing/OutlinePass.js
