@@ -4,7 +4,7 @@ import * as THREE from "three"; //'https://unpkg.com/three/build/three.module.js
 // glTF model loader
 import { GLTFLoader } from "gltfloader"; //'https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js';
 // Render requirements
-import { EffectComposer } from "cffectcomposer"; //'https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js';
+import { EffectComposer } from "effectcomposer"; //'https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js';
 import { ShaderPass } from "shaderpass"; //'https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js';
 import { FXAAShader } from "fxaashader"; //'https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js';
 // Custom outline
