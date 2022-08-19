@@ -1,6 +1,6 @@
 /* ----------------------------- Import scripts ----------------------------- */
 // Three.js
-import * as THREE from 'https://cdn.skypack.dev/three/build/three.module.js';
+import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 // glTF model loader
 import {GLTFLoader} from 'https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js';
 // Render requirements
