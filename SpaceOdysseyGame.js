@@ -1,19 +1,18 @@
 /* ----------------------------- Import scripts ----------------------------- */
 // Three.js
-import * as THREE from 'https://cdn.skypack.dev/three/build/three.module.js'; //'https://unpkg.com/three/build/three.module.js';
+import * as THREE from './imports/three.module.js';
 // glTF model loader
-import {GLTFLoader} from 'https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js';
+import {GLTFLoader} from './imports/GLTFLoader.js';
 // Render requirements
-import { EffectComposer } from 'https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'https://unpkg.com/three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js';
-import { FXAAShader } from 'https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js';
+import { EffectComposer } from './imports/EffectComposer.js';
+import { ShaderPass } from './imports/ShaderPass.js';
+import { FXAAShader } from './imports/FXAAShader.js';
 // Custom outline
-import { CustomOutlinePass } from './CustomOutlinePass.js';
+import { CustomOutlinePass } from './imports/CustomOutlinePass.js';
 // Audio
-import { Audio } from 'https://unpkg.com/three/src/audio/Audio.js';
-import { AudioLoader } from 'https://unpkg.com/three/src/loaders/AudioLoader.js';
-import { AudioListener } from 'https://unpkg.com/three/src/audio/AudioListener.js';
+import { Audio } from './imports/Audio.js';
+import { AudioLoader } from './imports/AudioLoader.js';
+import { AudioListener } from './imports/AudioListener.js';
 
 
 /* ---------------------------- Declare scenes --------------------------- */

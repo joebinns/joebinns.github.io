@@ -4,20 +4,23 @@
     <meta name="viewport" content="width={h}, initial-scale=1.0">
     <title>Oops: 404</title>
     <link rel="stylesheet" href="https://joebinns.com/styles.css">
-    <link id="shortcuticon" rel="shortcut icon" href="https://joebinns.com/images/head.svg">
+    <link id="shortcuticon" rel="shortcut icon" href="images/globe_box_optimised.svg">
 </head>
-<body class="center">
-    <h1>
-        Oops: 404
-    </h1>
-    <p>
-        <a class="hyperlink" href="https://joebinns.com" target="_blank">Home</a>
-    </p>
+<body>
+    <div class="center">
+        <h1>
+            Oops: 404
+        </h1>
+        <p>
+            <a class="hyperlink" href="https://joebinns.com" target="_blank">Home</a>
+        </p>
+    </div>
 </body>
 <script>
     const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     if(userPrefersDark){
-        document.getElementById("shortcuticon").href="https://joebinns.com/images/head_white.svg";
+        // Swap document icons to white versions to retain contrast
+        document.getElementById("shortcuticon").href="images/globe_box_optimised_white.svg";
     }
 </script>
 </html>
