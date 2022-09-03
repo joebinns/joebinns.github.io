@@ -233,7 +233,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
     groupConvex.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
 
-    // Rescale objects (smaller models are imported and upscaled to reduce depth buffer range)
+    // Rescale objects (some smaller versions of models are imported and upscaled to reduce their depth buffer range)
     orion.scale.set(10, 10, 10);
     orionConvex.scale.set(10, 10, 10);
 
@@ -365,7 +365,7 @@ function update()
         var hoverAmount = normalisedOrionSpeed; // Mimics a lerp when the mouse hovers over the models
 
         // Scale the models based on the hoverAmount
-        var scaleOrion = 1 + 0.1 * hoverAmount; // Scale between 1 and 1.1
+        var scaleOrion = (1 + 0.1 * hoverAmount) * 10; // Scale between 10 and 11
         var scaleSpaceStationV = 1 + 0.05 * hoverAmount; // Scale between 1 and 1.05
         orion.scale.set(scaleOrion, scaleOrion, scaleOrion);
         spaceStationV.scale.set(scaleSpaceStationV, scaleSpaceStationV, scaleSpaceStationV);
