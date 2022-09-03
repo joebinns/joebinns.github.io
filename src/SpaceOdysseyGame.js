@@ -216,9 +216,9 @@ var areModelsLoaded = false;
 
 // Import models with promises (regular models used for visuals and convex models used for hitboxes)
 let promiseSpaceStationV = loadGLTF('models/space_station_v/SpaceStationV_Simplified.glb').then(result => { spaceStationV = result.scene; });
-let promiseOrion = loadGLTF('models/orion/Orion_Simplified.glb').then(result => { orion = result.scene; });
+let promiseOrion = loadGLTF('models/orion/Orion_Simplified_Small.glb').then(result => { orion = result.scene; });
 let promiseSpaceStationVConvex = loadGLTF('models/space_station_v/SpaceStationV_Simplified_Convex.glb').then(result => { spaceStationVConvex = result.scene; });
-let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex.glb').then(result => { orionConvex = result.scene; });
+let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.glb').then(result => { orionConvex = result.scene; });
 
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
@@ -232,6 +232,10 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     // Rotate groups
     group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
     groupConvex.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
+
+    // Rescale objects (smaller models are imported and upscaled to reduce depth buffer range)
+    orion.scale.set(10, 10, 10);
+    orionConvex.scale.set(10, 10, 10);
 
     // Displace objects along their local axes
     spaceStationV.position.set(spaceStationVDistance, 0, 0);
