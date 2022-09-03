@@ -207,7 +207,7 @@ var spaceStationV, orion;
 const groupConvex = new THREE.Group();
 var spaceStationVConvex, orionConvex;
 
-const spaceStationVDistance = 10;
+const spaceStationVDistance = 12;
 const orionDistance = 8;
 const totalDistance = spaceStationVDistance + orionDistance - 1.7; // Subtracting the distance from the center of SpaceStationV to the hangar
 
