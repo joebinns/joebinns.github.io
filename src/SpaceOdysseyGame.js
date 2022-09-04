@@ -344,7 +344,7 @@ function update()
         }
         
         // If the orionShouldMove, then accelerate
-        if (orionShouldMove & isDocumentVisible) orionSpeed += maxSpeed * 0.005 * deltaTime;
+        if (orionShouldMove && isDocumentVisible) orionSpeed += maxSpeed * 0.005 * deltaTime;
         // Otherwise, decelerate   
         else orionSpeed -= orionSpeed * 0.02 * deltaTime;
         // Clamp the orionSpeed to ensure it remains within a standard range
@@ -372,7 +372,7 @@ function update()
         var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
 
 
-        if (pickHelper.pickedObject & isDocumentVisible) hoverSpeed += maxSpeed * 0.005 * deltaTime;
+        if (pickHelper.pickedObject && isDocumentVisible) hoverSpeed += maxSpeed * 0.005 * deltaTime;
         else hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
         hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
         var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
