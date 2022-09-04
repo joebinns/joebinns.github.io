@@ -375,13 +375,18 @@ function update()
         sound.setVolume(0.25 + hoverAmount * 0.25);
 
         // Set the normalisedOrionSpeed to 1 to continue spinning once objectiveComplete
-        if (objectiveComplete) normalisedOrionSpeed = 1; 
+        if (objectiveComplete)
+        {
+            normalisedOrionSpeed = 1;
+
+        }
 
         // Adjust the playback rate based on the normalisedOrionSpeed
         sound.setPlaybackRate(normalisedOrionSpeed);
 
         // Pause if playback rate is zero (to prevent constant speaker icon allocated to the tab)
-        if (normalisedOrionSpeed == 0) sound.pause();
+        console.log(normalisedOrionSpeed);
+        if (normalisedOrionSpeed = 0) sound.pause();
         else sound.play();
 
         // Rotate the models (visual and physical) based on the normalisedOrionSpeed
