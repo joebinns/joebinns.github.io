@@ -169,6 +169,7 @@ const pickHelper = new PickHelper();
 /* ---------------------------- Setup controller ---------------------------- */
 var mouse = new THREE.Vector2();
 var hasUserInteracted = false;
+var isDocumentVisible = true;
 
 function onDocumentMouseMove(event)
 {
@@ -193,13 +194,15 @@ function onDocumentMouseDown(event)
     }
 }
 
-var isDocumentVisible = true;
 function onDocumentVisibilityChange(event)
 {
-    isDocumentVisible = true;
     if (document.hidden)
     {
         isDocumentVisible = false;
+    }
+    else
+    {
+        isDocumentVisible = true;
     }
 }
 
