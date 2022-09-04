@@ -375,7 +375,7 @@ function update()
         //var hoverAmount = normalisedOrionSpeed; // Mimics a lerp when the mouse hovers over the models
         var hoverAmount = normalisedHoverSpeed; // Mimics a lerp when the mouse hovers over the models
 
-        
+
         // Scale the models based on the hoverAmount
         var scaleOrion = (1 + 0.1 * hoverAmount) * 10; // Scale between 10 and 11
         var scaleSpaceStationV = 1 + 0.05 * hoverAmount; // Scale between 1 and 1.05
@@ -405,7 +405,6 @@ function update()
         spaceStationVConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
         orionConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
     }
-        }
 
 
     // Render the visual scene and the (hidden) physical scene 
