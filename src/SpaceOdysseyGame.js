@@ -339,19 +339,12 @@ function update()
             uniforms.outlineColor.value.set(targetOutlineColor);
         }
         
-        if (isDocumentVisible)
-        {
-            // If the orionShouldMove, then accelerate
-            if (orionShouldMove) orionSpeed += maxSpeed * 0.005 * deltaTime;
-            // Otherwise, decelerate   
-            else orionSpeed -= orionSpeed * 0.02 * deltaTime;
-            // Clamp the orionSpeed to ensure it remains within a standard range
-            orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
-        }
-        else
-        {
-            orionSpeed = 0;            
-        }
+        // If the orionShouldMove, then accelerate
+        if (orionShouldMove & isDocumentVisible) orionSpeed += maxSpeed * 0.005 * deltaTime;
+        // Otherwise, decelerate   
+        else orionSpeed -= orionSpeed * 0.02 * deltaTime;
+        // Clamp the orionSpeed to ensure it remains within a standard range
+        orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
 
         // If the total distance to the hangar has not been exceeded then update the positions of the orion (visual and hitbox) 
         if (orion.position.x - orionStartPosition < totalDistance)
@@ -374,20 +367,15 @@ function update()
 
         var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
 
-        if (isDocumentVisible)
-        {
-            if (pickHelper.pickedObject) hoverSpeed += maxSpeed * 0.005 * deltaTime;
-            else hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
-            hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
-        }
-        else
-        {
-            hoverSpeed = 0;
-        }
+
+        if (pickHelper.pickedObject & isDocumentVisible) hoverSpeed += maxSpeed * 0.005 * deltaTime;
+        else hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
+        hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
         var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
         //var hoverAmount = normalisedOrionSpeed; // Mimics a lerp when the mouse hovers over the models
         var hoverAmount = normalisedHoverSpeed; // Mimics a lerp when the mouse hovers over the models
 
+        
         // Scale the models based on the hoverAmount
         var scaleOrion = (1 + 0.1 * hoverAmount) * 10; // Scale between 10 and 11
         var scaleSpaceStationV = 1 + 0.05 * hoverAmount; // Scale between 1 and 1.05
