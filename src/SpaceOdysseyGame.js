@@ -196,14 +196,15 @@ function onDocumentMouseDown(event)
 
 function onDocumentVisibilityChange(event)
 {
-    if (document.hidden)
-    {
-        isDocumentVisible = false;
-    }
-    else
+    if (document.visibilityState == 'visible')
     {
         isDocumentVisible = true;
     }
+    else
+    {
+        isDocumentVisible = false;
+    }
+    console.log(isDocumentVisible);
 }
 
 
