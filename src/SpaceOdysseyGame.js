@@ -196,7 +196,7 @@ function onDocumentMouseDown(event)
 
 function onDocumentVisibilityChange(event)
 {
-    if (document.visibilityState == 'visible')
+    if (document.visibilityState === 'visible')
     {
         isDocumentVisible = true;
     }
@@ -204,7 +204,6 @@ function onDocumentVisibilityChange(event)
     {
         isDocumentVisible = false;
     }
-    console.log(isDocumentVisible);
 }
 
 
@@ -434,6 +433,7 @@ function isWebGLAvailable()
 if (isWebGLAvailable())
 {
     update();
+
     document.addEventListener('mousemove', onDocumentMouseMove, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
     document.addEventListener('visibilitychange', onDocumentVisibilityChange, false);
