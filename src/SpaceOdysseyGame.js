@@ -193,6 +193,16 @@ function onDocumentMouseDown(event)
     }
 }
 
+var isDocumentVisible = true;
+function onDocumentVisibilityChange(event)
+{
+    isDocumentVisible = true;
+    if (document.hidden)
+    {
+        isDocumentVisible = false;
+    }
+}
+
 
 /* ---------------------------- Setup objects ---------------------------- */
 function loadGLTF(path)
@@ -270,7 +280,7 @@ const audioLoader = new THREE.AudioLoader();
 audioLoader.load('audio/blue_danube.ogg', function( buffer ) {
     sound.setBuffer( buffer );
     sound.setLoop( false );
-    sound.setVolume( 0.5 );
+    sound.setVolume( 0.25 );
     sound.setPlaybackRate(0);
 });
 
@@ -329,13 +339,19 @@ function update()
             uniforms.outlineColor.value.set(targetOutlineColor);
         }
         
-
-        // If the orionShouldMove, then accelerate
-        if (orionShouldMove) orionSpeed += maxSpeed * 0.005 * deltaTime;
-        // Otherwise, decelerate   
-        else orionSpeed -= orionSpeed * 0.01 * deltaTime;
-        // Clamp the orionSpeed to ensure it remains within a standard range
-        orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
+        if (isDocumentVisible)
+        {
+            // If the orionShouldMove, then accelerate
+            if (orionShouldMove) orionSpeed += maxSpeed * 0.005 * deltaTime;
+            // Otherwise, decelerate   
+            else orionSpeed -= orionSpeed * 0.02 * deltaTime;
+            // Clamp the orionSpeed to ensure it remains within a standard range
+            orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
+        }
+        else
+        {
+            orionSpeed = 0;            
+        }
 
         // If the total distance to the hangar has not been exceeded then update the positions of the orion (visual and hitbox) 
         if (orion.position.x - orionStartPosition < totalDistance)
@@ -358,9 +374,16 @@ function update()
 
         var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
 
-        if (pickHelper.pickedObject) hoverSpeed += maxSpeed * 0.005 * deltaTime;   
-        else hoverSpeed -= hoverSpeed * 0.01 * deltaTime;
-        hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
+        if (isDocumentVisible)
+        {
+            if (pickHelper.pickedObject) hoverSpeed += maxSpeed * 0.005 * deltaTime;
+            else hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
+            hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
+        }
+        else
+        {
+            hoverSpeed = 0;
+        }
         var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
         //var hoverAmount = normalisedOrionSpeed; // Mimics a lerp when the mouse hovers over the models
         var hoverAmount = normalisedHoverSpeed; // Mimics a lerp when the mouse hovers over the models
@@ -394,6 +417,8 @@ function update()
         spaceStationVConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
         orionConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
     }
+        }
+
 
     // Render the visual scene and the (hidden) physical scene 
     composer.render();
@@ -420,5 +445,7 @@ if (isWebGLAvailable())
     update();
     document.addEventListener('mousemove', onDocumentMouseMove, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
+    document.addEventListener('visibilitychange', onDocumentVisibilityChange, false);
+      
     window.addEventListener('resize', onWindowResize, false);
 }
