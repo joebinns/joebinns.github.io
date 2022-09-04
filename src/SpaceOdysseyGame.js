@@ -282,7 +282,7 @@ var t = 0;
 var orionShouldMove = false;
 var objectiveComplete = false;
 var orionSpeed = 0;
-//var hoverSpeed = 0;
+var hoverSpeed = 0;
 
 var colorTimeRate = 0.00001;
 const maxSpeed = 0.0005;
@@ -328,12 +328,7 @@ function update()
         {
             uniforms.outlineColor.value.set(targetOutlineColor);
         }
-
-        //if the user pressed 'up' or 'w', set velocity.z to a value > 0.  
-        //if (pickHelper.pickedObject) hoverSpeed += maxSpeed * 0.005 * deltaTime;
-        //reset z velocity to be 0 always. But override it if user presses up or w. See next line...      
-        //else hoverSpeed -= hoverSpeed * 1 * deltaTime;
-        //hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
+        
 
         // If the orionShouldMove, then accelerate
         if (orionShouldMove) orionSpeed += maxSpeed * 0.005 * deltaTime;
@@ -362,7 +357,13 @@ function update()
         }    
 
         var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
-        var hoverAmount = normalisedOrionSpeed; // Mimics a lerp when the mouse hovers over the models
+
+        if (pickHelper.pickedObject) hoverSpeed += maxSpeed * 0.005 * deltaTime;   
+        else hoverSpeed -= hoverSpeed * 0.1 * deltaTime;
+        hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
+        var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
+        //var hoverAmount = normalisedOrionSpeed; // Mimics a lerp when the mouse hovers over the models
+        var hoverAmount = normalisedHoverSpeed; // Mimics a lerp when the mouse hovers over the models
 
         // Scale the models based on the hoverAmount
         var scaleOrion = (1 + 0.1 * hoverAmount) * 10; // Scale between 10 and 11
