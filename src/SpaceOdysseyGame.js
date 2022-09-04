@@ -267,7 +267,7 @@ const sound = new THREE.Audio(listener);
 
 // Load a sound and set it as the Audio object's buffer
 const audioLoader = new THREE.AudioLoader();
-audioLoader.load( 'audio/blue_danube.ogg', function( buffer ) {
+audioLoader.load('audio/blue_danube.ogg', function( buffer ) {
     sound.setBuffer( buffer );
     sound.setLoop( false );
     sound.setVolume( 0.5 );
@@ -379,6 +379,10 @@ function update()
 
         // Adjust the playback rate based on the normalisedOrionSpeed
         sound.setPlaybackRate(normalisedOrionSpeed);
+
+        // Pause if playback rate is zero (to prevent constant speaker icon allocated to the tab)
+        if (normalisedOrionSpeed == 0) sound.pause();
+        else sound.play();
 
         // Rotate the models (visual and physical) based on the normalisedOrionSpeed
         spaceStationV.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
