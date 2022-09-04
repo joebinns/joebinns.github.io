@@ -385,8 +385,8 @@ function update()
         sound.setPlaybackRate(normalisedOrionSpeed);
 
         // Pause if playback rate is zero (to prevent constant speaker icon allocated to the tab)
-        if (normalisedOrionSpeed < 0.01) sound.pause();
-        else if (!sound.isPlaying) sound.play();
+        //if (normalisedOrionSpeed < 0.01) sound.pause();
+        //else if (!sound.isPlaying) sound.play();
 
         // Rotate the models (visual and physical) based on the normalisedOrionSpeed
         spaceStationV.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
