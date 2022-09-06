@@ -199,10 +199,12 @@ function onDocumentVisibilityChange(event)
     if (document.visibilityState === 'visible')
     {
         isDocumentVisible = true;
+        sound.play();
     }
     else
     {
         isDocumentVisible = false;
+        sound.stop();
     }
 }
 
