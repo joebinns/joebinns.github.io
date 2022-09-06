@@ -196,15 +196,16 @@ function onDocumentMouseDown(event)
 
 function onDocumentVisibilityChange(event)
 {
-    if (document.visibilityState === 'visible')
+    if (sound)
     {
-        isDocumentVisible = true;
-        sound.play();
-    }
-    else
-    {
-        isDocumentVisible = false;
-        sound.stop();
+        if (document.visibilityState === 'visible')
+        {
+            sound.play();
+        }
+        else
+        {
+            sound.pause();
+        }
     }
 }
 
