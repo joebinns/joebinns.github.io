@@ -147,9 +147,13 @@ class PickHelper
             {
                 document.body.style.cursor = 'pointer';
             }
-            else
+            else if (!objectiveComplete)
             {
                 document.body.style.cursor = 'default';
+            }
+            else
+            {
+                document.body.style.cursor = 'pointer';
             }
         }
         else
@@ -180,15 +184,18 @@ function onDocumentMouseMove(event)
 
 function onDocumentMouseDown(event)
 {
-    if (!hasUserInteracted)
-    {
-        if (pickHelper.pickedObject)
-        {
+    if (pickHelper.pickedObject) {
+        if (!hasUserInteracted) {
             switch (event.which) {
                 case 1: // left click
                     hasUserInteracted = true;
                     console.log('Initial user interaction')
                     sound.play();
+            }
+        } else if (objectiveComplete) {
+            switch (event.which) {
+                case 1: // left click
+                    window.open("https://github.com/joebinns/joebinns.github.io");
             }
         }
     }
@@ -367,7 +374,7 @@ function update()
                 startOutlineColor = targetOutlineColor;
                 targetOutlineColor = new THREE.Color(0x00974c);
                 objectiveComplete = true;
-                colorTimeRate = 0.01;
+                colorTimeRate = 0.005;
             }
         }    
 
