@@ -286,7 +286,7 @@ const audioLoader = new THREE.AudioLoader();
 audioLoader.load('audio/blue_danube.ogg', function( buffer ) {
     sound.setBuffer( buffer );
     sound.setLoop( false );
-    sound.setVolume( 0.25 );
+    sound.setVolume( 0.1 );
     sound.setPlaybackRate(0);
 });
 
@@ -389,23 +389,29 @@ function update()
         spaceStationV.scale.set(scaleSpaceStationV, scaleSpaceStationV, scaleSpaceStationV);
 
         // Adjust the volume based on the hoverAmount
-        sound.setVolume(0.25 + hoverAmount * 0.25);
+        sound.setVolume(0.1 + hoverAmount * 0.4);
 
         // Set the normalisedOrionSpeed to 1 to continue spinning once objectiveComplete
         if (objectiveComplete)
         {
             normalisedOrionSpeed = 1;
-
         }
 
         // Adjust the playback rate based on the normalisedOrionSpeed
         sound.setPlaybackRate(normalisedOrionSpeed);
 
         // Pause if playback rate is zero (to prevent constant speaker icon allocated to the tab)
-        if (normalisedOrionSpeed < 0.01) sound.pause();
+        // For an unknown reason, this following commented code causes the audio to restart whenever mouse hovers on/off
+        /*
+        if (normalisedOrionSpeed < 0.01) {
+            if (sound.isPlaying){
+                sound.pause();
+            }
+        }
         else if (!sound.isPlaying) {
             sound.play();
         }
+        */
 
         // Rotate the models (visual and physical) based on the normalisedOrionSpeed
         spaceStationV.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
@@ -418,7 +424,7 @@ function update()
     // Render the visual scene and the (hidden) physical scene 
     composer.render();
     dummyComposer.render();
-};
+}
 
 
 /* ----------------------- Check if WebGL is available ---------------------- */
