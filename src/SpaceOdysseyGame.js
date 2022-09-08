@@ -374,7 +374,10 @@ function update()
                 startOutlineColor = targetOutlineColor;
                 targetOutlineColor = new THREE.Color(0x00974c);
                 objectiveComplete = true;
-                colorTimeRate = 0.005;
+                colorTimeRate = 1/240;
+
+                document.getElementById("notification_paragraph").style.display = "inline";
+                document.getElementById("notification_division").classList.add("fade-in");
             }
         }    
 
