@@ -40,7 +40,7 @@
                                         target="_blank">Game Programming</a><a>,</a> -->
                 <!-- <a class="hyperlink" href="documents/work_sample/ws_gp_joe_binns.pdf"
                    target="_blank">Portfolio</a><a>,</a> -->
-                <a class="hyperlink" href="javascript:delay('portfolio.html')"
+                <a id="delayed_link" class="hyperlink" href="documents/work_sample/ws_gp_joe_binns.pdf"
                     target="_blank">Portfolio</a><a>,</a>
             </span>
             <br>
@@ -71,6 +71,21 @@
             <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
         </p>
     </div>
+    <script>
+        var url = document.getElementById('delayed_link');
+
+        url.addEventListener('click', (e)=>{
+            e.preventDefault();
+
+            console.log("url clicked...")
+
+            setTimeout(() =>{
+                window.location.href = url.href;
+                console.log("timeout executed...")
+                // Run page transition code here...
+            }, 0);
+        });
+    </script>
     <!--<script src="./src/index.js"></script>-->
     <script type="importmap">
         {
@@ -90,10 +105,6 @@
     </script>
     <script type="module" src="./src/DocumentDarkMode.js"></script>
     <script type="module" src="./src/SpaceOdysseyGame.js"></script>
-    <script>
-        function delay (URL) {
-            setTimeout( function() { window.location = URL }, 500 );
-        }
-    </script>
+
 </body>
 </html>
