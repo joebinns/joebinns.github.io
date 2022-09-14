@@ -461,3 +461,26 @@ if (isWebGLAvailable())
       
     window.addEventListener('resize', onWindowResize, false);
 }
+
+
+/* ---------------- Transition pages ---------------- */
+var url = document.getElementById('delayed_link');
+
+url.addEventListener('click', (e)=>{
+    e.preventDefault();
+
+    console.log("url clicked...")
+
+    // Run page transition code here...
+    // Fade models
+    t = 0;
+    colorTimeRate = 1/10000;
+    startOutlineColor = uniforms.outlineColor.value;
+    targetOutlineColor = new THREE.Color(0x000000);
+
+    setTimeout(() =>{
+        window.location.href = url.href;
+        console.log("timeout executed...")
+
+    }, 1000);
+});
