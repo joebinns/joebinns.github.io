@@ -42,14 +42,6 @@ h1{
     color: firebrick;
 }
 
-.guiding-hyperlink{
-    color: firebrick;
-    text-decoration: none;
-}
-.guiding-hyperlink:hover{
-    text-decoration: underline;
-}
-
 .greenhyperlink{
     color: #00974c;
     opacity: 0.8;
