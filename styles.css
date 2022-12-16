@@ -7,6 +7,9 @@ body{
     overflow-y: hidden; /* Hide vertical scrollbar */
     overflow-x: hidden; /* Hide horizontal scrollbar */
 }
+.center-text-align {
+    text-align: center;
+}
 .left-text-align {
     text-align: left;
 }
@@ -20,7 +23,7 @@ span.line{
     white-space: nowrap;
 }
 span.tab {
-    margin-left: 10px;
+    margin-left: 2.5px;
 }
 h1{
     font-family: Helvetica, Arial, sans-serif;
@@ -28,7 +31,7 @@ h1{
     color: black;
     font-size: 46px;
     text-decoration: none;
-    line-height: 0.5;
+    line-height: 0;
 }
 .hyperlink{
     color: royalblue;
@@ -52,6 +55,12 @@ h1{
     opacity: 1.0;
     border-bottom: 1px solid #00974c;
 }
+.upper-center{
+    position: fixed;
+    left: 50%;
+    -ms-transform: translate(-50%, 0%);
+    transform: translate(-50%, 0%);
+}
 .upper-left{
     position: fixed;
     top: 0px;
@@ -62,11 +71,18 @@ h1{
     top: 0px;
     right: 0px;
 }
+.lower-center{
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
 .padding{
-    padding-top: 5px;
-    padding-right: 25px;
+    padding-top: 10px;
+    padding-right: 10px;
     padding-bottom: 5px;
-    padding-left: 25px;
+    padding-left: 10px;
 }
 .right{
     position: fixed;

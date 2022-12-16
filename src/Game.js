@@ -25,102 +25,126 @@ import {CustomOutlinePass} from './CustomOutlinePass.js'; // CustomOutlinePass h
 */
 
 
-/* ---------------------------- Declare scenes --------------------------- */
-const visualScene = new THREE.Scene();
-const physicalScene = new THREE.Scene(); // An un-rendered scene which is used for raycasting to convex versions of the visual models.
-
-
-/* ---------------------------- Setup the camera ---------------------------- */
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 7.5;
-
-
-/* -------------------------- Setup the renderer -------------------------- */
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality)
-document.body.appendChild(renderer.domElement);
-const renderTarget = new THREE.WebGLRenderTarget(
-    window.innerWidth,
-    window.innerHeight
-);
-
-
-/* ---------- Setup the composer (renderer with post processing) ---------- */
-const composer = new EffectComposer(renderer, renderTarget);
-const dummyComposer = new EffectComposer(new THREE.WebGLRenderer(), renderTarget); 
-
-// 1) Render pass
-// Skipping the regular render pass as to only render a custom outline.
-
-// 2) Post processing
-// Outline pass
-const customOutline = new CustomOutlinePass(
-    new THREE.Vector2(window.innerWidth, window.innerHeight),
-    visualScene,
-    camera
-);
-composer.addPass(customOutline);
-
-// 3) Declare Custom Outline uniforms
-const uniforms = customOutline.fsQuad.material.uniforms;
-
-// Prepare colors for a fade in lerp
-let currentOutlineColor = new THREE.Color();
-var startOutlineColor;
-var targetOutlineColor;
-const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-if(userPrefersDark){
-    startOutlineColor = new THREE.Color(0x000000); // black     
-    targetOutlineColor = new THREE.Color(0xffffff); // white
-}
-else
+class Game
 {
-    startOutlineColor = new THREE.Color(0xffffff); // white
-    targetOutlineColor = new THREE.Color(0x000000); // black
-}
-currentOutlineColor = startOutlineColor;
+    constructor(cameraProperties)
+    {
+        /* ---------------------------- Declare scenes --------------------------- */
+        this.visualScene = new THREE.Scene();
+        this.physicalScene = new THREE.Scene(); // An un-rendered scene which is used for raycasting to convex versions of the visual models.
 
-uniforms.outlineColor.value.set(startOutlineColor); 
+        
+        /* ---------------------------- Setup the camera ---------------------------- */
+        this.camera = new THREE.PerspectiveCamera(cameraProperties.fov, window.innerWidth / window.innerHeight, 0.1, cameraProperties.far);
+        camera.position = cameraProperties.position;
 
-// Multiple scalar values packed into one uniform: Depth bias, depth multiplier, and same for normals
-uniforms.multiplierParameters.value.x = 0.25;
-uniforms.multiplierParameters.value.y = 10;
-uniforms.multiplierParameters.value.z = 1;
-uniforms.multiplierParameters.value.w = 0;
+        
+        /* -------------------------- Setup the renderer -------------------------- */
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality) // TODO: Read into improving image quality
+        document.body.appendChild(renderer.domElement);
+        const renderTarget = new THREE.WebGLRenderTarget(
+            window.innerWidth,
+            window.innerHeight
+        );
+
+        
+        /* ---------- Setup the composer (renderer with post processing) ---------- */
+        const composer = new EffectComposer(renderer, renderTarget);
+        const dummyComposer = new EffectComposer(new THREE.WebGLRenderer(), renderTarget);
+
+        // 1) Render pass
+        // Skipping the regular render pass as to only render a custom outline.
+        
+        // 2) Post processing
+        // Outline pass
+        const customOutline = new CustomOutlinePass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            visualScene,
+            camera
+        );
+        composer.addPass(customOutline);
+
+        // 3) Declare Custom Outline uniforms
+        const uniforms = customOutline.fsQuad.material.uniforms;
+
+        // Prepare colors for a fade in lerp
+        let currentOutlineColor = new THREE.Color();
+        var startOutlineColor;
+        var targetOutlineColor;
+        const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if(userPrefersDark){
+            startOutlineColor = new THREE.Color(0x000000); // black     
+            targetOutlineColor = new THREE.Color(0xffffff); // white
+        }
+        else
+        {
+            startOutlineColor = new THREE.Color(0xffffff); // white
+            targetOutlineColor = new THREE.Color(0x000000); // black
+        }
+        currentOutlineColor = startOutlineColor;
+
+        uniforms.outlineColor.value.set(startOutlineColor);
+
+        // Multiple scalar values packed into one uniform:
+        uniforms.multiplierParameters.value.x = 0.25; // Depth bias
+        uniforms.multiplierParameters.value.y = 10; // Depth multiplier
+        uniforms.multiplierParameters.value.z = 1; // Normal bias
+        uniforms.multiplierParameters.value.w = 0; // Normal multiplier
+
+        // 4) Anti-alias pass
+        const effectFXAA = new ShaderPass(FXAAShader);
+        effectFXAA.uniforms['resolution'].value.set(
+            1 / window.innerWidth,
+            1 / window.innerHeight
+        );
+        composer.addPass(effectFXAA);
+
+        // 5) Un-seen outline pass on physical scene (otherwise it seems that the objects positions in the physicalScene do not update (?))
+        const dummyOutline = new CustomOutlinePass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            physicalScene,
+            camera
+        );
+        dummyComposer.addPass(dummyOutline);
+        
+        
+        /* -------------------------- Setup object selector ------------------------- */
+        const pickHelper = new PickHelper();
+
+    }
+
+    /* ------------------------ Account for window resize ----------------------- */
+    onWindowResize()
+    {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
     
-// 4) Anti-alias pass
-const effectFXAA = new ShaderPass(FXAAShader);
-effectFXAA.uniforms['resolution'].value.set(
-1 / window.innerWidth,
-1 / window.innerHeight
-);
-composer.addPass(effectFXAA);
-
-// 5) Un-seen outline pass on physical scene (otherwise it seems that the objects positions in the physicalScene do not update (?))
-const dummyOutline = new CustomOutlinePass(
-    new THREE.Vector2(window.innerWidth, window.innerHeight),
-    physicalScene,
-    camera
-);
-dummyComposer.addPass(dummyOutline);
-
-
-/* ------------------------ Account for window resize ----------------------- */
-function onWindowResize()
-{
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-    dummyComposer.setSize(window.innerWidth, window.innerHeight);
-    effectFXAA.setSize(window.innerWidth, window.innerHeight);
-    customOutline.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
+        dummyComposer.setSize(window.innerWidth, window.innerHeight);
+        effectFXAA.setSize(window.innerWidth, window.innerHeight);
+        customOutline.setSize(window.innerWidth, window.innerHeight);
+    }
 }
 
 
-/* -------------------------- Setup object selector ------------------------- */
+/* -------------------------- Declare camera properties ------------------------- */
+class CameraProperties
+{
+    constructor(fov, far, position)
+    {
+        this.fov = fov;
+        this.far = far;
+        this.position = position;
+    }
+}
+
+const cameraProperties = new CameraProperties(75, 1000, new THREE.Vector3(0, 0, 7.5));
+
+
+/* -------------------------- Object selector ------------------------- */
 class PickHelper
 {
     constructor()
@@ -138,35 +162,42 @@ class PickHelper
 
         if (intersectedObjects.length)
         {
-            // Pick the first object. It's the closest one
+            // Pick the first object, it's the closest one
             this.pickedObject = intersectedObjects[0].object.parent;
 
-            // Make the cursor a pointer hand
-            if (!hasUserInteracted)
-            {
-                document.body.style.cursor = 'pointer';
-            }
-            else if (!objectiveComplete)
-            {
-                document.body.style.cursor = 'default';
-            }
-            else
-            {
-                document.body.style.cursor = 'pointer';
-            }
+            // Determine the appropriate cursor
+            document.body.style.cursor = this.getAppropriateCursor();
         }
         else
         {
             // Reset the cursor
             document.body.style.cursor = 'default';
-            
+
             // Reset the object
             this.pickedObject = null;
         }
     }
+    
+    getAppropriateCursor()
+    {
+        // Determine the appropriate cursor
+        return 'default';
+    }
 }
 
-const pickHelper = new PickHelper();
+new Game(cameraProperties)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ---------------------------- Setup controller ---------------------------- */
