@@ -1,10 +1,26 @@
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1.0">
+        <script type="importmap">
+        {
+            "imports":
+            {
+                "jquery": "https://unpkg.com/jquery/dist/jquery.min.js",
+                "three": "https://unpkg.com/three/build/three.module.js",
+                "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
+                "effectcomposer": "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
+                "shaderpass": "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
+                "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
+                "audio": "https://unpkg.com/three/src/audio/Audio.js",
+                "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
+                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
+                "pass": "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js"
+            }
+        }
+        </script>
+        <script type="module" src="./src/IncludeHTML.js"></script>
+        <script src="./src/IsDarkMode.js"></script>
+        <div data-include="head"></div>
         <title>Joe Binns</title>
-        <link rel="stylesheet" href="styles.css">
-        <link id="shortcuticon" rel="shortcut icon" href="images/globe_box_optimised.svg">
     </head>
     <body>
         <div id="notification_division" class="upper-left" style="animation-iteration-count:1;padding:4px;">
@@ -14,25 +30,10 @@
                 </a>
             </p>
         </div>
-        <div w3-include-html="menu.html"></div>
-        <script type="importmap">
-            {
-                "imports":
-                {
-                    "three": "https://unpkg.com/three/build/three.module.js",
-                    "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
-                    "effectcomposer": "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
-                    "shaderpass": "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
-                    "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
-                    "audio": "https://unpkg.com/three/src/audio/Audio.js",
-                    "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
-                    "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
-                    "pass": "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js"
-                }
-            }
-        </script>
-        <script type="module" src="./src/IncludeHTML.js"></script>
-        <script type="module" src="./src/DocumentDarkMode.js"></script>
+        <div data-include="header"></div>
+        <div data-include="footer"></div>
+        <!--
         <script type="module" src="./src/SpaceOdysseyGame.js"></script>
+        -->
     </body>
 </html>

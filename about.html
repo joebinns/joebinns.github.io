@@ -1,42 +1,39 @@
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0">
+    <script type="importmap">
+        {
+            "imports":
+            {
+                "jquery": "https://unpkg.com/jquery/dist/jquery.min.js",
+                "three": "https://unpkg.com/three/build/three.module.js",
+                "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
+                "effectcomposer": "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
+                "shaderpass": "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
+                "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
+                "audio": "https://unpkg.com/three/src/audio/Audio.js",
+                "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
+                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
+                "pass": "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js"
+            }
+        }
+        </script>
+    <script type="module" src="./src/IncludeHTML.js"></script>
+    <script src="./src/IsDarkMode.js"></script>
+    <div data-include="head"></div>
     <title>About | Joe Binns</title>
-    <link rel="stylesheet" href="styles.css">
-    <link id="shortcuticon" rel="shortcut icon" href="images/globe_box_optimised.svg">
 </head>
 <body>
-<div class="upper-right padding">
-    <h1>
-        Joe Binns
-    </h1>
-    <p class="right-text-align">
-        <a class="hyperimage" href="https://github.com/joebinns" target="_blank"><img id="github" src="images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
-        <a> </a>
-        <a class="hyperimage" href="mailto:joebinns.95@gmail.com" target="_blank"><img id="mail" src="images/mail_box_optimised.svg" alt="email" width="20" height="20"></a>
-        <a> </a>
-        <a class="hyperimage" href="https://joebinns.itch.io/" target="_blank"><img id="itchdotio" src="images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
-        <a> </a>
-        <a class="hyperimage" href="https://www.youtube.com/channel/UCw7E9coBaTrn773ZCHAzc4w" target="_blank"><img id="youtube" src="images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
-        <a> </a>
-        <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
+<div id="notification_division" class="upper-left" style="animation-iteration-count:1;padding:4px;">
+    <p id="notification_paragraph" style="display:none">
+        <a id="notification_hyper" class="greenhyperlink" href="mailto:joebinns.95@gmail.com" target="_blank">
+            <img id="notification" style="display:inline;" src="images/circle_green_optimised.svg" alt="Green Circle" width="12" height="12"> Available for work
+        </a>
     </p>
-    <table class="right-text-align right" style="padding-right: 25px;">
-        <tr>
-            <td><a>00</a><span class="tab"></span></td>
-            <td><a class="hyperlink" href="index.html">Home</a></td>
-        </tr>
-        <tr>
-            <td><a><u>01</u></a><span class="tab"></span></td>
-            <td><a class="hyperlink" href="about.html">About</a></td>
-        </tr>
-        <tr>
-            <td><a>02</a><span class="tab"></span></td>
-            <td><a id="delayed_link" class="hyperlink" href="portfolio.html">Portfolio</a></td>
-        </tr>
-    </table>
 </div>
-<script type="module" src="./src/DocumentDarkMode.js"></script>
+<div data-include="header"></div>
+<div data-include="footer"></div>
+<!--
+<script type="module" src="./src/SpaceOdysseyGame.js"></script>
+-->
 </body>
 </html>
