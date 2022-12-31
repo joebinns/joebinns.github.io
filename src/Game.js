@@ -36,14 +36,14 @@ class Game
         
         /* ---------------------------- Setup the camera ---------------------------- */
         this.camera = new THREE.PerspectiveCamera(cameraProperties.fov, window.innerWidth / window.innerHeight, 0.1, cameraProperties.far);
-        camera.position = cameraProperties.position;
+        this.camera.position = cameraProperties.position;
 
         
         /* -------------------------- Setup the renderer -------------------------- */
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality) // TODO: Read into improving image quality
-        document.body.appendChild(renderer.domElement);
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality) // TODO: Read into improving image quality
+        document.body.appendChild(this.renderer.domElement);
         const renderTarget = new THREE.WebGLRenderTarget(
             window.innerWidth,
             window.innerHeight
@@ -51,81 +51,195 @@ class Game
 
         
         /* ---------- Setup the composer (renderer with post processing) ---------- */
-        const composer = new EffectComposer(renderer, renderTarget);
-        const dummyComposer = new EffectComposer(new THREE.WebGLRenderer(), renderTarget);
+        this.composer = new EffectComposer(renderer, renderTarget);
+        this.dummyComposer = new EffectComposer(new THREE.WebGLRenderer(), renderTarget);
 
         // 1) Render pass
         // Skipping the regular render pass as to only render a custom outline.
         
         // 2) Post processing
         // Outline pass
-        const customOutline = new CustomOutlinePass(
+        this.customOutline = new CustomOutlinePass(
             new THREE.Vector2(window.innerWidth, window.innerHeight),
-            visualScene,
-            camera
+            this.visualScene,
+            this.camera
         );
-        composer.addPass(customOutline);
+        this.composer.addPass(customOutline);
 
         // 3) Declare Custom Outline uniforms
-        const uniforms = customOutline.fsQuad.material.uniforms;
+        this.uniforms = this.customOutline.fsQuad.material.uniforms;
 
         // Prepare colors for a fade in lerp
-        let currentOutlineColor = new THREE.Color();
-        var startOutlineColor;
-        var targetOutlineColor;
-        const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if(userPrefersDark){
-            startOutlineColor = new THREE.Color(0x000000); // black     
-            targetOutlineColor = new THREE.Color(0xffffff); // white
+        this.userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        this.startOutlineColor = new THREE.Color(0xffffff); // white
+        this.targetOutlineColor = new THREE.Color(0x000000); // black
+        if(this.userPrefersDark){
+            this.startOutlineColor = new THREE.Color(0x000000); // black
+            this.targetOutlineColor = new THREE.Color(0xffffff); // white
         }
-        else
-        {
-            startOutlineColor = new THREE.Color(0xffffff); // white
-            targetOutlineColor = new THREE.Color(0x000000); // black
-        }
-        currentOutlineColor = startOutlineColor;
+        this.currentOutlineColor = startOutlineColor;
 
-        uniforms.outlineColor.value.set(startOutlineColor);
+        this.uniforms.outlineColor.value.set(startOutlineColor);
 
         // Multiple scalar values packed into one uniform:
-        uniforms.multiplierParameters.value.x = 0.25; // Depth bias
-        uniforms.multiplierParameters.value.y = 10; // Depth multiplier
-        uniforms.multiplierParameters.value.z = 1; // Normal bias
-        uniforms.multiplierParameters.value.w = 0; // Normal multiplier
+        this.uniforms.multiplierParameters.value.x = 0.25; // Depth bias
+        this.uniforms.multiplierParameters.value.y = 10; // Depth multiplier
+        this.uniforms.multiplierParameters.value.z = 1; // Normal bias
+        this.uniforms.multiplierParameters.value.w = 0; // Normal multiplier
 
         // 4) Anti-alias pass
-        const effectFXAA = new ShaderPass(FXAAShader);
-        effectFXAA.uniforms['resolution'].value.set(
+        this.effectFXAA = new ShaderPass(FXAAShader);
+        this.effectFXAA.uniforms['resolution'].value.set(
             1 / window.innerWidth,
             1 / window.innerHeight
         );
-        composer.addPass(effectFXAA);
+        this.composer.addPass(this.effectFXAA);
 
         // 5) Un-seen outline pass on physical scene (otherwise it seems that the objects positions in the physicalScene do not update (?))
         const dummyOutline = new CustomOutlinePass(
             new THREE.Vector2(window.innerWidth, window.innerHeight),
-            physicalScene,
-            camera
+            this.physicalScene,
+            this.camera
         );
-        dummyComposer.addPass(dummyOutline);
+        this.dummyComposer.addPass(dummyOutline);
         
         
         /* -------------------------- Setup object selector ------------------------- */
-        const pickHelper = new PickHelper();
+        this.pickHelper = new PickHelper();
+
+
+        /* ---------------------------- Setup controller ---------------------------- */
+        this.mouse = new THREE.Vector2();
+        this.hasUserInteracted = false;
+        this.isDocumentVisible = true;
+
+
+        /* ---------------------------- Setup objects ---------------------------- */
+
 
     }
+
 
     /* ------------------------ Account for window resize ----------------------- */
     onWindowResize()
     {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
     
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        composer.setSize(window.innerWidth, window.innerHeight);
-        dummyComposer.setSize(window.innerWidth, window.innerHeight);
-        effectFXAA.setSize(window.innerWidth, window.innerHeight);
-        customOutline.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.composer.setSize(window.innerWidth, window.innerHeight);
+        this.dummyComposer.setSize(window.innerWidth, window.innerHeight);
+        this.effectFXAA.setSize(window.innerWidth, window.innerHeight);
+        this.customOutline.setSize(window.innerWidth, window.innerHeight);
+    }
+
+
+    /* ---------------------------- Setup controller ---------------------------- */
+    onDocumentMouseMove(event)
+    {
+        event.preventDefault();
+        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    onDocumentMouseDown(event)
+    {
+        if (this.pickHelper.pickedObject) {
+            if (!this.hasUserInteracted) {
+                switch (event.which) {
+                    case 1: // left click
+                        this.hasUserInteracted = true;
+                        console.log('Initial user interaction')
+                        sound.play();
+                }
+            } else if (objectiveComplete) {
+                switch (event.which) {
+                    case 1: // left click
+                        window.open("https://github.com/joebinns/joebinns.github.io");
+                }
+            }
+        }
+    }
+
+    onDocumentVisibilityChange(event)
+    {
+        if (sound)
+        {
+            if (document.visibilityState === 'visible')
+            {
+                sound.play();
+            }
+            else
+            {
+                sound.pause();
+            }
+        }
+    }
+
+
+    /* ---------------------------- Setup objects ---------------------------- */
+    loadGLTF(path)
+    {
+        return new Promise(resolve => {
+            new GLTFLoader().load(path, resolve);
+        });
+    }
+
+    setupObjects()
+    {
+        const group = new THREE.Group();
+        var spaceStationV, orion;
+        const groupConvex = new THREE.Group();
+        var spaceStationVConvex, orionConvex;
+
+        const spaceStationVDistance = 12;
+        const orionDistance = 8;
+        const totalDistance = spaceStationVDistance + orionDistance - 1.7; // Subtracting the distance from the center of SpaceStationV to the hangar
+
+        var orionStartPosition;
+        var areModelsLoaded = false;
+
+        // Import models with promises (regular models used for visuals and convex models used for hitboxes)
+        let promiseSpaceStationV = loadGLTF('models/space_station_v/SpaceStationV_Simplified.glb').then(result => { spaceStationV = result.scene; });
+        let promiseOrion = loadGLTF('models/orion/Orion_Simplified_Small.glb').then(result => { orion = result.scene; });
+        let promiseSpaceStationVConvex = loadGLTF('models/space_station_v/SpaceStationV_Simplified_Convex.glb').then(result => { spaceStationVConvex = result.scene; });
+        let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.glb').then(result => { orionConvex = result.scene; });
+
+        // Set up the objects in their scenes, once all the models have loaded
+        Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
+            // Group visual objects
+            group.add(spaceStationV);
+            group.add(orion);
+            // Group hitbox objects
+            groupConvex.add(spaceStationVConvex);
+            groupConvex.add(orionConvex);
+
+            // Rotate groups
+            group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
+            groupConvex.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
+
+            // Rescale objects (some smaller versions of models are imported and upscaled to reduce their depth buffer range)
+            orion.scale.set(10, 10, 10);
+            orionConvex.scale.set(10, 10, 10);
+
+            // Displace objects along their local axes
+            spaceStationV.position.set(spaceStationVDistance, 0, 0);
+            orion.position.set(-orionDistance, 0, 0);
+            spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
+            orionConvex.position.set(-orionDistance, 0, 0);
+
+            // Apply the custom outline to the visual objects
+            spaceStationV.traverse(node => node.applyOutline = true);
+            orion.traverse(node => node.applyOutline = true);
+
+            // Add the groups to their respective scenes
+            visualScene.add(group);
+            physicalScene.add(groupConvex);
+
+            // Take note of some common variables for ease of use during updates
+            orionStartPosition = orion.position.x;
+            areModelsLoaded = true;
+        });
     }
 }
 
@@ -177,11 +291,22 @@ class PickHelper
             this.pickedObject = null;
         }
     }
-    
+
     getAppropriateCursor()
     {
         // Determine the appropriate cursor
-        return 'default';
+        if (!hasUserInteracted)
+        {
+            document.body.style.cursor = 'pointer';
+        }
+        else if (!objectiveComplete)
+        {
+            document.body.style.cursor = 'default';
+        }
+        else
+        {
+            document.body.style.cursor = 'pointer';
+        }
     }
 }
 
@@ -200,114 +325,14 @@ new Game(cameraProperties)
 
 
 
-/* ---------------------------- Setup controller ---------------------------- */
-var mouse = new THREE.Vector2();
-var hasUserInteracted = false;
-var isDocumentVisible = true;
-
-function onDocumentMouseMove(event)
-{
-    event.preventDefault();
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-}
-
-function onDocumentMouseDown(event)
-{
-    if (pickHelper.pickedObject) {
-        if (!hasUserInteracted) {
-            switch (event.which) {
-                case 1: // left click
-                    hasUserInteracted = true;
-                    console.log('Initial user interaction')
-                    sound.play();
-            }
-        } else if (objectiveComplete) {
-            switch (event.which) {
-                case 1: // left click
-                    window.open("https://github.com/joebinns/joebinns.github.io");
-            }
-        }
-    }
-}
-
-function onDocumentVisibilityChange(event)
-{
-    if (sound)
-    {
-        if (document.visibilityState === 'visible')
-        {
-            sound.play();
-        }
-        else
-        {
-            sound.pause();
-        }
-    }
-}
 
 
-/* ---------------------------- Setup objects ---------------------------- */
-function loadGLTF(path)
-{
-    return new Promise(resolve => {
-        new GLTFLoader().load(path, resolve);
-    });
-}
 
-const group = new THREE.Group();
-var spaceStationV, orion;
-const groupConvex = new THREE.Group();
-var spaceStationVConvex, orionConvex;
 
-const spaceStationVDistance = 12;
-const orionDistance = 8;
-const totalDistance = spaceStationVDistance + orionDistance - 1.7; // Subtracting the distance from the center of SpaceStationV to the hangar
 
-var orionStartPosition;
-var areModelsLoaded = false;
 
-// Import models with promises (regular models used for visuals and convex models used for hitboxes)
-let promiseSpaceStationV = loadGLTF('models/space_station_v/SpaceStationV_Simplified.glb').then(result => { spaceStationV = result.scene; });
-let promiseOrion = loadGLTF('models/orion/Orion_Simplified_Small.glb').then(result => { orion = result.scene; });
-let promiseSpaceStationVConvex = loadGLTF('models/space_station_v/SpaceStationV_Simplified_Convex.glb').then(result => { spaceStationVConvex = result.scene; });
-let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.glb').then(result => { orionConvex = result.scene; });
 
-// Setup the objects in their scenes, once all the models have loaded
-Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
-    // Group visual objects
-    group.add(spaceStationV);
-    group.add(orion);
-    // Group hitbox objects
-    groupConvex.add(spaceStationVConvex);
-    groupConvex.add(orionConvex);
 
-    // Rotate groups
-    group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
-    groupConvex.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
-
-    // Rescale objects (some smaller versions of models are imported and upscaled to reduce their depth buffer range)
-    orion.scale.set(10, 10, 10);
-    orionConvex.scale.set(10, 10, 10);
-
-    // Displace objects along their local axes
-    spaceStationV.position.set(spaceStationVDistance, 0, 0);
-    orion.position.set(-orionDistance, 0, 0);
-    spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
-    orionConvex.position.set(-orionDistance, 0, 0);
-
-    // Apply the custom outline to the visual objects
-    spaceStationV.traverse(node => node.applyOutline = true);
-    orion.traverse(node => node.applyOutline = true);
-
-    // Add the groups to their respective scenes
-    visualScene.add(group);
-    physicalScene.add(groupConvex);
-    
-    // Take note of some common variables for ease of use during updates
-    orionStartPosition = orion.position.x;
-    areModelsLoaded = true;
-});
 
 
 /* ------------------------------ Setup audio ----------------------------- */
