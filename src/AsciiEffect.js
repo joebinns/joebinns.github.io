@@ -26,7 +26,7 @@ function AsciiEffect ( renderer, charSet, options ) {
 	var width, height;
 
 	var domElement = document.createElement( 'div' );
-	domElement.style.cursor = 'default';
+	//domElement.style.cursor = 'default';
 
 	var oAscii = document.createElement( "table" );
 	domElement.appendChild( oAscii );
@@ -244,18 +244,18 @@ function AsciiEffect ( renderer, charSet, options ) {
 				if ( strThisChar === undefined || strThisChar == " " )
 					strThisChar = "&nbsp;";
 
-				if ( bColor ) {
+				if (x == y)
+					strThisChar = "<a href='https://www.youtube.com/feed/subscriptions'>Ö</a>";
 
+				if ( bColor ) {
 					strChars += "<span style='"
 						+ "color:rgb(" + iRed + "," + iGreen + "," + iBlue + ");"
 						+ ( bBlock ? "background-color:rgb(" + iRed + "," + iGreen + "," + iBlue + ");" : "" )
 						+ ( bAlpha ? "opacity:" + ( iAlpha / 255 ) + ";" : "" )
 						+ "'>" + strThisChar + "</span>";
-
-				} else {
-
+				}
+				else {
 					strChars += strThisChar;
-
 				}
 
 			}

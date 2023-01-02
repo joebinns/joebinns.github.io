@@ -19,7 +19,8 @@
         "imports":
         {
             "three": "https://unpkg.com/three/build/three.module.js",
-            "three-trackballcontrols": "https://unpkg.com/three/examples/jsm/controls/TrackballControls.js"
+            "three-trackballcontrols": "https://unpkg.com/three/examples/jsm/controls/TrackballControls.js",
+            "three-gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js"
         }
     }
 </script>
@@ -28,7 +29,7 @@
     import * as THREE from "three";
     import { AsciiEffect } from "./AsciiEffect.js";
     import { TrackballControls } from "three-trackballcontrols";
-
+    import { GLTFLoader } from "three-gltfloader";
 
     let camera, controls, scene, renderer, effect;
 
@@ -41,9 +42,8 @@
 
     function init() {
 
-        camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
-        camera.position.y = 150;
-        camera.position.z = 500;
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 7.5;
 
         scene = new THREE.Scene();
         scene.background = new THREE.Color( 0, 0, 0 );
@@ -56,20 +56,62 @@
         pointLight2.position.set( - 500, - 500, - 500 );
         scene.add( pointLight2 );
 
-        sphere = new THREE.Mesh( new THREE.SphereGeometry( 200, 20, 10 ), new THREE.MeshPhongMaterial( { flatShading: false } ) );
-        scene.add( sphere );
 
-        // Plane
+        /* ---------------------------- Setup objects ---------------------------- */
+        function loadGLTF(path)
+        {
+            return new Promise(resolve => {
+                new GLTFLoader().load(path, resolve);
+            });
+        }
 
-        plane = new THREE.Mesh( new THREE.PlaneGeometry( 400, 400 ), new THREE.MeshBasicMaterial( { color: 0xe0e0e0 } ) );
-        plane.position.y = - 200;
-        plane.rotation.x = - Math.PI / 2;
-        scene.add( plane );
+        const group = new THREE.Group();
+        var spaceStationV, orion;
+
+        const spaceStationVDistance = 10;
+        const orionDistance = 4;
+        const totalDistance = spaceStationVDistance + orionDistance - 1.7; // Subtracting the distance from the center of SpaceStationV to the hangar
+
+        var orionStartPosition;
+        var areModelsLoaded = false;
+
+        // Import models with promises (regular models used for visuals and convex models used for hitboxes)
+        let promiseSpaceStationV = loadGLTF('../models/space_station_v/SpaceStationV_Simplified.glb').then(result => { spaceStationV = result.scene; });
+        let promiseOrion = loadGLTF('../models/orion/Orion_Simplified_Small.glb').then(result => { orion = result.scene; });
+
+        // Setup the objects in their scenes, once all the models have loaded
+        Promise.all([promiseSpaceStationV, promiseOrion]).then(() => {
+            // Group visual objects
+            group.add(spaceStationV);
+            group.add(orion);
+
+            // Rotate groups
+            group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
+
+            // Rescale objects (some smaller versions of models are imported and upscaled to reduce their depth buffer range)
+            orion.scale.set(10, 10, 10);
+
+            // Displace objects along their local axes
+            spaceStationV.position.set(spaceStationVDistance, 0, 0);
+            orion.position.set(-orionDistance, 0, 0);
+
+            // Apply the custom outline to the visual objects
+            spaceStationV.traverse(node => node.applyOutline = true);
+            orion.traverse(node => node.applyOutline = true);
+
+            // Add the groups to their respective scenes
+            scene.add(group);
+
+            // Take note of some common variables for ease of use during updates
+            orionStartPosition = orion.position.x;
+            areModelsLoaded = true;
+        });
+
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
 
-        effect = new AsciiEffect( renderer, ' .:-+*=%@#', { invert: true, resolution: 0.1 } );
+        effect = new AsciiEffect( renderer, ' .:-+*=%@#', { invert: true, resolution: 0.15 } );
         effect.setSize( window.innerWidth, window.innerHeight );
         effect.domElement.style.color = 'orange';
         effect.domElement.style.backgroundColor = 'black';
@@ -110,10 +152,6 @@
     function render() {
 
         const timer = Date.now() - start;
-
-        sphere.position.y = Math.abs( Math.sin( timer * 0.002 ) ) * 150;
-        sphere.rotation.x = timer * 0.0003;
-        sphere.rotation.z = timer * 0.0002;
 
         controls.update();
 
