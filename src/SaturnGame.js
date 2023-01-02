@@ -34,7 +34,8 @@ camera.position.z = 7.5;
 
 
 /* -------------------------- Setup the renderer -------------------------- */
-const renderer = new THREE.WebGLRenderer();
+const canvas = document.querySelector('#c');
+const renderer = new THREE.WebGLRenderer({canvas});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality)
 document.body.appendChild(renderer.domElement);
@@ -175,11 +176,6 @@ function onDocumentMouseDown(event)
                     console.log('Initial user interaction')
                     sound.play();
             }
-        } else if (objectiveComplete) {
-            switch (event.which) {
-                case 1: // left click
-                    window.open("https://github.com/joebinns/joebinns.github.io");
-            }
         }
     }
 }
@@ -244,6 +240,18 @@ Promise.all([promiseSaturn, promiseRing]).then(() => {
 });
 
 
+/* ------------------------------ Setup text ------------------------------ */
+const labelContainerElem = document.querySelector('#labels');
+
+const elem = document.createElement('div');
+const subelem = document.createElement('a');
+subelem.textContent = "MAGNESIUM SULFATE HOLY SHIT";
+subelem.classList.add("hyperlink");
+subelem.href = "https://www.youtube.com/feed/subscriptions";
+elem.appendChild(subelem);
+labelContainerElem.appendChild(elem);
+
+
 /* ------------------------------ Setup audio ----------------------------- */
 // Create an AudioListener and add it to the camera
 const listener = new THREE.AudioListener();
@@ -270,6 +278,8 @@ var hoverSpeed = 0;
 
 var colorTimeRate = 0.00001;
 const maxSpeed = 0.0005;
+
+const tempV = new THREE.Vector3();
 
 function update()
 {
@@ -337,6 +347,26 @@ function update()
         // Rotate the models (visual and physical) based on the normalisedOrionSpeed
         saturn.rotation.y += deltaTime * normalisedHoverSpeed * 0.00025;
         ring.rotation.y += deltaTime * normalisedHoverSpeed * 0.00025;
+
+
+
+
+
+        // get the position of the center of the cube
+        saturn.updateWorldMatrix(true, false);
+        saturn.getWorldPosition(tempV);
+
+        // get the normalized screen coordinate of that position
+        // x and y will be in the -1 to +1 range with x = -1 being
+        // on the left and y = -1 being on the bottom
+        tempV.project(camera);
+
+        // convert the normalized position to CSS coordinates
+        const x = (tempV.x *  .5 + .5) * canvas.clientWidth;
+        const y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+
+        // move the elem to that position
+        elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;
     }
 
     // Render the visual scene
