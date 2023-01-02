@@ -245,7 +245,7 @@ const labelContainerElem = document.querySelector('#labels');
 
 const elem = document.createElement('div');
 const subelem = document.createElement('a');
-subelem.textContent = "MAGNESIUM SULFATE HOLY SHIT";
+subelem.textContent = "Stylised Character Controller";
 subelem.classList.add("hyperlink");
 subelem.href = "https://www.youtube.com/feed/subscriptions";
 elem.appendChild(subelem);

@@ -1,3 +1,4 @@
+
 body{
     margin: 0;
     background: white;
@@ -7,6 +8,23 @@ body{
     overflow-y: hidden; /* Hide vertical scrollbar */
     overflow-x: hidden; /* Hide horizontal scrollbar */
 }
+
+#c {
+    width: 100%;  /* let our container decide our size */
+    height: 100%;
+}
+#container {
+    position: relative;  /* makes this the origin of its children */
+    width: 100vw;
+    height: 0vh; /* not sure why this doesn't work with 100vh (as expected) */
+}
+#labels {
+    position: absolute;  /* let us position ourself inside the container */
+    left: 0;             /* make our position the top left of the container */
+    top: 0;
+}
+
+
 .center-text-align {
     text-align: center;
 }
