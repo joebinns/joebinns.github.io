@@ -118,18 +118,29 @@ class PickHelper
         this.pickedObject = null;
     }
 
-    pick(normalizedPosition, scene, camera)
+    getPickedObject(normalizedPosition, scene, camera)
     {
+        let pickedObject = null;
+
         // Cast a ray through the frustum
         this.raycaster.setFromCamera(normalizedPosition, camera);
         // Get the list of objects the ray intersected
         const intersectedObjects = this.raycaster.intersectObjects(scene.children);
 
-        if (intersectedObjects.length)
-        {
+        if (intersectedObjects.length) {
             // Pick the first object. It's the closest one
-            this.pickedObject = intersectedObjects[0].object.parent;
+            pickedObject = intersectedObjects[0].object.parent;
+        }
 
+        return pickedObject;
+    }
+
+    pick(normalizedPosition, scene, camera)
+    {
+        this.pickedObject = this.getPickedObject(normalizedPosition, scene, camera);
+
+        if (this.pickedObject != null)
+        {
             // Make the cursor a pointer hand
             if (!hasUserInteracted)
             {
@@ -196,6 +207,18 @@ function onDocumentVisibilityChange(event)
 }
 
 
+/* ------------------------------ Setup text ------------------------------ */
+const labelContainerElem = document.querySelector('#labels');
+
+const elem = document.createElement('div');
+const subelem = document.createElement('a');
+subelem.textContent = "Stylised Character Controller";
+subelem.classList.add("hyperlink");
+subelem.href = "https://www.youtube.com/feed/subscriptions";
+elem.appendChild(subelem);
+labelContainerElem.appendChild(elem);
+
+
 /* ---------------------------- Setup objects ---------------------------- */
 function loadGLTF(path)
 {
@@ -204,7 +227,10 @@ function loadGLTF(path)
     });
 }
 
+const pivot = new THREE.Object3D();
+
 const group = new THREE.Group();
+const ringGroup = new THREE.Group();
 var saturn, ring;
 
 var areModelsLoaded = false;
@@ -216,14 +242,17 @@ let promiseRing = loadGLTF('models/saturn/ring.glb').then(result => { ring = res
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSaturn, promiseRing]).then(() => {
     // Group visual objects
+    ringGroup.add(ring);
+    ringGroup.add(pivot);
     group.add(saturn);
-    group.add(ring);
+    group.add(ringGroup);
 
     // Translate objects
     group.position.set(5.75, -0.5, 4);
+    pivot.position.set(-1.5, 0, 0);
 
     // Rotate objects
-    ring.rotation.set(22.5*3.14/180, 0, 0);
+    ringGroup.rotation.set(22.5*3.14/180, 0, 0);
 
     // Rescale objects (some smaller versions of models are imported and upscaled to reduce their depth buffer range)
     group.scale.set(4, 4, 4);
@@ -238,18 +267,6 @@ Promise.all([promiseSaturn, promiseRing]).then(() => {
     // Take note of some common variables for ease of use during updates
     areModelsLoaded = true;
 });
-
-
-/* ------------------------------ Setup text ------------------------------ */
-const labelContainerElem = document.querySelector('#labels');
-
-const elem = document.createElement('div');
-const subelem = document.createElement('a');
-subelem.textContent = "Stylised Character Controller";
-subelem.classList.add("hyperlink");
-subelem.href = "https://www.youtube.com/feed/subscriptions";
-elem.appendChild(subelem);
-labelContainerElem.appendChild(elem);
 
 
 /* ------------------------------ Setup audio ----------------------------- */
@@ -346,15 +363,15 @@ function update()
 
         // Rotate the models (visual and physical) based on the normalisedOrionSpeed
         saturn.rotation.y += deltaTime * normalisedHoverSpeed * 0.00025;
-        ring.rotation.y += deltaTime * normalisedHoverSpeed * 0.00025;
-
-
+        ringGroup.rotation.y += deltaTime * normalisedHoverSpeed * 0.00025;
 
 
 
         // get the position of the center of the cube
-        saturn.updateWorldMatrix(true, false);
-        saturn.getWorldPosition(tempV);
+        pivot.updateWorldMatrix(true, false);
+        pivot.getWorldPosition(tempV);
+
+        var scale = 3.25 / camera.position.distanceTo(tempV);
 
         // get the normalized screen coordinate of that position
         // x and y will be in the -1 to +1 range with x = -1 being
@@ -362,11 +379,21 @@ function update()
         tempV.project(camera);
 
         // convert the normalized position to CSS coordinates
-        const x = (tempV.x *  .5 + .5) * canvas.clientWidth;
+        const x = (tempV.x * .5 + .5) * canvas.clientWidth;
         const y = (tempV.y * -.5 + .5) * canvas.clientHeight;
 
         // move the elem to that position
-        elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;
+        elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale}, ${scale})`;
+
+
+        // TODO: Find a way of detecting if the pivot is behind saturn... (i.e. get list of collided objects at pivot's position, if the sphere is infront of the ring, then don't render text).
+        /*
+        const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(x, y), visualScene, camera);
+        if (pickedObject != null)
+        {
+
+        }
+        */
     }
 
     // Render the visual scene
