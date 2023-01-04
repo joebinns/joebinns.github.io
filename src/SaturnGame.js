@@ -385,15 +385,16 @@ function update()
         // move the elem to that position
         elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale}, ${scale})`;
 
-
-        // TODO: Find a way of detecting if the pivot is behind saturn... (i.e. get list of collided objects at pivot's position, if the sphere is infront of the ring, then don't render text).
-        /*
-        const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(x, y), visualScene, camera);
-        if (pickedObject != null)
+        
+        const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(tempV.x, tempV.y), visualScene, camera);
+        if (pickedObject == saturn)
         {
-
+            elem.style.visibility = "hidden";
         }
-        */
+        else
+        {
+            elem.style.visibility = "visible";
+        }
     }
 
     // Render the visual scene
