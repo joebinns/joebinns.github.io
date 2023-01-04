@@ -210,13 +210,35 @@ function onDocumentVisibilityChange(event)
 /* ------------------------------ Setup text ------------------------------ */
 const labelContainerElem = document.querySelector('#labels');
 
-const elem = document.createElement('div');
-const subelem = document.createElement('a');
-subelem.textContent = "Stylised Character Controller";
-subelem.classList.add("hyperlink");
-subelem.href = "https://www.youtube.com/feed/subscriptions";
-elem.appendChild(subelem);
-labelContainerElem.appendChild(elem);
+const textObjects = [];
+
+class textObject
+{
+    constructor(text, pivotPosition, hyperlink = null)
+    {
+        this.elem = document.createElement('div');
+        this.subelem = document.createElement('a');
+        this.subelem.textContent = text;
+        this.elem.appendChild(this.subelem);
+        labelContainerElem.appendChild(this.elem);
+
+        this.pivot = new THREE.Object3D();
+        this.pivotPosition = pivotPosition;
+
+        if (hyperlink != null)
+        {
+            this.subelem.classList.add("hyperlink");
+            this.subelem.href = hyperlink;
+        }
+    }
+
+    positionPivot()
+    {
+        this.pivot.position.set(this.pivotPosition[0], this.pivotPosition[1], this.pivotPosition[2])
+    }
+}
+
+textObjects[0] = new textObject("Stylised Character Controller", new Array(-1.5, 0, 0), "https://google.com")
 
 
 /* ---------------------------- Setup objects ---------------------------- */
@@ -226,8 +248,6 @@ function loadGLTF(path)
         new GLTFLoader().load(path, resolve);
     });
 }
-
-const pivot = new THREE.Object3D();
 
 const group = new THREE.Group();
 const ringGroup = new THREE.Group();
@@ -243,13 +263,18 @@ let promiseRing = loadGLTF('models/saturn/ring.glb').then(result => { ring = res
 Promise.all([promiseSaturn, promiseRing]).then(() => {
     // Group visual objects
     ringGroup.add(ring);
-    ringGroup.add(pivot);
+    for (let i = 0; i < textObjects.length; i++) {
+        ringGroup.add(textObjects[i].pivot);
+    }
     group.add(saturn);
     group.add(ringGroup);
 
     // Translate objects
     group.position.set(5.75, -0.5, 4);
-    pivot.position.set(-1.5, 0, 0);
+    for (let i = 0; i < textObjects.length; i++) {
+        textObjects[i].positionPivot();
+    }
+
 
     // Rotate objects
     ringGroup.rotation.set(22.5*3.14/180, 0, 0);
@@ -367,33 +392,39 @@ function update()
 
 
 
-        // get the position of the center of the cube
-        pivot.updateWorldMatrix(true, false);
-        pivot.getWorldPosition(tempV);
+        for (let i = 0; i < textObjects.length; i++) {
+            const textObject = textObjects[i];
+            const elem = textObject.elem;
+            const pivot = textObject.pivot;
 
-        var scale = 3.25 / camera.position.distanceTo(tempV);
+            // get the position of the center of the cube
+            pivot.updateWorldMatrix(true, false);
+            pivot.getWorldPosition(tempV);
 
-        // get the normalized screen coordinate of that position
-        // x and y will be in the -1 to +1 range with x = -1 being
-        // on the left and y = -1 being on the bottom
-        tempV.project(camera);
+            var scale = 3.25 / camera.position.distanceTo(tempV);
 
-        // convert the normalized position to CSS coordinates
-        const x = (tempV.x * .5 + .5) * canvas.clientWidth;
-        const y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+            // get the normalized screen coordinate of that position
+            // x and y will be in the -1 to +1 range with x = -1 being
+            // on the left and y = -1 being on the bottom
+            tempV.project(camera);
 
-        // move the elem to that position
-        elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale}, ${scale})`;
+            // convert the normalized position to CSS coordinates
+            const x = (tempV.x * .5 + .5) * canvas.clientWidth;
+            const y = (tempV.y * -.5 + .5) * canvas.clientHeight;
 
-        
-        const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(tempV.x, tempV.y), visualScene, camera);
-        if (pickedObject == saturn)
-        {
-            elem.style.visibility = "hidden";
-        }
-        else
-        {
-            elem.style.visibility = "visible";
+            // move the elem to that position
+            elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale}, ${scale})`;
+
+
+            const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(tempV.x, tempV.y), visualScene, camera);
+            if (pickedObject == saturn)
+            {
+                elem.style.visibility = "hidden";
+            }
+            else
+            {
+                elem.style.visibility = "visible";
+            }
         }
     }
 
