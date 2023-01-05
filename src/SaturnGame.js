@@ -257,10 +257,11 @@ for (let i = 0; i < points.length; i++)
     points[i][1] = 0;
 }
 
-textObjects[0] = new textObject("Number 1", points[0], "https://google.com")
-textObjects[1] = new textObject("Number 2", points[1], "https://google.com")
-textObjects[2] = new textObject("Number 3", points[2], "https://google.com")
-textObjects[3] = new textObject("Number 4", points[3], "https://google.com")
+
+textObjects.push(new textObject("Stylised Character Controller", points[0], "https://google.com"));
+textObjects.push(new textObject("Raymarch Explorer", points[1], "https://google.com"));
+textObjects.push(new textObject("Bloomerang", points[2], "https://google.com"));
+textObjects.push(new textObject("Dare to Dance", points[3], "https://google.com"));
 
 // TODO: Add code for splitting circle circumference into positions (sine and cos, with angles equally disitrbuted between 0 and 3.14)
 

@@ -13,6 +13,8 @@ import { CustomOutlinePass } from './CustomOutlinePass.js';
 import { Audio } from "audio"; //'https://unpkg.com/three/src/audio/Audio.js';
 import { AudioLoader } from "audioloader"; //'https://unpkg.com/three/src/loaders/AudioLoader.js';
 import { AudioListener } from "audiolistener"; //'https://unpkg.com/three/src/audio/AudioListener.js';
+// Conrols
+import { FirstPersonControls } from "firstpersoncontrols";
 
 /*
 import * as THREE from 'three';
@@ -117,6 +119,8 @@ function onWindowResize()
     dummyComposer.setSize(window.innerWidth, window.innerHeight);
     effectFXAA.setSize(window.innerWidth, window.innerHeight);
     customOutline.setSize(window.innerWidth, window.innerHeight);
+
+    controls.handleResize();
 }
 
 
@@ -214,6 +218,11 @@ function onDocumentVisibilityChange(event)
         }
     }
 }
+
+const clock = new THREE.Clock();
+const controls = new FirstPersonControls( camera, renderer.domElement );
+controls.movementSpeed = 5;
+controls.lookSpeed = 0.1;
 
 
 /* ---------------------------- Setup objects ---------------------------- */
@@ -321,9 +330,11 @@ function update()
         prevTime = time;
         t += deltaTime;
 
+        /*
         // Rotate the camera based on the mouse position
         camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -mouse.x * Math.PI / 30, 0.1);
         camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
+        */
 
         // Update mouse's selected object based on the physicalScene
         pickHelper.pick(mouse, physicalScene, camera);
@@ -419,7 +430,8 @@ function update()
         else if (!sound.isPlaying) {
             sound.play();
         }
-      
+
+        controls.update( clock.getDelta() );
 
         // Rotate the models (visual and physical) based on the normalisedOrionSpeed
         spaceStationV.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
