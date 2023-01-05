@@ -263,9 +263,6 @@ textObjects.push(new textObject("Raymarch Explorer", points[1], "https://google.
 textObjects.push(new textObject("Bloomerang", points[2], "https://google.com"));
 textObjects.push(new textObject("Dare to Dance", points[3], "https://google.com"));
 
-// TODO: Add code for splitting circle circumference into positions (sine and cos, with angles equally disitrbuted between 0 and 3.14)
-
-
 
 /* ---------------------------- Setup objects ---------------------------- */
 function loadGLTF(path)

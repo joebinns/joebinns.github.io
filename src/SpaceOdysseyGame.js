@@ -27,6 +27,13 @@ import {CustomOutlinePass} from './CustomOutlinePass.js'; // CustomOutlinePass h
 */
 
 
+
+/* ---------------------------- Utilities --------------------------- */
+
+// Clamp number between two values with the following line:
+const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+
+
 /* ---------------------------- Declare scenes --------------------------- */
 const visualScene = new THREE.Scene();
 const physicalScene = new THREE.Scene(); // An un-rendered scene which is used for raycasting to convex versions of the visual models.
@@ -38,7 +45,8 @@ camera.position.z = 7.5;
 
 
 /* -------------------------- Setup the renderer -------------------------- */
-const renderer = new THREE.WebGLRenderer();
+const canvas = document.querySelector('#c');
+const renderer = new THREE.WebGLRenderer({canvas});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality)
 document.body.appendChild(renderer.domElement);
@@ -225,6 +233,32 @@ controls.movementSpeed = 5;
 controls.lookSpeed = 0.1;
 
 
+/* ------------------------------ Setup text ------------------------------ */
+const labelContainerElem = document.querySelector('#labels');
+
+class textObject
+{
+    constructor(text, pivot, hyperlink = null)
+    {
+        this.elem = document.createElement('div');
+        this.subelem = document.createElement('a');
+        this.subelem.textContent = text;
+        this.elem.appendChild(this.subelem);
+        labelContainerElem.appendChild(this.elem);
+
+        this.pivot = pivot;
+
+        if (hyperlink != null)
+        {
+            this.subelem.classList.add("hyperlink");
+            this.subelem.href = hyperlink;
+        }
+    }
+}
+
+let aboutTextObject;
+
+
 /* ---------------------------- Setup objects ---------------------------- */
 function loadGLTF(path)
 {
@@ -253,6 +287,9 @@ let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.gl
 
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
+    // Setup text objects
+    aboutTextObject = new textObject("About", orion, "https://google.com");
+
     // Group visual objects
     group.add(spaceStationV);
     group.add(orion);
@@ -317,6 +354,8 @@ var hoverSpeed = 0;
 
 var colorTimeRate = 0.00001;
 const maxSpeed = 0.0005;
+
+const tempV = new THREE.Vector3();
 
 function update()
 {
@@ -438,6 +477,42 @@ function update()
         orion.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
         spaceStationVConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
         orionConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
+
+
+        // Render text objects
+        const textObject = aboutTextObject;
+        const elem = textObject.elem;
+        const pivot = textObject.pivot;
+
+        // get the position of the center of the cube
+        pivot.updateWorldMatrix(true, false);
+        pivot.getWorldPosition(tempV);
+
+        var scale = 3.25 / camera.position.distanceTo(tempV);
+
+        // get the normalized screen coordinate of that position
+        // x and y will be in the -1 to +1 range with x = -1 being
+        // on the left and y = -1 being on the bottom
+        tempV.project(camera);
+
+        //tempV.x = clamp(tempV.x, -1, 1);
+        //tempV.y = clamp(tempV.y, -1, 1);
+
+        // convert the normalized position to CSS coordinates
+        const x = (tempV.x * .5 + .5) * canvas.clientWidth;
+        const y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+
+        // move the elem to that position
+        elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale}, ${scale})`;
+
+        if (isLookingAt(camera, pivot))
+        {
+            elem.style.visibility = "visible";
+        }
+        else
+        {
+            elem.style.visibility = "hidden";
+        }
     }
 
 
@@ -445,6 +520,29 @@ function update()
     composer.render();
     dummyComposer.render();
 }
+
+
+function isLookingAt(camera, object)
+{
+    const cameraDir = new THREE.Vector3(0, 0, 0);
+    camera.getWorldDirection(cameraDir);
+
+    const cameraPos = new THREE.Vector3(0, 0, 0);
+    camera.getWorldPosition(cameraPos);
+    const objectPos = new THREE.Vector3(0, 0, 0);
+    object.getWorldPosition(objectPos);
+    const cameraToObjectDir = objectPos.sub(cameraPos);
+
+    if(cameraDir.dot(cameraToObjectDir) > 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false
+    }
+}
+
 
 
 /* ----------------------- Check if WebGL is available ---------------------- */
@@ -488,10 +586,11 @@ url.addEventListener('click', (e)=>{
     e.preventDefault();
 
     // Run page transition code here...
-    triggerModelsFadeout()
+    triggerModelsFadeout();
 
     setTimeout(() => {
         window.location.href = url.href;
     }, 1000);
 });
+
 
