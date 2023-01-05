@@ -238,7 +238,32 @@ class textObject
     }
 }
 
-textObjects[0] = new textObject("Stylised Character Controller", new Array(-1.5, 0, 0), "https://google.com")
+function getPointsOnCircumference(numPoints, radius, offset)
+{
+    let points = [];
+    let angle = offset;
+    for (let i = 0; i < numPoints; i++)
+    {
+        points[i] = new Array(Math.sin(angle) * radius, -Math.cos(angle) * radius)
+        angle = angle + 2 * Math.PI / numPoints;
+    }
+    return points;
+}
+
+const points = getPointsOnCircumference(4, 1.5, -Math.PI/2);
+for (let i = 0; i < points.length; i++)
+{
+    points[i][2] = points[i][1];
+    points[i][1] = 0;
+}
+
+textObjects[0] = new textObject("Number 1", points[0], "https://google.com")
+textObjects[1] = new textObject("Number 2", points[1], "https://google.com")
+textObjects[2] = new textObject("Number 3", points[2], "https://google.com")
+textObjects[3] = new textObject("Number 4", points[3], "https://google.com")
+
+// TODO: Add code for splitting circle circumference into positions (sine and cos, with angles equally disitrbuted between 0 and 3.14)
+
 
 
 /* ---------------------------- Setup objects ---------------------------- */
@@ -274,7 +299,6 @@ Promise.all([promiseSaturn, promiseRing]).then(() => {
     for (let i = 0; i < textObjects.length; i++) {
         textObjects[i].positionPivot();
     }
-
 
     // Rotate objects
     ringGroup.rotation.set(22.5*3.14/180, 0, 0);
