@@ -24,6 +24,11 @@ body{
     top: 0;
 }
 
+.border {
+    border-style: solid;
+    border-radius: 5px;
+    padding: 5px;
+}
 
 .center-text-align {
     text-align: center;

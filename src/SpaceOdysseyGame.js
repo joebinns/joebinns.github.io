@@ -45,7 +45,8 @@ camera.position.z = 7.5;
 
 
 /* -------------------------- Setup the renderer -------------------------- */
-const canvas = document.querySelector('#c');
+const canvas = document.querySelector('#canvas3d');
+const canvas2d = document.querySelector('#canvas2d');
 const renderer = new THREE.WebGLRenderer({canvas});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality)
@@ -114,22 +115,6 @@ const dummyOutline = new CustomOutlinePass(
     camera
 );
 dummyComposer.addPass(dummyOutline);
-
-
-/* ------------------------ Account for window resize ----------------------- */
-function onWindowResize()
-{
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-    dummyComposer.setSize(window.innerWidth, window.innerHeight);
-    effectFXAA.setSize(window.innerWidth, window.innerHeight);
-    customOutline.setSize(window.innerWidth, window.innerHeight);
-
-    controls.handleResize();
-}
 
 
 /* -------------------------- Setup object selector ------------------------- */
@@ -243,6 +228,7 @@ class textObject
         this.elem = document.createElement('div');
         this.subelem = document.createElement('a');
         this.subelem.textContent = text;
+        this.subelem.classList.add("border");
         this.elem.appendChild(this.subelem);
         labelContainerElem.appendChild(this.elem);
 
@@ -341,6 +327,30 @@ audioLoader.load('audio/blue_danube.ogg', function( buffer ) {
     sound.setVolume( 0.1 );
     sound.setPlaybackRate(0);
 });
+
+
+/* ------------------------ Account for window resize ----------------------- */
+function onWindowResize()
+{
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
+    dummyComposer.setSize(window.innerWidth, window.innerHeight);
+    effectFXAA.setSize(window.innerWidth, window.innerHeight);
+    customOutline.setSize(window.innerWidth, window.innerHeight);
+
+    //let ctx = canvas2d.getContext('2d');
+    //ctx.canvas.width  = window.innerWidth;
+    //ctx.canvas.height = window.innerHeight;
+    //canvas2d.width = document.body.clientWidth;
+    //canvas2d.height = document.body.clientHeight;
+
+    controls.handleResize();
+}
+
+onWindowResize();
 
 
 /* ------------------------------- Render loop ------------------------------ */
@@ -488,22 +498,53 @@ function update()
         pivot.updateWorldMatrix(true, false);
         pivot.getWorldPosition(tempV);
 
-        var scale = 3.25 / camera.position.distanceTo(tempV);
+        var scale = 1 / camera.position.distanceTo(tempV);
+        scale = Math.sqrt(scale);
 
         // get the normalized screen coordinate of that position
         // x and y will be in the -1 to +1 range with x = -1 being
         // on the left and y = -1 being on the bottom
         tempV.project(camera);
 
-        //tempV.x = clamp(tempV.x, -1, 1);
-        //tempV.y = clamp(tempV.y, -1, 1);
+        /*
+        const points = [];
+        points.push(tempV);
+        let displacedPosition;
+        displacedPosition = tempV.add(new THREE.Vector3(0, 1 * scale, 0));
+        points.push(displacedPosition);
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line( geometry );
+        visualScene.add(line);
+        */
 
         // convert the normalized position to CSS coordinates
-        const x = (tempV.x * .5 + .5) * canvas.clientWidth;
-        const y = (tempV.y * -.5 + .5) * canvas.clientHeight;
+        let x = (tempV.x * .5 + .5);
+        let y = (tempV.y * -.5 + .5);
+        let offsetY = ((tempV.y * -.5 + .5) - (0.3 * scale));
+
+        /*
+        x = clamp(x, 0, 1);
+        y = clamp(y, 0, 1);
+        offsetY = clamp(offsetY, 0, 1);
+        */
+
+        x *= canvas.clientWidth;
+        y *= canvas.clientHeight;
+        offsetY *= canvas.clientHeight;
+
+        // draw line
+        var ctx = canvas2d.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x, offsetY);
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
 
         // move the elem to that position
-        elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) scale(${scale}, ${scale})`;
+        elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
 
         if (isLookingAt(camera, pivot))
         {
@@ -559,7 +600,7 @@ function isWebGLAvailable()
 
 
 /* ---------------- Call render loop and add event listeners ---------------- */
-if (isWebGLAvailable())
+if (true)//(isWebGLAvailable())
 {
     update();
 
@@ -582,6 +623,7 @@ function triggerModelsFadeout()
     targetOutlineColor = new THREE.Color(0x000000);
 }
 
+/*
 url.addEventListener('click', (e)=>{
     e.preventDefault();
 
@@ -592,5 +634,5 @@ url.addEventListener('click', (e)=>{
         window.location.href = url.href;
     }, 1000);
 });
-
+*/
 
