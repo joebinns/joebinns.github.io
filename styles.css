@@ -64,7 +64,16 @@ h1{
     color: #34568B;
     text-decoration: underline;
 }
+.hyperlink-hover
+{
+    color: #34568B;
+    text-decoration: underline;
+}
 .hyperlink:active{
+    color: firebrick;
+}
+.hyperlink-active
+{
     color: firebrick;
 }
 

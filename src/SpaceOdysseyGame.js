@@ -367,6 +367,14 @@ const maxSpeed = 0.0005;
 
 const tempV = new THREE.Vector3();
 
+let hoveredElement;
+setInterval(() => {
+    hoveredElement = document.querySelector(":hover");
+    if (hoveredElement != null) {
+        console.log("hovered: " + hoveredElement.textContent);
+    }
+}, 100);
+
 function update()
 {
     requestAnimationFrame(update); // Only update when tab open
@@ -442,8 +450,20 @@ function update()
 
         var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
 
+        if ((pickHelper.pickedObject) && isDocumentVisible)
+        {
+            aboutTextObject.subelem.classList.replace("hyperlink", "hyperlink-hover");
+        }
+        else
+        {
+            aboutTextObject.subelem.classList.replace("hyperlink-hover", "hyperlink");
+        }
 
-        if (pickHelper.pickedObject && isDocumentVisible) hoverSpeed += maxSpeed * 0.005 * deltaTime;
+        if ((pickHelper.pickedObject || hoveredElement != null) && isDocumentVisible)
+        {
+            hoverSpeed += maxSpeed * 0.005 * deltaTime;
+        }
+
         else hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
         hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
         var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
@@ -533,6 +553,7 @@ function update()
         y *= canvas.clientHeight;
         offsetY *= canvas.clientHeight;
 
+        /*
         // draw line
         var ctx = canvas2d.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -542,10 +563,10 @@ function update()
         ctx.strokeStyle = "white";
         ctx.lineWidth = 2.5;
         ctx.stroke();
+        */
 
         // move the elem to that position
         elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
-
         if (isLookingAt(camera, pivot))
         {
             elem.style.visibility = "visible";
