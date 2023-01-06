@@ -368,12 +368,6 @@ const maxSpeed = 0.0005;
 const tempV = new THREE.Vector3();
 
 let hoveredElement;
-setInterval(() => {
-    hoveredElement = document.querySelector(":hover");
-    if (hoveredElement != null) {
-        console.log("hovered: " + hoveredElement.textContent);
-    }
-}, 100);
 
 function update()
 {
@@ -448,7 +442,8 @@ function update()
             }
         }    
 
-        var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
+
+        hoveredElement = document.querySelector(":hover");
 
         if ((pickHelper.pickedObject) && isDocumentVisible)
         {
@@ -461,10 +456,14 @@ function update()
 
         if ((pickHelper.pickedObject || hoveredElement != null) && isDocumentVisible)
         {
-            hoverSpeed += maxSpeed * 0.005 * deltaTime;
+            hoverSpeed += maxSpeed * 0.01 * deltaTime;
+        }
+        else
+        {
+            hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
         }
 
-        else hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
+        var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
         hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
         var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
         //var hoverAmount = normalisedOrionSpeed; // Mimics a lerp when the mouse hovers over the models
