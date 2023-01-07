@@ -159,6 +159,10 @@ const pickHelper = new PickHelper();
 var mouse = new THREE.Vector2();
 var isDocumentVisible = true;
 
+const controls = new FirstPersonControls( camera, renderer.domElement );
+controls.movementSpeed = 5;
+controls.lookSpeed = 0.1;
+
 function onDocumentMouseMove(event)
 {
     event.preventDefault();
@@ -175,12 +179,15 @@ function onDocumentMouseDown(event) {
 function onDocumentVisibilityChange(event)
 {
     isDocumentVisible = (document.visibilityState === 'visible');
+    if (isDocumentVisible)
+    {
+        clock = new THREE.Clock(); // Unfortunately, clock.stop(); does not work as expected.
+    }
+    else
+    {
+        clock.start();
+    }
 }
-
-const clock = new THREE.Clock();
-const controls = new FirstPersonControls( camera, renderer.domElement );
-controls.movementSpeed = 5;
-controls.lookSpeed = 0.1;
 
 
 /* ------------------------------ Setup text ------------------------------ */
@@ -300,13 +307,12 @@ onWindowResize();
 
 
 /* ------------------------------- Render loop ------------------------------ */
-var prevTime = performance.now();
+let clock = new THREE.Clock();
 var t = 0;
 
-var objectiveComplete = false;
 var hoverSpeed = 0;
 
-var colorTimeRate = 0.00001;
+var colorTimeRate = 0.01;
 const maxSpeed = 0.0005;
 
 const tempV = new THREE.Vector3();
@@ -317,12 +323,19 @@ function update()
 {
     requestAnimationFrame(update); // Only update when tab open
 
+    /*
+    // Update deltaTime
+    var time;
+    time = performance.now();
+    var deltaTime = ( time - prevTime );
+    prevTime = time;
+    */
+
+    var deltaTime = clock.getDelta();
+
     if (areModelsLoaded)
     {
-        // Update deltaTime and a counter 't', used for lerping
-        var time = performance.now();
-        var deltaTime = ( time - prevTime );
-        prevTime = time;
+        // Update counter t, used for lerping
         t += deltaTime;
 
         // Update mouse's selected object based on the physicalScene
@@ -352,11 +365,11 @@ function update()
 
         if ((pickHelper.pickedObject || hoveredElement != null) && isDocumentVisible)
         {
-            hoverSpeed += maxSpeed * 0.01 * deltaTime;
+            hoverSpeed += maxSpeed * 10 * deltaTime;
         }
         else
         {
-            hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
+            hoverSpeed -= hoverSpeed * 20 * deltaTime;
         }
 
         hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
@@ -371,8 +384,7 @@ function update()
         spaceStationV.scale.set(scaleSpaceStationV, scaleSpaceStationV, scaleSpaceStationV);
 
 
-
-        controls.update( clock.getDelta() );
+        controls.update( deltaTime );
 
 
         // Render text objects
@@ -441,12 +453,12 @@ function update()
         {
             elem.style.visibility = "hidden";
         }
+
+
+        // Render the visual scene and the (hidden) physical scene
+        composer.render();
+        dummyComposer.render();
     }
-
-
-    // Render the visual scene and the (hidden) physical scene 
-    composer.render();
-    dummyComposer.render();
 }
 
 
