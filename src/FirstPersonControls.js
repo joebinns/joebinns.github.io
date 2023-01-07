@@ -84,33 +84,11 @@ class FirstPersonControls {
 
             }
 
-            if ( this.activeLook ) {
-
-                switch ( event.button ) {
-
-                    case 0: this.moveForward = true; break;
-                    case 2: this.moveBackward = true; break;
-
-                }
-
-            }
-
             this.mouseDragOn = true;
 
         };
 
         this.onPointerUp = function ( event ) {
-
-            if ( this.activeLook ) {
-
-                switch ( event.button ) {
-
-                    case 0: this.moveForward = false; break;
-                    case 2: this.moveBackward = false; break;
-
-                }
-
-            }
 
             this.mouseDragOn = false;
 
