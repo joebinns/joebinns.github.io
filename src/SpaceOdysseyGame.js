@@ -46,7 +46,7 @@ camera.position.z = 7.5;
 
 /* -------------------------- Setup the renderer -------------------------- */
 const canvas = document.querySelector('#canvas3d');
-const canvas2d = document.querySelector('#canvas2d');
+//const canvas2d = document.querySelector('#canvas2d');
 const renderer = new THREE.WebGLRenderer({canvas});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality)
@@ -139,18 +139,7 @@ class PickHelper
             this.pickedObject = intersectedObjects[0].object.parent;
 
             // Make the cursor a pointer hand
-            if (!hasUserInteracted)
-            {
-                document.body.style.cursor = 'pointer';
-            }
-            else if (!objectiveComplete)
-            {
-                document.body.style.cursor = 'default';
-            }
-            else
-            {
-                document.body.style.cursor = 'pointer';
-            }
+            document.body.style.cursor = 'pointer';
         }
         else
         {
@@ -168,7 +157,6 @@ const pickHelper = new PickHelper();
 
 /* ---------------------------- Setup controller ---------------------------- */
 var mouse = new THREE.Vector2();
-var hasUserInteracted = false;
 var isDocumentVisible = true;
 
 function onDocumentMouseMove(event)
@@ -178,38 +166,15 @@ function onDocumentMouseMove(event)
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-function onDocumentMouseDown(event)
-{
+function onDocumentMouseDown(event) {
     if (pickHelper.pickedObject) {
-        if (!hasUserInteracted) {
-            switch (event.which) {
-                case 1: // left click
-                    hasUserInteracted = true;
-                    console.log('Initial user interaction')
-                    sound.play();
-            }
-        } else if (objectiveComplete) {
-            switch (event.which) {
-                case 1: // left click
-                    window.open("https://github.com/joebinns/joebinns.github.io");
-            }
-        }
+
     }
 }
 
 function onDocumentVisibilityChange(event)
 {
-    if (sound)
-    {
-        if (document.visibilityState === 'visible')
-        {
-            sound.play();
-        }
-        else
-        {
-            sound.pause();
-        }
-    }
+    isDocumentVisible = (document.visibilityState === 'visible');
 }
 
 const clock = new THREE.Clock();
@@ -260,7 +225,6 @@ var spaceStationVConvex, orionConvex;
 
 const spaceStationVDistance = 10;
 const orionDistance = 4;
-const totalDistance = spaceStationVDistance + orionDistance - 1.7; // Subtracting the distance from the center of SpaceStationV to the hangar
 
 var orionStartPosition;
 var areModelsLoaded = false;
@@ -311,24 +275,6 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
 });
 
 
-/* ------------------------------ Setup audio ----------------------------- */
-// Create an AudioListener and add it to the camera
-const listener = new THREE.AudioListener();
-camera.add(listener);
-
-// Create a global audio source
-const sound = new THREE.Audio(listener);
-
-// Load a sound and set it as the Audio object's buffer
-const audioLoader = new THREE.AudioLoader();
-audioLoader.load('audio/blue_danube.ogg', function( buffer ) {
-    sound.setBuffer( buffer );
-    sound.setLoop( false );
-    sound.setVolume( 0.1 );
-    sound.setPlaybackRate(0);
-});
-
-
 /* ------------------------ Account for window resize ----------------------- */
 function onWindowResize()
 {
@@ -357,9 +303,7 @@ onWindowResize();
 var prevTime = performance.now();
 var t = 0;
 
-var orionShouldMove = false;
 var objectiveComplete = false;
-var orionSpeed = 0;
 var hoverSpeed = 0;
 
 var colorTimeRate = 0.00001;
@@ -381,27 +325,8 @@ function update()
         prevTime = time;
         t += deltaTime;
 
-        /*
-        // Rotate the camera based on the mouse position
-        camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -mouse.x * Math.PI / 30, 0.1);
-        camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
-        */
-
         // Update mouse's selected object based on the physicalScene
         pickHelper.pick(mouse, physicalScene, camera);
-
-        // If the user has clicked on an object and is currently hovering on an object, then set that the orion should be moving
-        if (hasUserInteracted)
-        {
-            if (pickHelper.pickedObject)
-            {
-                orionShouldMove = true;
-            }
-            else
-            {
-                orionShouldMove = false;
-            }
-        }
 
         // Lerp the custom outline color (used initially to fade in the models, and later on to fade to green)
         if (t * colorTimeRate < 1)
@@ -412,35 +337,6 @@ function update()
         {
             uniforms.outlineColor.value.set(targetOutlineColor);
         }
-        
-        // If the orionShouldMove, then accelerate
-        if (orionShouldMove && isDocumentVisible) orionSpeed += maxSpeed * 0.005 * deltaTime;
-        // Otherwise, decelerate   
-        else orionSpeed -= orionSpeed * 0.02 * deltaTime;
-        // Clamp the orionSpeed to ensure it remains within a standard range
-        orionSpeed = THREE.MathUtils.clamp(orionSpeed, 0, maxSpeed);
-
-        // If the total distance to the hangar has not been exceeded then update the positions of the orion (visual and hitbox) 
-        if (orion.position.x - orionStartPosition < totalDistance)
-        {
-            orion.position.x += (orionSpeed * deltaTime);
-            orionConvex.position.x += (orionSpeed * deltaTime);
-        }
-        // Otherwise, prevent further movement and prepare the 'objectiveComplete' sequence
-        else
-        {
-            if (objectiveComplete == false)
-            {
-                t = 0;
-                startOutlineColor = targetOutlineColor;
-                targetOutlineColor = new THREE.Color(0x00974c);
-                objectiveComplete = true;
-                colorTimeRate = 1/240;
-
-                document.getElementById("notification_paragraph").style.display = "inline";
-                document.getElementById("notification_division").classList.add("fade-in");
-            }
-        }    
 
 
         hoveredElement = document.querySelector(":hover");
@@ -463,10 +359,8 @@ function update()
             hoverSpeed -= hoverSpeed * 0.02 * deltaTime;
         }
 
-        var normalisedOrionSpeed = orionSpeed * (1 / maxSpeed);
         hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
         var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
-        //var hoverAmount = normalisedOrionSpeed; // Mimics a lerp when the mouse hovers over the models
         var hoverAmount = normalisedHoverSpeed; // Mimics a lerp when the mouse hovers over the models
 
 
@@ -476,36 +370,9 @@ function update()
         orion.scale.set(scaleOrion, scaleOrion, scaleOrion);
         spaceStationV.scale.set(scaleSpaceStationV, scaleSpaceStationV, scaleSpaceStationV);
 
-        // Adjust the volume based on the hoverAmount
-        sound.setVolume(0.1 + hoverAmount * 0.4);
 
-        // Set the normalisedOrionSpeed to 1 to continue spinning once objectiveComplete
-        if (objectiveComplete)
-        {
-            normalisedOrionSpeed = 1;
-        }
-
-        // Adjust the playback rate based on the normalisedOrionSpeed
-        sound.setPlaybackRate(normalisedOrionSpeed);
-
-        // Pause if playback rate is zero (to prevent constant speaker icon allocated to the tab)
-        if (normalisedOrionSpeed < 0.01) {
-            if (sound.isPlaying){
-                sound.setPlaybackRate(1);
-                sound.pause();
-            }
-        }
-        else if (!sound.isPlaying) {
-            sound.play();
-        }
 
         controls.update( clock.getDelta() );
-
-        // Rotate the models (visual and physical) based on the normalisedOrionSpeed
-        spaceStationV.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
-        orion.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
-        spaceStationVConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
-        orionConvex.rotation.x += deltaTime * normalisedOrionSpeed * 0.00025;
 
 
         // Render text objects
@@ -630,29 +497,3 @@ if (true)//(isWebGLAvailable())
       
     window.addEventListener('resize', onWindowResize, false);
 }
-
-/* ---------------- Transition from this page ---------------- */
-var url = document.getElementById('delayed_link');
-
-function triggerModelsFadeout()
-{
-    // Trigger fading out models
-    t = 0;
-    colorTimeRate = 1/10000;
-    startOutlineColor = uniforms.outlineColor.value;
-    targetOutlineColor = new THREE.Color(0x000000);
-}
-
-/*
-url.addEventListener('click', (e)=>{
-    e.preventDefault();
-
-    // Run page transition code here...
-    triggerModelsFadeout();
-
-    setTimeout(() => {
-        window.location.href = url.href;
-    }, 1000);
-});
-*/
-
