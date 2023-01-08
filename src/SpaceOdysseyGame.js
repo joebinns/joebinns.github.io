@@ -214,7 +214,21 @@ class textObject
     }
 }
 
-let aboutTextObject;
+const textObjects = [];
+
+
+class hoverObject
+{
+    constructor(object, scaleRange, scaleMultiplier)
+    {
+        this.object = object;
+        this.hoverAmount = 0;
+        this.scaleRange = scaleRange;
+        this.scaleMultiplier = scaleMultiplier;
+    }
+}
+
+const hoverObjects = [];
 
 
 /* ---------------------------- Setup objects ---------------------------- */
@@ -233,8 +247,9 @@ var spaceStationVConvex, orionConvex;
 const spaceStationVDistance = 10;
 const orionDistance = 4;
 
-var orionStartPosition;
 var areModelsLoaded = false;
+
+let prevPickedTextObject;
 
 // Import models with promises (regular models used for visuals and convex models used for hitboxes)
 let promiseSpaceStationV = loadGLTF('models/space_station_v/SpaceStationV_Simplified.glb').then(result => { spaceStationV = result.scene; });
@@ -245,7 +260,12 @@ let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.gl
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
     // Setup text objects
-    aboutTextObject = new textObject("About", orion, "https://google.com");
+    textObjects.push(new textObject("About", orion, "https://google.com"));
+    prevPickedTextObject = textObjects[0];
+
+    // Setup hover objects
+    hoverObjects.push(new hoverObject(orion, 0.1, 10));
+
 
     // Group visual objects
     group.add(spaceStationV);
@@ -277,7 +297,6 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     physicalScene.add(groupConvex);
     
     // Take note of some common variables for ease of use during updates
-    orionStartPosition = orion.position.x;
     areModelsLoaded = true;
 });
 
@@ -319,6 +338,31 @@ const tempV = new THREE.Vector3();
 
 let hoveredElement;
 
+function objectToTextObject(object) {
+    // Find the current textObject based on object position.
+    let textObject;
+    for (let i = 0; i < textObjects.length; i++) {
+        if (textObjects[i].pivot.position.equals(object.position)) {
+            textObject = textObjects[i];
+        }
+    }
+    return textObject;
+}
+
+function isObjectHovered(object)
+{
+    if (pickHelper.pickedObject == null)
+    {
+        return false;
+    }
+    return object.position.equals(pickHelper.pickedObject.position)
+}
+
+function isElementHovered(element)
+{
+    return element == document.querySelector(":hover");
+}
+
 function update()
 {
     requestAnimationFrame(update); // Only update when tab open
@@ -351,109 +395,112 @@ function update()
             uniforms.outlineColor.value.set(targetOutlineColor);
         }
 
-
-        hoveredElement = document.querySelector(":hover");
-
-        if ((pickHelper.pickedObject) && isDocumentVisible)
+        for (let i = 0; i < hoverObjects.length; i++)
         {
-            aboutTextObject.subelem.classList.replace("hyperlink", "hyperlink-hover");
+            let hoverObject = hoverObjects[i];
+            let object = hoverObject.object;
+            let hoverAmount = hoverObject.hoverAmount;
+            if (isObjectHovered(object) || isElementHovered(objectToTextObject(object).subelem))
+            {
+                hoverAmount += 10 * deltaTime;
+            }
+            else
+            {
+                hoverAmount -= 10 * deltaTime;
+            }
+            hoverAmount = clamp(hoverAmount, 0, 1);
+            hoverObject.hoverAmount = hoverAmount;
+
+            let scale = (1 + hoverObject.scaleRange * hoverAmount) * hoverObject.scaleMultiplier;
+            object.scale.set(scale, scale, scale);
+        }
+
+        if (pickHelper.pickedObject)
+        {
+            let textObject = objectToTextObject(pickHelper.pickedObject)
+            if (textObject != null)
+            {
+                textObject.subelem.classList.replace("hyperlink", "hyperlink-hover");
+                prevPickedTextObject = textObject;
+            }
         }
         else
         {
-            aboutTextObject.subelem.classList.replace("hyperlink-hover", "hyperlink");
+            prevPickedTextObject.subelem.classList.replace("hyperlink-hover", "hyperlink");
         }
-
-        if ((pickHelper.pickedObject || hoveredElement != null) && isDocumentVisible)
-        {
-            hoverSpeed += maxSpeed * 10 * deltaTime;
-        }
-        else
-        {
-            hoverSpeed -= hoverSpeed * 20 * deltaTime;
-        }
-
-        hoverSpeed = THREE.MathUtils.clamp(hoverSpeed, 0, maxSpeed);
-        var normalisedHoverSpeed = hoverSpeed * (1 / maxSpeed);
-        var hoverAmount = normalisedHoverSpeed; // Mimics a lerp when the mouse hovers over the models
-
-
-        // Scale the models based on the hoverAmount
-        var scaleOrion = (1 + 0.1 * hoverAmount) * 10; // Scale between 10 and 11
-        var scaleSpaceStationV = 1 + 0.05 * hoverAmount; // Scale between 1 and 1.05
-        orion.scale.set(scaleOrion, scaleOrion, scaleOrion);
-        spaceStationV.scale.set(scaleSpaceStationV, scaleSpaceStationV, scaleSpaceStationV);
 
 
         controls.update( deltaTime );
 
-
         // Render text objects
-        const textObject = aboutTextObject;
-        const elem = textObject.elem;
-        const pivot = textObject.pivot;
-
-        // get the position of the center of the cube
-        pivot.updateWorldMatrix(true, false);
-        pivot.getWorldPosition(tempV);
-
-        var scale = 1 / camera.position.distanceTo(tempV);
-        scale = Math.sqrt(scale);
-
-        // get the normalized screen coordinate of that position
-        // x and y will be in the -1 to +1 range with x = -1 being
-        // on the left and y = -1 being on the bottom
-        tempV.project(camera);
-
-        /*
-        const points = [];
-        points.push(tempV);
-        let displacedPosition;
-        displacedPosition = tempV.add(new THREE.Vector3(0, 1 * scale, 0));
-        points.push(displacedPosition);
-
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const line = new THREE.Line( geometry );
-        visualScene.add(line);
-        */
-
-        // convert the normalized position to CSS coordinates
-        let x = (tempV.x * .5 + .5);
-        let y = (tempV.y * -.5 + .5);
-        let offsetY = ((tempV.y * -.5 + .5) - (0.3 * scale));
-
-        /*
-        x = clamp(x, 0, 1);
-        y = clamp(y, 0, 1);
-        offsetY = clamp(offsetY, 0, 1);
-        */
-
-        x *= canvas.clientWidth;
-        y *= canvas.clientHeight;
-        offsetY *= canvas.clientHeight;
-
-        /*
-        // draw line
-        var ctx = canvas2d.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x, offsetY);
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 2.5;
-        ctx.stroke();
-        */
-
-        // move the elem to that position
-        elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
-        if (isLookingAt(camera, pivot))
+        for (let i = 0; i < textObjects.length; i++)
         {
-            elem.style.visibility = "visible";
-        }
-        else
-        {
-            elem.style.visibility = "hidden";
-        }
+            let textObject = textObjects[i];
+            let elem = textObject.elem;
+            let pivot = textObject.pivot;
 
+            // get the position of the center of the cube
+            pivot.updateWorldMatrix(true, false);
+            pivot.getWorldPosition(tempV);
+
+            var scale = 1 / camera.position.distanceTo(tempV);
+            scale = Math.sqrt(scale);
+
+            // get the normalized screen coordinate of that position
+            // x and y will be in the -1 to +1 range with x = -1 being
+            // on the left and y = -1 being on the bottom
+            tempV.project(camera);
+
+            /*
+            const points = [];
+            points.push(tempV);
+            let displacedPosition;
+            displacedPosition = tempV.add(new THREE.Vector3(0, 1 * scale, 0));
+            points.push(displacedPosition);
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const line = new THREE.Line( geometry );
+            visualScene.add(line);
+            */
+
+            // convert the normalized position to CSS coordinates
+            let x = (tempV.x * .5 + .5);
+            let y = (tempV.y * -.5 + .5);
+            let offsetY = ((tempV.y * -.5 + .5) - (0.3 * scale));
+
+            /*
+            x = clamp(x, 0, 1);
+            y = clamp(y, 0, 1);
+            offsetY = clamp(offsetY, 0, 1);
+            */
+
+            x *= canvas.clientWidth;
+            y *= canvas.clientHeight;
+            offsetY *= canvas.clientHeight;
+
+            /*
+            // draw line
+            var ctx = canvas2d.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, offsetY);
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+            */
+
+            // move the elem to that position
+            elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
+            if (isLookingAt(camera, pivot))
+            {
+                elem.style.visibility = "visible";
+            }
+            else
+            {
+                elem.style.visibility = "hidden";
+            }
+        }
 
         // Render the visual scene and the (hidden) physical scene
         composer.render();
