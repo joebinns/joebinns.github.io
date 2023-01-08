@@ -26,14 +26,18 @@ body{
 p {
     display: inline-block;
 }
-.opaque
-{
+.opaque {
     background-color: rgba(0, 0, 0, 0.9);
 }
 .border {
     border-style: solid;
     border-radius: 5px;
     padding: 5px;
+}
+.rounded {
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px 0 rgba(1,1,1,0.8);
 }
 
 .center-text-align {
@@ -59,8 +63,21 @@ h1{
     font-weight: normal;
     color: black;
     font-size: 46px;
-    text-decoration: none;
     line-height: 0;
+}
+h2{
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    color: black;
+    font-size: 32px;
+    line-height: normal;
+}
+a{
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    color: black;
+    font-size: 16px;
+    line-height: normal;
 }
 .hyperlink{
     color: royalblue;
@@ -128,21 +145,15 @@ h1{
 }
 .center{
     position: fixed;
+    left: 50%;
     top: 54%;
-    -ms-transform: translate(0%, -50%);
-    transform: translate(0%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
 
 table {
     border: 0;
     border-spacing: 0;
-}
-
-a{
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: normal;
 }
 
 .hyperimage{
@@ -201,6 +212,9 @@ a{
 }
 @media (prefers-color-scheme: dark){
     h1{
+        color: white;
+    }
+    h2{
         color: white;
     }
     a{
