@@ -37,7 +37,7 @@ p {
 .rounded {
     border-radius: 10px;
     padding: 10px;
-    box-shadow: 0 0 10px 0 rgba(1,1,1,0.8);
+    box-shadow: 0 0 5px 0 rgba(1,1,1,0.8);
 }
 
 .center-text-align {
