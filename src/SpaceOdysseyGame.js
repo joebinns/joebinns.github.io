@@ -172,7 +172,7 @@ function onDocumentMouseMove(event)
 
 function onDocumentMouseDown(event) {
     if (pickHelper.pickedObject) {
-
+        //elem.style.visibility = "visible";
     }
 }
 

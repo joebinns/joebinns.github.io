@@ -23,7 +23,13 @@ body{
     left: 0;             /* make our position the top left of the container */
     top: 0;
 }
-
+p {
+    display: inline-block;
+}
+.opaque
+{
+    background-color: rgba(0, 0, 0, 0.9);
+}
 .border {
     border-style: solid;
     border-radius: 5px;
@@ -122,10 +128,9 @@ h1{
 }
 .center{
     position: fixed;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    top: 54%;
+    -ms-transform: translate(0%, -50%);
+    transform: translate(0%, -50%);
 }
 
 table {
