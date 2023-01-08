@@ -468,11 +468,22 @@ function update()
             let y = (tempV.y * -.5 + .5);
             let offsetY = ((tempV.y * -.5 + .5) - (0.3 * scale));
 
-            /*
+
+            if (isLookingAt(camera, pivot))
+            {
+                elem.style.visibility = "visible";
+            }
+            else
+            {
+                //elem.style.visibility = "hidden";
+                x = Math.sign(x) * 1;
+                y = Math.sign(y) * 1;
+            }
+
             x = clamp(x, 0, 1);
             y = clamp(y, 0, 1);
             offsetY = clamp(offsetY, 0, 1);
-            */
+
 
             x *= canvas.clientWidth;
             y *= canvas.clientHeight;
@@ -492,14 +503,6 @@ function update()
 
             // move the elem to that position
             elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
-            if (isLookingAt(camera, pivot))
-            {
-                elem.style.visibility = "visible";
-            }
-            else
-            {
-                elem.style.visibility = "hidden";
-            }
         }
 
         // Render the visual scene and the (hidden) physical scene
