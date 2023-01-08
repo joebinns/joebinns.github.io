@@ -466,18 +466,20 @@ function update()
             // convert the normalized position to CSS coordinates
             let x = (tempV.x * .5 + .5);
             let y = (tempV.y * -.5 + .5);
-            let offsetY = ((tempV.y * -.5 + .5) - (0.3 * scale));
+            let offsetY = (y - (0.3 * scale));
 
 
             if (isLookingAt(camera, pivot))
             {
-                elem.style.visibility = "visible";
+                //elem.style.visibility = "visible";
             }
             else
             {
                 //elem.style.visibility = "hidden";
-                x = Math.sign(x) * 1;
-                y = Math.sign(y) * 1;
+
+                x = Math.sign(x);
+                y = Math.sign(y);
+                offsetY = Math.sign(offsetY);
             }
 
             x = clamp(x, 0, 1);
