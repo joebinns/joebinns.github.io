@@ -37,6 +37,8 @@ p {
 .rounded {
     border-radius: 10px;
     padding: 10px;
+}
+.shadow {
     box-shadow: 0 0 5px 0 rgba(1,1,1,0.8);
 }
 
