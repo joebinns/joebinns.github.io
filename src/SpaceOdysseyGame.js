@@ -172,6 +172,7 @@ function onDocumentMouseMove(event)
 
 function onDocumentMouseDown(event) {
     if (pickHelper.pickedObject) {
+        // TODO: Get the hovered element
         //elem.style.visibility = "visible";
     }
 }
@@ -366,14 +367,6 @@ function isElementHovered(element)
 function update()
 {
     requestAnimationFrame(update); // Only update when tab open
-
-    /*
-    // Update deltaTime
-    var time;
-    time = performance.now();
-    var deltaTime = ( time - prevTime );
-    prevTime = time;
-    */
 
     var deltaTime = clock.getDelta();
 

@@ -36,7 +36,7 @@
             <div id="labels"></div>
             <div id="header">
                 <div class="upper-center padding center-text-align">
-                    <h1>
+                    <h1 id="title">
                         Joe Binns
                     </h1>
                 </div>
@@ -55,11 +55,10 @@
                 </div>
             </div>
             <div id="popups" style="position:relative;">
-                <!-- TODO: Add "close" button -->
                 <div id="about" class="center rounded shadow opaque" style="height:auto; width:auto;">
                     <!-- TODO: Change "Joe Binns" in header to "About" -->
                     <div style="height:4%; text-align:right;">
-                        <a class="hyperimage" href="" target="_blank" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
+                        <a class="hyperimage" href="javascript:document.getElementById('about').hidden = true;" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
                     </div>
                     <div style="overflow-y:auto; height:95%;">
                         <p>
