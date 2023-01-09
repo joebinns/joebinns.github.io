@@ -279,7 +279,7 @@ let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.gl
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
     // Setup text objects
-    textObjects.push(new textObject("About", orion, "javascript:openPopUp('about');"));
+    textObjects.push(new textObject("About Me", orion, "javascript:openPopUp('about');"));
     prevPickedTextObject = textObjects[0];
 
     // Setup hover objects
