@@ -170,10 +170,11 @@ function onDocumentMouseMove(event)
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-window.openPopUp = (id) => {
+window.openPopUp = (id, text) => {
     document.getElementById(id).hidden = false;
     clock.stop();
-    SwapText("About Me");
+    SwapText(text);
+    document.body.style.cursor = 'default';
 };
 
 window.closePopUp = (id) => {
@@ -181,6 +182,13 @@ window.closePopUp = (id) => {
     clock = new THREE.Clock();
     SwapText("Joe Binns");
 };
+
+window.togglePortfolio = () => {
+    for (let i = 0; i < portfolioTextObjects.length; i++) {
+        var isHidden = portfolioTextObjects[i].subelem.hidden;
+        portfolioTextObjects[i].subelem.hidden = !isHidden;
+    }
+}
 
 function onDocumentMouseDown(event) {
     let object = pickHelper.pickedObject;
@@ -234,6 +242,7 @@ class textObject
 }
 
 const textObjects = [];
+const portfolioTextObjects = [];
 
 
 class hoverObject
@@ -276,33 +285,47 @@ let promiseOrion = loadGLTF('models/orion/Orion_Simplified_Small.glb').then(resu
 let promiseSpaceStationVConvex = loadGLTF('models/space_station_v/SpaceStationV_Simplified_Convex.glb').then(result => { spaceStationVConvex = result.scene; });
 let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.glb').then(result => { orionConvex = result.scene; });
 
+const spaceStationVGroup = new THREE.Group();
+const stylisedCharacterControllerObject = new THREE.Group();
+
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
     // Setup text objects
-    textObjects.push(new textObject("About Me", orion, "javascript:openPopUp('about');"));
+    textObjects.push(new textObject("About Me", orion, "javascript:openPopUp('about', 'About Me');"));
+    textObjects.push(new textObject("Portfolio", spaceStationV, "javascript:togglePortfolio();"));
+    portfolioTextObjects.push(textObjects.at(-1));
+    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObject, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller');"));
+    textObjects.at(-1).subelem.hidden = true;
+    portfolioTextObjects.push(textObjects.at(-1));
+
     prevPickedTextObject = textObjects[0];
 
     // Setup hover objects
     hoverObjects.push(new hoverObject(orion, 0.1, 10));
+    hoverObjects.push(new hoverObject(spaceStationV, 0.05, 1));
 
 
     // Group visual objects
-    group.add(spaceStationV);
+    spaceStationVGroup.add(spaceStationV);
+    spaceStationVGroup.add(stylisedCharacterControllerObject);
+    group.add(spaceStationVGroup);
     group.add(orion);
+
     // Group hitbox objects
     groupConvex.add(spaceStationVConvex);
     groupConvex.add(orionConvex);
 
     // Rotate groups
-    group.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
-    groupConvex.rotation.set(0, 12.5*3.14/180, -26.5*3.14/180);
+    group.rotation.set(90*3.14/180, 12.5*3.14/180, -26.5*3.14/180);
+    groupConvex.rotation.set(90*3.14/180, 12.5*3.14/180, -26.5*3.14/180);
 
     // Rescale objects (some smaller versions of models are imported and upscaled to reduce their depth buffer range)
     orion.scale.set(10, 10, 10);
     orionConvex.scale.set(10, 10, 10);
 
     // Displace objects along their local axes
-    spaceStationV.position.set(spaceStationVDistance, 0, 0);
+    spaceStationVGroup.position.set(spaceStationVDistance, 0, 0);
+    stylisedCharacterControllerObject.position.set(0, 0, -5);
     orion.position.set(-orionDistance, 0, 0);
     spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
     orionConvex.position.set(-orionDistance, 0, 0);
@@ -343,7 +366,6 @@ function onWindowResize()
 
 onWindowResize();
 
-
 /* ------------------------------- Render loop ------------------------------ */
 let clock = new THREE.Clock();
 var t = 0;
@@ -361,7 +383,11 @@ function objectToTextObject(object) {
     // Find the current textObject based on object position.
     let textObject;
     for (let i = 0; i < textObjects.length; i++) {
-        if (textObjects[i].pivot.position.equals(object.position)) {
+        var worldPosA = new THREE.Vector3(0, 0, 0);
+        var worldPosB = new THREE.Vector3(0, 0, 0);
+        textObjects[i].pivot.getWorldPosition(worldPosA);
+        object.getWorldPosition(worldPosB);
+        if (worldPosA.equals(worldPosB)) {
             textObject = textObjects[i];
         }
     }
@@ -374,7 +400,11 @@ function isObjectHovered(object)
     {
         return false;
     }
-    return object.position.equals(pickHelper.pickedObject.position)
+    var worldPosA = new THREE.Vector3(0, 0, 0);
+    var worldPosB = new THREE.Vector3(0, 0, 0);
+    object.getWorldPosition(worldPosA);
+    pickHelper.pickedObject.getWorldPosition(worldPosB);
+    return worldPosA.equals(worldPosB);
 }
 
 function isElementHovered(element)
@@ -388,7 +418,7 @@ function update()
 
     var deltaTime = clock.getDelta();
 
-    if (areModelsLoaded)
+    if (areModelsLoaded && deltaTime != 0)
     {
         // Update counter t, used for lerping
         t += deltaTime;

@@ -74,13 +74,11 @@ window.onload = function() {
     document.body.appendChild(css);
 };
 
-// TODO: Add a function for swapping text
+// TODO: Prevent function from breaking when called whilst a transition is already running
 window.SwapText = (target) => {
     var toRotate = [];
     toRotate.push(titleTxtType.txt, target);
     titleTxtType.toRotate = toRotate; //JSON.parse('[titleTxtType.txt, '+target+']');
     titleTxtType.loopNum = 0;
     titleTxtType.tick();
-
-    console.log("swaptext");
 };
