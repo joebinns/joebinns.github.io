@@ -12,8 +12,6 @@ var TxtType = function(el, toRotate, period, shouldLoop = false) {
 };
 
 
-// TODO: Change behaviour of tick() to delete and write once only
-
 TxtType.prototype.tick = function() {
     var i = this.loopNum % this.toRotate.length;
     var fullTxt = this.toRotate[i];
@@ -27,7 +25,7 @@ TxtType.prototype.tick = function() {
     this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
 
     var that = this;
-    var delta = 200 - Math.random() * 100;
+    var delta = 150 - Math.random() * 75;
 
     if (this.isDeleting) { delta /= 2; }
 
@@ -42,7 +40,7 @@ TxtType.prototype.tick = function() {
     } else if (this.isDeleting && this.txt === '') {
         this.isDeleting = false;
         this.loopNum++;
-        delta = 250;
+        delta = 187.5;
     }
 
     setTimeout(function() {
@@ -50,27 +48,39 @@ TxtType.prototype.tick = function() {
     }, delta);
 };
 
-
-// TODO: Add a function for swapping text
-// function SwapText(target) {
-//      titleTxtType.toRotate = JSON.parse('[titleTxtType.txt, target]');
-// }
+let titleTxtType;
 
 window.onload = function() {
+    /*
     var elements = document.getElementsByClassName('typewrite');
     for (var i=0; i<elements.length; i++) {
         var toRotate = elements[i].getAttribute('data-type');
         var period = elements[i].getAttribute('data-period');
         if (toRotate) {
             new TxtType(elements[i], JSON.parse(toRotate), period);
-
-
         }
     }
+    */
+    var element = document.getElementsByClassName('typewrite')[0];
+    var toRotate = element.getAttribute('data-type');
+    var period = element.getAttribute('data-period');
+    titleTxtType = new TxtType(element, JSON.parse(toRotate), period);
+    titleTxtType.loopNum = 2;
 
     // INJECT CSS (Caret)
     var css = document.createElement("style");
     css.type = "text/css";
     css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}"
     document.body.appendChild(css);
+};
+
+// TODO: Add a function for swapping text
+window.SwapText = (target) => {
+    var toRotate = [];
+    toRotate.push(titleTxtType.txt, target);
+    titleTxtType.toRotate = toRotate; //JSON.parse('[titleTxtType.txt, '+target+']');
+    titleTxtType.loopNum = 0;
+    titleTxtType.tick();
+
+    console.log("swaptext");
 };

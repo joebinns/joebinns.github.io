@@ -173,11 +173,13 @@ function onDocumentMouseMove(event)
 window.openPopUp = (id) => {
     document.getElementById(id).hidden = false;
     clock.stop();
+    SwapText("About Me");
 };
 
 window.closePopUp = (id) => {
     document.getElementById(id).hidden = true;
     clock = new THREE.Clock();
+    SwapText("Joe Binns");
 };
 
 function onDocumentMouseDown(event) {
