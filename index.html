@@ -17,6 +17,7 @@
             }
             </script>
     <script type="module" src="./src/IncludeHTML.js"></script>
+    <script type="module" src="./src/Typewriter.js"></script>
     <script src="./src/IsDarkMode.js"></script>
     <head>
         <div data-include="head"></div>
@@ -36,8 +37,8 @@
             <div id="labels"></div>
             <div id="header">
                 <div class="upper-center padding center-text-align">
-                    <h1 id="title">
-                        Joe Binns
+                    <h1 href="" class="typewrite" data-period="100" data-type='[ "Joe Binns", "About Me" ]'>
+                        <span class="wrap"></span>
                     </h1>
                 </div>
                 <div class="upper-left padding center-text-align">
@@ -55,7 +56,7 @@
                 </div>
             </div>
             <div id="popups" style="position:relative;">
-                <div id="about" class="center rounded shadow opaque" style="height:auto; width:auto;">
+                <div id="about" class="center rounded shadow opaque" style="height:auto; width:auto;" hidden>
                     <!-- TODO: Change "Joe Binns" in header to "About" -->
                     <div style="height:4%; text-align:right;">
                         <a class="hyperimage" href="javascript:closePopUp('about');" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
