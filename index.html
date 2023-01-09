@@ -1,24 +1,24 @@
 <html lang="en">
-    <head>
-        <script type="importmap">
-        {
-            "imports":
+    <script type="importmap">
             {
-                "jquery": "https://unpkg.com/jquery/dist/jquery.min.js",
-                "three": "https://unpkg.com/three/build/three.module.js",
-                "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
-                "effectcomposer": "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
-                "shaderpass": "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
-                "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
-                "audio": "https://unpkg.com/three/src/audio/Audio.js",
-                "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
-                "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
-                "pass": "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js"
+                "imports":
+                {
+                    "jquery": "https://unpkg.com/jquery/dist/jquery.min.js",
+                    "three": "https://unpkg.com/three/build/three.module.js",
+                    "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
+                    "effectcomposer": "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
+                    "shaderpass": "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
+                    "fxaashader": "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js",
+                    "audio": "https://unpkg.com/three/src/audio/Audio.js",
+                    "audioloader": "https://unpkg.com/three/src/loaders/AudioLoader.js",
+                    "audiolistener": "https://unpkg.com/three/src/audio/AudioListener.js",
+                    "pass": "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js"
+                }
             }
-        }
-        </script>
-        <script type="module" src="./src/IncludeHTML.js"></script>
-        <script src="./src/IsDarkMode.js"></script>
+            </script>
+    <script type="module" src="./src/IncludeHTML.js"></script>
+    <script src="./src/IsDarkMode.js"></script>
+    <head>
         <div data-include="head"></div>
         <title>Joe Binns</title>
     </head>
@@ -58,7 +58,7 @@
                 <div id="about" class="center rounded shadow opaque" style="height:auto; width:auto;">
                     <!-- TODO: Change "Joe Binns" in header to "About" -->
                     <div style="height:4%; text-align:right;">
-                        <a class="hyperimage" href="javascript:document.getElementById('about').hidden = true;" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
+                        <a class="hyperimage" href="javascript:closePopUp('about');" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
                     </div>
                     <div style="overflow-y:auto; height:95%;">
                         <p>

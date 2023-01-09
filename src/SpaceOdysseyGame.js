@@ -59,7 +59,7 @@ const renderTarget = new THREE.WebGLRenderTarget(
 
 /* ---------- Setup the composer (renderer with post processing) ---------- */
 const composer = new EffectComposer(renderer, renderTarget);
-const dummyComposer = new EffectComposer(new THREE.WebGLRenderer(), renderTarget); 
+const dummyComposer = new EffectComposer(new THREE.WebGLRenderer(), renderTarget);
 
 // 1) Render pass
 // Skipping the regular render pass as to only render a custom outline.
@@ -82,7 +82,7 @@ var startOutlineColor;
 var targetOutlineColor;
 const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 if(userPrefersDark){
-    startOutlineColor = new THREE.Color(0x000000); // black     
+    startOutlineColor = new THREE.Color(0x000000); // black
     targetOutlineColor = new THREE.Color(0xffffff); // white
 }
 else
@@ -92,14 +92,14 @@ else
 }
 currentOutlineColor = startOutlineColor;
 
-uniforms.outlineColor.value.set(startOutlineColor); 
+uniforms.outlineColor.value.set(startOutlineColor);
 
 // Multiple scalar values packed into one uniform: Depth bias, depth multiplier, and same for normals
 uniforms.multiplierParameters.value.x = 0.25;
 uniforms.multiplierParameters.value.y = 10;
 uniforms.multiplierParameters.value.z = 1;
 uniforms.multiplierParameters.value.w = 0;
-    
+
 // 4) Anti-alias pass
 const effectFXAA = new ShaderPass(FXAAShader);
 effectFXAA.uniforms['resolution'].value.set(
@@ -145,7 +145,7 @@ class PickHelper
         {
             // Reset the cursor
             document.body.style.cursor = 'default';
-            
+
             // Reset the object
             this.pickedObject = null;
         }
@@ -170,12 +170,28 @@ function onDocumentMouseMove(event)
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
+window.openPopUp = (id) => {
+    document.getElementById(id).hidden = false;
+    clock.stop();
+};
+
+window.closePopUp = (id) => {
+    document.getElementById(id).hidden = true;
+    clock = new THREE.Clock();
+};
+
 function onDocumentMouseDown(event) {
-    if (pickHelper.pickedObject) {
-        // TODO: Get the hovered element
-        //elem.style.visibility = "visible";
+    let object = pickHelper.pickedObject;
+    if (object) {
+        let textObject = objectToTextObject(object)
+        if (textObject) {
+            textObject.subelem.click();
+            textObject.subelem.classList.replace("hyperlink-hover", "hyperlink-active");
+            prevPickedTextObject = textObject;
+        }
     }
 }
+
 
 function onDocumentVisibilityChange(event)
 {
@@ -261,7 +277,7 @@ let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.gl
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
     // Setup text objects
-    textObjects.push(new textObject("About", orion, "https://google.com"));
+    textObjects.push(new textObject("About", orion, "javascript:openPopUp('about');"));
     prevPickedTextObject = textObjects[0];
 
     // Setup hover objects
@@ -296,7 +312,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     // Add the groups to their respective scenes
     visualScene.add(group);
     physicalScene.add(groupConvex);
-    
+
     // Take note of some common variables for ease of use during updates
     areModelsLoaded = true;
 });
@@ -414,12 +430,14 @@ function update()
             if (textObject != null)
             {
                 textObject.subelem.classList.replace("hyperlink", "hyperlink-hover");
+                prevPickedTextObject.subelem.classList.replace("hyperlink-active", "hyperlink-hover");
                 prevPickedTextObject = textObject;
             }
         }
         else
         {
             prevPickedTextObject.subelem.classList.replace("hyperlink-hover", "hyperlink");
+            prevPickedTextObject.subelem.classList.replace("hyperlink-active", "hyperlink");
         }
 
 
@@ -551,6 +569,6 @@ if (true)//(isWebGLAvailable())
     document.addEventListener('mousemove', onDocumentMouseMove, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
     document.addEventListener('visibilitychange', onDocumentVisibilityChange, false);
-      
+
     window.addEventListener('resize', onWindowResize, false);
 }
