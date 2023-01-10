@@ -472,8 +472,15 @@ function update()
             prevPickedTextObject.subelem.classList.replace("hyperlink-active", "hyperlink");
         }
 
-
         controls.update( deltaTime );
+
+
+        // Rotate the models (visual and physical)
+        spaceStationV.rotation.x += deltaTime * 0.075;
+        orion.rotation.x += deltaTime * 0.075;
+        spaceStationVConvex.rotation.x += deltaTime * 0.075;
+        orionConvex.rotation.x += deltaTime * 0.075;
+
 
         // Render text objects
         for (let i = 0; i < textObjects.length; i++)
