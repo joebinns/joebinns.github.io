@@ -268,7 +268,7 @@ function loadGLTF(path)
 }
 
 const group = new THREE.Group();
-var spaceStationV, orion;
+var spaceStationV, orion, orion2;
 const groupConvex = new THREE.Group();
 var spaceStationVConvex, orionConvex;
 
@@ -290,11 +290,15 @@ const stylisedCharacterControllerObject = new THREE.Group();
 
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
+    // Clone orion
+    orion2 = orion.clone();
+
     // Setup text objects
     textObjects.push(new textObject("About Me", orion, "javascript:openPopUp('about', 'About Me');"));
     textObjects.push(new textObject("Portfolio", spaceStationV, "javascript:togglePortfolio();"));
-    portfolioTextObjects.push(textObjects.at(-1));
+    textObjects.push(new textObject("Curriculum Vitae", orion2, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
     textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObject, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller');"));
+    portfolioTextObjects.push(textObjects.at(-1));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
 
@@ -601,7 +605,7 @@ function isWebGLAvailable()
 
 
 /* ---------------- Call render loop and add event listeners ---------------- */
-if (true)//(isWebGLAvailable())
+if (isWebGLAvailable())
 {
     update();
 
