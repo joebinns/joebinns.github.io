@@ -270,7 +270,7 @@ function loadGLTF(path)
 const group = new THREE.Group();
 var spaceStationV, orion, orion2;
 const groupConvex = new THREE.Group();
-var spaceStationVConvex, orionConvex;
+var spaceStationVConvex, orionConvex, orion2Convex;
 
 const spaceStationVDistance = 10;
 const orionDistance = 4;
@@ -292,13 +292,14 @@ const stylisedCharacterControllerObject = new THREE.Group();
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
     // Clone orion
     orion2 = orion.clone();
+    orion2Convex = orionConvex.clone();
 
     // Setup text objects
     textObjects.push(new textObject("About Me", orion, "javascript:openPopUp('about', 'About Me');"));
-    textObjects.push(new textObject("Portfolio", spaceStationV, "javascript:togglePortfolio();"));
     textObjects.push(new textObject("Curriculum Vitae", orion2, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
-    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObject, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller');"));
+    textObjects.push(new textObject("Portfolio", spaceStationV, "javascript:togglePortfolio();"));
     portfolioTextObjects.push(textObjects.at(-1));
+    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObject, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller');"));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
 
@@ -306,18 +307,20 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
 
     // Setup hover objects
     hoverObjects.push(new hoverObject(orion, 0.1, 10));
+    hoverObjects.push(new hoverObject(orion2, 0.1, 10));
     hoverObjects.push(new hoverObject(spaceStationV, 0.05, 1));
-
 
     // Group visual objects
     spaceStationVGroup.add(spaceStationV);
     spaceStationVGroup.add(stylisedCharacterControllerObject);
     group.add(spaceStationVGroup);
     group.add(orion);
+    group.add(orion2);
 
     // Group hitbox objects
     groupConvex.add(spaceStationVConvex);
     groupConvex.add(orionConvex);
+    groupConvex.add(orion2Convex);
 
     // Rotate groups
     group.rotation.set(90*3.14/180, 12.5*3.14/180, -26.5*3.14/180);
@@ -325,18 +328,23 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
 
     // Rescale objects (some smaller versions of models are imported and upscaled to reduce their depth buffer range)
     orion.scale.set(10, 10, 10);
+    orion2.scale.set(10, 10, 10);
     orionConvex.scale.set(10, 10, 10);
+    orion2Convex.scale.set(10, 10, 10)
 
     // Displace objects along their local axes
     spaceStationVGroup.position.set(spaceStationVDistance, 0, 0);
     stylisedCharacterControllerObject.position.set(0, 0, -5);
     orion.position.set(-orionDistance, 0, 0);
+    orion2.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
     spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
     orionConvex.position.set(-orionDistance, 0, 0);
+    orion2Convex.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
 
     // Apply the custom outline to the visual objects
     spaceStationV.traverse(node => node.applyOutline = true);
     orion.traverse(node => node.applyOutline = true);
+    orion2.traverse(node => node.applyOutline = true);
 
     // Add the groups to their respective scenes
     visualScene.add(group);
@@ -482,8 +490,10 @@ function update()
         // Rotate the models (visual and physical)
         spaceStationV.rotation.x += deltaTime * 0.075;
         orion.rotation.x += deltaTime * 0.075;
+        orion2.rotation.x += deltaTime * 0.075;
         spaceStationVConvex.rotation.x += deltaTime * 0.075;
         orionConvex.rotation.x += deltaTime * 0.075;
+        orion2Convex.rotation.x += deltaTime * 0.075;
 
 
         // Render text objects
