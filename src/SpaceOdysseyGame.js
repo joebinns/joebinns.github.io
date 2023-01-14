@@ -286,7 +286,10 @@ let promiseSpaceStationVConvex = loadGLTF('models/space_station_v/SpaceStationV_
 let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.glb').then(result => { orionConvex = result.scene; });
 
 const spaceStationVGroup = new THREE.Group();
+const personalObject = new THREE.Group();
+const professionalObject = new THREE.Group();
 const stylisedCharacterControllerObject = new THREE.Group();
+
 
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
@@ -298,6 +301,12 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     textObjects.push(new textObject("About Me", orion, "javascript:openPopUp('about', 'About Me');"));
     textObjects.push(new textObject("Curriculum Vitae", orion2, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
     textObjects.push(new textObject("Portfolio", spaceStationV, "javascript:togglePortfolio();"));
+
+    textObjects.push(new textObject("Personal", personalObject));
+    textObjects.at(-1).subelem.hidden = true;
+    portfolioTextObjects.push(textObjects.at(-1));
+    textObjects.push(new textObject("Professional", professionalObject));
+    textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
     textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObject, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller');"));
     textObjects.at(-1).subelem.hidden = true;
@@ -312,6 +321,8 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
 
     // Group visual objects
     spaceStationVGroup.add(spaceStationV);
+    spaceStationVGroup.add(personalObject);
+    spaceStationVGroup.add(professionalObject);
     spaceStationVGroup.add(stylisedCharacterControllerObject);
     group.add(spaceStationVGroup);
     group.add(orion);
@@ -334,7 +345,9 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
 
     // Displace objects along their local axes
     spaceStationVGroup.position.set(spaceStationVDistance, 0, 0);
-    stylisedCharacterControllerObject.position.set(0, 0, -5);
+    personalObject.position.set(0, 15, 0);
+    professionalObject.position.set(0, -15, 0);
+    stylisedCharacterControllerObject.position.set(0, 15, -5);
     orion.position.set(-orionDistance, 0, 0);
     orion2.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
     spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
@@ -515,40 +528,19 @@ function update()
             // on the left and y = -1 being on the bottom
             tempV.project(camera);
 
-            /*
-            const points = [];
-            points.push(tempV);
-            let displacedPosition;
-            displacedPosition = tempV.add(new THREE.Vector3(0, 1 * scale, 0));
-            points.push(displacedPosition);
-
-            const geometry = new THREE.BufferGeometry().setFromPoints(points);
-            const line = new THREE.Line( geometry );
-            visualScene.add(line);
-            */
-
             // convert the normalized position to CSS coordinates
             let x = (tempV.x * .5 + .5);
             let y = (tempV.y * -.5 + .5);
             let offsetY = (y - (0.3 * scale));
 
 
-            if (isLookingAt(camera, pivot))
-            {
-                //elem.style.visibility = "visible";
-            }
-            else
-            {
-                //elem.style.visibility = "hidden";
-
-                x = Math.sign(x);
-                y = Math.sign(y);
-                offsetY = Math.sign(offsetY);
-            }
-
-            x = clamp(x, 0, 1);
-            y = clamp(y, 0, 1);
-            offsetY = clamp(offsetY, 0, 1);
+            let relevance = isLookingAt(camera, pivot);
+            const farDistance = 10;
+            let distance = getDisplacement(camera, pivot).length() / farDistance;
+            let opacity = clamp(relevance / distance, 0, 0.8);
+            opacity *= 1.25;
+            console.log(opacity);
+            elem.style.opacity = opacity;
 
 
             x *= canvas.clientWidth;
@@ -577,26 +569,25 @@ function update()
     }
 }
 
+function getDisplacement(objectA, objectB)
+{
+    const objectAPos = new THREE.Vector3(0, 0, 0);
+    objectA.getWorldPosition(objectAPos);
+    var objectBPos = new THREE.Vector3(0, 0, 0);
+    objectB.getWorldPosition(objectBPos);
+    var displacement = objectBPos.sub(objectAPos);
+    return displacement;
+}
 
 function isLookingAt(camera, object)
 {
     const cameraDir = new THREE.Vector3(0, 0, 0);
     camera.getWorldDirection(cameraDir);
 
-    const cameraPos = new THREE.Vector3(0, 0, 0);
-    camera.getWorldPosition(cameraPos);
-    const objectPos = new THREE.Vector3(0, 0, 0);
-    object.getWorldPosition(objectPos);
-    const cameraToObjectDir = objectPos.sub(cameraPos);
+    let cameraToObjectDir = getDisplacement(camera, object);
+    cameraToObjectDir = cameraToObjectDir.divideScalar(cameraToObjectDir.length());
 
-    if(cameraDir.dot(cameraToObjectDir) > 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false
-    }
+    return cameraDir.dot(cameraToObjectDir);
 }
 
 
