@@ -126,18 +126,29 @@ class PickHelper
         this.pickedObject = null;
     }
 
-    pick(normalizedPosition, scene, camera)
+    getPickedObject(normalizedPosition, scene, camera)
     {
+        let pickedObject = null;
+
         // Cast a ray through the frustum
         this.raycaster.setFromCamera(normalizedPosition, camera);
         // Get the list of objects the ray intersected
         const intersectedObjects = this.raycaster.intersectObjects(scene.children);
 
-        if (intersectedObjects.length)
-        {
+        if (intersectedObjects.length) {
             // Pick the first object. It's the closest one
-            this.pickedObject = intersectedObjects[0].object.parent;
+            pickedObject = intersectedObjects[0].object.parent;
+        }
 
+        return pickedObject;
+    }
+
+    pick(normalizedPosition, scene, camera)
+    {
+        this.pickedObject = this.getPickedObject(normalizedPosition, scene, camera);
+
+        if (this.pickedObject != null)
+        {
             // Make the cursor a pointer hand
             document.body.style.cursor = 'pointer';
         }
@@ -529,20 +540,6 @@ function update()
 
 
 
-
-            // Set visibility based on if it is blocked from or out of view
-            if (opacity < 0.01) //
-            {
-                elem.hidden = true;
-            }
-            else
-            {
-                elem.hidden = false;
-            }
-
-
-
-
             // get the position of the center of the cube
             pivot.updateWorldMatrix(true, false);
             pivot.getWorldPosition(tempV);
@@ -581,6 +578,27 @@ function update()
             elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
             //elem.style.transform = `translate(${x}px, ${y}px)`;
             //elem.style.transform = `translate()`;
+
+
+
+            // Set visibility based on if it is blocked from or out of view
+            /*
+            // TODO: Check if it is blocked from view
+            const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(tempV.x, tempV.y), physicalScene, camera);
+            let isBlockedFromView = pickedObject != pivot;
+            console.log(pickedObject.id + " " + pivot.id);
+            //console.log(isBlockedFromView);
+            */
+            let isOutOfView = relevance < 0;
+            let isBlockedFromView = false;
+            if (isOutOfView || isBlockedFromView)
+            {
+                elem.hidden = true;
+            }
+            else
+            {
+                elem.hidden = false;
+            }
         }
 
         // Render the visual scene and the (hidden) physical scene
