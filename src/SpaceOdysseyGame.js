@@ -518,6 +518,31 @@ function update()
             let elem = textObject.elem;
             let pivot = textObject.pivot;
 
+
+            // Set opacity based on distance and camera view
+            let relevance = isLookingAt(camera, pivot);
+            const farDistance = 5;
+            let distance = getDisplacement(camera, pivot).length();
+            let proximity = relevance * farDistance / Math.sqrt(distance);
+            let opacity = 1 / (1 + Math.exp(10*(1-proximity)));
+            elem.style.opacity = opacity;
+
+
+
+
+            // Set visibility based on if it is blocked from or out of view
+            if (opacity < 0.01) //
+            {
+                elem.hidden = true;
+            }
+            else
+            {
+                elem.hidden = false;
+            }
+
+
+
+
             // get the position of the center of the cube
             pivot.updateWorldMatrix(true, false);
             pivot.getWorldPosition(tempV);
@@ -534,14 +559,6 @@ function update()
             let x = (tempV.x * .5 + .5);
             let y = (tempV.y * -.5 + .5);
             let offsetY = (y - (0.3 * scale));
-
-
-            let relevance = isLookingAt(camera, pivot);
-            const farDistance = 10;
-            let distance = getDisplacement(camera, pivot).length() / farDistance;
-            let opacity = clamp(relevance / distance, 0, 0.8);
-            opacity *= 1.25;
-            elem.style.opacity = opacity;
 
 
             x *= canvas.clientWidth;
@@ -561,7 +578,7 @@ function update()
             */
 
             // move the elem to that position
-            elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+            elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
             //elem.style.transform = `translate(${x}px, ${y}px)`;
             //elem.style.transform = `translate()`;
         }
