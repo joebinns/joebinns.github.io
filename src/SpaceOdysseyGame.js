@@ -225,6 +225,8 @@ class textObject
     constructor(text, pivot, hyperlink = null)
     {
         this.elem = document.createElement('div');
+        this.elem.style.position = "absolute";
+        this.elem.style.whiteSpace = "nowrap";
         this.subelem = document.createElement('a');
         this.subelem.textContent = text;
         this.subelem.classList.add("border");
@@ -334,8 +336,8 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     groupConvex.add(orion2Convex);
 
     // Rotate groups
-    group.rotation.set(90*3.14/180, 12.5*3.14/180, -26.5*3.14/180);
-    groupConvex.rotation.set(90*3.14/180, 12.5*3.14/180, -26.5*3.14/180);
+    //group.rotation.set(90*3.14/180, 12.5*3.14/180, -26.5*3.14/180);
+    //groupConvex.rotation.set(90*3.14/180, 12.5*3.14/180, -26.5*3.14/180);
 
     // Rescale objects (some smaller versions of models are imported and upscaled to reduce their depth buffer range)
     orion.scale.set(10, 10, 10);
@@ -345,9 +347,9 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
 
     // Displace objects along their local axes
     spaceStationVGroup.position.set(spaceStationVDistance, 0, 0);
-    personalObject.position.set(0, 15, 0);
-    professionalObject.position.set(0, -15, 0);
-    stylisedCharacterControllerObject.position.set(0, 15, -5);
+    personalObject.position.set(0, 0, 15);
+    professionalObject.position.set(0, 0, -15);
+    stylisedCharacterControllerObject.position.set(0, 0, 20);
     orion.position.set(-orionDistance, 0, 0);
     orion2.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
     spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
@@ -539,7 +541,6 @@ function update()
             let distance = getDisplacement(camera, pivot).length() / farDistance;
             let opacity = clamp(relevance / distance, 0, 0.8);
             opacity *= 1.25;
-            console.log(opacity);
             elem.style.opacity = opacity;
 
 
@@ -560,7 +561,9 @@ function update()
             */
 
             // move the elem to that position
-            elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
+            elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+            //elem.style.transform = `translate(${x}px, ${y}px)`;
+            //elem.style.transform = `translate()`;
         }
 
         // Render the visual scene and the (hidden) physical scene
