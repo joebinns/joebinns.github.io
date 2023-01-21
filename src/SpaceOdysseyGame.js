@@ -299,9 +299,11 @@ let promiseSpaceStationVConvex = loadGLTF('models/space_station_v/SpaceStationV_
 let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.glb').then(result => { orionConvex = result.scene; });
 
 const spaceStationVGroup = new THREE.Group();
-const personalObject = new THREE.Group();
-const professionalObject = new THREE.Group();
-const stylisedCharacterControllerObject = new THREE.Group();
+
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.1, 4, 4));
+const personalObject = sphere.clone();
+const professionalObject = sphere.clone();
+const stylisedCharacterControllerObject = sphere.clone();
 
 
 // Setup the objects in their scenes, once all the models have loaded
@@ -368,10 +370,8 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     orion2Convex.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
 
     // Apply the custom outline to the visual objects
-    spaceStationV.traverse(node => node.applyOutline = true);
-    orion.traverse(node => node.applyOutline = true);
-    orion2.traverse(node => node.applyOutline = true);
-
+    group.traverse(node => node.applyOutline = true);
+    
     // Add the groups to their respective scenes
     visualScene.add(group);
     physicalScene.add(groupConvex);
