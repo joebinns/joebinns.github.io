@@ -311,9 +311,9 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     orion2Convex = orionConvex.clone();
 
     // Setup text objects
-    textObjects.push(new textObject("About Me", orion, "javascript:openPopUp('about', 'About Me');"));
-    textObjects.push(new textObject("Curriculum Vitae", orion2, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
-    textObjects.push(new textObject("Portfolio", spaceStationV, "javascript:togglePortfolio();"));
+    textObjects.push(new textObject("About Me", orionConvex, "javascript:openPopUp('about', 'About Me');"));
+    textObjects.push(new textObject("Curriculum Vitae", orion2Convex, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
+    textObjects.push(new textObject("Portfolio", spaceStationVConvex, "javascript:togglePortfolio();"));
 
     textObjects.push(new textObject("Personal", personalObject));
     textObjects.at(-1).subelem.hidden = true;
@@ -581,16 +581,11 @@ function update()
 
 
 
-            // Set visibility based on if it is blocked from or out of view
-            /*
-            // TODO: Check if it is blocked from view
+            // Set visibility based on if it's blocked from or out of view
             const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(tempV.x, tempV.y), physicalScene, camera);
-            let isBlockedFromView = pickedObject != pivot;
-            console.log(pickedObject.id + " " + pivot.id);
-            //console.log(isBlockedFromView);
-            */
-            let isOutOfView = relevance < 0;
             let isBlockedFromView = false;
+            isBlockedFromView = pickedObject != pivot;
+            let isOutOfView = relevance < 0;
             if (isOutOfView || isBlockedFromView)
             {
                 elem.hidden = true;
