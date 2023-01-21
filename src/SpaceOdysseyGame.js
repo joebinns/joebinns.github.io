@@ -584,7 +584,7 @@ function update()
             // Set visibility based on if it's blocked from or out of view
             const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(tempV.x, tempV.y), physicalScene, camera);
             let isBlockedFromView = false;
-            isBlockedFromView = pickedObject != pivot;
+            if (pickedObject) isBlockedFromView = pickedObject != pivot;
             let isOutOfView = relevance < 0;
             if (isOutOfView || isBlockedFromView)
             {
