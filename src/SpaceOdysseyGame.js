@@ -133,9 +133,10 @@ class PickHelper
         // Cast a ray through the frustum
         this.raycaster.setFromCamera(normalizedPosition, camera);
         // Get the list of objects the ray intersected
-        const intersectedObjects = this.raycaster.intersectObjects(scene.children);
+        const intersectedObjects = this.raycaster.intersectObjects(scene.children, true);
 
-        if (intersectedObjects.length) {
+        if (intersectedObjects.length)
+        {
             // Pick the first object. It's the closest one
             pickedObject = intersectedObjects[0].object.parent;
         }
@@ -146,20 +147,6 @@ class PickHelper
     pick(normalizedPosition, scene, camera)
     {
         this.pickedObject = this.getPickedObject(normalizedPosition, scene, camera);
-
-        if (this.pickedObject != null)
-        {
-            // Make the cursor a pointer hand
-            document.body.style.cursor = 'pointer';
-        }
-        else
-        {
-            // Reset the cursor
-            document.body.style.cursor = 'default';
-
-            // Reset the object
-            this.pickedObject = null;
-        }
     }
 }
 
@@ -246,6 +233,7 @@ class textObject
 
         this.pivot = pivot;
 
+        this.hyperlink = hyperlink;
         if (hyperlink != null)
         {
             this.subelem.classList.add("hyperlink");
@@ -260,12 +248,13 @@ const portfolioTextObjects = [];
 
 class hoverObject
 {
-    constructor(object, scaleRange, scaleMultiplier)
+    constructor(object, physicalObject, scaleRange, scaleMultiplier)
     {
         this.object = object;
-        this.hoverAmount = 0;
+        this.physicalObject = physicalObject;
         this.scaleRange = scaleRange;
         this.scaleMultiplier = scaleMultiplier;
+        this.hoverAmount = 0;
     }
 }
 
@@ -299,11 +288,18 @@ let promiseSpaceStationVConvex = loadGLTF('models/space_station_v/SpaceStationV_
 let promiseOrionConvex = loadGLTF('models/orion/Orion_Simplified_Convex_Small.glb').then(result => { orionConvex = result.scene; });
 
 const spaceStationVGroup = new THREE.Group();
+const spaceStationVGroupConvex = new THREE.Group();
 
-const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.1, 4, 4));
+const sphere = new THREE.Group();
+const sphereMesh = new THREE.Mesh(new THREE.SphereGeometry(0.1, 7, 7));
+sphere.add(sphereMesh);
+
 const personalObject = sphere.clone();
+const personalObjectConvex = sphere.clone();
 const professionalObject = sphere.clone();
+const professionalObjectConvex = sphere.clone();
 const stylisedCharacterControllerObject = sphere.clone();
+const stylisedCharacterControllerObjectConvex = sphere.clone();
 
 
 // Setup the objects in their scenes, once all the models have loaded
@@ -313,26 +309,28 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     orion2Convex = orionConvex.clone();
 
     // Setup text objects
-    textObjects.push(new textObject("About Me", orionConvex, "javascript:openPopUp('about', 'About Me');"));
+    textObjects.push(new textObject("About Me", orionConvex, "javascript:openPopUp('about-me', 'About Me');"));
     textObjects.push(new textObject("Curriculum Vitae", orion2Convex, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
     textObjects.push(new textObject("Portfolio", spaceStationVConvex, "javascript:togglePortfolio();"));
 
-    textObjects.push(new textObject("Personal", personalObject));
+    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller');"));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
-    textObjects.push(new textObject("Professional", professionalObject));
+
+    textObjects.push(new textObject("Personal", personalObjectConvex));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
-    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObject, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller');"));
+    textObjects.push(new textObject("Professional", professionalObjectConvex));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
 
     prevPickedTextObject = textObjects[0];
 
     // Setup hover objects
-    hoverObjects.push(new hoverObject(orion, 0.1, 10));
-    hoverObjects.push(new hoverObject(orion2, 0.1, 10));
-    hoverObjects.push(new hoverObject(spaceStationV, 0.05, 1));
+    hoverObjects.push(new hoverObject(orion, orionConvex, 0.1, 10));
+    hoverObjects.push(new hoverObject(orion2, orion2Convex, 0.1, 10));
+    hoverObjects.push(new hoverObject(spaceStationV, spaceStationVConvex, 0.05, 1));
+    hoverObjects.push(new hoverObject(stylisedCharacterControllerObject, stylisedCharacterControllerObjectConvex, 0.4, 1));
 
     // Group visual objects
     spaceStationVGroup.add(spaceStationV);
@@ -344,7 +342,11 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     group.add(orion2);
 
     // Group hitbox objects
-    groupConvex.add(spaceStationVConvex);
+    spaceStationVGroupConvex.add(spaceStationVConvex);
+    spaceStationVGroupConvex.add(personalObjectConvex);
+    spaceStationVGroupConvex.add(professionalObjectConvex);
+    spaceStationVGroupConvex.add(stylisedCharacterControllerObjectConvex);
+    groupConvex.add(spaceStationVGroupConvex);
     groupConvex.add(orionConvex);
     groupConvex.add(orion2Convex);
 
@@ -365,13 +367,17 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     stylisedCharacterControllerObject.position.set(0, 0, 20);
     orion.position.set(-orionDistance, 0, 0);
     orion2.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
-    spaceStationVConvex.position.set(spaceStationVDistance, 0, 0);
+
+    spaceStationVGroupConvex.position.set(spaceStationVDistance, 0, 0);
+    personalObjectConvex.position.set(0, 0, 15);
+    professionalObjectConvex.position.set(0, 0, -15);
+    stylisedCharacterControllerObjectConvex.position.set(0, 0, 20);
     orionConvex.position.set(-orionDistance, 0, 0);
     orion2Convex.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
 
     // Apply the custom outline to the visual objects
     group.traverse(node => node.applyOutline = true);
-    
+
     // Add the groups to their respective scenes
     visualScene.add(group);
     physicalScene.add(groupConvex);
@@ -393,12 +399,6 @@ function onWindowResize()
     effectFXAA.setSize(window.innerWidth, window.innerHeight);
     customOutline.setSize(window.innerWidth, window.innerHeight);
 
-    //let ctx = canvas2d.getContext('2d');
-    //ctx.canvas.width  = window.innerWidth;
-    //ctx.canvas.height = window.innerHeight;
-    //canvas2d.width = document.body.clientWidth;
-    //canvas2d.height = document.body.clientHeight;
-
     controls.handleResize();
 }
 
@@ -408,25 +408,17 @@ onWindowResize();
 let clock = new THREE.Clock();
 var t = 0;
 
-var hoverSpeed = 0;
-
 var colorTimeRate = 0.01;
-const maxSpeed = 0.0005;
 
 const tempV = new THREE.Vector3();
 
-let hoveredElement;
-
 function objectToTextObject(object) {
-    // Find the current textObject based on object position.
     let textObject;
     for (let i = 0; i < textObjects.length; i++) {
-        var worldPosA = new THREE.Vector3(0, 0, 0);
-        var worldPosB = new THREE.Vector3(0, 0, 0);
-        textObjects[i].pivot.getWorldPosition(worldPosA);
-        object.getWorldPosition(worldPosB);
-        if (worldPosA.equals(worldPosB)) {
+        if (textObjects[i].pivot == object)
+        {
             textObject = textObjects[i];
+            break;
         }
     }
     return textObject;
@@ -438,11 +430,7 @@ function isObjectHovered(object)
     {
         return false;
     }
-    var worldPosA = new THREE.Vector3(0, 0, 0);
-    var worldPosB = new THREE.Vector3(0, 0, 0);
-    object.getWorldPosition(worldPosA);
-    pickHelper.pickedObject.getWorldPosition(worldPosB);
-    return worldPosA.equals(worldPosB);
+    return object == pickHelper.pickedObject;
 }
 
 function isElementHovered(element)
@@ -478,8 +466,9 @@ function update()
         {
             let hoverObject = hoverObjects[i];
             let object = hoverObject.object;
+            let physicalObject = hoverObject.physicalObject;
             let hoverAmount = hoverObject.hoverAmount;
-            if (isObjectHovered(object) || isElementHovered(objectToTextObject(object).subelem))
+            if (isObjectHovered(physicalObject) || isElementHovered(objectToTextObject(physicalObject).subelem))
             {
                 hoverAmount += 10 * deltaTime;
             }
@@ -496,18 +485,23 @@ function update()
 
         if (pickHelper.pickedObject)
         {
-            let textObject = objectToTextObject(pickHelper.pickedObject)
+            let textObject = objectToTextObject(pickHelper.pickedObject);
             if (textObject != null)
             {
                 textObject.subelem.classList.replace("hyperlink", "hyperlink-hover");
                 prevPickedTextObject.subelem.classList.replace("hyperlink-active", "hyperlink-hover");
                 prevPickedTextObject = textObject;
+                if (textObject.hyperlink != null)
+                {
+                    document.body.style.cursor = 'pointer';
+                }
             }
         }
         else
         {
             prevPickedTextObject.subelem.classList.replace("hyperlink-hover", "hyperlink");
             prevPickedTextObject.subelem.classList.replace("hyperlink-active", "hyperlink");
+            document.body.style.cursor = 'default';
         }
 
         controls.update( deltaTime );
@@ -584,7 +578,7 @@ function update()
             // Set visibility based on if it's blocked from or out of view
             const pickedObject = pickHelper.getPickedObject(new THREE.Vector2(tempV.x, tempV.y), physicalScene, camera);
             let isBlockedFromView = false;
-            if (pickedObject) isBlockedFromView = pickedObject != pivot;
+            //if (pickedObject) isBlockedFromView = pickedObject != pivot;
             let isOutOfView = relevance < 0;
             if (isOutOfView || isBlockedFromView)
             {
