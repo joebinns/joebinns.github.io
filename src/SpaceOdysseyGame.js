@@ -171,7 +171,7 @@ function onDocumentMouseMove(event)
 window.openPopUp = (id, text) => {
     document.getElementById(id).hidden = false;
     clock.stop();
-    SwapText(text);
+    //SwapText(text);
     document.body.style.cursor = 'default';
     uniforms.outlineColor.value.set(new THREE.Color(0x1A1A1A)); // TODO: Change this color to 90% white if light mode is used.
     for (let i = 0; i < textObjects.length; i++)
@@ -186,7 +186,7 @@ window.openPopUp = (id, text) => {
 window.closePopUp = (id) => {
     document.getElementById(id).hidden = true;
     clock = new THREE.Clock();
-    SwapText("Joe Binns");
+    //SwapText("Joe Binns");
 };
 
 window.togglePortfolio = () => {
