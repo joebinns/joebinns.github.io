@@ -181,9 +181,17 @@ window.openPopUp = (id, text) => {
     // Render the visual scene and the (hidden) physical scene
     composer.render();
     dummyComposer.render();
+    latestPopUpId = id;
 };
 
-window.closePopUp = (id) => {
+let latestPopUpId;
+
+window.closeLatestPopUp = () => {
+    closePopUp(latestPopUpId)
+}
+
+function closePopUp (id)
+{
     document.getElementById(id).hidden = true;
     clock = new THREE.Clock();
     //SwapText("Joe Binns");

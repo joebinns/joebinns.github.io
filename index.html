@@ -17,47 +17,47 @@
             }
             </script>
     <script type="module" src="./src/IncludeHTML.js"></script>
-    <script type="module" src="./src/Typewriter.js"></script>
     <script src="./src/IsDarkMode.js"></script>
     <head>
         <div data-include="head"></div>
         <title>Joe Binns</title>
     </head>
     <body>
-        <div id="container">
-            <canvas id="canvas3d"></canvas>
-            <div id="labels"></div>
-            <div id="header">
-                <div class="upper-center padding center-text-align">
-                    <!--
-                    <h1 href="" class="typewrite" data-period="1000" data-type='[ "Joe Binns" ]'>
-                        <span class="wrap"></span>
-                    </h1>
-                    -->
+        <div>
+            <div class="center-text-align">
+                <div class="upper-center square-padding">
                     <h1>
                         Joe Binns
                     </h1>
                 </div>
-                <div class="upper-left padding center-text-align">
-                    <p>
-                        <a class="hyperimage" href="https://github.com/joebinns" target="_blank"><img id="github" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
-                        <span class="tab"></span>
-                        <a class="hyperimage" href="mailto:joebinns.95@gmail.com" target="_blank"><img id="mail" src="../images/mail_box_optimised.svg" alt="email" width="20" height="20"></a>
-                        <span class="tab"></span>
-                        <a class="hyperimage" href="https://joebinns.itch.io/" target="_blank"><img id="itchdotio" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
-                        <span class="tab"></span>
-                        <a class="hyperimage" href="https://www.youtube.com/channel/UCw7E9coBaTrn773ZCHAzc4w" target="_blank"><img id="youtube" src="../images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
-                        <span class="tab"></span>
-                        <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="../images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
-                    </p>
+                <div class="square-padding">
+                    <div class="upper-left square-padding">
+                        <p>
+                            <a class="hyperimage" href="https://github.com/joebinns" target="_blank"><img id="github" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
+                            <span class="tab"></span>
+                            <a class="hyperimage" href="mailto:joebinns.95@gmail.com" target="_blank"><img id="mail" src="../images/mail_box_optimised.svg" alt="email" width="20" height="20"></a>
+                            <span class="tab"></span>
+                            <a class="hyperimage" href="https://joebinns.itch.io/" target="_blank"><img id="itchdotio" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
+                            <span class="tab"></span>
+                            <a class="hyperimage" href="https://www.youtube.com/channel/UCw7E9coBaTrn773ZCHAzc4w" target="_blank"><img id="youtube" src="../images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
+                            <span class="tab"></span>
+                            <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="../images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
+                        </p>
+                    </div>
+                    <div class="upper-right square-padding">
+                        <p>
+                            <a class="hyperimage" href="javascript:closeLatestPopUp();" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+        <div id="container">
+            <canvas id="canvas3d"></canvas>
+            <div id="labels"></div>
+        </div>
         <div id="popups" style="position:relative;">
             <div id="about-me" class="center" style="height:100%; width:100%;" hidden>
-                <div style="height:4%; text-align:right;">
-                    <a class="hyperimage" href="javascript:closePopUp('about-me');" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
-                </div>
                 <div class="padding center-text-align vertical-center" style="overflow-y:auto; height:auto; width:auto;">
                     <p>
                         <a>
@@ -71,9 +71,6 @@
                 </div>
             </div>
             <div id="stylised-character-controller" class="center" style="height:100%; width:100%;" hidden>
-                <div style="height:4%; text-align:right;">
-                    <a class="hyperimage" href="javascript:closePopUp('stylised-character-controller');" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
-                </div>
                 <div class="padding center-text-align vertical-center" style="overflow-y:auto; height:auto; width:auto;">
                     <p>
                         <a>
@@ -83,8 +80,6 @@
                 </div>
             </div>
         </div>
-        <!--<div data-include="header"></div>-->
-        <!-- Dark Mode -->
         <script>
             if (userPrefersDark) {
                 // Swap document icons to white versions to retain contrast

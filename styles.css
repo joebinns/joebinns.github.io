@@ -135,6 +135,12 @@ a{
     -ms-transform: translate(-50%, 0);
     transform: translate(-50%, 0);
 }
+.square-padding {
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
 .padding{
     padding-top: 10px;
     padding-right: 25px;
@@ -151,6 +157,11 @@ a{
     top: 54%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+.vertical-center-new {
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 .vertical-center {
     position: relative;
