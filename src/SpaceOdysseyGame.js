@@ -170,6 +170,7 @@ function onDocumentMouseMove(event)
 
 window.openPopUp = (id, text) => {
     document.getElementById(id).hidden = false;
+    document.getElementById("close-pop-up-button").hidden = false;
     clock.stop();
     //SwapText(text);
     document.body.style.cursor = 'default';
@@ -190,9 +191,10 @@ window.closeLatestPopUp = () => {
     closePopUp(latestPopUpId)
 }
 
-function closePopUp (id)
+function closePopUp(id)
 {
     document.getElementById(id).hidden = true;
+    document.getElementById("close-pop-up-button").hidden = true;
     clock = new THREE.Clock();
     //SwapText("Joe Binns");
 };
