@@ -173,6 +173,14 @@ window.openPopUp = (id, text) => {
     clock.stop();
     SwapText(text);
     document.body.style.cursor = 'default';
+    uniforms.outlineColor.value.set(new THREE.Color(0x1A1A1A)); // TODO: Change this color to 90% white if light mode is used.
+    for (let i = 0; i < textObjects.length; i++)
+    {
+        textObjects[i].elem.style.opacity = 0.1;
+    }
+    // Render the visual scene and the (hidden) physical scene
+    composer.render();
+    dummyComposer.render();
 };
 
 window.closePopUp = (id) => {

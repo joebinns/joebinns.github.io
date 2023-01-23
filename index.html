@@ -24,15 +24,7 @@
         <title>Joe Binns</title>
     </head>
     <body>
-        <div id="notification_division" class="upper-right padding center-text-align" style="animation-iteration-count:1;padding:4px;">
-            <p id="notification_paragraph" style="display:none">
-                <a id="notification_hyper" class="greenhyperlink" href="mailto:joebinns.95@gmail.com" target="_blank">
-                    <img id="notification" style="display:inline;" src="images/circle_green_optimised.svg" alt="Green Circle" width="12" height="12"> Available for work
-                </a>
-            </p>
-        </div>
         <div id="container">
-            <!--<canvas id="canvas2d"></canvas>-->
             <canvas id="canvas3d"></canvas>
             <div id="labels"></div>
             <div id="header">
@@ -40,11 +32,6 @@
                     <h1 href="" class="typewrite" data-period="1000" data-type='[ "Joe Binns" ]'>
                         <span class="wrap"></span>
                     </h1>
-                    <!--
-                    <h1>
-                        Joe Binns
-                    </h1>
-                    -->
                 </div>
                 <div class="upper-left padding center-text-align">
                     <p>
@@ -60,34 +47,34 @@
                     </p>
                 </div>
             </div>
-            <div id="popups" style="position:relative;">
-                <div id="about-me" class="center rounded shadow opaque" style="height:auto; width:auto;" hidden>
-                    <div style="height:4%; text-align:right;">
-                        <a class="hyperimage" href="javascript:closePopUp('about-me');" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
-                    </div>
-                    <div style="overflow-y:auto; height:95%;">
-                        <p>
-                            <a>
-                                Hi, I'm Joe, a British game programmer at Futuregames Stockholm.<br>
-                                <br>
-                                Prior to devoting myself to game development, I was a Theoretical Physicist at Lund University, with a specialisation in Machine Learning.<br>
-                                <br>
-                                I hope you enjoy flying around!
-                            </a>
-                        </p>
-                    </div>
+        </div>
+        <div id="popups" style="position:relative;">
+            <div id="about-me" class="center rounded" style="height:100%; width:100%;" hidden>
+                <div style="height:4%; text-align:right;">
+                    <a class="hyperimage" href="javascript:closePopUp('about-me');" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
                 </div>
-                <div id="stylised-character-controller" class="center rounded shadow opaque" style="height:auto; width:auto;" hidden>
-                    <div style="height:4%; text-align:right;">
-                        <a class="hyperimage" href="javascript:closePopUp('stylised-character-controller');" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
-                    </div>
-                    <div style="overflow-y:auto; height:95%;">
-                        <p>
-                            <a>
-                                Stylised Character Controller
-                            </a>
-                        </p>
-                    </div>
+                <div style="overflow-y:auto; height:95%;">
+                    <p>
+                        <a>
+                            Hi, I'm Joe, a British gameplay programmer and technical artist at Futuregames Stockholm.<br>
+                            <br>
+                            Prior to devoting myself to game development, I was a Theoretical Physicist at Lund University, with a specialisation in Machine Learning.<br>
+                            <br>
+                            I hope you enjoy flying around!
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <div id="stylised-character-controller" class="center rounded" style="height:auto; width:auto;" hidden>
+                <div style="height:4%; text-align:right;">
+                    <a class="hyperimage" href="javascript:closePopUp('stylised-character-controller');" style="padding-right:20px; padding-left:20px; padding-top:5px; padding-bottom:5px;"><img id="cross" src="../images/cross_white.svg" alt="Close" width="15" height="15"></a>
+                </div>
+                <div style="overflow-y:auto; height:95%;">
+                    <p>
+                        <a>
+                            Stylised Character Controller
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -104,6 +91,5 @@
             }
         </script>
         <script type="module" src="./src/SpaceOdysseyGame.js"></script>
-
     </body>
 </html>
