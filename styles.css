@@ -81,6 +81,11 @@ a{
     font-size: 16px;
     line-height: normal;
 }
+#canvas3d {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 .hyperlink{
     color: royalblue;
     text-decoration: none;

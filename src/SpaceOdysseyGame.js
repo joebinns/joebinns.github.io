@@ -45,9 +45,8 @@ camera.position.z = 7.5;
 
 
 /* -------------------------- Setup the renderer -------------------------- */
-const canvas = document.querySelector('#canvas3d');
-//const canvas2d = document.querySelector('#canvas2d');
-const renderer = new THREE.WebGLRenderer({canvas});
+const canvas = document.getElementById('canvas3d');
+const renderer = new THREE.WebGLRenderer({canvas:canvas});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality)
 document.body.appendChild(renderer.domElement);
@@ -55,7 +54,6 @@ const renderTarget = new THREE.WebGLRenderTarget(
     window.innerWidth,
     window.innerHeight
 );
-
 
 /* ---------- Setup the composer (renderer with post processing) ---------- */
 const composer = new EffectComposer(renderer, renderTarget);
