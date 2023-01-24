@@ -166,7 +166,7 @@ function onDocumentMouseMove(event)
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-window.openPopUp = (id, text) => {
+window.openPopUp = (id, text, githubLink = "", youtubeLink  = "", itchdotioLink  = "", linkedinLink = "", mailLink = "") => {
     document.getElementById(id).hidden = false;
     document.getElementById("close-pop-up-button").hidden = false;
     clock.stop();
@@ -184,6 +184,46 @@ window.openPopUp = (id, text) => {
     document.getElementById("header-text").textContent = text;
 
     // TODO: Update hyperlink icons, based on the clicked text object?
+    if (githubLink)
+    {
+        document.getElementById("github-link").href = githubLink;
+    }
+    else
+    {
+        document.getElementById("github-link").parentElement.hidden = true;
+    }
+    if (youtubeLink)
+    {
+        document.getElementById("youtube-link").href = youtubeLink;
+    }
+    else
+    {
+        document.getElementById("youtube-link").parentElement.hidden = true;
+    }
+    if (itchdotioLink)
+    {
+        document.getElementById("itchdotio-link").href = itchdotioLink;
+    }
+    else
+    {
+        document.getElementById("itchdotio-link").parentElement.hidden = true;
+    }
+    if (linkedinLink != "")
+    {
+        document.getElementById("linkedin-link").href = linkedinLink;
+    }
+    else
+    {
+        document.getElementById("linkedin-link").parentElement.hidden = true;
+    }
+    if (mailLink)
+    {
+        document.getElementById("mail-link").href = mailLink;
+    }
+    else
+    {
+        document.getElementById("mail-link").parentElement.hidden = true;
+    }
 };
 
 let latestPopUpId;
@@ -200,7 +240,16 @@ function closePopUp(id)
 
     document.getElementById("header-text").textContent = "Joe Binns";
 
-    // TODO: Reset hyperlink icons to default
+    document.getElementById("github-link").href = "https://github.com/joebinns";
+    document.getElementById("github-link").parentElement.hidden = false;
+    document.getElementById("youtube-link").href = "https://www.youtube.com/@joebinns95";
+    document.getElementById("youtube-link").parentElement.hidden = false;
+    document.getElementById("itchdotio-link").href = "https://joebinns.itch.io/";
+    document.getElementById("itchdotio-link").parentElement.hidden = false;
+    document.getElementById("linkedin-link").href = "https://www.linkedin.com/in/joe-binns/";
+    document.getElementById("linkedin-link").parentElement.hidden = false;
+    document.getElementById("mail-link").href = "mailto:joebinns.95@gmail.com";
+    document.getElementById("mail-link").parentElement.hidden = false;
 };
 
 window.togglePortfolio = () => {
@@ -331,11 +380,11 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     orion2Convex = orionConvex.clone();
 
     // Setup text objects
-    textObjects.push(new textObject("About Me", orionConvex, "javascript:openPopUp('about-me', 'About Me');"));
+    textObjects.push(new textObject("About Me", orionConvex, "javascript:openPopUp('about-me', 'About Me', 'https://github.com/joebinns', 'https://www.youtube.com/@joebinns95', 'https://joebinns.itch.io/', 'https://www.linkedin.com/in/joe-binns/', 'mailto:joebinns.95@gmail.com');"));
     textObjects.push(new textObject("Curriculum Vitae", orion2Convex, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
     textObjects.push(new textObject("Portfolio", spaceStationVConvex, "javascript:togglePortfolio();"));
 
-    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller');"));
+    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller', 'https://github.com/joebinns/stylised-character-controller', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W', 'https://joebinns.itch.io/stylised-character-controller');"));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
 
