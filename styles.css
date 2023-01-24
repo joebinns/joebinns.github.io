@@ -114,9 +114,8 @@ a{
 }
 .upper-center{
     position: fixed;
+    top: 0px;
     left: 50%;
-    -ms-transform: translate(-50%, 0%);
-    transform: translate(-50%, 0%);
 }
 .upper-left{
     position: fixed;
@@ -168,10 +167,6 @@ a{
     top: 50%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
-}
-table {
-    border: 0;
-    border-spacing: 0;
 }
 
 .hyperimage{
