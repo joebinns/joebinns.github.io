@@ -49,7 +49,7 @@ const canvas = document.getElementById('canvas3d');
 const renderer = new THREE.WebGLRenderer({canvas:canvas});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio); // Adjust pixel ratio (to improve mobile quality)
-document.body.appendChild(renderer.domElement);
+//document.body.appendChild(renderer.domElement);
 const renderTarget = new THREE.WebGLRenderTarget(
     window.innerWidth,
     window.innerHeight
@@ -172,10 +172,10 @@ window.openPopUp = (id, text) => {
     clock.stop();
     //SwapText(text);
     document.body.style.cursor = 'default';
-    uniforms.outlineColor.value.set(new THREE.Color(0x1A1A1A)); // TODO: Change this color to 90% white if light mode is used.
+    uniforms.outlineColor.value.set(new THREE.Color(0xD0D0D)); // TODO: Change this color to 90% white if light mode is used.
     for (let i = 0; i < textObjects.length; i++)
     {
-        textObjects[i].elem.style.opacity = 0.1;
+        textObjects[i].elem.style.opacity = 0.05;
     }
     // Render the visual scene and the (hidden) physical scene
     composer.render();
