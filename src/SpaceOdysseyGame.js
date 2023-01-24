@@ -170,9 +170,8 @@ window.openPopUp = (id, text) => {
     document.getElementById(id).hidden = false;
     document.getElementById("close-pop-up-button").hidden = false;
     clock.stop();
-    //SwapText(text);
     document.body.style.cursor = 'default';
-    uniforms.outlineColor.value.set(new THREE.Color(0xD0D0D)); // TODO: Change this color to 90% white if light mode is used.
+    uniforms.outlineColor.value.set(new THREE.Color(0xD0D0D)); // TODO: Change this color to 95% white if light mode is used.
     for (let i = 0; i < textObjects.length; i++)
     {
         textObjects[i].elem.style.opacity = 0.05;
@@ -181,12 +180,16 @@ window.openPopUp = (id, text) => {
     composer.render();
     dummyComposer.render();
     latestPopUpId = id;
+
+    document.getElementById("header-text").textContent = text;
+
+    // TODO: Update hyperlink icons, based on the clicked text object?
 };
 
 let latestPopUpId;
 
 window.closeLatestPopUp = () => {
-    closePopUp(latestPopUpId)
+    closePopUp(latestPopUpId);
 }
 
 function closePopUp(id)
@@ -194,7 +197,10 @@ function closePopUp(id)
     document.getElementById(id).hidden = true;
     document.getElementById("close-pop-up-button").hidden = true;
     clock = new THREE.Clock();
-    //SwapText("Joe Binns");
+
+    document.getElementById("header-text").textContent = "Joe Binns";
+
+    // TODO: Reset hyperlink icons to default
 };
 
 window.togglePortfolio = () => {
