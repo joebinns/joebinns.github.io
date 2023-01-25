@@ -71,8 +71,8 @@ h2{
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
     color: black;
-    font-size: 32px;
-    line-height: normal;
+    font-size: 24px;
+    line-height: 0;
 }
 a{
     font-family: Helvetica, Arial, sans-serif;
@@ -234,6 +234,7 @@ a{
     h2{
         color: white;
     }
+    h3{color:white;}
     a{
         color: white;
     }
