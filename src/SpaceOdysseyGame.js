@@ -166,7 +166,7 @@ function onDocumentMouseMove(event)
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-window.openPopUp = (id, text, githubLink = "", youtubeLink  = "", itchdotioLink  = "", linkedinLink = "", mailLink = "") => {
+window.openPopUp = (id, text, color, githubLink = "", youtubeLink  = "", itchdotioLink  = "", linkedinLink = "", mailLink = "") => {
     document.getElementById(id).hidden = false;
     document.getElementById("close-pop-up-button").hidden = false;
     clock.stop();
@@ -182,6 +182,7 @@ window.openPopUp = (id, text, githubLink = "", youtubeLink  = "", itchdotioLink 
     latestPopUpId = id;
 
     document.getElementById("header-text").textContent = text;
+    document.getElementById("header-text").style.color = color;
 
     // TODO: Update hyperlink icons, based on the clicked text object?
     if (githubLink)
@@ -239,6 +240,7 @@ function closePopUp(id)
     clock = new THREE.Clock();
 
     document.getElementById("header-text").textContent = "Joe Binns";
+    document.getElementById("header-text").style.color = "#FFFFFF"; // TODO: Change this to black if light mode used
 
     document.getElementById("github-link").href = "https://github.com/joebinns";
     document.getElementById("github-link").parentElement.hidden = false;
@@ -380,11 +382,11 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     orion2Convex = orionConvex.clone();
 
     // Setup text objects
-    textObjects.push(new textObject("About Me", orionConvex, "javascript:openPopUp('about-me', 'About Me', 'https://github.com/joebinns', 'https://www.youtube.com/@joebinns95', 'https://joebinns.itch.io/', 'https://www.linkedin.com/in/joe-binns/', 'mailto:joebinns.95@gmail.com');"));
+    textObjects.push(new textObject("About Me", orionConvex, "javascript:openPopUp('about-me', 'About Me', '#FFFFFF', 'https://github.com/joebinns', 'https://www.youtube.com/@joebinns95', 'https://joebinns.itch.io/', 'https://www.linkedin.com/in/joe-binns/', 'mailto:joebinns.95@gmail.com');"));
     textObjects.push(new textObject("Curriculum Vitae", orion2Convex, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
     textObjects.push(new textObject("Portfolio", spaceStationVConvex, "javascript:togglePortfolio();"));
 
-    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller', 'https://github.com/joebinns/stylised-character-controller', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W', 'https://joebinns.itch.io/stylised-character-controller');"));
+    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller', '#FF6A00', 'https://github.com/joebinns/stylised-character-controller', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W', 'https://joebinns.itch.io/stylised-character-controller');"));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
 
