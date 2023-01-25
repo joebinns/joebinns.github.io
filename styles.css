@@ -162,17 +162,16 @@ a{
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
-.vertical-center-new {
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
+
 .vertical-center {
-    position: fixed;
     top: 50%;
-    -ms-transform: translateY(-50%);
     transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
 }
+
 
 .hyperimage{
     opacity: 0.8;
