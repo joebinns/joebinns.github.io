@@ -172,6 +172,10 @@ a{
     -o-transform: translateY(-50%);
 }
 
+.disabled
+{
+    opacity: 0.1;
+}
 
 .hyperimage{
     opacity: 0.8;
