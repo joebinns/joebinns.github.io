@@ -13,8 +13,6 @@ import { CustomOutlinePass } from './CustomOutlinePass.js';
 import { Audio } from "audio"; //'https://unpkg.com/three/src/audio/Audio.js';
 import { AudioLoader } from "audioloader"; //'https://unpkg.com/three/src/loaders/AudioLoader.js';
 import { AudioListener } from "audiolistener"; //'https://unpkg.com/three/src/audio/AudioListener.js';
-// Conrols
-import { FirstPersonControls } from "./FirstPersonControls.js";
 
 /*
 import * as THREE from 'three';
@@ -154,10 +152,6 @@ const pickHelper = new PickHelper();
 /* ---------------------------- Setup controller ---------------------------- */
 var mouse = new THREE.Vector2();
 var isDocumentVisible = true;
-
-const controls = new FirstPersonControls( camera, renderer.domElement );
-controls.movementSpeed = 5;
-controls.lookSpeed = 0.1;
 
 function onDocumentMouseMove(event)
 {
