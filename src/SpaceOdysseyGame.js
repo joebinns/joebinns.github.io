@@ -451,8 +451,6 @@ function onWindowResize()
     dummyComposer.setSize(window.innerWidth, window.innerHeight);
     effectFXAA.setSize(window.innerWidth, window.innerHeight);
     customOutline.setSize(window.innerWidth, window.innerHeight);
-
-    controls.handleResize();
 }
 
 onWindowResize();
@@ -556,8 +554,6 @@ function update()
             prevPickedTextObject.subelem.classList.replace("hyperlink-active", "hyperlink");
             document.body.style.cursor = 'default';
         }
-
-        controls.update( deltaTime );
 
 
         // Rotate the models (visual and physical)
