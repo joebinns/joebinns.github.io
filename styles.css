@@ -74,6 +74,13 @@ h2{
     font-size: 24px;
     line-height: 0;
 }
+h3{
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    color: black;
+    font-size: 20px;
+    line-height: 0;
+}
 a{
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
