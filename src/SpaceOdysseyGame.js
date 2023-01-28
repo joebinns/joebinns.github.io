@@ -39,7 +39,7 @@ const physicalScene = new THREE.Scene(); // An un-rendered scene which is used f
 
 /* ---------------------------- Setup the camera ---------------------------- */
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 7.5;
+//camera.position.z = 2.5;
 
 
 /* -------------------------- Setup the renderer -------------------------- */
@@ -327,8 +327,7 @@ var spaceStationV, orion, orion2;
 const groupConvex = new THREE.Group();
 var spaceStationVConvex, orionConvex, orion2Convex;
 
-const spaceStationVDistance = 10;
-const orionDistance = 4;
+const spaceStationVDistance = 14;
 
 var areModelsLoaded = false;
 
@@ -354,6 +353,9 @@ const professionalObjectConvex = sphere.clone();
 const stylisedCharacterControllerObject = sphere.clone();
 const stylisedCharacterControllerObjectConvex = sphere.clone();
 
+let discreteCameraPositionsIndex = 0;
+let targetCameraPosition = new THREE.Vector3(0, 0, 0);
+const discreteCameraPositions = [];
 
 // Setup the objects in their scenes, once all the models have loaded
 Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, promiseOrionConvex]).then(() => {
@@ -418,15 +420,27 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     personalObject.position.set(0, 0, 15);
     professionalObject.position.set(0, 0, -15);
     stylisedCharacterControllerObject.position.set(0, 0, 20);
-    orion.position.set(-orionDistance, 0, 0);
-    orion2.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
+    orion.position.set(0, 0, 0);
+    orion2.position.set(2 * spaceStationVDistance, 0, 0);
 
     spaceStationVGroupConvex.position.set(spaceStationVDistance, 0, 0);
     personalObjectConvex.position.set(0, 0, 15);
     professionalObjectConvex.position.set(0, 0, -15);
     stylisedCharacterControllerObjectConvex.position.set(0, 0, 20);
-    orionConvex.position.set(-orionDistance, 0, 0);
-    orion2Convex.position.set(2 * spaceStationVDistance + orionDistance, 0, 0);
+    orionConvex.position.set(0, 0, 0);
+    orion2Convex.position.set(2 * spaceStationVDistance, 0, 0);
+
+    orion.getWorldPosition(tempV);
+    discreteCameraPositions.push((new THREE.Vector3(0, 0, 2.5)).add(tempV));
+    camera.position.x = discreteCameraPositions[0].x;
+    camera.position.y = discreteCameraPositions[0].y;
+    camera.position.z = discreteCameraPositions[0].z;
+    targetCameraPosition = discreteCameraPositions[0];
+    camera.getWorldPosition(tempV);
+    spaceStationV.getWorldPosition(tempV);
+    discreteCameraPositions.push((new THREE.Vector3(0, 0, 10)).add(tempV));
+    orion2.getWorldPosition(tempV);
+    discreteCameraPositions.push((new THREE.Vector3(0, 0, 2.5)).add(tempV));
 
     // Apply the custom outline to the visual objects
     group.traverse(node => node.applyOutline = true);
@@ -454,6 +468,41 @@ function onWindowResize()
 }
 
 onWindowResize();
+
+
+/* ------------------------ Controls ----------------------- */
+function onKeyDown ( event ) {
+    switch ( event.code ) {
+        // TODO: Call function to increment / decrement the target camera position
+        /*
+        case 'ArrowUp':
+        case 'KeyW': this.moveForward = true; break;
+        */
+
+        case 'ArrowLeft':
+        case 'KeyA':
+        {
+            discreteCameraPositionsIndex--;
+            discreteCameraPositionsIndex = clamp(discreteCameraPositionsIndex, 0, discreteCameraPositions.length - 1);
+            targetCameraPosition = discreteCameraPositions[discreteCameraPositionsIndex];
+            break;
+        }
+
+        /*
+        case 'ArrowDown':
+        case 'KeyS': this.moveBackward = true; break;
+        */
+
+        case 'ArrowRight':
+        case 'KeyD':
+        {
+            discreteCameraPositionsIndex++;
+            discreteCameraPositionsIndex = clamp(discreteCameraPositionsIndex, 0, discreteCameraPositions.length - 1);
+            targetCameraPosition = discreteCameraPositions[discreteCameraPositionsIndex];
+            break;
+        }
+    }
+}
 
 /* ------------------------------- Render loop ------------------------------ */
 let clock = new THREE.Clock();
@@ -503,6 +552,10 @@ function update()
         // Rotate the camera based on the mouse position
         camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -mouse.x * Math.PI / 30, 0.1);
         camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
+
+        camera.position.x = THREE.MathUtils.lerp(camera.position.x, targetCameraPosition.x, 0.05);
+        camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetCameraPosition.y, 0.05);
+        camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetCameraPosition.z, 0.05);
 
         // Update mouse's selected object based on the physicalScene
         pickHelper.pick(mouse, physicalScene, camera);
@@ -684,7 +737,6 @@ function isWebGLAvailable()
     }
 }
 
-
 /* ---------------- Call render loop and add event listeners ---------------- */
 if (isWebGLAvailable())
 {
@@ -692,7 +744,9 @@ if (isWebGLAvailable())
 
     document.addEventListener('mousemove', onDocumentMouseMove, false);
     document.addEventListener('mousedown', onDocumentMouseDown, false);
-    document.addEventListener('visibilitychange', onDocumentVisibilityChange, false);
 
+    document.addEventListener('keydown', onKeyDown, false);
+
+    document.addEventListener('visibilitychange', onDocumentVisibilityChange, false);
     window.addEventListener('resize', onWindowResize, false);
 }
