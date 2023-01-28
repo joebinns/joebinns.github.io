@@ -235,9 +235,30 @@ function closePopUp(id)
 };
 
 window.togglePortfolio = () => {
+    let isHidden = portfolioTextObjects[0].subelem.hidden;
+    if (isHidden)
+    {
+        enablePortfolio();
+    }
+    else
+    {
+        disablePortfolio();
+    }
+}
+
+function enablePortfolio()
+{
+    document.getElementById("header-text").textContent = "Portfolio";
     for (let i = 0; i < portfolioTextObjects.length; i++) {
-        var isHidden = portfolioTextObjects[i].subelem.hidden;
-        portfolioTextObjects[i].subelem.hidden = !isHidden;
+        portfolioTextObjects[i].subelem.hidden = false;
+    }
+}
+
+function disablePortfolio()
+{
+    document.getElementById("header-text").textContent = "Joe Binns";
+    for (let i = 0; i < portfolioTextObjects.length; i++) {
+        portfolioTextObjects[i].subelem.hidden = true;
     }
 }
 
@@ -273,7 +294,7 @@ const labelContainerElem = document.querySelector('#labels');
 
 class textObject
 {
-    constructor(text, pivot, hyperlink = null)
+    constructor(text, pivot, hyperlink = null, offset = new THREE.Vector2(0, 0.3))
     {
         this.elem = document.createElement('div');
         this.elem.style.position = "absolute";
@@ -292,6 +313,8 @@ class textObject
             this.subelem.classList.add("hyperlink");
             this.subelem.href = hyperlink;
         }
+
+        this.offset = offset;
     }
 }
 
@@ -327,7 +350,7 @@ var spaceStationV, orion, orion2;
 const groupConvex = new THREE.Group();
 var spaceStationVConvex, orionConvex, orion2Convex;
 
-const spaceStationVDistance = 14;
+const spaceStationVDistance = 25;
 
 var areModelsLoaded = false;
 
@@ -368,14 +391,14 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     textObjects.push(new textObject("Curriculum Vitae", orion2Convex, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
     textObjects.push(new textObject("Portfolio", spaceStationVConvex, "javascript:togglePortfolio();"));
 
-    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller', '#FF6A00', ['https://github.com/joebinns/stylised-character-controller', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W', 'https://joebinns.itch.io/stylised-character-controller', '', '']);"));
+    textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller', '#FF6A00', ['https://github.com/joebinns/stylised-character-controller', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W', 'https://joebinns.itch.io/stylised-character-controller', '', '']);", new THREE.Vector2(0.05, 0)));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
 
-    textObjects.push(new textObject("Personal", personalObjectConvex));
+    textObjects.push(new textObject("Personal", personalObjectConvex, null, new THREE.Vector2(0.05, 0)));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
-    textObjects.push(new textObject("Professional", professionalObjectConvex));
+    textObjects.push(new textObject("Professional", professionalObjectConvex, null, new THREE.Vector2(-0.05, 0)));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
 
@@ -417,30 +440,30 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
 
     // Displace objects along their local axes
     spaceStationVGroup.position.set(spaceStationVDistance, 0, 0);
-    personalObject.position.set(0, 0, 15);
-    professionalObject.position.set(0, 0, -15);
-    stylisedCharacterControllerObject.position.set(0, 0, 20);
+    personalObject.position.set(5, 3.5, 0);
+    professionalObject.position.set(-5, 3.5, 0);
+    stylisedCharacterControllerObject.position.set(5, 2.5, 0);
     orion.position.set(0, 0, 0);
     orion2.position.set(2 * spaceStationVDistance, 0, 0);
 
     spaceStationVGroupConvex.position.set(spaceStationVDistance, 0, 0);
-    personalObjectConvex.position.set(0, 0, 15);
-    professionalObjectConvex.position.set(0, 0, -15);
-    stylisedCharacterControllerObjectConvex.position.set(0, 0, 20);
+    personalObjectConvex.position.set(5, 3.5, 0);
+    professionalObjectConvex.position.set(-5, 3.5, 0);
+    stylisedCharacterControllerObjectConvex.position.set(5, 2.5, 0);
     orionConvex.position.set(0, 0, 0);
     orion2Convex.position.set(2 * spaceStationVDistance, 0, 0);
 
     orion.getWorldPosition(tempV);
-    discreteCameraPositions.push((new THREE.Vector3(0, 0, 2.5)).add(tempV));
+    discreteCameraPositions.push((new THREE.Vector3(0, 0.25, 2.5)).add(tempV));
     camera.position.x = discreteCameraPositions[0].x;
     camera.position.y = discreteCameraPositions[0].y;
     camera.position.z = discreteCameraPositions[0].z;
     targetCameraPosition = discreteCameraPositions[0];
     camera.getWorldPosition(tempV);
     spaceStationV.getWorldPosition(tempV);
-    discreteCameraPositions.push((new THREE.Vector3(0, 0, 10)).add(tempV));
+    discreteCameraPositions.push((new THREE.Vector3(0, 0.5, 10)).add(tempV));
     orion2.getWorldPosition(tempV);
-    discreteCameraPositions.push((new THREE.Vector3(0, 0, 2.5)).add(tempV));
+    discreteCameraPositions.push((new THREE.Vector3(0, 0.25, 2.5)).add(tempV));
 
     // Apply the custom outline to the visual objects
     group.traverse(node => node.applyOutline = true);
@@ -484,6 +507,10 @@ function onKeyDown ( event ) {
         {
             discreteCameraPositionsIndex--;
             discreteCameraPositionsIndex = clamp(discreteCameraPositionsIndex, 0, discreteCameraPositions.length - 1);
+            if (discreteCameraPositionsIndex != 1)
+            {
+                disablePortfolio();
+            }
             targetCameraPosition = discreteCameraPositions[discreteCameraPositionsIndex];
             break;
         }
@@ -498,6 +525,10 @@ function onKeyDown ( event ) {
         {
             discreteCameraPositionsIndex++;
             discreteCameraPositionsIndex = clamp(discreteCameraPositionsIndex, 0, discreteCameraPositions.length - 1);
+            if (discreteCameraPositionsIndex != 1)
+            {
+                disablePortfolio();
+            }
             targetCameraPosition = discreteCameraPositions[discreteCameraPositionsIndex];
             break;
         }
@@ -652,14 +683,18 @@ function update()
             // on the left and y = -1 being on the bottom
             tempV.project(camera);
 
+            let offset = textObject.offset;
+
             // convert the normalized position to CSS coordinates
             let x = (tempV.x * .5 + .5);
             let y = (tempV.y * -.5 + .5);
-            let offsetY = (y - (0.3 * scale));
+            let offsetX = (x + (offset.x * scale));
+            let offsetY = (y - (offset.y * scale));
 
 
             x *= canvas.clientWidth;
             y *= canvas.clientHeight;
+            offsetX *= canvas.clientWidth;
             offsetY *= canvas.clientHeight;
 
             /*
@@ -675,7 +710,19 @@ function update()
             */
 
             // move the elem to that position
-            elem.style.transform = `translate(-50%, -50%) translate(${x}px, ${offsetY}px)`;
+            if (offset.x > 0)
+            {
+                elem.style.transform = `translate(0, -50%) translate(${offsetX}px, ${offsetY}px)`;
+            }
+            else if(offset.x < 0)
+            {
+                elem.style.transform = `translate(-100%, -50%) translate(${offsetX}px, ${offsetY}px)`;
+            }
+            else
+            {
+                elem.style.transform = `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`;
+            }
+
             //elem.style.transform = `translate(${x}px, ${y}px)`;
             //elem.style.transform = `translate()`;
 
