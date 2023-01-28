@@ -500,6 +500,10 @@ function update()
         // Update counter t, used for lerping
         t += deltaTime;
 
+        // Rotate the camera based on the mouse position
+        camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -mouse.x * Math.PI / 30, 0.1);
+        camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, mouse.y * Math.PI / 30, 0.1);
+
         // Update mouse's selected object based on the physicalScene
         pickHelper.pick(mouse, physicalScene, camera);
 
