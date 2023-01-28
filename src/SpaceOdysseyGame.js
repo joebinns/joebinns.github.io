@@ -375,6 +375,8 @@ const professionalObject = sphere.clone();
 const professionalObjectConvex = sphere.clone();
 const stylisedCharacterControllerObject = sphere.clone();
 const stylisedCharacterControllerObjectConvex = sphere.clone();
+const wormsObject = sphere.clone();
+const wormsObjectConvex = sphere.clone();
 
 let discreteCameraPositionsIndex = 0;
 let targetCameraPosition = new THREE.Vector3(0, 0, 0);
@@ -394,6 +396,9 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller', '#FF6A00', ['https://github.com/joebinns/stylised-character-controller', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W', 'https://joebinns.itch.io/stylised-character-controller', '', '']);", new THREE.Vector2(0.05, 0)));
     textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
+    textObjects.push(new textObject("Worms", wormsObjectConvex, "javascript:openPopUp('worms', 'Worms', '#FF6A00', ['https://github.com/joebinns/worms', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVK3fsC4BPVcO-bX6TIf6AC', 'https://joebinns.itch.io/3d-worms-like', '', '']);", new THREE.Vector2(0.05, 0)));
+    textObjects.at(-1).subelem.hidden = true;
+    portfolioTextObjects.push(textObjects.at(-1));
 
     textObjects.push(new textObject("Personal", personalObjectConvex, null, new THREE.Vector2(0.05, 0)));
     textObjects.at(-1).subelem.hidden = true;
@@ -409,12 +414,14 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     hoverObjects.push(new hoverObject(orion2, orion2Convex, 0.1, 10));
     hoverObjects.push(new hoverObject(spaceStationV, spaceStationVConvex, 0.05, 1));
     hoverObjects.push(new hoverObject(stylisedCharacterControllerObject, stylisedCharacterControllerObjectConvex, 0.4, 1));
+    hoverObjects.push(new hoverObject(wormsObject, wormsObjectConvex, 0.4, 1));
 
     // Group visual objects
     spaceStationVGroup.add(spaceStationV);
     spaceStationVGroup.add(personalObject);
     spaceStationVGroup.add(professionalObject);
     spaceStationVGroup.add(stylisedCharacterControllerObject);
+    spaceStationVGroup.add(wormsObject);
     group.add(spaceStationVGroup);
     group.add(orion);
     group.add(orion2);
@@ -424,6 +431,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     spaceStationVGroupConvex.add(personalObjectConvex);
     spaceStationVGroupConvex.add(professionalObjectConvex);
     spaceStationVGroupConvex.add(stylisedCharacterControllerObjectConvex);
+    spaceStationVGroupConvex.add(wormsObjectConvex);
     groupConvex.add(spaceStationVGroupConvex);
     groupConvex.add(orionConvex);
     groupConvex.add(orion2Convex);
@@ -443,6 +451,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     personalObject.position.set(5, 3.5, 0);
     professionalObject.position.set(-5, 3.5, 0);
     stylisedCharacterControllerObject.position.set(5, 2.5, 0);
+    wormsObject.position.set(5, 1.5, 0);
     orion.position.set(0, 0, 0);
     orion2.position.set(2 * spaceStationVDistance, 0, 0);
 
@@ -450,6 +459,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     personalObjectConvex.position.set(5, 3.5, 0);
     professionalObjectConvex.position.set(-5, 3.5, 0);
     stylisedCharacterControllerObjectConvex.position.set(5, 2.5, 0);
+    wormsObjectConvex.position.set(5, 1.5, 0);
     orionConvex.position.set(0, 0, 0);
     orion2Convex.position.set(2 * spaceStationVDistance, 0, 0);
 
