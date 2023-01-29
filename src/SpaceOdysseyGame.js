@@ -391,12 +391,15 @@ sphere.add(sphereMesh);
 
 const personalObject = sphere.clone();
 const personalObjectConvex = sphere.clone();
-const professionalObject = sphere.clone();
-const professionalObjectConvex = sphere.clone();
 const stylisedCharacterControllerObject = sphere.clone();
 const stylisedCharacterControllerObjectConvex = sphere.clone();
 const wormsObject = sphere.clone();
 const wormsObjectConvex = sphere.clone();
+
+const professionalObject = sphere.clone();
+const professionalObjectConvex = sphere.clone();
+const mLabsObject = sphere.clone();
+const mLabsObjectConvex = sphere.clone();
 
 
 let discreteCameraPositionsIndex = 0;
@@ -422,6 +425,9 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     textObjects.push(new textObject("Worms", wormsObjectConvex, "javascript:openPopUp('worms', 'Worms', '#FF6A00', ['https://github.com/joebinns/worms', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVK3fsC4BPVcO-bX6TIf6AC', 'https://joebinns.itch.io/3d-worms-like', '', '']);", new THREE.Vector2(0.05, 0)));
     portfolioTextObjects.push(textObjects.at(-1));
     portfolioVisualObjects.push(wormsObject);
+    textObjects.push(new textObject("MLabs", mLabsObjectConvex, "javascript:openPopUp('mlabs', 'MLabs', '#FF006A', ['', 'https://youtu.be/RGPp9DBX8-E', '', '', '../documents/letters_of_recommendation/mark_florisson_letter_of_recommendation_for_joe_binns.pdf']);", new THREE.Vector2(-0.05, 0)));
+    portfolioTextObjects.push(textObjects.at(-1));
+    portfolioVisualObjects.push(mLabsObject);
 
     textObjects.push(new textObject("Personal", personalObjectConvex, null, new THREE.Vector2(0.05, 0)));
     portfolioTextObjects.push(textObjects.at(-1));
@@ -438,6 +444,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     hoverObjects.push(new hoverObject(spaceStationV, spaceStationVConvex, 0.05, 1));
     hoverObjects.push(new hoverObject(stylisedCharacterControllerObject, stylisedCharacterControllerObjectConvex, 0.4, 1));
     hoverObjects.push(new hoverObject(wormsObject, wormsObjectConvex, 0.4, 1));
+    hoverObjects.push(new hoverObject(mLabsObject, mLabsObjectConvex, 0.4, 1));
 
     // Group visual objects
     spaceStationVGroup.add(spaceStationV);
@@ -445,6 +452,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     spaceStationVGroup.add(professionalObject);
     spaceStationVGroup.add(stylisedCharacterControllerObject);
     spaceStationVGroup.add(wormsObject);
+    spaceStationVGroup.add(mLabsObject);
     group.add(spaceStationVGroup);
     group.add(orion);
     group.add(orion2);
@@ -455,6 +463,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     spaceStationVGroupConvex.add(professionalObjectConvex);
     spaceStationVGroupConvex.add(stylisedCharacterControllerObjectConvex);
     spaceStationVGroupConvex.add(wormsObjectConvex);
+    spaceStationVGroupConvex.add(mLabsObjectConvex);
     groupConvex.add(spaceStationVGroupConvex);
     groupConvex.add(orionConvex);
     groupConvex.add(orion2Convex);
@@ -472,17 +481,19 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     // Displace objects along their local axes
     spaceStationVGroup.position.set(spaceStationVDistance, 0, 0);
     personalObject.position.set(5, 3.5, 0);
-    professionalObject.position.set(-5, 3.5, 0);
     wormsObject.position.set(5, 2.5, 0);
     stylisedCharacterControllerObject.position.set(5, 1.5, 0);
+    professionalObject.position.set(-5, 3.5, 0);
+    mLabsObject.position.set(-5, 2.5, 0);
     orion.position.set(0, 0, 0);
     orion2.position.set(2 * spaceStationVDistance, 0, 0);
 
     spaceStationVGroupConvex.position.set(spaceStationVDistance, 0, 0);
     personalObjectConvex.position.set(5, 3.5, 0);
-    professionalObjectConvex.position.set(-5, 3.5, 0);
     wormsObjectConvex.position.set(5, 2.5, 0);
     stylisedCharacterControllerObjectConvex.position.set(5, 1.5, 0);
+    professionalObjectConvex.position.set(-5, 3.5, 0);
+    mLabsObjectConvex.position.set(-5, 2.5, 0);
     orionConvex.position.set(0, 0, 0);
     orion2Convex.position.set(2 * spaceStationVDistance, 0, 0);
 

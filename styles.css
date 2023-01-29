@@ -170,6 +170,11 @@ a{
     transform: translate(-50%, -50%);
 }
 
+caption {
+    padding: 10px;
+    caption-side: bottom;
+}
+
 .vertical-center {
     top: 50%;
     transform: translateY(-50%);
