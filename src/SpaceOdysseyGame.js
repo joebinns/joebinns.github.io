@@ -229,7 +229,7 @@ function closePopUp(id)
     document.getElementById("close-pop-up-button").hidden = true;
     clock = new THREE.Clock();
 
-    document.getElementById("header-text").textContent = "Joe Binns";
+    document.getElementById("header-text").textContent = isPortfolioHidden ? "Joe Binns" : "Portfolio";
     document.getElementById("header-text").style.color = "#FFFFFF"; // TODO: Change this to black if light mode used
 
     for (let i = 0; i < headerHyperImageIDs.length; i++) {
@@ -238,9 +238,11 @@ function closePopUp(id)
     }
 };
 
+let isPortfolioHidden = true;
+
 window.togglePortfolio = () => {
-    let isHidden = portfolioTextObjects[1].subelem.hidden;
-    if (isHidden)
+    isPortfolioHidden = portfolioTextObjects[1].subelem.hidden;
+    if (isPortfolioHidden)
     {
         enablePortfolio();
     }
@@ -248,6 +250,7 @@ window.togglePortfolio = () => {
     {
         disablePortfolio();
     }
+    isPortfolioHidden = !isPortfolioHidden;
 }
 
 const physicalToVisualObjects = {
@@ -532,7 +535,14 @@ onWindowResize();
 /* ------------------------ Controls ----------------------- */
 function onKeyDown ( event ) {
     switch ( event.code ) {
-        // TODO: Call function to increment / decrement the target camera position
+        case 'Escape': {
+            closeLatestPopUp();
+            break;
+        }
+    }
+    if (isPopUpOpen) {return;}
+
+    switch ( event.code ) {
         /*
         case 'ArrowUp':
         case 'KeyW': this.moveForward = true; break;
