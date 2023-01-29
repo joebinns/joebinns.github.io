@@ -473,16 +473,16 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     spaceStationVGroup.position.set(spaceStationVDistance, 0, 0);
     personalObject.position.set(5, 3.5, 0);
     professionalObject.position.set(-5, 3.5, 0);
-    stylisedCharacterControllerObject.position.set(5, 2.5, 0);
-    wormsObject.position.set(5, 1.5, 0);
+    wormsObject.position.set(5, 2.5, 0);
+    stylisedCharacterControllerObject.position.set(5, 1.5, 0);
     orion.position.set(0, 0, 0);
     orion2.position.set(2 * spaceStationVDistance, 0, 0);
 
     spaceStationVGroupConvex.position.set(spaceStationVDistance, 0, 0);
     personalObjectConvex.position.set(5, 3.5, 0);
     professionalObjectConvex.position.set(-5, 3.5, 0);
-    stylisedCharacterControllerObjectConvex.position.set(5, 2.5, 0);
-    wormsObjectConvex.position.set(5, 1.5, 0);
+    wormsObjectConvex.position.set(5, 2.5, 0);
+    stylisedCharacterControllerObjectConvex.position.set(5, 1.5, 0);
     orionConvex.position.set(0, 0, 0);
     orion2Convex.position.set(2 * spaceStationVDistance, 0, 0);
 
