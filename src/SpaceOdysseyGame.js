@@ -163,7 +163,10 @@ function onDocumentMouseMove(event)
 const headerHyperImageIDs = [];
 headerHyperImageIDs.push("github-link", "youtube-link", "itchdotio-link", "linkedin-link", "mail-link");
 
+let isPopUpOpen = false;
+
 window.openPopUp = (id, text, color, headerHyperImageLinks = ["", "", "", "", ""]) => {
+    isPopUpOpen = true;
     document.getElementById(id).hidden = false;
     document.getElementById("close-pop-up-button").hidden = false;
     clock.stop();
@@ -221,6 +224,7 @@ window.closeLatestPopUp = () => {
 
 function closePopUp(id)
 {
+    isPopUpOpen = false;
     document.getElementById(id).hidden = true;
     document.getElementById("close-pop-up-button").hidden = true;
     clock = new THREE.Clock();
@@ -280,6 +284,7 @@ function onDocumentMouseDown(event) {
 function onDocumentVisibilityChange(event)
 {
     isDocumentVisible = (document.visibilityState === 'visible');
+    if (isPopUpOpen) {return;}
     if (isDocumentVisible)
     {
         clock = new THREE.Clock(); // Unfortunately, clock.stop(); does not work as expected.
