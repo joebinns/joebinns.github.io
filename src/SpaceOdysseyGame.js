@@ -579,7 +579,7 @@ function isObjectHovered(object)
 
 function isElementHovered(element)
 {
-    return element == document.querySelector(":hover");
+    return element == element.parentElement.querySelector(":hover");
 }
 
 function update()
