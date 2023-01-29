@@ -235,7 +235,7 @@ function closePopUp(id)
 };
 
 window.togglePortfolio = () => {
-    let isHidden = portfolioTextObjects[0].subelem.hidden;
+    let isHidden = portfolioTextObjects[1].subelem.hidden;
     if (isHidden)
     {
         enablePortfolio();
@@ -249,17 +249,19 @@ window.togglePortfolio = () => {
 function enablePortfolio()
 {
     document.getElementById("header-text").textContent = "Portfolio";
-    for (let i = 0; i < portfolioTextObjects.length; i++) {
+    for (let i = 1; i < portfolioTextObjects.length; i++) {
         portfolioTextObjects[i].subelem.hidden = false;
     }
+    portfolioTextObjects[0].subelem.hidden = true;
 }
 
 function disablePortfolio()
 {
     document.getElementById("header-text").textContent = "Joe Binns";
-    for (let i = 0; i < portfolioTextObjects.length; i++) {
+    for (let i = 1; i < portfolioTextObjects.length; i++) {
         portfolioTextObjects[i].subelem.hidden = true;
     }
+    portfolioTextObjects[0].subelem.hidden = false;
 }
 
 function onDocumentMouseDown(event) {
@@ -392,6 +394,7 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     textObjects.push(new textObject("About Me", orionConvex, "javascript:openPopUp('about-me', 'About Me', '#FFFFFF', ['https://github.com/joebinns', 'https://www.youtube.com/@joebinns95', 'https://joebinns.itch.io/', 'https://www.linkedin.com/in/joe-binns/', 'mailto:joebinns.95@gmail.com']);"));
     textObjects.push(new textObject("Curriculum Vitae", orion2Convex, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
     textObjects.push(new textObject("Portfolio", spaceStationVConvex, "javascript:togglePortfolio();"));
+    portfolioTextObjects.push(textObjects.at(-1));
 
     textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller', '#FF6A00', ['https://github.com/joebinns/stylised-character-controller', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W', 'https://joebinns.itch.io/stylised-character-controller', '', '']);", new THREE.Vector2(0.05, 0)));
     textObjects.at(-1).subelem.hidden = true;
