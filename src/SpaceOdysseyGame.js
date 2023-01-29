@@ -250,11 +250,15 @@ window.togglePortfolio = () => {
     }
 }
 
+const physicalToVisualObjects = {
+};
+
 function enablePortfolio()
 {
     document.getElementById("header-text").textContent = "Portfolio";
     for (let i = 1; i < portfolioTextObjects.length; i++) {
         portfolioTextObjects[i].subelem.hidden = false;
+        portfolioVisualObjects[i].visible = true;
     }
     portfolioTextObjects[0].subelem.hidden = true;
 }
@@ -264,6 +268,7 @@ function disablePortfolio()
     document.getElementById("header-text").textContent = "Joe Binns";
     for (let i = 1; i < portfolioTextObjects.length; i++) {
         portfolioTextObjects[i].subelem.hidden = true;
+        portfolioVisualObjects[i].visible = false;
     }
     portfolioTextObjects[0].subelem.hidden = false;
 }
@@ -331,6 +336,7 @@ class textObject
 
 const textObjects = [];
 const portfolioTextObjects = [];
+const portfolioVisualObjects = [];
 
 
 class hoverObject
@@ -389,6 +395,7 @@ const stylisedCharacterControllerObjectConvex = sphere.clone();
 const wormsObject = sphere.clone();
 const wormsObjectConvex = sphere.clone();
 
+
 let discreteCameraPositionsIndex = 0;
 let targetCameraPosition = new THREE.Vector3(0, 0, 0);
 const discreteCameraPositions = [];
@@ -404,20 +411,21 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
     textObjects.push(new textObject("Curriculum Vitae", orion2Convex, "../documents/cv/cv_joe_binns_2022_08_17.pdf"));
     textObjects.push(new textObject("Portfolio", spaceStationVConvex, "javascript:togglePortfolio();"));
     portfolioTextObjects.push(textObjects.at(-1));
+    portfolioVisualObjects.push(spaceStationV);
 
     textObjects.push(new textObject("Stylised Character Controller", stylisedCharacterControllerObjectConvex, "javascript:openPopUp('stylised-character-controller', 'Stylised Character Controller', '#FF6A00', ['https://github.com/joebinns/stylised-character-controller', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W', 'https://joebinns.itch.io/stylised-character-controller', '', '']);", new THREE.Vector2(0.05, 0)));
-    textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
+    portfolioVisualObjects.push(stylisedCharacterControllerObject);
     textObjects.push(new textObject("Worms", wormsObjectConvex, "javascript:openPopUp('worms', 'Worms', '#FF6A00', ['https://github.com/joebinns/worms', 'https://youtube.com/playlist?list=PLfhw9nZBPNEVK3fsC4BPVcO-bX6TIf6AC', 'https://joebinns.itch.io/3d-worms-like', '', '']);", new THREE.Vector2(0.05, 0)));
-    textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
+    portfolioVisualObjects.push(wormsObject);
 
     textObjects.push(new textObject("Personal", personalObjectConvex, null, new THREE.Vector2(0.05, 0)));
-    textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
+    portfolioVisualObjects.push(personalObject);
     textObjects.push(new textObject("Professional", professionalObjectConvex, null, new THREE.Vector2(-0.05, 0)));
-    textObjects.at(-1).subelem.hidden = true;
     portfolioTextObjects.push(textObjects.at(-1));
+    portfolioVisualObjects.push(professionalObject);
 
     prevPickedTextObject = textObjects[0];
 
@@ -496,6 +504,12 @@ Promise.all([promiseSpaceStationV, promiseOrion, promiseSpaceStationVConvex, pro
 
     // Take note of some common variables for ease of use during updates
     areModelsLoaded = true;
+
+
+    for (let i = 1; i < portfolioTextObjects.length; i++) {
+        portfolioTextObjects[i].subelem.hidden = true;
+        portfolioVisualObjects[i].visible = false;
+    }
 });
 
 
