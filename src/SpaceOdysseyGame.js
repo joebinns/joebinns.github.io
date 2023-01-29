@@ -314,6 +314,10 @@ class textObject
         {
             this.subelem.classList.add("hyperlink");
             this.subelem.href = hyperlink;
+            if (!hyperlink.includes("javascript"))
+            {
+                this.subelem.target = "_blank";
+            }
         }
 
         this.offset = offset;
