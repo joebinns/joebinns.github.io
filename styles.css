@@ -1,67 +1,90 @@
+/* Body */
+
 body{
     margin: 0;
     background: white;
     color: black;
     text-align: center;
     min-height: 100%;
-    overflow-y: hidden; /* Hide vertical scrollbar */
+    overflow-y: auto;
     overflow-x: hidden; /* Hide horizontal scrollbar */
 }
-span.line{
-    display: inline-block;
+
+
+/* Formatting */
+
+.table {
+    display: table;
 }
-.single-line{
-    white-space: nowrap;
+.tr {
+    display: table-row;
 }
+.td {
+    display: table-cell;
+    text-align: left;
+}
+
+
+/* Positioning */
+
+.bottom {
+    position: fixed;
+    bottom: 0%;
+}
+
+.left {
+    position: fixed;
+    left: 0%
+}
+
+.padding {
+    padding: 40px 60px;
+}
+
+.slim{
+    margin: 0;
+    padding: 0;
+}
+
+.vertical-center {
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+
+/* Text */
+
 h1{
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
     color: black;
     font-size: 46px;
     text-decoration: none;
-    line-height: 0.5;
+    line-height: normal;
 }
-.hyperlink{
-    color: royalblue;
-    text-decoration: none;
+
+p {
 }
-.hyperlink:hover{
-    color: #34568B; /*classicblue*/
-    text-decoration: underline;
-}
-.hyperlink:active{
-    color: firebrick;
-}
-.greenhyperlink{
-    /*color: #00d26a;*/
-    color: #00974c;
-    opacity: 0.8;
-    text-decoration: none;
-    border-bottom: none;
-}
-.greenhyperlink:hover{
-    opacity: 1.0;
-    /*border-bottom: 1px solid #00d26a;*/
-    border-bottom: 1px solid #00974c;
-}
-.upperleft{
-    position: fixed;
-    top: 0px;
-    left: 0px;
-}
-.center{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
+
 a{
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
     font-size: 16px;
     line-height: normal;
 }
+
+.hyperlink{
+    text-decoration: none;
+}
+.hyperlink:hover{
+    text-decoration: underline;
+}
+.hyperlink:active{
+}
+
+
+/* Images */
 
 .hyperimage{
     opacity: 0.8;
@@ -70,133 +93,8 @@ a{
     opacity: 1.0;
 }
 
-.fade-in{
-    animation: fadeIn ease 1s;
-    -webkit-animation: fadeIn ease 1s;
-    -moz-animation: fadeIn ease 1s;
-    -o-animation: fadeIn ease 1s;
-    -ms-animation: fadeIn ease 1s;
-}
-@keyframes fadeIn {
-    0% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-}
-@-moz-keyframes fadeInOut {
-    0% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-}
-@-webkit-keyframes fadeInOut {
-    0% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-}
-@-o-keyframes fadeInOut {
-    0% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-}
-@-ms-keyframes fadeInOut {
-    0% {
-        opacity:0;
-    }
-    100% {
-        opacity:1;
-    }
-}
 
-/*
-.fade-in-out{
-    animation: fadeInOut ease 4s;
-    -webkit-animation: fadeInOut ease 4s;
-    -moz-animation: fadeInOut ease 4s;
-    -o-animation: fadeInOut ease 4s;
-    -ms-animation: fadeInOut ease 4s;
-}
-@keyframes fadeInOut {
-    0% {
-        opacity:0;
-      }
-      20% {
-          opacity:1;
-      }
-      80% {
-        opacity:1;
-    }
-      100% {
-        opacity:0;
-      }
-}
-@-moz-keyframes fadeInOut {
-    0% {
-        opacity:0;
-      }
-      20% {
-          opacity:1;
-      }
-      80% {
-        opacity:1;
-    }
-      100% {
-        opacity:0;
-      }
-}
-@-webkit-keyframes fadeInOut {
-    0% {
-        opacity:0;
-      }
-      20% {
-          opacity:1;
-      }
-      80% {
-        opacity:1;
-    }
-      100% {
-        opacity:0;
-      }
-} 
-@-o-keyframes fadeInOut {
-    0% {
-        opacity:0;
-      }
-      20% {
-          opacity:1;
-      }
-      80% {
-        opacity:1;
-    }
-      100% {
-        opacity:0;
-      }
-}
-@-ms-keyframes fadeInOut {
-    0% {
-        opacity:0;
-      }
-      20% {
-          opacity:1;
-      }
-      80% {
-        opacity:1;
-    }
-      100% {
-        opacity:0;
-      }
-}
-*/
+/* Dark Mode */
 
 @media (prefers-color-scheme: dark){
     h1{
@@ -213,12 +111,6 @@ a{
         opacity: 1.0;
     }
     .hyperimage:hover{
-        opacity: 0.8;
-    }
-    .greenhyperlink{
-        opacity: 1.0;
-    }
-    .greenhyperlink:hover{
         opacity: 0.8;
     }
 }
