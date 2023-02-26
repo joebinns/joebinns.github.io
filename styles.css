@@ -70,20 +70,19 @@ ul.no-bullets {
 h1{
     color: black;
     font-size: 46px;
-    line-height: normal;
+    line-height: 1.2;
 }
 
 h2 {
     color: black;
     font-size: 72px;
-    line-height: normal;
     font-weight: 100;
+    line-height: 1.2;
 }
 
 p {
     color: black;
     font-size: 16px;
-    line-height: normal;
 }
 
 a {
@@ -106,8 +105,8 @@ a {
 
 .logo {
     font-weight: 700;
-    line-height: 0.8;
     text-decoration: none;
+    line-height: 1.2;
 }
 
 
@@ -122,30 +121,11 @@ a {
 
 
 /* Signature Hyperlink */
-
-.signature-hyperlink {
-    background: linear-gradient(to right,
-            rgba(255, 0, 0, 1),
-            rgba(255, 0, 180, 1),
-            rgba(0, 100, 200, 1))
-        calc(100% - var(--time, 0%)) / var(--time, 0%)
-        no-repeat;
-    transition: .4s, background-position 0s;
-    color: white;
-}
-.signature-hyperlink:hover {
-    --time: 100%;
-    color: black;
-}
-
-
-
-
 .gradient-multiline {
     position: relative;
-    background-color: black;
+    display: block;
 }
-.gradient-multiline span {
+.gradient-multiline span{
     background: linear-gradient(to right,
             white,
             white)
@@ -153,20 +133,31 @@ a {
         no-repeat;
     transition: .8s, background-position 0s;
     color: white;
-
-    /* Needs prefixing */
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
 }
-
 .gradient-multiline span:hover {
     --time: 100%;
     color: black;
 }
 
+.gradient-multiline-invert {
+    position: relative;
+    display: block;
+}
+.gradient-multiline-invert span{
+    background: linear-gradient(to right,
+            white,
+            white)
+        var(--time, 100%) / var(--time, 100%)
+        no-repeat;
+    transition: .8s, background-position 0s;
+    color: black;
+}
+.gradient-multiline-invert span:hover {
+    --time: 0%;
+    color: white;
+}
 
-@supports(mix-blend-mode: lighten) {
-
+@supports(mix-blend-mode: multiply) {
     .gradient-multiline span:hover::after {
         position: absolute;
         content: '';
@@ -182,31 +173,21 @@ a {
         mix-blend-mode: multiply;
     }
 
+    .gradient-multiline-invert span:hover::after {
+        position: absolute;
+        content: '';
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        background: linear-gradient(to right,
+                rgba(255, 0, 0, 1),
+                rgba(255, 0, 180, 1),
+                rgba(0, 100, 200, 1));
+        mix-blend-mode: darken;
+    }
 }
-
-
-
-
-
-
-
-.signature-hyperlink-invert {
-    background: linear-gradient(
-            to right,
-            rgba(255, 0, 0, 1),
-            rgba(255, 0, 180, 1),
-            rgba(0, 100, 200, 1))
-        var(--time, 100%) / var(--time, 100%)
-        no-repeat;
-    transition: .4s, background-position 0s;
-    color: black;
-}
-.signature-hyperlink-invert:hover {
-    --time: 0%;
-    color: white;
-}
-
-
 
 
 /* Dark Mode */
