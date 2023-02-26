@@ -95,7 +95,6 @@ p {
 a {
 }
 
-/*
 .hyperlink {
     text-decoration: none;
 }
@@ -104,7 +103,6 @@ a {
 }
 .hyperlink:active {
 }
-*/
 
 .uppercase {
     text-transform: uppercase;
