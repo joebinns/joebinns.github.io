@@ -1,13 +1,15 @@
 /* Body */
 
 body{
-    margin: 0;
     background: white;
     color: black;
-    text-align: center;
     min-height: 100%;
     overflow-y: auto;
     overflow-x: hidden; /* Hide horizontal scrollbar */
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: normal;
 }
 
 
@@ -66,16 +68,27 @@ h1{
     font-size: 46px;
     text-decoration: none;
     line-height: normal;
+    text-transform: uppercase;
+}
+
+h2 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    color: black;
+    font-size: 84px;
+    text-decoration: none;
+    line-height: normal;
+    text-transform: uppercase;
 }
 
 p {
-}
-
-a {
     font-family: Helvetica, Arial, sans-serif;
     font-weight: normal;
     font-size: 16px;
     line-height: normal;
+}
+
+a {
 }
 
 .hyperlink {
@@ -110,6 +123,9 @@ a {
 
 @media (prefers-color-scheme: dark){
     h1{
+        color: white;
+    }
+    h2 {
         color: white;
     }
     a{
