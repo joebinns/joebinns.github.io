@@ -149,8 +149,15 @@ a {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: black;
 }
 .gradient-multiline span {
+    background: linear-gradient(to right,
+            white,
+            white)
+        calc(100% - var(--time, 0%)) / var(--time, 0%)
+        no-repeat;
+    transition: .4s, background-position 0s;
     color: white;
 
     /* Needs prefixing */
@@ -158,9 +165,15 @@ a {
     box-decoration-break: clone;
 }
 
+.gradient-multiline span:hover {
+    --time: 100%;
+    color: black;
+}
+
+
 @supports(mix-blend-mode: lighten) {
 
-    .gradient-multiline span::after {
+    .gradient-multiline span:hover::after {
         position: absolute;
         content: '';
         top: 0;
@@ -168,16 +181,14 @@ a {
         bottom: 0;
         left: 0;
         pointer-events: none;
-        background: linear-gradient(120deg,
+        background: linear-gradient(to right,
                 rgba(255, 0, 0, 1),
                 rgba(255, 0, 180, 1),
                 rgba(0, 100, 200, 1));
-        mix-blend-mode: lighten;
+        mix-blend-mode: darken;
     }
 
 }
-
-
 
 
 
