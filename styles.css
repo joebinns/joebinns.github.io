@@ -142,13 +142,7 @@ a {
 
 
 .gradient-multiline {
-    /* Full height */
-    height: 100%;
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    position: relative;
     background-color: black;
 }
 .gradient-multiline span {
@@ -157,7 +151,7 @@ a {
             white)
         calc(100% - var(--time, 0%)) / var(--time, 0%)
         no-repeat;
-    transition: .4s, background-position 0s;
+    transition: .8s, background-position 0s;
     color: white;
 
     /* Needs prefixing */
@@ -185,7 +179,7 @@ a {
                 rgba(255, 0, 0, 1),
                 rgba(255, 0, 180, 1),
                 rgba(0, 100, 200, 1));
-        mix-blend-mode: darken;
+        mix-blend-mode: multiply;
     }
 
 }
