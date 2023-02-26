@@ -34,7 +34,11 @@ body{
 
 .left {
     position: fixed;
-    left: 0%
+    left: 0%;
+}
+
+.right{
+    right: 0%;
 }
 
 .padding {
