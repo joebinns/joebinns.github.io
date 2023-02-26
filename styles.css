@@ -68,24 +68,19 @@ ul.no-bullets {
 /* Text */
 
 h1{
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: normal;
     color: black;
     font-size: 46px;
     line-height: normal;
 }
 
 h2 {
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: normal;
     color: black;
     font-size: 72px;
     line-height: normal;
+    font-weight: 100;
 }
 
 p {
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: normal;
     color: black;
     font-size: 16px;
     line-height: normal;
@@ -143,6 +138,53 @@ a {
     color: black;
 }
 
+
+
+
+.gradient-multiline {
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.gradient-multiline span {
+    color: white;
+
+    /* Needs prefixing */
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+@supports(mix-blend-mode: lighten) {
+
+    .gradient-multiline span::after {
+        position: absolute;
+        content: '';
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: none;
+        background: linear-gradient(120deg,
+                rgba(255, 0, 0, 1),
+                rgba(255, 0, 180, 1),
+                rgba(0, 100, 200, 1));
+        mix-blend-mode: lighten;
+    }
+
+}
+
+
+
+
+
+
+
+
+
 .signature-hyperlink-invert {
     background: linear-gradient(
             to right,
@@ -158,6 +200,8 @@ a {
     --time: 0%;
     color: white;
 }
+
+
 
 
 /* Dark Mode */
