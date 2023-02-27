@@ -139,12 +139,13 @@ a {
     text-decoration: none;
 }
 .gradient-multiline portfolio-date {
-    display: inline;
+    display: inline-block;
     font-size: 16px;
     position: relative;
-    top: -2.4rem;
     color: white;
     text-decoration: inherit;
+    line-height: 1.2em;
+    bottom: 2.4em;
 }
 .gradient-multiline:hover {
     --time: 100%;
