@@ -110,14 +110,6 @@ a {
     text-orientation: upright;
 }
 
-portfolio-date {
-    font-size: small;
-    position: relative;
-    top: -2.6rem;
-    color: white;
-    padding-right: 0.5rem;
-}
-
 
 /* Images */
 
@@ -136,6 +128,7 @@ portfolio-date {
     display: block;
 }
 .gradient-multiline portfolio-title{
+    display: inline;
     background: linear-gradient(to right,
             white,
             white)
@@ -143,11 +136,22 @@ portfolio-date {
         no-repeat;
     padding: 0rem 0.8rem;
     transition: .8s, background-position 0s;
-    /*color: white;*/
+    text-decoration: none;
+}
+.gradient-multiline portfolio-date {
+    display: inline;
+    font-size: 16px;
+    position: relative;
+    top: -2.4rem;
+    color: white;
+    text-decoration: inherit;
 }
 .gradient-multiline:hover {
     --time: 100%;
     color: black;
+}
+.gradient-multiline:hover portfolio-date{
+    text-decoration: underline;
 }
 
 .gradient-multiline-invert {
