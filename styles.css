@@ -157,7 +157,10 @@ a {
     color: white;
 }
 
+
 @supports(mix-blend-mode: multiply) {
+
+
     .gradient-multiline span:hover::after {
         position: absolute;
         content: '';
@@ -173,6 +176,7 @@ a {
         mix-blend-mode: multiply;
     }
 
+    /*
     .gradient-multiline-invert span:hover::after {
         position: absolute;
         content: '';
@@ -185,8 +189,9 @@ a {
                 rgba(255, 0, 0, 1),
                 rgba(255, 0, 180, 1),
                 rgba(0, 100, 200, 1));
-        mix-blend-mode: darken;
+        mix-blend-mode: multiply;
     }
+ */
 }
 
 
