@@ -70,14 +70,14 @@ ul.no-bullets {
 h1{
     color: black;
     font-size: 46px;
-    line-height: 1.2;
+    line-height: 1.2em;
 }
 
 h2 {
     color: black;
     font-size: 72px;
     font-weight: 100;
-    line-height: 1.2;
+    line-height: 1.2em;
 }
 
 p {
@@ -106,7 +106,7 @@ a {
 .logo {
     font-weight: 700;
     text-decoration: none;
-    line-height: 1.2;
+    line-height: 1.2em;
 }
 
 
@@ -132,8 +132,13 @@ a {
             white)
         calc(100% - var(--time, 0%)) / var(--time, 0%)
         no-repeat;
+    padding: 0rem 1.4rem;
     transition: .8s, background-position 0s;
     color: white;
+
+    /* Needs prefixing */
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 .gradient-multiline span:hover {
     --time: 100%;
