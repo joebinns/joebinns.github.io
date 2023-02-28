@@ -147,7 +147,16 @@ a {
     padding: 0rem 0.8rem;
     transition: .8s, background-position 0s;
 }
-.gradient-multiline portfolio-date {
+.gradient-multiline portfolio-prefix {
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+    color: white;
+    text-decoration: inherit;
+    line-height: 1.2em;
+    bottom: 2.4em;
+}
+.gradient-multiline portfolio-prefix {
     display: inline-block;
     font-size: 16px;
     position: relative;
@@ -160,7 +169,7 @@ a {
     --time: 100%;
     color: black;
 }
-.gradient-multiline:hover portfolio-date{
+.gradient-multiline:hover portfolio-prefix{
     text-decoration: underline;
 }
 
