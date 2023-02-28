@@ -80,6 +80,8 @@ h2 {
 
 p {
     font-size: 16px;
+    text-align: justify;
+    word-break: keep-all;
 }
 
 a {
@@ -115,6 +117,7 @@ a {
 
 .section {
     text-decoration: underline;
+    text-align: left;
 }
 
 
