@@ -86,13 +86,16 @@ a {
     text-decoration: none;
 }
 
-.hyperlink {
+.hyperlink{
+    color: royalblue;
     text-decoration: none;
 }
-.hyperlink:hover {
+.hyperlink:hover{
+    color: #34568B;
     text-decoration: underline;
 }
-.hyperlink:active {
+.hyperlink:active{
+    color: firebrick;
 }
 
 .lowercase {
@@ -108,6 +111,10 @@ a {
 .vertical-text{
     writing-mode: vertical-lr;
     text-orientation: upright;
+}
+
+.section {
+    text-decoration: underline dotted;
 }
 
 
