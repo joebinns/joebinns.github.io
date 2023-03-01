@@ -25,16 +25,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.828427"
-     inkscape:cx="497.62642"
-     inkscape:cy="240.06276"
+     inkscape:zoom="5.656854"
+     inkscape:cx="205.14936"
+     inkscape:cy="210.27589"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:pagecheckerboard="0"
      inkscape:snap-text-baseline="true">
@@ -329,9 +329,9 @@
        transform="scale(0.26458333)" />
     <path
        id="path983-2-1"
-       d="M 125.67708,57.53201 H 64.342513 c -2.935601,0 -5.310532,0.317846 -5.310532,0.710022 v 8.435683 c 0,0.392587 2.374931,0.710024 5.310532,0.710024 h 61.325627 c 2.93265,0 5.3316,-0.317437 5.3316,-0.710024 v -8.435683 c 0,-0.392176 -2.39895,-0.710022 -5.3316,-0.710022 z"
+       d="M 124.64388,57.53201 H 51.403475 c -3.50544,0 -6.341376,0.317846 -6.341376,0.710022 v 8.435683 c 0,0.392587 2.835936,0.710024 6.341376,0.710024 h 73.229735 c 3.50191,0 6.36653,-0.317437 6.36653,-0.710024 v -8.435683 c 0,-0.392176 -2.86462,-0.710022 -6.36653,-0.710022 z"
        inkscape:connector-curvature="0"
-       style="stroke-width:0.26458332"
+       style="stroke-width:0.289125"
        sodipodi:nodetypes="cssssssscc" />
     <path
        id="path983-0-0"
@@ -577,5 +577,13 @@
        cx="146.77107"
        cy="53.507362"
        r="3" />
+    <path
+       id="path14455"
+       style="font-size:10.5833px;line-height:1.25;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+       d="m 55.831868,48.311185 a 3.9687497,3.9687497 0 0 0 -3.96875,3.96875 3.9687497,3.9687497 0 0 0 3.96875,3.96875 3.9687497,3.9687497 0 0 0 3.96875,-3.96875 3.9687497,3.9687497 0 0 0 -3.96875,-3.96875 z m -0.87747,1.803509 h 1.08004 l -1.78284,1.782837 h 4.86275 v 0.764812 h -4.86275 l 1.78284,1.782837 h -1.08004 l -2.16524,-2.165245 z" />
+    <path
+       id="path14455-6"
+       style="font-size:10.5833px;line-height:1.25;fill:#ffffff;fill-opacity:1;stroke-width:0.2;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke"
+       d="m 55.397138,58.605211 a 3.9687497,3.9687497 0 0 0 -3.96875,3.96875 3.9687497,3.9687497 0 0 0 3.96875,3.96875 3.9687497,3.9687497 0 0 0 3.96875,-3.96875 3.9687497,3.9687497 0 0 0 -3.96875,-3.96875 z m -0.87747,1.803509 h 1.08004 l -1.78284,1.782837 h 4.86275 v 0.764812 h -4.86275 l 1.78284,1.782837 h -1.08004 l -2.16524,-2.165245 z" />
   </g>
 </svg>

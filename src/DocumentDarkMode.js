@@ -7,4 +7,5 @@ if (userPrefersDark) {
     document.getElementById("itchdotio").src="../images/itchdotio_box_optimised_white.svg";
     document.getElementById("youtube").src="../images/youtube_box_optimised_white.svg";
     document.getElementById("linkedin").src="../images/linkedin_box_optimised_white.svg";
+    document.getElementById("back").src="../images/back_white.svg";
 }
