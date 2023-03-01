@@ -1,5 +1,9 @@
 /* Body */
 
+html{
+    min-height:100%;
+}
+
 body{
     background: white;
     color: black;
@@ -10,6 +14,7 @@ body{
     font-weight: normal;
     font-size: 16px;
     line-height: normal;
+    margin: 0;
 }
 
 
@@ -66,6 +71,18 @@ ul.no-bullets {
     list-style-type: none; /* Remove bullets */
     padding: 0; /* Remove padding */
     margin: 0; /* Remove margins */
+}
+
+.content {
+    position: absolute;
+    padding: 0px 0px 200px 0px;
+}
+
+ul.buttons {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+    text-align: right;
 }
 
 
