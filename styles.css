@@ -176,15 +176,6 @@ a {
     line-height: 1.2em;
     bottom: 2.4em;
 }
-.gradient-multiline portfolio-prefix {
-    display: inline-block;
-    font-size: 16px;
-    position: relative;
-    color: white;
-    text-decoration: inherit;
-    line-height: 1.2em;
-    bottom: 2.4em;
-}
 .gradient-multiline:hover {
     --time: 100%;
     color: black;
