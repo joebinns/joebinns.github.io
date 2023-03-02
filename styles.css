@@ -74,13 +74,6 @@ ul.no-bullets {
     margin: 0; /* Remove margins */
 }
 
-.content {
-    position: absolute;
-    padding: 0 0 200px 0;
-    width: calc(100% - (30px + 326px));
-    margin: 0 30px 0 calc(326px);
-}
-
 ul.portfolio-pieces {
     list-style-type: none; /* Remove bullets */
     padding: 0; /* Remove padding */
@@ -88,7 +81,18 @@ ul.portfolio-pieces {
     text-align: right;
 }
 
+.content {
+    position: absolute;
+    padding: 0 0 200px 0;
+    width: calc(100% - (30px + 326px));
+    margin: 0 30px 0 calc(326px);
+}
 
+.content project {
+    display: block;
+    width: calc(100% - 100px);
+    margin: 0 30px 0 30px;
+}
 
 
 /* Text */
@@ -173,6 +177,9 @@ logo {
     width: 153px;
 }
 
+optHide {
+}
+
 /* On screens that are 800px wide or less... */
 @media screen and (max-width: 800px) {
     h1 {
@@ -186,7 +193,7 @@ logo {
     .interface menu {
         width: calc(100% - 60px);
         height: 70px;
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(50px);
         display: flex;
         justify-content: space-between;
         min-width: 300px;
@@ -212,6 +219,15 @@ logo {
 
     .padding {
         padding: 20px 30px;
+    }
+
+    .content project {
+        width: 100%;
+        margin: 0;
+    }
+
+    optHide {
+        display: none;
     }
 }
 
