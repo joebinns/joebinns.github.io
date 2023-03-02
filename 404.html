@@ -5,55 +5,79 @@
     <meta name="viewport" content="initial-scale=1.0">
     <title>404 · Joe Binns</title>
     <link rel="stylesheet" href="styles.css">
-    <link id="shortcuticon" rel="shortcut icon" href="images/globe_box_optimised.svg">
+    <link id="shortcuticon" rel="shortcut icon" href="../images/globe_box_optimised.svg">
 </head>
 <body>
-<div class="bottom left padding" style="width: 340px;">
-    <div class="table">
-        <div class="tr">
-            <div class="td">
+<div class="interface">
+    <menu class="padding">
+        <item>
+            <logo>
                 <h1 class="gradient-multiline-invert">
                     <a href="/">
-                        <span class="logo">
+                        <span>
                             &nbsp;Joe&nbsp;
                             <br>
                             &nbsp;Binns&nbsp;
                         </span>
                     </a>
                 </h1>
-            </div>
-            <div style="display: table-cell;"></div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <a class="hyperimage" href="mailto:joebinns.95@gmail.com" target="_blank"><img id="mail" src="images/mail_box_optimised.svg" alt="email" width="20" height="20"></a>
-                <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
-            </div>
-            <div class="td">
-                <a class="hyperlink vertical-center lowercase" href="about.html">about</a>
-            </div>
-        </div>
-        <div class="tr">
-            <div class="td">
-                <a class="hyperimage" href="https://github.com/joebinns" target="_blank"><img id="github" src="images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
-                <a class="hyperimage" href="https://www.youtube.com/@joebinns95/" target="_blank"><img id="youtube" src="images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
-                <a class="hyperimage" href="https://joebinns.itch.io/" target="_blank"><img id="itchdotio" src="images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
-            </div>
-            <div class="td">
-                <a class="hyperlink vertical-center lowercase" href="documents/cv/cv_joe_binns_2022_08_17.pdf">curriculum vitae</a>
-            </div>
-        </div>
+            </logo>
+        </item>
+        <optHide>
+            <itemAlt>
+                <div class="tr" style="height: 24px;">
+                    <div class="td">
+                        <a class="hyperimage" href="mailto:joebinns.95@gmail.com" target="_blank"><img id="mail" src="images/mail_box_optimised.svg" alt="email" width="20" height="20"></a>
+                        <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
+                    </div>
+                </div>
+                <div class="tr" style="height: 24px;">
+                    <div class="td">
+                        <a class="hyperimage" href="https://github.com/joebinns" target="_blank"><img id="github" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
+                        <a class="hyperimage" href="https://www.youtube.com/@joebinns95/" target="_blank"><img id="youtube" src="../images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
+                        <a class="hyperimage" href="https://joebinns.itch.io/" target="_blank"><img id="itchdotio" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
+                    </div>
+                </div>
+            </itemAlt>
+            <item>
+                <div class="tr" style="height: 24px; position:relative; top: 6px">
+                    <div class="td">
+                        <a class="hyperlink lowercase" href="about.html">about</a>
+                    </div>
+                </div>
+                <div class="tr" style="height: 24px; position:relative; top: 6px">
+                    <div class="td">
+                        <a class="hyperlink lowercase" href="../documents/cv/cv_joe_binns_2022_08_17.pdf">curriculum vitae</a>
+                    </div>
+                </div>
+            </item>
+        </optHide>
+    </menu>
+    <div class="top right padding" style="z-index: 20; padding-right: 30px; padding-left: 30px;">
+        <a class="hyperimage" href="/" ><img id="back" src="../images/back.svg" alt="back" width="40" height="40"></a>
     </div>
 </div>
-<div class="right padding" style="text-align: right; width: calc(100% - (380px + 120px)); position: absolute; padding-bottom: 200px;">
-    <h1 class="section">
-        404
-    </h1>
-    <p>
-        You've been sent to - the wrong side of town!
-        <br>
-        🔫🥷
-    </p>
+<div class="content">
+    <project>
+        <h1 class="section">
+            404
+        </h1>
+        <p>
+            You've been sent to - the wrong side of town!
+            <br>
+            🔫🥷
+        </p>
+    </project>
+    <ul class="portfolio-pieces">
+        <li>
+            <a href="/" class="gradient-multiline">
+                <h2>
+                    <portfolio-prefix>scram,</portfolio-prefix>
+                    <portfolio-title>Home!</portfolio-title>
+                </h2>
+            </a>
+        </li>
+    </ul>
 </div>
 <script type="module" src="src/DocumentDarkModeHome.js"></script>
 </body>
