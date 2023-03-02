@@ -185,6 +185,20 @@ logo {
 optHide {
 }
 
+.project-metadata {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.project-metadata item {
+    width: 50%;
+}
+
+.project-metadata data {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
 /* On screens that are 800px wide or less... */
 @media screen and (max-width: 800px) {
     h1 {
