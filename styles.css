@@ -158,6 +158,7 @@ logo {
 
 .interface {
     width: 100%;
+    height: 65px
 }
 
 .interface menu {
@@ -247,6 +248,10 @@ optHide {
 
     optHide {
         display: none;
+    }
+
+    .interface {
+        height: 130px;
     }
 }
 
