@@ -212,6 +212,10 @@ optHide {
     margin: 2em 0 0 0;
 }
 
+caption {
+    caption-side: bottom;
+}
+
 /* On screens that are 800px wide or less... */
 @media screen and (max-width: 800px) {
     h1 {
