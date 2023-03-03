@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Combined Regularisation Techniques For Artificial Neural Networks· Joe Binns</title>
+    <link rel="stylesheet" href="styles.css">
+    <link id="shortcuticon" rel="shortcut icon" href="../images/globe_box_optimised.svg">
+</head>
+<body>
+<div class="interface">
+    <menu class="padding">
+        <item>
+            <logo>
+                <h1 class="gradient-multiline-invert">
+                    <a href="/">
+                        <span>
+                            &nbsp;Joe&nbsp;
+                            <br>
+                            &nbsp;Binns&nbsp;
+                        </span>
+                    </a>
+                </h1>
+            </logo>
+        </item>
+        <optHide>
+            <itemAlt>
+                <div class="tr" style="height: 24px;">
+                    <div class="td">
+                        <a class="hyperimage" href="mailto:joebinns.95@gmail.com" target="_blank"><img id="mail" src="images/mail_box_optimised.svg" alt="email" width="20" height="20"></a>
+                        <a class="hyperimage" href="https://www.linkedin.com/in/joe-binns/" target="_blank"><img id="linkedin" src="images/linkedin_box_optimised.svg" alt="LinkedIn" width="20" height="20"></a>
+                    </div>
+                </div>
+                <div class="tr" style="height: 24px;">
+                    <div class="td">
+                        <a class="hyperimage" href="https://github.com/joebinns" target="_blank"><img id="github" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
+                        <a class="hyperimage" href="https://www.youtube.com/@joebinns95/" target="_blank"><img id="youtube" src="../images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
+                        <a class="hyperimage" href="https://joebinns.itch.io/" target="_blank"><img id="itchdotio" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
+                    </div>
+                </div>
+            </itemAlt>
+            <item>
+                <div class="tr" style="height: 24px; position:relative; top: 6px">
+                    <div class="td">
+                        <a class="hyperlink lowercase" href="about.html">about</a>
+                    </div>
+                </div>
+                <div class="tr" style="height: 24px; position:relative; top: 6px">
+                    <div class="td">
+                        <a class="hyperlink lowercase" href="../documents/cv/cv_joe_binns_2022_08_17.pdf">curriculum vitae</a>
+                    </div>
+                </div>
+            </item>
+        </optHide>
+    </menu>
+    <div class="top right" style="z-index: 20; padding: 30px;">
+        <a class="hyperimage" href="/" ><img id="back" src="../images/back.svg" alt="back" width="40" height="40"></a>
+    </div>
+</div>
+<div class="content">
+    <project>
+        <h1 class="section">
+            Combined Regularisation Techniques for Artificial Neural Networks
+        </h1>
+        <div class="table project-metadata">
+            <div class="tr">
+                <item class="td">
+                    <h3>
+                        Links
+                    </h3>
+                    <data>
+                        <p style="margin: inherit;">
+                            <a class="hyperimage" href="https://lup.lub.lu.se/student-papers/record/9088789" target="_blank"><img id="websiteProj" src="../images/globe_box_optimised.svg" alt="website" width="20" height="20"></a>
+                            <a class="hyperimage" href="" target="_blank" style="display: none;"><img id="githubProj" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
+                            <a class="hyperimage" href="" target="_blank" style="display: none;"><img id="youtubeProj" src="../images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
+                            <a class="hyperimage" href="" target="_blank" style="display: none;"><img id="itchdotioProj" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
+                            <a class="hyperimage" href="../documents/letters_of_recommendation/christina_rowa_letter_of_recommendation_for_joe_binns.pdf" target="_blank"><img id="documentProj" src="../images/document_box.svg" alt="document" width="20" height="20"></a>
+                        </p>
+                    </data>
+                </item>
+                <item class="td">
+                    <h3>
+                        Dates
+                    </h3>
+                    <data>
+                        <p style="margin: inherit;">
+                            January 2022 &mdash; June 2022
+                        </p>
+                    </data>
+                </item>
+            </div>
+            <div class="tr">
+                <item class="td">
+                    <h3>
+                        Team
+                    </h3>
+                    <data>
+                        <p style="margin: inherit;">
+                            <a class="hyperlink" href="/">Me</a> (Author, Programmer)
+                            <br>
+                            <a class="hyperlink" href="https://github.com/rassjo" target="_blank">Rasmus Sjöö</a> (Programmer)
+                            <br>
+                            <a class="hyperlink" href="https://github.com/CodeByAD" target="_blank">Alexander Degener</a> (Programmer)
+                            <br>
+                            <a class="hyperlink" href="https://github.com/Oskise" target="_blank">Oscar Bolinder</a> (Programmer)
+                        </p>
+                    </data>
+                </item>
+                <item class="td">
+                    <h3>
+                        Languages
+                    </h3>
+                    <data>
+                        <p style="margin: inherit;">
+                            Python
+                        </p>
+                    </data>
+                </item>
+            </div>
+        </div>
+        <div class="document">
+            <h3>
+                Abstract
+            </h3>
+            <p>
+                Artificial neural networks are prone to overfitting – the process of learning details specific to a particular training data set.
+                Success in preventing overfitting through combining the L2 and dropout regularisation techniques has led to the combination’s recent popularity.
+                However, with the introduction of each additional regularisation technique to an artificial neural network, there comes new hyperparameters which must be tuned in an increasingly complex and computationally expensive manner.
+                Motivated by L2’s action as a Gaussian prior on the loss function, we hypothesise an analytic relation for an optimal L2 strength’s dependence on the number of patterns.
+                Conducted on an artificial neural network composed of a single hidden layer, this systematic study tests the hypothesis for optimal L2 strength, and considers what interactions the additional involvement of dropout and early stopping may have on the relation.
+                On an otherwise static problem and network calibration, the results of this thesis suggested the success of the hypothesis within a valid working region.
+                The results are useful informants for the choice of L2 strength, drop rate and early stopping usage, and gave promise that the predictor may find real world applications.
+            </p>
+            <h3>
+                Contribution
+            </h3>
+            <p>
+                As the hypothesis could not be studied sufficiently in standard Keras code, the first part of the project was in coding our own ANN.
+                I was responsible for the stochastic data generation, statistics calculations and leading the team’s large-scale neural network training via remote access to computer clusters.
+            </p>
+            <h3>
+                Popular Science Description
+            </h3>
+            <p>
+                Artificial Intelligence’s (AI’s) potential for incredible state-of-the-art performance has not gone unnoticed; from medicine to military, the interest of all manner of fields has been peaked [1].
+                This has encouraged the rapid integration of AI into our everyday lives [2].
+                However, in the recent swarm of industrial excitement, whilst new applications have taken the limelight, rigour and understanding have began to lag behind.
+                By shining light on a popular choice of mechanisms which assist in the training of AI, known as dropout, L2 and early stopping, my study aimed to be a small step towards designing AI in a more informed and understood manner.
+            </p>
+            <p>
+                Artificial Neural Networks (ANNs) are a collection of computational architectures inspired by the brain; they are the current most realised form of AI.
+                If an ANN is insufficient in size, it will lack the capacity to solve even the simplest of problems.
+                However, if an ANN is too large, then that excessive capacity seldom lies dormant.
+                Instead, in a process known as overfitting, the ANN tends to learn undesirable peculiarities in a data set, such as fuzzy noise.
+                This, in turn, can result in an ANN that generalises poorly to new data – a tendency to perform insufficiently on previously unseen variations of the same underlying problem [3].
+            </p>
+            <p>
+                Driven by a desire to suppress overfitting, there have been a variety of developments of so-called regularisation techniques.
+                L2, dropout and early stopping are common such choices. In particular, L2 and dropout have recently received praise and popularity for providing good results when applied in conjunction [4, 5].
+                Though regularisation techniques offer significant benefits – often being of practical necessity – their implementation does not come without its costs.
+                Notably, both L2 and dropout have associated values controlling their strengths, each of which must be exhaustively fine-tuned to the specific problem and chosen ANN architecture [6].
+            </p>
+            <p>
+                To guide in what can become a lengthy and troublesome process of trial-and-error, my study aimed to test a hypothesised predictor for optimal L2 strength.
+                The predictor proposed that optimal L2 strength is proportional to the amount of available training data.
+                The effects on optimal L2 strength, of using L2 in conjunction with both the dropout and early stopping regularisation techniques, were then observed.
+            </p>
+            <p>
+                The results, which suggest the predictor to be successful within a suitable region, have helped to improve understanding of the interactions between these combined regularisation techniques.
+                There shows promise that the predictor may find real world usage from its extrapolation to situations with many training patterns, which would otherwise rely upon a time-consuming hyperparameter search.
+            </p>
+        </div>
+    </project>
+    <ul class="portfolio-pieces">
+        <li>
+            <a href="/" class="gradient-multiline">
+                <h2>
+                    <portfolio-prefix>thank you for viewing my portfolio</portfolio-prefix>
+                    <portfolio-title>Home</portfolio-title>
+                </h2>
+            </a>
+        </li>
+    </ul>
+</div>
+<script type="module" src="src/DocumentDarkMode.js"></script>
+<script type="module" src="src/DocumentDarkModePage.js"></script>
+<script type="module" src="src/DocumentDarkModeMeta.js"></script>
+</body>
+</html>
