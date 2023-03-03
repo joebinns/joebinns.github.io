@@ -155,37 +155,47 @@
             <h3>
                 Post-mortem
             </h3>
-            <div>
-                <table style="float:left; margin: 5px 10px 5px 10px;">
-                    <caption><u>Problematic pavements</u></caption>
-                    <tr>
-                        <td><img src="../images/projects/mlabs/road.svg" alt="road"></td>
-                        <td><img src="../images/projects/mlabs/road_bad.svg" alt="bad road"></td>
-                    </tr>
-                </table>
-                <p>
-                    The buildings and roads provided by OpenStreetMap's alone are insufficient to truly re-create an urban environment – without some impressionism.
-                    For example, how could we create procedural pavements for people to walk on?
-                    Since the metadata for roads was limited to just the carriageway type, some general assumptions were needed, such as motorways not having pavements.
-                    The problem then became how to create the pavements themselves.
-                    Initial naive attempts to take each segment of road, make two raised copies, and shift them to either side of the road appeared successful, until curved roads were encountered.
-                </p>
-            </div>
-            <div>
-                <table style="float: right; margin: 5px 10px 5px 10px;">
-                    <caption><u>Procedural mesh pavements</u></caption>
-                    <tr>
-                        <td><img src="../images/projects/mlabs/road_cross.svg" alt="road cross section"></td>
-                        <td><img src="../images/projects/mlabs/road_good.svg" alt="good road"></td>
-                        <td><img src="../images/projects/mlabs/road_final.svg" alt="final road"></td>
-                    </tr>
-                </table>
-                <p>
-                    I had hope of a better solution involving procedural mesh creation – something which I didn't have any experience in at the time.
-                    After doing some research and prototyping, I was ready to give it all a try.
-                    I made a new game object for the pavements, and generated its mesh from a fixed cross-section consisting of pavements separated by the width of the road.
-                    I'm glad I tried, because this alternative approach worked great!
-                </p>
+            <div class="table">
+                <div class="tr">
+                    <div class="td">
+                        <div>
+                            <table style="float:left; margin: 0 10px 5px 0;">
+                                <caption><u>Problematic pavements</u></caption>
+                                <tr>
+                                    <td><img src="../images/projects/mlabs/road.svg" alt="road"></td>
+                                    <td><img src="../images/projects/mlabs/road_bad.svg" alt="bad road"></td>
+                                </tr>
+                            </table>
+                            <p>
+                                The buildings and roads provided by OpenStreetMap's alone are insufficient to truly re-create an urban environment – without some impressionism.
+                                For example, how could we create procedural pavements for people to walk on?
+                                Since the metadata for roads was limited to just the carriageway type, some general assumptions were needed, such as motorways not having pavements.
+                                The problem then became how to create the pavements themselves.
+                                Initial naive attempts to take each segment of road, make two raised copies, and shift them to either side of the road appeared successful, until curved roads were encountered.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tr">
+                    <div class="td">
+                        <div>
+                            <table style="float: right; margin: 0 0 5px 10px;">
+                                <caption><u>Procedural mesh pavements</u></caption>
+                                <tr>
+                                    <td><img src="../images/projects/mlabs/road_cross.svg" alt="road cross section"></td>
+                                    <td><img src="../images/projects/mlabs/road_good.svg" alt="good road"></td>
+                                    <td><img src="../images/projects/mlabs/road_final.svg" alt="final road"></td>
+                                </tr>
+                            </table>
+                            <p>
+                                I had hope of a better solution involving procedural mesh creation – something which I didn't have any experience in at the time.
+                                After doing some research and prototyping, I was ready to give it all a try.
+                                I made a new game object for the pavements, and generated its mesh from a fixed cross-section consisting of pavements separated by the width of the road.
+                                I'm glad I tried, because this alternative approach worked great!
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </project>
