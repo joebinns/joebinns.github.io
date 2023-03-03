@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0">
-    <title>Stylised Character Controller · Joe Binns</title>
+    <title>Image Restoration using Partial Differential Equations · Joe Binns</title>
     <link rel="stylesheet" href="styles.css">
     <link id="shortcuticon" rel="shortcut icon" href="../images/globe_box_optimised.svg">
 </head>
@@ -60,7 +60,7 @@
 <div class="content">
     <project>
         <h1 class="section">
-            Stylised Character Controller
+            Image Restoration using Partial Differential Equations
         </h1>
         <div class="table project-metadata">
             <div class="tr">
@@ -71,10 +71,10 @@
                     <data>
                         <p style="margin: inherit;">
                             <a class="hyperimage" href="" target="_blank" style="display: none;"><img id="websiteProj" src="../images/globe_box_optimised.svg" alt="website" width="20" height="20"></a>
-                            <a class="hyperimage" href="https://github.com/joebinns/stylised-character-controller" target="_blank"><img id="githubProj" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
-                            <a class="hyperimage" href="https://youtube.com/playlist?list=PLfhw9nZBPNEVGPNXxcTTfsVsaMRHZAg_W" target="_blank"><img id="youtubeProj" src="../images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
-                            <a class="hyperimage" href="https://joebinns.itch.io/stylised-character-controller" target="_blank"><img id="itchdotioProj" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
-                            <a class="hyperimage" href="" target="_blank" style="display: none;"><img id="documentProj" src="../images/document_box.svg" alt="document" width="20" height="20"></a>
+                            <a class="hyperimage" href="https://github.com/joebinns/fytn03-module-b-project" target="_blank"><img id="githubProj" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
+                            <a class="hyperimage" href="https://youtu.be/NSAQF8PqJYM" target="_blank" ><img id="youtubeProj" src="../images/youtube_box._optimised.svg" alt="YouTube" width="20" height="20"></a>
+                            <a class="hyperimage" href="" target="_blank" style="display: none;"><img id="itchdotioProj" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
+                            <a class="hyperimage" href="https://docs.google.com/presentation/d/1drkaDALbQ7SuK9GOWdK9Qia4G1Ti0RgwTD8HcUFlgfU/edit?usp=sharing" target="_blank"><img id="documentProj" src="../images/document_box.svg" alt="document" width="20" height="20"></a>
                         </p>
                     </data>
                 </item>
@@ -84,7 +84,7 @@
                     </h3>
                     <data>
                         <p style="margin: inherit;">
-                            August 2021 &mdash; April 2022
+                            August 2021 &mdash; October 2021
                         </p>
                     </data>
                 </item>
@@ -96,9 +96,11 @@
                     </h3>
                     <data>
                         <p style="margin: inherit;">
-                            <a class="hyperlink" href="/">Me</a> (Programmer)
+                            <a class="hyperlink" href="/">Me</a>, Programmer
                             <br>
-                            <a class="hyperlink" href="mailto:clarasummerton@gmail.com" target="_blank">Clara Summerton</a> (Audio)
+                            <a class="hyperlink" href="https://github.com/jo6202gr-s" target="_blank">Joshua Greaves</a>, Programmer
+                            <br>
+                            <a class="hyperlink" href="https://github.com/Dhanari" target="_blank">Daniel Larsson Persson</a>, Programmer
                         </p>
                     </data>
                 </item>
@@ -108,9 +110,7 @@
                     </h3>
                     <data>
                         <p style="margin: inherit;">
-                            Unity
-                            <br>
-                            C#
+                            Python
                         </p>
                     </data>
                 </item>
@@ -121,62 +121,43 @@
                 Abstract
             </h3>
             <p>
-                A stylised physics-based character controller made in Unity 3D.
+                Equations originating from physics have recently found their way to other areas.
+                One possibly surprising application is that of restoring art or images.
+                To understand how Partial Differential Equations (PDEs) from physics can help with image restoration, consider a greyscale image of your own choice.
+                Due to some unwarranted graffiti, let us assume that a piece is missing (black region).
+                Can we fill in this missing region without any information as to what is missing?
+                This may seem like a hopeless task, but PDEs are here to help!
             </p>
-            <div class="video-block">
-                <div class="video-wrapper">
-                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/3GsXkzbfNBo?autoplay=1&controls=0&mute=1&loop=1&playlist=3GsXkzbfNBo" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
             <h3>
                 Description
             </h3>
             <p>
-                The character controller is based on a floating capsule approach devised by Toyful Games for Very Very Valet.
-                From the team's development blog, the various techniques for the movement are outlined and explained with
-                snippets of code. However, the provided code was largely incomplete - partially due to it being tied up in the
-                complex other workings of Very Very Valet. This lead me, with Toyful Games' permission, to develop and share
-                my own modular take on the floating capsule approach. With the addition of some additional stylisation, the
-                Stylised Character Controller project was conceived.
-            </p>
-            <h3>
-                Features
-            </h3>
-            <ul>
-                <li>Physics-based character controller</li>
-                <li>Squash and stretch, which is a principle of animation, makes the character's movements appear more
-                    playful and less rigid.</li>
-                <li>Dithered silhouettes appear on the character when obscured from view, letting the player know where
-                    they are at all times.</li>
-                <li>Top down blob shadows on characters make 3D platforming feel sharper, and they look great when
-                    combined with Unity's inbuilt environmental shadows.</li>
-                <li>Dust particles appear when characters move, making the character feel more alive.</li>
-            </ul>
-            <h3>
-                Motivation
-            </h3>
-            <p>
-                The motivation to start this project came after implementing the physics-based character controller into a game
-                prototype of my own. I had been struggling for a long time to complete a project, since University was taking
-                priority. With heaps of scrapped projects accruing, I felt a strong desire to just get something out there. So
-                I took what I already had, polished it up, and released it in the hope that other game developers may find it
-                useful. Enjoy!
+                PDE-based methods for image restoration are based on propagating the information (typically, colour-specific intensity values and gradients) at the boundaries of the missing region inwards.
+                The propagation is performed by solving a partial differential equation for the missing regions’ given boundary conditions.
             </p>
             <div class="video-block">
                 <div class="video-wrapper">
-                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/0gWJDWCvLUY?loop=1&playlist=0gWJDWCvLUY" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/NSAQF8PqJYM?autoplay=1&controls=0&mute=1&loop=1&playlist=NSAQF8PqJYM" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                     </iframe>
                 </div>
             </div>
+            <h3>
+                Contribution
+            </h3>
+            <p>
+                I really enjoyed collaborating on this project, where I created the initial code logic, and later took responsibility for handling user inputs and finding innovative ways of improving the algorithms results through a new technique.
+                This new technique consisted of breaking the regions to be solved into individual sections; The border colours of which were then averaged over to create an appropriate initial fill colour for each section.
+                This was found to both speed up solving and greatly improve results for large pieces of graffiti.
+                Though we just touched the tip of the iceberg in terms of image restoration techniques, the project demonstrated how useful physics-based equations can be in novel applications, such as graphical programming.
+            </p>
         </div>
     </project>
     <ul class="portfolio-pieces">
         <li>
-            <a href="image-restoration-using-partial-differential-equations.html" class="gradient-multiline">
+            <a href="stylised-character-controller.html" class="gradient-multiline">
                 <h2>
                     <portfolio-prefix>next project</portfolio-prefix>
-                    <portfolio-title>Image Restoration using Partial Differential Equations</portfolio-title>
+                    <portfolio-title>Stylised Character Controller</portfolio-title>
                 </h2>
             </a>
         </li>
