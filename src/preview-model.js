@@ -1,29 +1,68 @@
-// Canvas
-const canvas = document.querySelector('canvas.webgl')
+// Three.js
+import * as THREE from "three";
 
-// Scene
-const scene = new THREE.Scene()
+// glTF model loader
+import { GLTFLoader } from "gltf-loader";
 
-// Object
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xffffff })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+// Render requirements
+import { EffectComposer } from "effect-composer";
+import { ShaderPass } from "shader-pass";
+import { FXAAShader } from "fxaa-shader";
 
-// Sizes
-const sizes = {
-    width: 386,
-    height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 300
+// Custom outline
+import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
+
+
+let scene, camera, renderer;
+
+const dimensions = () => {
+    return {
+        width: 386,
+        height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 300,
+    };
+};
+
+init();
+render();
+
+function init() {
+    // Canvas
+    const canvas = document.querySelector('canvas.webgl')
+
+    // Scene
+    scene = new THREE.Scene()
+
+    // Camera
+    camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height)
+    camera.position.z = 3
+    scene.add(camera)
+
+    // Renderer
+    renderer = new THREE.WebGLRenderer({
+        canvas: canvas
+    })
+    renderer.setSize(dimensions().width, dimensions().height)
+
+    // Load models
+    const loader = new GLTFLoader().setPath( '../models/' );
+    loader.load( 'mitre.glb', function ( gltf ) {
+        scene.add( gltf.scene );
+        render();
+    });
+
+    //
+    window.addEventListener( 'resize', onWindowResize );
 }
 
-// Camera
-const camera = new THREE.PerspectiveCamera(55, sizes.width / sizes.height)
-camera.position.z = 3
-scene.add(camera)
+function onWindowResize() {
+    camera.aspect = dimensions().width / dimensions().height;
+    camera.updateProjectionMatrix();
 
-// Renderer
-const renderer = new THREE.WebGLRenderer({
-    canvas: canvas
-})
-renderer.setSize(sizes.width, sizes.height)
-renderer.render(scene, camera)
+    renderer.setSize(dimensions().width, dimensions().height);
+
+    render();
+}
+
+function render() {
+    renderer.render(scene, camera)
+}
