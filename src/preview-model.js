@@ -13,7 +13,7 @@ scene.add(mesh)
 // Sizes
 const sizes = {
     width: 386,
-    height: 500
+    height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 300
 }
 
 // Camera
