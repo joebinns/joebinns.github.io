@@ -13,7 +13,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, pass, customOutline, effectFXAA;
+let scene, camera, renderer, composer, customOutline, effectFXAA, models, areModelsLoaded, clock;
 
 const dimensions = () => {
     return {
@@ -23,7 +23,7 @@ const dimensions = () => {
 };
 
 init();
-render();
+update();
 
 function onWindowResize() {
     camera.aspect = dimensions().width / dimensions().height;
@@ -33,11 +33,12 @@ function onWindowResize() {
     composer.setSize(dimensions().width, dimensions().height);
     effectFXAA.setSize(dimensions().width, dimensions().height);
     customOutline.setSize(dimensions().width, dimensions().height);
-
-    render();
 }
 
 function init() {
+    // Timer
+    clock = new THREE.Clock();
+
     // Canvas
     const canvas = document.querySelector('canvas.webgl');
 
@@ -101,32 +102,38 @@ function init() {
     );
     composer.addPass(effectFXAA);
 
+
     // Group
-    const group = new THREE.Group();
+    models = new THREE.Group();
 
     // Load models
     const loader = new GLTFLoader().setPath('../models/');
     loader.load('mitre.glb', function (gltf) {
-        group.add(gltf.scene);
-        render();
+        models.add(gltf.scene);
+        areModelsLoaded = true;
     });
 
     // Object
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const mesh = new THREE.Mesh(geometry, material);
-    group.add(mesh);
+    models.add(mesh);
 
-    group.traverse(node => node.applyOutline = true);
-    scene.add(group);
-
-    render();
+    models.traverse(node => node.applyOutline = true);
+    scene.add(models);
 
     // Subscribe to window resize
     window.addEventListener( 'resize', onWindowResize );
     onWindowResize();
 }
 
-function render() {
+function update() {
+    requestAnimationFrame(update); // Only update when tab open
+    if (!areModelsLoaded) return;
+
+    let deltaTime = clock.getDelta();
+
+    models.rotation.y += deltaTime;
+
     composer.render();
 }
