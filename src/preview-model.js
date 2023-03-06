@@ -17,8 +17,8 @@ let scene, camera, renderer, composer, customOutline, effectFXAA, models, areMod
 
 const dimensions = () => {
     return {
-        width: 386,
-        height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 300,
+        width: 326,
+        height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 260,
     };
 };
 
@@ -130,11 +130,11 @@ function init() {
     });
     */
     let model;
-    let promiseModel = loadGLTF('SpaceStationV_Simplified.glb').then(gltf => { model = gltf.scene; });
+    let promiseModel = loadGLTF('mitre.glb').then(gltf => { model = gltf.scene; });
 
     // Set up the objects in their scenes, once all the models have loaded
     Promise.all([promiseModel]).then(() => {
-        model.scale.set(0.2, 0.2, 0.2);
+        model.scale.set(0.5, 0.5, 0.5);
         models.add(model);
         models.traverse(node => node.applyOutline = true);
         scene.add(models);
@@ -153,7 +153,7 @@ function update() {
     let deltaTime = clock.getDelta();
     time += deltaTime;
 
-    const speed = 1;
+    const speed = 1.5;
     const maximumDisplacement = 0.1;
     const angularSpeed = 0.5;
     models.position.y = maximumDisplacement * Math.sin(time * speed);
