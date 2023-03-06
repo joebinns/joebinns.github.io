@@ -130,7 +130,7 @@ function init() {
     });
     */
     let model;
-    let promiseModel = loadGLTF('space-shuttle.glb').then(gltf => { model = gltf.scene; });
+    let promiseModel = loadGLTF('painting.glb').then(gltf => { model = gltf.scene; });
 
     // Set up the objects in their scenes, once all the models have loaded
     Promise.all([promiseModel]).then(() => {
