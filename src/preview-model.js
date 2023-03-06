@@ -28,6 +28,11 @@ class ObjectPicker {
         this.picked = null;
     }
 
+    refreshCursor() {
+        if (this.picked) document.body.style.cursor = 'pointer';
+        else document.body.style.cursor = 'default';
+    }
+
     pick(normalizedPosition, scene, camera) {
         let pickedObject = null;
 
@@ -43,7 +48,11 @@ class ObjectPicker {
         }
 
         this.picked = pickedObject;
+
+        this.refreshCursor();
     }
+
+
 }
 
 function onWindowResize() {
