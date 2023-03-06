@@ -13,7 +13,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, models, areModelsLoaded, clock, time;
+let scene, camera, renderer, composer, customOutline, effectFXAA, models, areModelsLoaded, clock, time, mouse, picker, hovered;
 
 const dimensions = () => {
     return {
@@ -22,8 +22,29 @@ const dimensions = () => {
     };
 };
 
-init();
-update();
+class ObjectPicker {
+    constructor() {
+        this.raycaster = new THREE.Raycaster();
+        this.picked = null;
+    }
+
+    pick(normalizedPosition, scene, camera) {
+        let pickedObject = null;
+
+        // Cast a ray through the frustum
+        this.raycaster.setFromCamera(normalizedPosition, camera);
+
+        // Get the list of objects the ray intersected
+        const intersectedObjects = this.raycaster.intersectObjects(scene.children, true);
+
+        if (intersectedObjects.length) {
+            // Pick the first object. It's the closest one
+            pickedObject = intersectedObjects[0].object.parent;
+        }
+
+        this.picked = pickedObject;
+    }
+}
 
 function onWindowResize() {
     camera.aspect = dimensions().width / dimensions().height;
@@ -35,8 +56,13 @@ function onWindowResize() {
     customOutline.setSize(dimensions().width, dimensions().height);
 }
 
-function loadGLTF(path)
-{
+function onDocumentMouseMove(event) {
+    event.preventDefault();
+    mouse.x = (event.clientX / dimensions().width) * 2 - 1;
+    mouse.y = -(event.clientY / dimensions().height) * 2 + 1;
+}
+
+function loadGLTF(path) {
     return new Promise(resolve => {
         new GLTFLoader().load('../models/' + path, resolve);
     });
@@ -46,6 +72,11 @@ function init() {
     // Timer
     clock = new THREE.Clock();
     time = 0;
+
+    // Controller
+    mouse = new THREE.Vector2();
+    picker = new ObjectPicker();
+    hovered = 0;
 
     // Canvas
     const canvas = document.querySelector('canvas.webgl');
@@ -141,7 +172,8 @@ function init() {
         areModelsLoaded = true;
     });
 
-    // Subscribe to window resize
+    // Subscribe to events
+    document.addEventListener('mousemove', onDocumentMouseMove, false);
     window.addEventListener( 'resize', onWindowResize );
     onWindowResize();
 }
@@ -150,14 +182,32 @@ function update() {
     requestAnimationFrame(update); // Only update when tab open
     if (!areModelsLoaded) return;
 
+    // Update time
     let deltaTime = clock.getDelta();
     time += deltaTime;
 
+    // Update mouse's selected object
+    picker.pick(mouse, scene, camera);
+    console.log(picker.picked);
+
+    // Enlarge picked object
+    const hoverRate = 0.5;
+    if (picker.picked) hovered += hoverRate * deltaTime;
+    else hovered -= hoverRate * deltaTime;
+
+    hovered = THREE.MathUtils.clamp(hovered, 0, 0.05);
+    let scale = 1 + hovered; // Scale between 1 and 1.05
+
+    // Move and rotate the models
     const speed = 1.5;
     const maximumDisplacement = 0.1;
     const angularSpeed = 0.5;
     models.position.y = maximumDisplacement * Math.sin(time * speed);
     models.rotation.y += deltaTime * angularSpeed;
+    models.scale.set(scale, scale, scale);
 
     composer.render();
 }
+
+init();
+update();
