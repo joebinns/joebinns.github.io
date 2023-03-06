@@ -272,6 +272,10 @@ function update() {
         maxAppeared = Math.max(maxAppeared, item.appeared);
     });
 
+    let overlay = document.querySelector('overlay');
+    console.log(10 * (1 / maxAppeared));
+    overlay.style.setProperty('--blur', 5 * (1 - maxAppeared) + 'px');
+
     // Move and rotate the objects
     const speed = 1.5;
     const maximumDisplacement = 0.1;

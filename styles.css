@@ -390,7 +390,8 @@ overlay {
     width: 100%;
     height: 100%;
     z-index: 10;
-    backdrop-filter: blur(0px);
+    --blur: 0px;
+    backdrop-filter: blur(var(--blur));
 }
 
 /* Dark Mode */
