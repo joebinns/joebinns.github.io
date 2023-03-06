@@ -13,7 +13,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, areModelsLoaded, clock, time, mouse, picker, portfolioItems, hoverRate, appearRate;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, areModelsLoaded, clock, time, mouse, picker, portfolioItems, hoverRate, appearRate, overlay;
 
 function easeOutElastic(t) {
     const c4 = (2 * Math.PI) / 3;
@@ -114,6 +114,9 @@ function init() {
 
     // Canvas
     const canvas = document.querySelector('canvas.webgl');
+
+    // Overlay
+    overlay = document.querySelector('overlay');
 
     // Scene
     scene = new THREE.Scene();
@@ -271,10 +274,7 @@ function update() {
     portfolioItems.forEach(item => {
         maxAppeared = Math.max(maxAppeared, item.appeared);
     });
-
-    let overlay = document.querySelector('overlay');
-    console.log(10 * (1 / maxAppeared));
-    overlay.style.setProperty('--blur', 5 * (1 - maxAppeared) + 'px');
+    overlay.style.setProperty('--blur', 2 * (1 - maxAppeared) + 'px');
 
     // Move and rotate the objects
     const speed = 1.5;
