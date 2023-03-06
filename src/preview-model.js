@@ -188,7 +188,7 @@ function init() {
     let promiseANN = loadGLTF('robot.glb').then(gltf => { ann = gltf.scene; });
     let promiseSCC = promisePlaceholder;
     let promisePDE = loadGLTF('painting.glb').then(gltf => { pde = gltf.scene; });
-    let promiseMLabs = loadGLTF('white-house.glb').then(gltf => { mLabs = gltf.scene; });
+    let promiseMLabs = loadGLTF('arc-de-triomphe.glb').then(gltf => { mLabs = gltf.scene; });
     let promiseNBody = loadGLTF('space-shuttle.glb').then(gltf => { nBody = gltf.scene; });
 
     // Set up the objects in their scenes, once all the models have loaded
