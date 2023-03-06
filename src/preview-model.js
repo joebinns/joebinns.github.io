@@ -13,7 +13,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, areModelsLoaded, clock, time, mouse, picker, hovered, portfolioItems;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, areModelsLoaded, clock, time, mouse, picker, portfolioItems, hovered, hoverRate, appeared, appearRate;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -23,6 +23,8 @@ function PortfolioItem(id, element, object) {
     this.id = id;
     this.element = element;
     this.object = object;
+    this.appeared = 0;
+    this.hovered = 0;
 }
 
 const dimensions = () => {
@@ -98,6 +100,9 @@ function init() {
     mouse = new THREE.Vector2();
     picker = new ObjectPicker();
     hovered = 0;
+    hoverRate = 0.5;
+    appeared = 0;
+    appearRate = 10;
 
     // Canvas
     const canvas = document.querySelector('canvas.webgl');
@@ -211,22 +216,34 @@ function update() {
     let deltaTime = clock.getDelta();
     time += deltaTime;
 
-    // Select button
+    // Set visible model based on hovered element
+    // TODO: Set object visibility based on appeared
+    // TODO: Hover objects seperately
+    let isAnyElementHovered = false;
     portfolioItems.forEach(item => {
-        if (isElementHovered(item.element)) SetObjectVisibility(item.object, true);
+        if (isElementHovered(item.element)) isAnyElementHovered = true;
+    });
+
+    portfolioItems.forEach(item => {
+        if (isElementHovered(item.element)) {
+            SetObjectVisibility(item.object, true);
+        }
         else SetObjectVisibility(item.object, false);
     });
+
+    if (isAnyElementHovered) appeared += appearRate * deltaTime;
+    else appeared -= appearRate * deltaTime;
 
     // Update mouse's selected object
     picker.pick(mouse, scene, camera);
 
     // Enlarge picked object
-    const hoverRate = 0.5;
     if (picker.picked) hovered += hoverRate * deltaTime;
     else hovered -= hoverRate * deltaTime;
 
     hovered = THREE.MathUtils.clamp(hovered, 0, 0.05);
-    let scale = 1 + hovered; // Scale between 1 and 1.05
+    appeared = THREE.MathUtils.clamp(appeared, 0, 1);
+    let scale = appeared + hovered; // Scale between 1 and 1.05
 
     // Move and rotate the objects
     const speed = 1.5;
