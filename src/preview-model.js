@@ -13,7 +13,17 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, models, areModelsLoaded, clock, time, mouse, picker, hovered;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, areModelsLoaded, clock, time, mouse, picker, hovered, portfolioItems;
+
+function SetObjectVisibility(object, visible) {
+    object.visible = visible;
+}
+
+function PortfolioItem(id, element, object) {
+    this.id = id;
+    this.element = element;
+    this.object = object;
+}
 
 const dimensions = () => {
     return {
@@ -51,8 +61,6 @@ class ObjectPicker {
 
         this.refreshCursor();
     }
-
-
 }
 
 function onWindowResize() {
@@ -77,6 +85,10 @@ function loadGLTF(path) {
     });
 }
 
+function isElementHovered(element) {
+    return element == element.parentElement.querySelector(":hover");
+}
+
 function init() {
     // Timer
     clock = new THREE.Clock();
@@ -95,7 +107,7 @@ function init() {
 
     // Camera
     camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 1000);
-    camera.position.z = 3;
+    camera.position.z = 6;
     scene.add(camera);
 
     // Renderer
@@ -150,35 +162,40 @@ function init() {
 
 
     // Group
-    models = new THREE.Group();
-
-    /*
-    // Object
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const mesh = new THREE.Mesh(geometry, material);
-    models.add(mesh);
-    */
+    objects = new THREE.Group();
+    portfolioItems = [];
 
     // Load models
-    /*
-    const loader = new GLTFLoader().setPath('../models/');
-    loader.load('SpaceStationV_Simplified.glb', function (gltf) {
-        models.add(gltf.scene);
-        gltf.scene.scale.set(0.1, 0.1, 0.1);
-        areModelsLoaded = true;
-    });
-    */
-    let model;
-    let promiseModel = loadGLTF('question-mark-block.glb').then(gltf => { model = gltf.scene; });
+    let placeholder, worms, ann, scc, pde, mLabs, nBody;
+    let promisePlaceholder = loadGLTF('question-mark-block.glb').then(gltf => { placeholder = gltf.scene; });
+    let promiseWorms = loadGLTF('mitre.glb').then(gltf => { worms = gltf.scene; });
+    let promiseANN = loadGLTF('robot.glb').then(gltf => { ann = gltf.scene; });
+    let promiseSCC = promisePlaceholder;
+    let promisePDE = loadGLTF('painting.glb').then(gltf => { pde = gltf.scene; });
+    let promiseMLabs = loadGLTF('white-house.glb').then(gltf => { mLabs = gltf.scene; });
+    let promiseNBody = loadGLTF('space-shuttle.glb').then(gltf => { nBody = gltf.scene; });
 
     // Set up the objects in their scenes, once all the models have loaded
-    Promise.all([promiseModel]).then(() => {
-        model.scale.set(0.5, 0.5, 0.5);
-        models.add(model);
-        models.traverse(node => node.applyOutline = true);
-        scene.add(models);
+    Promise.all([promiseWorms, promiseANN, promiseSCC, promisePDE, promiseMLabs, promiseNBody]).then(() => {
+        scc = placeholder.clone(); // TODO: Add model for SCC
+
+        objects.add(worms, ann, scc, pde, mLabs, nBody);
+        portfolioItems.push(new PortfolioItem('worms', document.getElementById('worms'), worms),
+            new PortfolioItem('ann', document.getElementById('ann'), ann),
+            new PortfolioItem('scc', document.getElementById('scc'), scc),
+            new PortfolioItem('pde', document.getElementById('pde'), pde),
+            new PortfolioItem('mLabs', document.getElementById('mLabs'), mLabs),
+            new PortfolioItem('nBody', document.getElementById('nBody'), nBody));
+
+        portfolioItems.forEach(item => SetObjectVisibility(item.object, false));
+
+        // Add objects to scene
+        objects.traverse(node => node.applyOutline = true);
+        scene.add(objects);
         areModelsLoaded = true;
+
+        // Portfolio Items
+        portfolioItems.push(new PortfolioItem())
     });
 
     // Subscribe to events
@@ -195,9 +212,11 @@ function update() {
     let deltaTime = clock.getDelta();
     time += deltaTime;
 
+    // Select button
+    //isElementHovered();
+
     // Update mouse's selected object
     picker.pick(mouse, scene, camera);
-    console.log(picker.picked);
 
     // Enlarge picked object
     const hoverRate = 0.5;
@@ -207,13 +226,13 @@ function update() {
     hovered = THREE.MathUtils.clamp(hovered, 0, 0.05);
     let scale = 1 + hovered; // Scale between 1 and 1.05
 
-    // Move and rotate the models
+    // Move and rotate the objects
     const speed = 1.5;
     const maximumDisplacement = 0.1;
     const angularSpeed = 0.5;
-    models.position.y = maximumDisplacement * Math.sin(time * speed);
-    models.rotation.y += deltaTime * angularSpeed;
-    models.scale.set(scale, scale, scale);
+    objects.position.y = maximumDisplacement * Math.sin(time * speed);
+    objects.rotation.y += deltaTime * angularSpeed;
+    objects.scale.set(scale, scale, scale);
 
     composer.render();
 }
