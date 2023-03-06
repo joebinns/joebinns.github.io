@@ -13,7 +13,17 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, areModelsLoaded, clock, time, mouse, picker, portfolioItems, hovered, hoverRate, appeared, appearRate;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, areModelsLoaded, clock, time, mouse, picker, portfolioItems, hoverRate, appearRate;
+
+function easeOutElastic(t) {
+    const c4 = (2 * Math.PI) / 3;
+
+    return t === 0
+        ? 0
+        : t === 1
+            ? 1
+            : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
+}
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -99,9 +109,7 @@ function init() {
     // Controller
     mouse = new THREE.Vector2();
     picker = new ObjectPicker();
-    hovered = 0;
     hoverRate = 0.5;
-    appeared = 0;
     appearRate = 10;
 
     // Canvas
@@ -216,34 +224,53 @@ function update() {
     let deltaTime = clock.getDelta();
     time += deltaTime;
 
-    // Set visible model based on hovered element
-    // TODO: Set object visibility based on appeared
-    // TODO: Hover objects seperately
-    let isAnyElementHovered = false;
+    // Set appeared per item
     portfolioItems.forEach(item => {
-        if (isElementHovered(item.element)) isAnyElementHovered = true;
+        if (isElementHovered(item.element)){
+            item.appeared += appearRate * deltaTime;
+        }
+        else {
+            item.appeared -= appearRate * deltaTime;
+        }
+        item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
     });
 
+    // Set visibility per item
     portfolioItems.forEach(item => {
-        if (isElementHovered(item.element)) {
+        if (item.appeared > 0) {
             SetObjectVisibility(item.object, true);
         }
-        else SetObjectVisibility(item.object, false);
+        else {
+            SetObjectVisibility(item.object, false);
+        }
     });
-
-    if (isAnyElementHovered) appeared += appearRate * deltaTime;
-    else appeared -= appearRate * deltaTime;
 
     // Update mouse's selected object
     picker.pick(mouse, scene, camera);
 
-    // Enlarge picked object
-    if (picker.picked) hovered += hoverRate * deltaTime;
-    else hovered -= hoverRate * deltaTime;
+    // Set hovered per item
+    portfolioItems.forEach(item => {
+        if (picker.picked == item.object) {
+            item.hovered += hoverRate * deltaTime;
+        }
+        else {
+            item.hovered -= hoverRate * deltaTime;
+        }
+        item.hovered = THREE.MathUtils.clamp(item.hovered, 0, 0.05);
+    });
 
-    hovered = THREE.MathUtils.clamp(hovered, 0, 0.05);
-    appeared = THREE.MathUtils.clamp(appeared, 0, 1);
-    let scale = appeared + hovered; // Scale between 1 and 1.05
+    // Scale the objects based on appeared and hovered
+    portfolioItems.forEach(item => {
+        let scale = item.appeared + item.hovered;
+        //scale = easeOutElastic(scale);
+        item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
+    });
+
+    // Adjust overlay blur based on appeared
+    let maxAppeared = 0;
+    portfolioItems.forEach(item => {
+        maxAppeared = Math.max(maxAppeared, item.appeared);
+    });
 
     // Move and rotate the objects
     const speed = 1.5;
@@ -251,7 +278,6 @@ function update() {
     const angularSpeed = 0.5;
     objects.position.y = maximumDisplacement * Math.sin(time * speed);
     objects.rotation.y += deltaTime * angularSpeed;
-    objects.scale.set(scale, scale, scale);
 
     composer.render();
 }
