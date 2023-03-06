@@ -108,16 +108,18 @@ function init() {
 
     // Load models
     const loader = new GLTFLoader().setPath('../models/');
-    loader.load('mitre.glb', function (gltf) {
+    loader.load('box.glb', function (gltf) {
         models.add(gltf.scene);
         areModelsLoaded = true;
     });
 
+    /*
     // Object
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const mesh = new THREE.Mesh(geometry, material);
     models.add(mesh);
+    */
 
     models.traverse(node => node.applyOutline = true);
     scene.add(models);
