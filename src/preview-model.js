@@ -180,12 +180,14 @@ function init() {
         scc = placeholder.clone(); // TODO: Add model for SCC
 
         objects.add(worms, ann, scc, pde, mLabs, nBody);
-        portfolioItems.push(new PortfolioItem('worms', document.getElementById('worms'), worms),
+        portfolioItems.push(
+            new PortfolioItem('worms', document.getElementById('worms'), worms),
             new PortfolioItem('ann', document.getElementById('ann'), ann),
             new PortfolioItem('scc', document.getElementById('scc'), scc),
             new PortfolioItem('pde', document.getElementById('pde'), pde),
             new PortfolioItem('mLabs', document.getElementById('mLabs'), mLabs),
-            new PortfolioItem('nBody', document.getElementById('nBody'), nBody));
+            new PortfolioItem('nBody', document.getElementById('nBody'), nBody)
+        );
 
         portfolioItems.forEach(item => SetObjectVisibility(item.object, false));
 
@@ -193,9 +195,6 @@ function init() {
         objects.traverse(node => node.applyOutline = true);
         scene.add(objects);
         areModelsLoaded = true;
-
-        // Portfolio Items
-        portfolioItems.push(new PortfolioItem())
     });
 
     // Subscribe to events
@@ -213,7 +212,10 @@ function update() {
     time += deltaTime;
 
     // Select button
-    //isElementHovered();
+    portfolioItems.forEach(item => {
+        if (isElementHovered(item.element)) SetObjectVisibility(item.object, true);
+        else SetObjectVisibility(item.object, false);
+    });
 
     // Update mouse's selected object
     picker.pick(mouse, scene, camera);
