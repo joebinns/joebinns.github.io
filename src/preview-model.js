@@ -13,7 +13,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, models, areModelsLoaded, clock;
+let scene, camera, renderer, composer, customOutline, effectFXAA, models, areModelsLoaded, clock, time;
 
 const dimensions = () => {
     return {
@@ -35,9 +35,17 @@ function onWindowResize() {
     customOutline.setSize(dimensions().width, dimensions().height);
 }
 
+function loadGLTF(path)
+{
+    return new Promise(resolve => {
+        new GLTFLoader().load('../models/' + path, resolve);
+    });
+}
+
 function init() {
     // Timer
     clock = new THREE.Clock();
+    time = 0;
 
     // Canvas
     const canvas = document.querySelector('canvas.webgl');
@@ -55,9 +63,7 @@ function init() {
         canvas: canvas
     });
     renderer.setSize(dimensions().width, dimensions().height);
-    /*
-    renderer.setPixelRatio(window.devicePixelRatio);
-    */
+    //renderer.setPixelRatio(window.devicePixelRatio);
 
     // Composer (renderer with post-processing)
     const depthTexture = new THREE.DepthTexture();
@@ -106,13 +112,6 @@ function init() {
     // Group
     models = new THREE.Group();
 
-    // Load models
-    const loader = new GLTFLoader().setPath('../models/');
-    loader.load('box.glb', function (gltf) {
-        models.add(gltf.scene);
-        areModelsLoaded = true;
-    });
-
     /*
     // Object
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -121,8 +120,26 @@ function init() {
     models.add(mesh);
     */
 
-    models.traverse(node => node.applyOutline = true);
-    scene.add(models);
+    // Load models
+    /*
+    const loader = new GLTFLoader().setPath('../models/');
+    loader.load('SpaceStationV_Simplified.glb', function (gltf) {
+        models.add(gltf.scene);
+        gltf.scene.scale.set(0.1, 0.1, 0.1);
+        areModelsLoaded = true;
+    });
+    */
+    let model;
+    let promiseModel = loadGLTF('SpaceStationV_Simplified.glb').then(gltf => { model = gltf.scene; });
+
+    // Set up the objects in their scenes, once all the models have loaded
+    Promise.all([promiseModel]).then(() => {
+        model.scale.set(0.2, 0.2, 0.2);
+        models.add(model);
+        models.traverse(node => node.applyOutline = true);
+        scene.add(models);
+        areModelsLoaded = true;
+    });
 
     // Subscribe to window resize
     window.addEventListener( 'resize', onWindowResize );
@@ -134,8 +151,13 @@ function update() {
     if (!areModelsLoaded) return;
 
     let deltaTime = clock.getDelta();
+    time += deltaTime;
 
-    models.rotation.y += deltaTime;
+    const speed = 1;
+    const maximumDisplacement = 0.1;
+    const angularSpeed = 0.5;
+    models.position.y = maximumDisplacement * Math.sin(time * speed);
+    models.rotation.y += deltaTime * angularSpeed;
 
     composer.render();
 }
