@@ -184,7 +184,7 @@ function init() {
     // Load models
     let placeholder, worms, ann, scc, pde, mLabs, nBody;
     let promisePlaceholder = loadGLTF('question-mark-block.glb').then(gltf => { placeholder = gltf.scene; });
-    let promiseWorms = loadGLTF('mitre.glb').then(gltf => { worms = gltf.scene; });
+    let promiseWorms = loadGLTF('crown.glb').then(gltf => { worms = gltf.scene; });
     let promiseANN = loadGLTF('robot.glb').then(gltf => { ann = gltf.scene; });
     let promiseSCC = promisePlaceholder;
     let promisePDE = loadGLTF('painting.glb').then(gltf => { pde = gltf.scene; });
