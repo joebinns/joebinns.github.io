@@ -233,8 +233,7 @@ export class ModelPreviewer{
             else {
                 this.defaultItem.appeared += appearRate * deltaTime;
             }
-
-            console.log(this.defaultItem.appeared);
+            
             this.defaultItem.appeared = THREE.MathUtils.clamp(this.defaultItem.appeared, 0, 1);
         }
 

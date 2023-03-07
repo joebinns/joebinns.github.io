@@ -8,6 +8,12 @@
     <link id="shortcuticon" rel="shortcut icon" href="../images/globe_box_optimised.svg">
 </head>
 <body>
+<div class="model-preview">
+    <overlay>
+    </overlay>
+    <canvas class="webgl">
+    </canvas>
+</div>
 <div class="interface">
     <menu class="padding">
         <item>
@@ -81,7 +87,19 @@
         </li>
     </ul>
 </div>
+<script type="importmap"> {
+    "imports": {
+        "three":            "https://unpkg.com/three/build/three.module.js",
+        "gltf-loader":      "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
+        "pass":             "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js",
+        "effect-composer":  "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
+        "shader-pass":      "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
+        "fxaa-shader":      "https://unpkg.com/three/examples/jsm/shaders/FXAAShader.js"
+    }
+}
+</script>
 <script type="module" src="src/DocumentDarkMode.js"></script>
 <script type="module" src="src/DocumentDarkModePage.js"></script>
+<script type="module" src="src/About.js"></script>
 </body>
 </html>
