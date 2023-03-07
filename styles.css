@@ -394,6 +394,24 @@ overlay {
     backdrop-filter: blur(var(--blur));
 }
 
+
+/* Ribbon */
+.ribbon {
+    width: 200px;
+    padding: 0.5em;
+    position: absolute;
+    text-align: center;
+    color: #f0f0f0;
+    position: fixed;
+    top: 30px;
+    left: -60px;
+    transform: rotate(-45deg);
+    background-color: #e43;
+}
+.ribbon:hover {
+    text-decoration: underline;
+}
+
 /* Dark Mode */
 
 @media (prefers-color-scheme: dark){
