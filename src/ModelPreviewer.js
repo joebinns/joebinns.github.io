@@ -12,11 +12,8 @@ import { FXAAShader } from "fxaa-shader";
 // Custom outline
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
-// Portfolio item
-import { PortfolioItem } from '../src/PortfolioItem.js'
 
-
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper;
 
 function easeOutElastic(t) {
     const c4 = (2 * Math.PI) / 3;
@@ -86,6 +83,14 @@ function onDocumentMouseMove(event) {
     mouse.y = -(event.clientY / dimensions().height) * 2 + 1;
 }
 
+function onDocumentMouseDown(event) {
+    let object = picker.picked;
+    if (object) {
+        // Click
+        angularSpeed += (defaultAngularSpeed * 25);
+    }
+}
+
 function loadGLTF(path) {
     return new Promise(resolve => {
         new GLTFLoader().load('../models/' + path, resolve);
@@ -115,6 +120,11 @@ export class ModelPreviewer{
         hoverRate = 1;
         appearRate = 10;
         hovered = 0;
+        speed = 1.5;
+        maximumDisplacement = 0.1;
+        defaultAngularSpeed = 0.5;
+        angularDamper = 2;
+        angularSpeed = defaultAngularSpeed;
 
         // Canvas
         const canvas = document.querySelector('canvas.webgl');
@@ -201,6 +211,7 @@ export class ModelPreviewer{
 
         // Subscribe to events
         document.addEventListener('mousemove', onDocumentMouseMove, false);
+        document.addEventListener('mousedown', onDocumentMouseDown, false);
         window.addEventListener( 'resize', onWindowResize );
         onWindowResize();
     }
@@ -274,12 +285,14 @@ export class ModelPreviewer{
         });
         overlay.style.setProperty('--blur', 2 * (1 - maxAppeared) + 'px');
 
+        // Decelerate angular speed
+        angularSpeed -= deltaTime * angularSpeed * angularDamper;
+        angularSpeed = Math.max(defaultAngularSpeed, angularSpeed);
+
         // Move and rotate the objects
-        const speed = 1.5;
-        const maximumDisplacement = 0.1;
-        const angularSpeed = 0.5;
         objects.position.y = maximumDisplacement * Math.sin(time * speed);
         objects.rotation.y += deltaTime * angularSpeed;
+
 
         composer.render();
     }
