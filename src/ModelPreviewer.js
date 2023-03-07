@@ -16,7 +16,7 @@ import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 import { PortfolioItem } from '../src/PortfolioItem.js'
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered;
 
 function easeOutElastic(t) {
     const c4 = (2 * Math.PI) / 3;
@@ -112,8 +112,9 @@ export class ModelPreviewer{
         // Controller
         mouse = new THREE.Vector2();
         picker = new ObjectPicker();
-        hoverRate = 0.5;
+        hoverRate = 1;
         appearRate = 10;
+        hovered = 0;
 
         // Canvas
         const canvas = document.querySelector('canvas.webgl');
@@ -251,19 +252,17 @@ export class ModelPreviewer{
         picker.pick(mouse, scene, camera);
 
         // Set hovered per item
-        this.portfolioItems.forEach(item => {
-            if (picker.picked == item.object) {
-                item.hovered += hoverRate * deltaTime;
-            }
-            else {
-                item.hovered -= hoverRate * deltaTime;
-            }
-            item.hovered = THREE.MathUtils.clamp(item.hovered, 0, 0.05);
-        });
+        if (picker.picked) {
+            hovered += hoverRate * deltaTime;
+        }
+        else {
+            hovered -= hoverRate * deltaTime;
+        }
+        hovered = THREE.MathUtils.clamp(hovered, 0, 0.075);
 
         // Scale the objects based on appeared and hovered
         this.portfolioItems.forEach(item => {
-            let scale = item.appeared + item.hovered;
+            let scale = item.appeared + hovered;
             //scale = easeOutElastic(scale);
             item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
         });
