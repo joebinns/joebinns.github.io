@@ -93,6 +93,7 @@ function loadGLTF(path) {
 }
 
 function isElementHovered(element) {
+    if (element == null) return null;
     return element == element.parentElement.querySelector(":hover");
 }
 
@@ -184,10 +185,15 @@ export class ModelPreviewer{
 
         // Set up the objects in their scenes, once all the models have loaded
         this.portfolioItems.forEach(item => {
-            console.log(item.object);
             objects.add(item.object)
         });
         this.portfolioItems.forEach(item => SetObjectVisibility(item.object, false));
+
+        // Identify any default item
+        this.defaultItem = null;
+        this.portfolioItems.forEach(item => {
+            if (!item.element) this.defaultItem = item;
+        });
 
         objects.traverse(node => node.applyOutline = true);
         scene.add(objects);
@@ -206,15 +212,31 @@ export class ModelPreviewer{
         time += deltaTime;
 
         // Set appeared per item
+        let isAnyElementHovered = false;
         this.portfolioItems.forEach(item => {
-            if (isElementHovered(item.element)){
-                item.appeared += appearRate * deltaTime;
+            if (item.element) {
+                if (isElementHovered(item.element)){
+                    item.appeared += appearRate * deltaTime;
+                    isAnyElementHovered = true;
+                }
+                else {
+                    item.appeared -= appearRate * deltaTime;
+                }
+                item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
+            }
+        });
+
+        if (this.defaultItem) {
+            if (isAnyElementHovered) {
+                this.defaultItem.appeared -= appearRate * deltaTime;
             }
             else {
-                item.appeared -= appearRate * deltaTime;
+                this.defaultItem.appeared += appearRate * deltaTime;
             }
-            item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
-        });
+
+            console.log(this.defaultItem.appeared);
+            this.defaultItem.appeared = THREE.MathUtils.clamp(this.defaultItem.appeared, 0, 1);
+        }
 
         // Set visibility per item
         this.portfolioItems.forEach(item => {

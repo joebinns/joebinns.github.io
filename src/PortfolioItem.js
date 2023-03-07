@@ -11,7 +11,8 @@ function loadGLTF(path) {
 export class PortfolioItem {
     constructor(id, object) {
         this.id = id;
-        this.element = document.getElementById(id);
+        if (id) this.element = document.getElementById(id);
+        else this.element = null;
 
         this.promise = loadGLTF(object).then(gltf => { this.object = gltf.scene; });
 
