@@ -5,8 +5,8 @@ html{
 }
 
 body{
-    background: white;
-    color: black;
+    background: black;
+    color: white;
     min-height: 100%;
     overflow-y: auto;
     overflow-x: hidden; /* Hide horizontal scrollbar */
@@ -124,6 +124,7 @@ p {
 }
 
 a {
+    color: white;
     text-decoration: none;
 }
 
@@ -291,10 +292,10 @@ caption {
 /* Images */
 
 .hyperimage{
-    opacity: 0.8;
+    opacity: 1.0;
 }
 .hyperimage:hover{
-    opacity: 1.0;
+    opacity: 0.8;
 }
 
 
@@ -419,18 +420,5 @@ overlay {
 /* Dark Mode */
 
 @media (prefers-color-scheme: dark){
-    a{
-        color: white;
-    }
-    body{
-        background: black;
-        color: white;
-    }
-    .hyperimage{
-        opacity: 1.0;
-    }
-    .hyperimage:hover{
-        opacity: 0.8;
-    }
 }
 

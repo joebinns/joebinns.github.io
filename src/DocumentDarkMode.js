@@ -1,5 +1,5 @@
 const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-if (userPrefersDark) {
+if (true) {
     // Swap document icons to white versions to retain contrast
     document.getElementById("shortcuticon").href="../images/globe_box_optimised_white.svg";
 
