@@ -1,6 +1,3 @@
-// Three.js
-import * as THREE from "three";
-
 // Portfolio item
 import { PortfolioItem } from '../src/PortfolioItem.js';
 
@@ -24,6 +21,5 @@ portfolioItems.forEach(item => {
     promises.push(item.promise)
 });
 Promise.all(promises).then(() => {
-    console.log(portfolioItems[0].object);
     new ModelPreviewer(portfolioItems);
 });

@@ -1,6 +1,3 @@
-// Three.js
-import * as THREE from "three";
-
 // glTF model loader
 import { GLTFLoader } from "gltf-loader";
 
