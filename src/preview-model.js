@@ -39,8 +39,8 @@ function PortfolioItem(id, element, object) {
 
 const dimensions = () => {
     return {
-        width: 326,
-        height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 260,
+        width: 386,
+        height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 232,
     };
 };
 
