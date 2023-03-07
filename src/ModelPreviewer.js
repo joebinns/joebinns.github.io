@@ -12,8 +12,11 @@ import { FXAAShader } from "fxaa-shader";
 // Custom outline
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
+// Portfolio item
+import { PortfolioItem } from '../src/PortfolioItem.js'
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, areModelsLoaded, clock, time, mouse, picker, portfolioItems, hoverRate, appearRate, overlay;
+
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay;
 
 function easeOutElastic(t) {
     const c4 = (2 * Math.PI) / 3;
@@ -27,14 +30,6 @@ function easeOutElastic(t) {
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
-}
-
-function PortfolioItem(id, element, object) {
-    this.id = id;
-    this.element = element;
-    this.object = object;
-    this.appeared = 0;
-    this.hovered = 0;
 }
 
 const dimensions = () => {
@@ -101,190 +96,171 @@ function isElementHovered(element) {
     return element == element.parentElement.querySelector(":hover");
 }
 
-function init() {
-    // Timer
-    clock = new THREE.Clock();
-    time = 0;
+export class ModelPreviewer{
+    constructor(portfolioItems) {
+        this.portfolioItems = portfolioItems;
+        this.Init();
+        this.Update();
+    }
 
-    // Controller
-    mouse = new THREE.Vector2();
-    picker = new ObjectPicker();
-    hoverRate = 0.5;
-    appearRate = 10;
+    Init () {
+        // Timer
+        clock = new THREE.Clock();
+        time = 0;
 
-    // Canvas
-    const canvas = document.querySelector('canvas.webgl');
+        // Controller
+        mouse = new THREE.Vector2();
+        picker = new ObjectPicker();
+        hoverRate = 0.5;
+        appearRate = 10;
 
-    // Overlay
-    overlay = document.querySelector('overlay');
+        // Canvas
+        const canvas = document.querySelector('canvas.webgl');
 
-    // Scene
-    scene = new THREE.Scene();
+        // Overlay
+        overlay = document.querySelector('overlay');
 
-    // Camera
-    camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 1000);
-    camera.position.z = 6;
-    scene.add(camera);
+        // Scene
+        scene = new THREE.Scene();
 
-    // Renderer
-    renderer = new THREE.WebGLRenderer({
-        canvas: canvas
-    });
-    renderer.setSize(dimensions().width, dimensions().height);
-    //renderer.setPixelRatio(window.devicePixelRatio);
+        // Camera
+        camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 1000);
+        camera.position.z = 6;
+        scene.add(camera);
 
-    // Composer (renderer with post-processing)
-    const depthTexture = new THREE.DepthTexture();
-    const renderTarget = new THREE.WebGLRenderTarget(
-        dimensions().width,
-        dimensions().height,
-        {
-            depthTexture: depthTexture,
-            depthBuffer: true
-        }
-    );
-    composer = new EffectComposer(renderer, renderTarget);
+        // Renderer
+        renderer = new THREE.WebGLRenderer({
+            canvas: canvas
+        });
+        renderer.setSize(dimensions().width, dimensions().height);
+        //renderer.setPixelRatio(window.devicePixelRatio);
 
-
-    // 1) Render pass
-    // Skipping the regular render pass as to only render a custom outline.
-
-    // 2) Post processing
-    // Outline pass
-    customOutline = new CustomOutlinePass(
-        new THREE.Vector2(dimensions().width, dimensions().height),
-        scene,
-        camera
-    );
-    composer.addPass(customOutline);
-
-    // 3) Declare Custom Outline uniforms
-    const uniforms = customOutline.fsQuad.material.uniforms;
-    uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
-
-    // Multiple scalar values packed into one uniform: Depth bias, depth multiplier, and same for normals
-    uniforms.multiplierParameters.value.x = 0.25;
-    uniforms.multiplierParameters.value.y = 10;
-    uniforms.multiplierParameters.value.z = 1;
-    uniforms.multiplierParameters.value.w = 0;
-
-    // 4) Anti-alias pass
-    effectFXAA = new ShaderPass(FXAAShader);
-    effectFXAA.uniforms['resolution'].value.set(
-        1 / dimensions().width,
-        1 / dimensions().height
-    );
-    composer.addPass(effectFXAA);
-
-
-    // Group
-    objects = new THREE.Group();
-    portfolioItems = [];
-
-    // Load models
-    let placeholder, worms, ann, scc, pde, mLabs, nBody;
-    let promisePlaceholder = loadGLTF('question-mark-block.glb').then(gltf => { placeholder = gltf.scene; });
-    let promiseWorms = loadGLTF('crown.glb').then(gltf => { worms = gltf.scene; });
-    let promiseANN = loadGLTF('robot.glb').then(gltf => { ann = gltf.scene; });
-    let promiseSCC = promisePlaceholder;
-    let promisePDE = loadGLTF('painting.glb').then(gltf => { pde = gltf.scene; });
-    let promiseMLabs = loadGLTF('arc-de-triomphe.glb').then(gltf => { mLabs = gltf.scene; });
-    let promiseNBody = loadGLTF('space-shuttle.glb').then(gltf => { nBody = gltf.scene; });
-
-    // Set up the objects in their scenes, once all the models have loaded
-    Promise.all([promiseWorms, promiseANN, promiseSCC, promisePDE, promiseMLabs, promiseNBody]).then(() => {
-        scc = placeholder.clone(); // TODO: Add model for SCC
-
-        objects.add(worms, ann, scc, pde, mLabs, nBody);
-        portfolioItems.push(
-            new PortfolioItem('worms', document.getElementById('worms'), worms),
-            new PortfolioItem('ann', document.getElementById('ann'), ann),
-            new PortfolioItem('scc', document.getElementById('scc'), scc),
-            new PortfolioItem('pde', document.getElementById('pde'), pde),
-            new PortfolioItem('mLabs', document.getElementById('mLabs'), mLabs),
-            new PortfolioItem('nBody', document.getElementById('nBody'), nBody)
+        // Composer (renderer with post-processing)
+        const depthTexture = new THREE.DepthTexture();
+        const renderTarget = new THREE.WebGLRenderTarget(
+            dimensions().width,
+            dimensions().height,
+            {
+                depthTexture: depthTexture,
+                depthBuffer: true
+            }
         );
+        composer = new EffectComposer(renderer, renderTarget);
 
-        portfolioItems.forEach(item => SetObjectVisibility(item.object, false));
 
-        // Add objects to scene
+        // 1) Render pass
+        // Skipping the regular render pass as to only render a custom outline.
+
+        // 2) Post processing
+        // Outline pass
+        customOutline = new CustomOutlinePass(
+            new THREE.Vector2(dimensions().width, dimensions().height),
+            scene,
+            camera
+        );
+        composer.addPass(customOutline);
+
+        // 3) Declare Custom Outline uniforms
+        const uniforms = customOutline.fsQuad.material.uniforms;
+        uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+
+        // Multiple scalar values packed into one uniform: Depth bias, depth multiplier, and same for normals
+        uniforms.multiplierParameters.value.x = 0.25;
+        uniforms.multiplierParameters.value.y = 10;
+        uniforms.multiplierParameters.value.z = 1;
+        uniforms.multiplierParameters.value.w = 0;
+
+        // 4) Anti-alias pass
+        effectFXAA = new ShaderPass(FXAAShader);
+        effectFXAA.uniforms['resolution'].value.set(
+            1 / dimensions().width,
+            1 / dimensions().height
+        );
+        composer.addPass(effectFXAA);
+
+
+        // Group
+        objects = new THREE.Group();
+
+        // Set up the objects in their scenes, once all the models have loaded
+        this.portfolioItems.forEach(item => {
+            console.log(item.object);
+            objects.add(item.object)
+        });
+        this.portfolioItems.forEach(item => SetObjectVisibility(item.object, false));
+
         objects.traverse(node => node.applyOutline = true);
         scene.add(objects);
-        areModelsLoaded = true;
-    });
 
-    // Subscribe to events
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
-    window.addEventListener( 'resize', onWindowResize );
-    onWindowResize();
+        // Subscribe to events
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        window.addEventListener( 'resize', onWindowResize );
+        onWindowResize();
+    }
+
+    Update () {
+        requestAnimationFrame(()=>this.Update()); // Only update when tab open
+
+        // Update time
+        let deltaTime = clock.getDelta();
+        time += deltaTime;
+
+        // Set appeared per item
+        this.portfolioItems.forEach(item => {
+            if (isElementHovered(item.element)){
+                item.appeared += appearRate * deltaTime;
+            }
+            else {
+                item.appeared -= appearRate * deltaTime;
+            }
+            item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
+        });
+
+        // Set visibility per item
+        this.portfolioItems.forEach(item => {
+            if (item.appeared > 0) {
+                SetObjectVisibility(item.object, true);
+            }
+            else {
+                SetObjectVisibility(item.object, false);
+            }
+        });
+
+        // Update mouse's selected object
+        picker.pick(mouse, scene, camera);
+
+        // Set hovered per item
+        this.portfolioItems.forEach(item => {
+            if (picker.picked == item.object) {
+                item.hovered += hoverRate * deltaTime;
+            }
+            else {
+                item.hovered -= hoverRate * deltaTime;
+            }
+            item.hovered = THREE.MathUtils.clamp(item.hovered, 0, 0.05);
+        });
+
+        // Scale the objects based on appeared and hovered
+        this.portfolioItems.forEach(item => {
+            let scale = item.appeared + item.hovered;
+            //scale = easeOutElastic(scale);
+            item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
+        });
+
+        // Adjust overlay blur based on appeared
+        let maxAppeared = 0;
+        this.portfolioItems.forEach(item => {
+            maxAppeared = Math.max(maxAppeared, item.appeared);
+        });
+        overlay.style.setProperty('--blur', 2 * (1 - maxAppeared) + 'px');
+
+        // Move and rotate the objects
+        const speed = 1.5;
+        const maximumDisplacement = 0.1;
+        const angularSpeed = 0.5;
+        objects.position.y = maximumDisplacement * Math.sin(time * speed);
+        objects.rotation.y += deltaTime * angularSpeed;
+
+        composer.render();
+    }
 }
-
-function update() {
-    requestAnimationFrame(update); // Only update when tab open
-    if (!areModelsLoaded) return;
-
-    // Update time
-    let deltaTime = clock.getDelta();
-    time += deltaTime;
-
-    // Set appeared per item
-    portfolioItems.forEach(item => {
-        if (isElementHovered(item.element)){
-            item.appeared += appearRate * deltaTime;
-        }
-        else {
-            item.appeared -= appearRate * deltaTime;
-        }
-        item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
-    });
-
-    // Set visibility per item
-    portfolioItems.forEach(item => {
-        if (item.appeared > 0) {
-            SetObjectVisibility(item.object, true);
-        }
-        else {
-            SetObjectVisibility(item.object, false);
-        }
-    });
-
-    // Update mouse's selected object
-    picker.pick(mouse, scene, camera);
-
-    // Set hovered per item
-    portfolioItems.forEach(item => {
-        if (picker.picked == item.object) {
-            item.hovered += hoverRate * deltaTime;
-        }
-        else {
-            item.hovered -= hoverRate * deltaTime;
-        }
-        item.hovered = THREE.MathUtils.clamp(item.hovered, 0, 0.05);
-    });
-
-    // Scale the objects based on appeared and hovered
-    portfolioItems.forEach(item => {
-        let scale = item.appeared + item.hovered;
-        //scale = easeOutElastic(scale);
-        item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
-    });
-
-    // Adjust overlay blur based on appeared
-    let maxAppeared = 0;
-    portfolioItems.forEach(item => {
-        maxAppeared = Math.max(maxAppeared, item.appeared);
-    });
-    overlay.style.setProperty('--blur', 2 * (1 - maxAppeared) + 'px');
-
-    // Move and rotate the objects
-    const speed = 1.5;
-    const maximumDisplacement = 0.1;
-    const angularSpeed = 0.5;
-    objects.position.y = maximumDisplacement * Math.sin(time * speed);
-    objects.rotation.y += deltaTime * angularSpeed;
-
-    composer.render();
-}
-
-init();
-update();
