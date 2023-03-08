@@ -19,7 +19,7 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 [Question Mark Block](https://skfb.ly/6zQJy) is from Anthony Yanez, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
 
 ### Outline
-The outlines are my own minimialistic depth-buffer only adaptation of Omar Shehata's [WebGL Outlines](https://github.com/OmarShehata/webgl-outlines), licensed under [MIT](https://opensource.org/license/mit/).
+The outlines are my own depth-buffer only adaptation of Omar Shehata's [WebGL Outlines](https://github.com/OmarShehata/webgl-outlines), licensed under [MIT](https://opensource.org/license/mit/).
 
 ### All else
 Is [my own](https://joebinns.com/).
