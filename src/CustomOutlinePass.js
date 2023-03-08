@@ -1,11 +1,7 @@
 import * as THREE from "three";
 import { Pass, FullScreenQuad } from "pass";
-import {
-    getSurfaceIdMaterial,
-} from "../src/FindSurfaces.js";
+import { getSurfaceIdMaterial } from "../src/FindSurfaces.js";
 
-// Source
-//      https://github.com/OmarShehata/webgl-outlines
 // Follows the structure of
 // 		https://github.com/mrdoob/three.js/blob/master/examples/jsm/postprocessing/OutlinePass.js
 class CustomOutlinePass extends Pass {
@@ -118,7 +114,9 @@ class CustomOutlinePass extends Pass {
 			uniform vec4 screenSize;
 			uniform vec3 outlineColor;
 			uniform vec2 multiplierParameters;
+
 			varying vec2 vUv;
+
 			// Helper functions for reading from depth buffer.
 			float readDepth (sampler2D depthSampler, vec2 coord) {
 				float fragCoordZ = texture2D(depthSampler, coord).x;
@@ -128,6 +126,7 @@ class CustomOutlinePass extends Pass {
 			float getLinearDepth(vec3 pos) {
 				return -(viewMatrix * vec4(pos, 1.0)).z;
 			}
+
 			float getLinearScreenDepth(sampler2D map) {
 					vec2 uv = gl_FragCoord.xy * screenSize.zw;
 					return readDepth(map,uv);
@@ -143,31 +142,37 @@ class CustomOutlinePass extends Pass {
 				vec3 val = texture2D(surfaceBuffer, vUv + screenSize.zw * vec2(x, y)).rgb;
 				return val;
 			}
+
 			float saturateValue(float num) {
 				return clamp(num, 0.0, 1.0);
 			}
+
 			float getSufaceIdDiff(vec3 surfaceValue) {
 				float surfaceIdDiff = 0.0;
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(1, 0));
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(0, 1));
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(0, 1));
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(0, -1));
+
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(1, 1));
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(1, -1));
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(-1, 1));
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(-1, -1));
 				return surfaceIdDiff;
 			}
+
 			void main() {
 				vec4 sceneColor = texture2D(sceneColorBuffer, vUv);
 				float depth = getPixelDepth(0, 0);
 				vec3 surfaceValue = getSurfaceValue(0, 0);
+
 				// Get the difference between depth of neighboring pixels and current.
 				float depthDiff = 0.0;
 				depthDiff += abs(depth - getPixelDepth(1, 0));
 				depthDiff += abs(depth - getPixelDepth(-1, 0));
 				depthDiff += abs(depth - getPixelDepth(0, 1));
 				depthDiff += abs(depth - getPixelDepth(0, -1));
+
 				// Get the difference between surface values of neighboring pixels
 				// and current
 				float surfaceValueDiff = getSufaceIdDiff(surfaceValue);
@@ -175,10 +180,13 @@ class CustomOutlinePass extends Pass {
 				// Apply multiplier & bias to each 
 				float depthBias = multiplierParameters.x;
 				float depthMultiplier = multiplierParameters.y;
+
 				depthDiff = depthDiff * depthMultiplier;
 				depthDiff = saturateValue(depthDiff);
 				depthDiff = pow(depthDiff, depthBias);
+
 				if (surfaceValueDiff != 0.0) surfaceValueDiff = 1.0;
+
 				float outline = saturateValue(surfaceValueDiff + depthDiff);
 			
 				// Combine outline with scene color.

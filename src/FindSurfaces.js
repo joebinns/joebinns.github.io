@@ -2,6 +2,7 @@ import * as THREE from "three";
 
 /*
   This class computes "surface IDs" for a given mesh.
+
   A "surface" is defined as a set of triangles that share vertices.
 
   Inspired by Ian MacLarty, see:
@@ -141,9 +142,11 @@ function getVertexShader() {
     return `
   varying vec2 v_uv;
   varying vec4 vColor;
+
   void main() {
      v_uv = uv;
      vColor = color;
+
      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
   `;
@@ -154,6 +157,7 @@ function getFragmentShader() {
   varying vec2 v_uv;
   varying vec4 vColor;
   uniform float maxSurfaceId;
+
   void main() {
     // Normalize the surfaceId when writing to texture
     // Surface ID needs rounding as precision can be lost in perspective correct interpolation 
