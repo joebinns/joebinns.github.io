@@ -161,11 +161,9 @@ export class ModelPreviewer{
         const uniforms = customOutline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
 
-        // Multiple scalar values packed into one uniform: Depth bias, depth multiplier, and same for normals
+        // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         uniforms.multiplierParameters.value.x = 0.25;
         uniforms.multiplierParameters.value.y = 10;
-        uniforms.multiplierParameters.value.z = 1;
-        uniforms.multiplierParameters.value.w = 0.5;
 
         // 4) Anti-alias pass
         effectFXAA = new ShaderPass(FXAAShader);
