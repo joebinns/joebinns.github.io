@@ -157,8 +157,8 @@ export class ModelPreviewer{
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
-        uniforms.multiplierParameters.value.x = 0.5;
-        uniforms.multiplierParameters.value.y = 10;
+        uniforms.multiplierParameters.value.x = 0.625;
+        uniforms.multiplierParameters.value.y = 15;
 
         // 4) Anti-alias pass
         effectFXAA = new ShaderPass(FXAAShader);
