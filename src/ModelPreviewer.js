@@ -121,7 +121,7 @@ export class ModelPreviewer{
         scene = new THREE.Scene();
 
         // Camera
-        camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 100);
+        camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 10);
         camera.position.z = 6;
         scene.add(camera);
 
@@ -157,7 +157,7 @@ export class ModelPreviewer{
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
-        uniforms.multiplierParameters.value.x = 0.375;
+        uniforms.multiplierParameters.value.x = 0.5;
         uniforms.multiplierParameters.value.y = 10;
 
         // 4) Anti-alias pass
