@@ -104,18 +104,19 @@ ul.portfolio-pieces {
 
 h1{
     font-size: 46px;
-    line-height: 1.2em;
+    line-height: 1.3em;
     font-weight: bold;
 }
 
 h2 {
-    font-weight: lighter;
     font-size: 72px;
-    line-height: 1.2em;
+    line-height: 1.3em;
+    font-weight: normal;
 }
 
 h3 {
     font-size: 24px;
+    font-weight: normal;
 }
 
 p {
