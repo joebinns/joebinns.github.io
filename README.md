@@ -10,6 +10,7 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 - Swap out placeholder models for 'About', 'Stylised Character Controller', '404' and 'WIP'.
 - Optimise model geometries.
 - Switch JavaScript from CDN hosting to npm.
+- Fade in some audio when models are spinning fast.
 
 ## Credits
 ### Models
