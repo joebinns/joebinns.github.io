@@ -13,8 +13,6 @@ class CustomOutlinePass extends Pass {
 
         this.fsQuad = new FullScreenQuad(null);
         this.fsQuad.material = this.createOutlinePostProcessMaterial();
-
-        this.normalOverrideMaterial = new THREE.MeshNormalMaterial();
     }
 
     dispose() {
