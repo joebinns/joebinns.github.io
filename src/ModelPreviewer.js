@@ -133,14 +133,9 @@ export class ModelPreviewer{
         //renderer.setPixelRatio(window.devicePixelRatio);
 
         // Composer (renderer with post-processing)
-        const depthTexture = new THREE.DepthTexture();
         const renderTarget = new THREE.WebGLRenderTarget(
             dimensions().width,
-            dimensions().height,
-            {
-                depthTexture: depthTexture,
-                depthBuffer: true
-            }
+            dimensions().height
         );
         composer = new EffectComposer(renderer, renderTarget);
 

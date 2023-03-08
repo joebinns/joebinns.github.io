@@ -13,9 +13,25 @@ class CustomOutlinePass extends Pass {
 
         this.fsQuad = new FullScreenQuad(null);
         this.fsQuad.material = this.createOutlinePostProcessMaterial();
+
+        // Create a buffer to store the normals of the scene onto
+        const normalTarget = new THREE.WebGLRenderTarget(
+            this.resolution.x,
+            this.resolution.y
+        );
+        normalTarget.texture.format = THREE.RGBAFormat;
+        normalTarget.texture.minFilter = THREE.NearestFilter;
+        normalTarget.texture.magFilter = THREE.NearestFilter;
+        normalTarget.texture.generateMipmaps = false;
+        normalTarget.stencilBuffer = false;
+        normalTarget.depthBuffer = true;
+        normalTarget.depthTexture = new THREE.DepthTexture();
+        normalTarget.depthTexture.type = THREE.UnsignedShortType;
+        this.normalTarget = normalTarget;
     }
 
     dispose() {
+        this.normalTarget.dispose();
         this.fsQuad.dispose();
     }
 
@@ -36,10 +52,12 @@ class CustomOutlinePass extends Pass {
         const depthBufferValue = writeBuffer.depthBuffer;
         writeBuffer.depthBuffer = false;
 
+        renderer.setRenderTarget(this.normalTarget);
+
         renderer.render(this.renderScene, this.renderCamera);
 
         this.fsQuad.material.uniforms["depthBuffer"].value =
-            readBuffer.depthTexture;
+            this.normalTarget.depthTexture;
 
         // 2. Draw the outlines using the depth texture
         if (this.renderToScreen) {
