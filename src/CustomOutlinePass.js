@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { Pass, FullScreenQuad } from "pass";
-import { getSurfaceIdMaterial } from "../src/FindSurfaces.js";
 
 // Follows the structure of
 // 		https://github.com/mrdoob/three.js/blob/master/examples/jsm/postprocessing/OutlinePass.js
@@ -30,16 +29,6 @@ class CustomOutlinePass extends Pass {
         this.surfaceBuffer = surfaceBuffer;
 
         this.normalOverrideMaterial = new THREE.MeshNormalMaterial();
-        this.surfaceIdOverrideMaterial = getSurfaceIdMaterial();
-    }
-
-    dispose() {
-        this.surfaceBuffer.dispose();
-        this.fsQuad.dispose();
-    }
-
-    updateMaxSurfaceId(maxSurfaceId) {
-        this.surfaceIdOverrideMaterial.uniforms.maxSurfaceId.value = maxSurfaceId;
     }
 
     setSize(width, height) {

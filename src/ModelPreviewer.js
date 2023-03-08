@@ -8,7 +8,6 @@ import { FXAAShader } from "fxaa-shader";
 
 // Custom outline
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
-import FindSurfaces from "../src/FindSurfaces.js";
 
 
 let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper;
@@ -161,13 +160,12 @@ export class ModelPreviewer{
         // 3) Declare Custom Outline uniforms
         const uniforms = customOutline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
-        //uniforms.mode.value.set(7);
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier, and same for normals
         uniforms.multiplierParameters.value.x = 0.25;
         uniforms.multiplierParameters.value.y = 10;
         uniforms.multiplierParameters.value.z = 1;
-        uniforms.multiplierParameters.value.w = 0;
+        uniforms.multiplierParameters.value.w = 0.5;
 
         // 4) Anti-alias pass
         effectFXAA = new ShaderPass(FXAAShader);
@@ -176,9 +174,6 @@ export class ModelPreviewer{
             1 / dimensions().height
         );
         composer.addPass(effectFXAA);
-
-        // 5) Surface finder
-        const surfaceFinder = new FindSurfaces();
 
         // Group
         objects = new THREE.Group();
@@ -195,17 +190,6 @@ export class ModelPreviewer{
             if (!item.element) this.defaultItem = item;
         });
 
-        surfaceFinder.surfaceId = 0;
-        objects.traverse(node => {
-            if (node.type == "Mesh") {
-                const colorsTypedArray = surfaceFinder.getSurfaceIdAttribute(node);
-                node.geometry.setAttribute(
-                    "color",
-                    new THREE.BufferAttribute(colorsTypedArray, 4)
-                );
-            }
-            customOutline.updateMaxSurfaceId(surfaceFinder.surfaceId + 1);
-        });
         scene.add(objects);
 
         // Subscribe to events
