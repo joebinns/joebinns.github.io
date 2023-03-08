@@ -15,7 +15,6 @@ class CustomOutlinePass extends Pass {
         this.fsQuad.material = this.createOutlinePostProcessMaterial();
 
         // Create a buffer to store the normals of the scene onto
-        // or store the "surface IDs"
         const surfaceBuffer = new THREE.WebGLRenderTarget(
             this.resolution.x,
             this.resolution.y
@@ -29,6 +28,11 @@ class CustomOutlinePass extends Pass {
         this.surfaceBuffer = surfaceBuffer;
 
         this.normalOverrideMaterial = new THREE.MeshNormalMaterial();
+    }
+
+    dispose() {
+        this.surfaceBuffer.dispose();
+        this.fsQuad.dispose();
     }
 
     setSize(width, height) {
