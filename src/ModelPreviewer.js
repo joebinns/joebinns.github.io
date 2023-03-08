@@ -19,7 +19,7 @@ function SetObjectVisibility(object, visible) {
 const dimensions = () => {
     return {
         width: 386,
-        height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 232,
+        height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 241,
     };
 };
 

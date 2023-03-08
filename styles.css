@@ -230,7 +230,7 @@ caption {
 
     .interface menu {
         width: calc(100% - 60px);
-        height: 70px;
+        height: 75px;
         backdrop-filter: blur(50px);
         display: flex;
         justify-content: space-between;
@@ -287,6 +287,10 @@ caption {
 
     .ribbon {
         display: none;
+    }
+
+    logo h1{
+        margin: 0;
     }
 }
 
@@ -413,6 +417,9 @@ overlay {
     left: -60px;
     transform: rotate(-45deg);
     background-color: #e43;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 .ribbon:hover {
     opacity: 0.8;
