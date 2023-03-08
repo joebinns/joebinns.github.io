@@ -414,7 +414,7 @@ overlay {
     background-color: #e43;
 }
 .ribbon:hover {
-    text-decoration: underline;
+    opacity: 0.8;
 }
 
 /* Dark Mode */

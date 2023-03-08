@@ -60,11 +60,13 @@ class CustomOutlinePass extends Pass {
         const depthBufferValue = writeBuffer.depthBuffer;
         writeBuffer.depthBuffer = false;
 
-        // 1. Re-render the scene to capture all suface IDs in a texture.
+        // 1. Re-render the scene to capture all normals in a texture.
         renderer.setRenderTarget(this.surfaceBuffer);
         const overrideMaterialValue = this.renderScene.overrideMaterial;
 
-        this.renderScene.overrideMaterial = this.surfaceIdOverrideMaterial;
+        // Render normal buffer
+        this.renderScene.overrideMaterial = this.normalOverrideMaterial;
+
         renderer.render(this.renderScene, this.renderCamera);
         this.renderScene.overrideMaterial = overrideMaterialValue;
 
@@ -113,7 +115,7 @@ class CustomOutlinePass extends Pass {
 			uniform float cameraFar;
 			uniform vec4 screenSize;
 			uniform vec3 outlineColor;
-			uniform vec2 multiplierParameters;
+			uniform vec4 multiplierParameters;
 
 			varying vec2 vUv;
 
@@ -147,7 +149,7 @@ class CustomOutlinePass extends Pass {
 				return clamp(num, 0.0, 1.0);
 			}
 
-			float getSufaceIdDiff(vec3 surfaceValue) {
+			float getSurfaceIdDiff(vec3 surfaceValue) {
 				float surfaceIdDiff = 0.0;
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(1, 0));
 				surfaceIdDiff += distance(surfaceValue, getSurfaceValue(0, 1));
@@ -175,23 +177,30 @@ class CustomOutlinePass extends Pass {
 
 				// Get the difference between surface values of neighboring pixels
 				// and current
-				float surfaceValueDiff = getSufaceIdDiff(surfaceValue);
+				float surfaceValueDiff = getSurfaceIdDiff(surfaceValue);
 				
-				// Apply multiplier & bias to each 
-				float depthBias = multiplierParameters.x;
-				float depthMultiplier = multiplierParameters.y;
+                // Apply multiplier & bias to each 
+                float depthBias = multiplierParameters.x;
+                float depthMultiplier = multiplierParameters.y;
+                float normalBias = multiplierParameters.z;
+                float normalMultiplier = multiplierParameters.w;
 
 				depthDiff = depthDiff * depthMultiplier;
 				depthDiff = saturateValue(depthDiff);
 				depthDiff = pow(depthDiff, depthBias);
-
-				if (surfaceValueDiff != 0.0) surfaceValueDiff = 1.0;
+				
+				surfaceValueDiff = surfaceValueDiff * normalMultiplier;
+                surfaceValueDiff = saturateValue(surfaceValueDiff);
+                surfaceValueDiff = pow(surfaceValueDiff, normalBias);
 
 				float outline = saturateValue(surfaceValueDiff + depthDiff);
 			
 				// Combine outline with scene color.
 				vec4 outlineColor = vec4(outlineColor, 1.0);
 				gl_FragColor = vec4(mix(sceneColor, outlineColor, outline));
+				
+				// Outlines only
+				gl_FragColor = vec4(vec3(outline * outlineColor), 1.0);
 			}
 			`;
     }
@@ -203,10 +212,9 @@ class CustomOutlinePass extends Pass {
                 depthBuffer: {},
                 surfaceBuffer: {},
                 outlineColor: { value: new THREE.Color(0xffffff) },
-                //4 scalar values packed in one uniform:
-                //  depth multiplier, depth bias
+                //4 scalar values packed in one uniform: depth multiplier, depth bias, and same for normals.
                 multiplierParameters: {
-                    value: new THREE.Vector2(0.9, 20),
+                    value: new THREE.Vector4(0.9, 20, 1, 1),
                 },
                 cameraNear: { value: this.renderCamera.near },
                 cameraFar: { value: this.renderCamera.far },
