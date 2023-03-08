@@ -156,7 +156,7 @@ class CustomOutlinePass extends Pass {
                 outlineColor: { value: new THREE.Color(0xffffff) },
                 // 2 scalar values packed in one uniform: depth multiplier, depth bias
                 multiplierParameters: {
-                    value: new THREE.Vector2(0.25, 10),
+                    value: new THREE.Vector2(1, 1),
                 },
                 cameraNear: { value: this.renderCamera.near },
                 cameraFar: { value: this.renderCamera.far },
