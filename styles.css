@@ -108,8 +108,8 @@ h1{
 }
 
 h2 {
+    font-weight: lighter;
     font-size: 72px;
-    font-weight: 100;
     line-height: 1.2em;
 }
 
@@ -145,7 +145,6 @@ a {
 }
 
 logo {
-    font-weight: 700;
     text-decoration: none;
     line-height: 1.2em;
     width: 100%;
