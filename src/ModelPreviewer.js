@@ -103,7 +103,7 @@ export class ModelPreviewer{
         mouse = new THREE.Vector2();
         picker = new ObjectPicker();
         hoverRate = 1;
-        appearRate = 10;
+        appearRate = 6;
         hovered = 0;
         speed = 1.5;
         maximumDisplacement = 0.1;

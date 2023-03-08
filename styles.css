@@ -318,7 +318,7 @@ caption {
         calc(100% - var(--time, 0%)) / var(--time, 0%)
         no-repeat;
     padding: 0rem 0.8rem;
-    transition: .2s, background-position 0s;
+    transition: .4s, background-position 0s;
 }
 .gradient-multiline portfolio-prefix {
     display: inline-block;
@@ -349,7 +349,7 @@ caption {
             white)
         var(--time, 100%) / var(--time, 100%)
         no-repeat;
-    transition: .2s, background-position 0s;
+    transition: .4s, background-position 0s;
 }
 .gradient-multiline-invert:hover {
     --time: 0%;
