@@ -13,9 +13,9 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 
 ## Credits
 ### Models
-[Crown](https://skfb.ly/DZBX), [Arc De Triomphe](https://skfb.ly/C7RK), [Space Shuttle](https://skfb.ly/BGxq), [Booster Rockets and Fuel Tank](https://skfb.ly/BGxn) are from Microsoft, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).  
-[Robot Copernicus](https://skfb.ly/6TGoS) is from Igor Kreinin, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
-[Fancy Picture Frame](https://skfb.ly/6QZpO) is from Jamie McFarlane, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
+[Crown](https://skfb.ly/DZBX), [Arc De Triomphe](https://skfb.ly/C7RK), [Space Shuttle](https://skfb.ly/BGxq), [Booster Rockets and Fuel Tank](https://skfb.ly/BGxn) are from Microsoft, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
+[Robot Copernicus](https://skfb.ly/6TGoS) is from Igor Kreinin, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
+[Fancy Picture Frame](https://skfb.ly/6QZpO) is from Jamie McFarlane, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Question Mark Block](https://skfb.ly/6zQJy) is from Anthony Yanez, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
 
 ### Outline
