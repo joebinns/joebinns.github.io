@@ -67,8 +67,6 @@ class CustomOutlinePass extends Pass {
             readBuffer.depthTexture;
         this.fsQuad.material.uniforms["surfaceBuffer"].value =
             this.surfaceBuffer.texture;
-        this.fsQuad.material.uniforms["sceneColorBuffer"].value =
-            readBuffer.texture;
 
         // 2. Draw the outlines using the depth texture and normal texture
         // and combine it with the scene color
@@ -101,7 +99,6 @@ class CustomOutlinePass extends Pass {
 			#include <packing>
 			// The above include imports "perspectiveDepthToViewZ"
 			// and other GLSL functions from ThreeJS we need for reading depth.
-			uniform sampler2D sceneColorBuffer;
 			uniform sampler2D depthBuffer;
 			uniform sampler2D surfaceBuffer;
 			uniform float cameraNear;
@@ -157,7 +154,6 @@ class CustomOutlinePass extends Pass {
 			}
 
 			void main() {
-				vec4 sceneColor = texture2D(sceneColorBuffer, vUv);
 				float depth = getPixelDepth(0, 0);
 				vec3 surfaceValue = getSurfaceValue(0, 0);
 
@@ -187,10 +183,6 @@ class CustomOutlinePass extends Pass {
                 surfaceValueDiff = pow(surfaceValueDiff, normalBias);
 
 				float outline = saturateValue(surfaceValueDiff + depthDiff);
-			
-				// Combine outline with scene color.
-				vec4 outlineColor = vec4(outlineColor, 1.0);
-				gl_FragColor = vec4(mix(sceneColor, outlineColor, outline));
 				
 				// Outlines only
 				gl_FragColor = vec4(vec3(outline * outlineColor), 1.0);
@@ -201,7 +193,6 @@ class CustomOutlinePass extends Pass {
     createOutlinePostProcessMaterial() {
         return new THREE.ShaderMaterial({
             uniforms: {
-                sceneColorBuffer: {},
                 depthBuffer: {},
                 surfaceBuffer: {},
                 outlineColor: { value: new THREE.Color(0xffffff) },
