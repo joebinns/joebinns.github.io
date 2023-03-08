@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { Pass, FullScreenQuad } from "pass";
 
+// Minimalist outline using only depth
 // Follows the structure of
 // 		https://github.com/mrdoob/three.js/blob/master/examples/jsm/postprocessing/OutlinePass.js
 class CustomOutlinePass extends Pass {
