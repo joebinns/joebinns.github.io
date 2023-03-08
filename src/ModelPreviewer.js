@@ -1,9 +1,6 @@
 // Three.js
 import * as THREE from "three";
 
-// glTF model loader
-import { GLTFLoader } from "gltf-loader";
-
 // Render requirements
 import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
@@ -11,19 +8,10 @@ import { FXAAShader } from "fxaa-shader";
 
 // Custom outline
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
+import FindSurfaces from "../src/FindSurfaces.js";
 
 
 let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper;
-
-function easeOutElastic(t) {
-    const c4 = (2 * Math.PI) / 3;
-
-    return t === 0
-        ? 0
-        : t === 1
-            ? 1
-            : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
-}
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -75,6 +63,10 @@ function onWindowResize() {
     composer.setSize(dimensions().width, dimensions().height);
     effectFXAA.setSize(dimensions().width, dimensions().height);
     customOutline.setSize(dimensions().width, dimensions().height);
+    effectFXAA.uniforms["resolution"].value.set(
+        1 / dimensions().width,
+        1 / dimensions().height
+    );
 }
 
 function onDocumentMouseMove(event) {
@@ -89,12 +81,6 @@ function onDocumentMouseDown(event) {
         // Click
         angularSpeed += (defaultAngularSpeed * 25);
     }
-}
-
-function loadGLTF(path) {
-    return new Promise(resolve => {
-        new GLTFLoader().load('../models/' + path, resolve);
-    });
 }
 
 function isElementHovered(element) {
@@ -175,6 +161,7 @@ export class ModelPreviewer{
         // 3) Declare Custom Outline uniforms
         const uniforms = customOutline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+        //uniforms.mode.value.set(7);
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier, and same for normals
         uniforms.multiplierParameters.value.x = 0.25;
@@ -190,6 +177,8 @@ export class ModelPreviewer{
         );
         composer.addPass(effectFXAA);
 
+        // 5) Surface finder
+        const surfaceFinder = new FindSurfaces();
 
         // Group
         objects = new THREE.Group();
@@ -206,7 +195,17 @@ export class ModelPreviewer{
             if (!item.element) this.defaultItem = item;
         });
 
-        objects.traverse(node => node.applyOutline = true);
+        surfaceFinder.surfaceId = 0;
+        objects.traverse(node => {
+            if (node.type == "Mesh") {
+                const colorsTypedArray = surfaceFinder.getSurfaceIdAttribute(node);
+                node.geometry.setAttribute(
+                    "color",
+                    new THREE.BufferAttribute(colorsTypedArray, 4)
+                );
+            }
+            customOutline.updateMaxSurfaceId(surfaceFinder.surfaceId + 1);
+        });
         scene.add(objects);
 
         // Subscribe to events

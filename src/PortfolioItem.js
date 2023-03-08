@@ -17,6 +17,5 @@ export class PortfolioItem {
         this.promise = loadGLTF(object).then(gltf => { this.object = gltf.scene; });
 
         this.appeared = 0;
-        this.hovered = 0;
     }
 }
