@@ -201,9 +201,14 @@ optHide {
     width: 50%;
 }
 
-.project-metadata data {
+.project-metadata info {
     margin-top: 10px;
     margin-bottom: 20px;
+}
+
+.project-metadata info p {
+    margin: inherit;
+    text-align: left;
 }
 
 .project-metadata h3 {
