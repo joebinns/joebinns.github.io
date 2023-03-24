@@ -10,7 +10,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -57,6 +57,11 @@ class ObjectPicker {
 function onWindowResize() {
     camera.aspect = dimensions().width / dimensions().height;
     camera.updateProjectionMatrix();
+
+    preview.style.width = `${dimensions().width}px`;
+    preview.style.height = `${dimensions().height}px`;
+    overlay.style.width = `${dimensions().width}px`;
+    overlay.style.height = `${dimensions().height}px`;
 
     renderer.setSize(dimensions().width, dimensions().height);
     composer.setSize(dimensions().width, dimensions().height);
@@ -111,11 +116,14 @@ export class ModelPreviewer{
         angularDamper = 2;
         angularSpeed = defaultAngularSpeed;
 
-        // Canvas
-        const canvas = document.querySelector('canvas.webgl');
+        // Model preview
+        preview = document.querySelector('.model-preview');
 
         // Overlay
         overlay = document.querySelector('overlay');
+
+        // Canvas
+        const canvas = document.querySelector('canvas.webgl');
 
         // Scene
         scene = new THREE.Scene();
@@ -259,7 +267,7 @@ export class ModelPreviewer{
         this.portfolioItems.forEach(item => {
             maxAppeared = Math.max(maxAppeared, item.appeared);
         });
-        overlay.style.setProperty('--blur', 2 * (1 - maxAppeared) + 'px');
+        overlay.style.setProperty('--blur', 4 * (1 - maxAppeared) + 'px');
 
         // Decelerate angular speed
         angularSpeed -= deltaTime * angularSpeed * angularDamper;
