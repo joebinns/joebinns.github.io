@@ -68,6 +68,10 @@ body{
     transform: translateY(-50%);
 }
 
+ul {
+    color: #cfcfcf;
+}
+
 ul.no-bullets {
     list-style-type: none; /* Remove bullets */
     padding: 0; /* Remove padding */
@@ -222,6 +226,7 @@ optHide {
 
 caption {
     caption-side: bottom;
+    color: #cfcfcf;
 }
 
 /* On screens that are 800px wide or less... */
