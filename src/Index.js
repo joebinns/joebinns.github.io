@@ -8,7 +8,7 @@ import { ModelPreviewer } from '../src/ModelPreviewer.js';
 let portfolioItems = [];
 
 portfolioItems.push(
-    new PortfolioItem('getMeOut', 'question-mark-block.glb'),
+    new PortfolioItem('getMeOut', 'plane.glb'),
     new PortfolioItem('worms', 'crown.glb'),
     new PortfolioItem('ann', 'robot.glb'),
     new PortfolioItem('scc', 'question-mark-block.glb'),
