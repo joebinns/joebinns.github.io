@@ -31,7 +31,7 @@ class ObjectPicker {
 
     refreshCursor() {
         if (this.picked) document.body.style.cursor = 'pointer';
-        else document.body.style.cursor = 'default';
+        else document.body.style.cursor = 'auto';
     }
 
     pick(normalizedPosition, scene, camera) {
