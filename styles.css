@@ -86,7 +86,6 @@ ul.portfolio-pieces {
 }
 
 .content {
-    position: absolute;
     padding: 0 0 200px 0;
     width: calc(100% - (90px + 326px));
     margin: 0 30px 0 calc(60px + 326px);
