@@ -74,7 +74,6 @@ function onWindowResize() {
 }
 
 function onDocumentMouseMove(event) {
-    event.preventDefault();
     mouse.x = (event.clientX / dimensions().width) * 2 - 1;
     mouse.y = -(event.clientY / dimensions().height) * 2 + 1;
 }
