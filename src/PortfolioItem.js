@@ -4,7 +4,7 @@ import { GLTFLoader } from "gltf-loader";
 
 function loadGLTF(path) {
     return new Promise(resolve => {
-        new GLTFLoader().load('../models/' + path, resolve);
+        new GLTFLoader().load('/models/' + path, resolve);
     });
 }
 

@@ -7,7 +7,7 @@ import { ShaderPass } from "shader-pass";
 import { FXAAShader } from "fxaa-shader";
 
 // Custom outline
-import { CustomOutlinePass } from '../src/CustomOutlinePass.js';
+import { CustomOutlinePass } from '/src/CustomOutlinePass.js';
 
 
 let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
