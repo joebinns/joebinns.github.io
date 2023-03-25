@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0">
-    <title>Get Me Out · Joe Binns</title>
+    <title>Wordle-like · Joe Binns</title>
     <link rel="stylesheet" href="styles.css">
     <link id="shortcuticon" rel="shortcut icon" href="../images/globe_box_optimised.svg">
 </head>
@@ -69,7 +69,7 @@
 <div class="content">
     <project>
         <h1 class="section">
-            Get Me Out
+            Wordle-like
         </h1>
         <div class="table project-metadata">
             <div class="tr">
@@ -80,9 +80,9 @@
                     <info>
                         <p>
                             <a class="hyperimage" href="" target="_blank" style="display: none;"><img id="websiteProj" src="../images/globe_box_optimised.svg" alt="website" width="20" height="20"></a>
-                            <a class="hyperimage" href="https://github.com/joebinns/worms" target="_blank" style="display: none;"><img id="githubProj" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
-                            <a class="hyperimage" href="https://youtu.be/XE6HnUTll3c" target="_blank"><img id="youtubeProj" src="../images/youtube_box_optimised.svg" alt="YouTube" width="20" height="20"></a>
-                            <a class="hyperimage" href="https://futuregames.itch.io/get-me-out" target="_blank"><img id="itchdotioProj" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
+                            <a class="hyperimage" href="https://github.com/joebinns/wordle" target="_blank"><img id="githubProj" src="../images/github_box_optimised.svg" alt="GitHub" width="20" height="20"></a>
+                            <a class="hyperimage" href="https://youtu.be/C2FEdz-75C8" target="_blank"><img id="youtubeProj" src="../images/youtube_box_optimised.svg" alt="YouTube" width="20" height="20"></a>
+                            <a class="hyperimage" href="https://joebinns.itch.io/wordle" target="_blank"><img id="itchdotioProj" src="../images/itchdotio_box_optimised.svg" alt="itch.io" width="20" height="20"></a>
                             <a class="hyperimage" href="" target="_blank" style="display: none;"><img id="documentProj" src="../images/document_box.svg" alt="document" width="20" height="20"></a>
                         </p>
                     </info>
@@ -93,7 +93,7 @@
                     </h3>
                     <info>
                         <p>
-                            February 2022
+                            November 2022
                         </p>
                     </info>
                 </item>
@@ -105,19 +105,9 @@
                     </h3>
                     <info>
                         <p>
-                            <a class="hyperlink" href="/">Myself</a>, Gameplay Programmer
+                            <a class="hyperlink" href="/">Myself</a>, Programmer
                             <br>
-                            Magnus Andersson, Systems Programmer
-                            <br>
-                            <a class="hyperlink" href="https://www.ella-lopez.com/" target="_blank">Ella Lopez</a>, Product Owner & Gameplay Designer
-                            <br>
-                            <a class="hyperlink" href="https://www.linkedin.com/in/kevin-forteza/" target="_blank">Kevin Cruz Forteza</a>, Level Designer
-                            <br>
-                            <a class="hyperlink" href="https://www.linkedin.com/in/eliana-b-parada-235535239/" target="_blank">Eliana Parada</a>, UI Designer
-                            <br>
-                            <a class="hyperlink" href="https://www.linkedin.com/in/bj%C3%B6rn-toreld/" target="_blank">Björn Toreld</a>, Environment Artist & Video Editor
-                            <br>
-                            <a class="hyperlink" href="https://www.linkedin.com/in/annlar/" target="_blank">Anna Larsson</a>, Environment Artist & 2D Artist
+                            <a class="hyperlink" href="mailto:clarasummerton@gmail.com" target="_blank">Clara Summerton</a>, Audio
                         </p>
                     </info>
                 </item>
@@ -137,11 +127,40 @@
         </div>
         <div class="document">
             <h3>
-                Trailer
+                Abstract
+            </h3>
+            <p>
+                An assignment based on Wordle, made for Futuregames' course "Data Structures and Algorithms".
+            </p>
+            <h3>
+                Discussion
+            </h3>
+            <p>
+                Searching through a list of 16,000 words every time I want to check if a word is valid or not is extremely inefficient.
+                Since each words in the list is unique, I decided to instead use a hash set to store the words.
+                Now, only a single hash function needs to be calculated to check whether a word is valid.
+            </p>
+            <p>
+                I decided to use Tilemaps to draw the guesses text.
+                In order to uphold abstraction, I modified and stored the text through a custom text editor script.
+                The text editor script stored the entire text in a single list.
+                I then created convenient accessors, such as for fetching the word stored on the current line.
+            </p>
+            <p>
+                Applying the correct colouring to tiles was not as trivial as I initially expected.
+                The solution I ended up with involved two passes.
+                First, I determined colours based on the naive checks of "IsCharacterIncluded" (yellow) and "IsCharacterIncludedAtIndex" (green).
+                For characters which were included in both the submitted guess and the solution, I determined the number of occurrences of each character.
+                I then subtracted the number of occurrences in the solution from the number of occurrences in the guess, to get the excess number of occurrences of the character.
+                On a final pass through the word, characters with naively yellow coloured tiles with excesses greater than zero were then uncoloured.
+                I kept track of the number of occurrences of each character using a dictionary, allowing for O(1) lookup times.
+            </p>
+            <h3>
+                Development Log
             </h3>
             <div class="video-block">
                 <div class="video-wrapper">
-                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/XE6HnUTll3c?loop=1&playlist=XE6HnUTll3c" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/C2FEdz-75C8?autoplay=1&controls=0&mute=1&loop=1&playlist=C2FEdz-75C8" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                     </iframe>
                 </div>
             </div>
@@ -149,10 +168,10 @@
     </project>
     <ul class="portfolio-pieces">
         <li>
-            <a id="wordle" href="./wordle-like" class="gradient-multiline">
+            <a id="worms" href="./3d-worms-like" class="gradient-multiline">
                 <h2>
                     <portfolio-prefix>next project</portfolio-prefix>
-                    <portfolio-title>Wordle-like</portfolio-title>
+                    <portfolio-title>3D Worms-like</portfolio-title>
                 </h2>
             </a>
         </li>
@@ -172,6 +191,6 @@
 <script type="module" src="src/DocumentDarkMode.js"></script>
 <script type="module" src="src/DocumentDarkModePage.js"></script>
 <script type="module" src="src/DocumentDarkModeMeta.js"></script>
-<script type="module" src="src/GetMeOut.js"></script>
+<script type="module" src="src/Wordle.js"></script>
 </body>
 </html>

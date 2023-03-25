@@ -14,7 +14,8 @@ portfolioItems.push(
     new PortfolioItem('scc', 'spring.glb'),
     new PortfolioItem('pde', 'painting.glb'),
     new PortfolioItem('mLabs', 'arc-de-triomphe.glb'),
-    new PortfolioItem('nBody', 'space-shuttle.glb')
+    new PortfolioItem('nBody', 'space-shuttle.glb'),
+    new PortfolioItem('wordle', 'alphabet-block.glb')
 );
 
 let promises = [];
