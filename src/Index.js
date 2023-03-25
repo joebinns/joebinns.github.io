@@ -11,7 +11,7 @@ portfolioItems.push(
     new PortfolioItem('getMeOut', 'plane.glb'),
     new PortfolioItem('worms', 'crown.glb'),
     new PortfolioItem('ann', 'robot.glb'),
-    new PortfolioItem('scc', 'question-mark-block.glb'),
+    new PortfolioItem('scc', 'spring.glb'),
     new PortfolioItem('pde', 'painting.glb'),
     new PortfolioItem('mLabs', 'arc-de-triomphe.glb'),
     new PortfolioItem('nBody', 'space-shuttle.glb')
