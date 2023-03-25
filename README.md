@@ -4,13 +4,10 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 
 ## Backlog
 - Light theme support, automatically detected from browser settings.
-- Make canvas background pure black.
 - Fix text hover and WebGL for Safari.
-- Update project list.
-- Swap out placeholder models for 'About', 'Stylised Character Controller', '404' and 'WIP'.
+- Swap out placeholder models for 'About', 'Stylised Character Controller'.
 - Optimise model geometries.
 - Switch JavaScript from CDN hosting to npm.
-- Fade in some audio when models are spinning fast.
 
 ## Credits
 ### Models
