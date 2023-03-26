@@ -9,7 +9,7 @@ let portfolioItems = [];
 
 portfolioItems.push(
     new PortfolioItem(null, 'painting.glb'),
-    new PortfolioItem('mLabs', 'arc-de-triomphe.glb'),
+    new PortfolioItem('nBody', 'space-shuttle.glb'),
 );
 
 let promises = [];

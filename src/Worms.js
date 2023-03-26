@@ -9,7 +9,7 @@ let portfolioItems = [];
 
 portfolioItems.push(
     new PortfolioItem(null, 'crown.glb'),
-    new PortfolioItem('ann', 'robot.glb'),
+    new PortfolioItem('scc', 'spring.glb'),
 );
 
 let promises = [];
