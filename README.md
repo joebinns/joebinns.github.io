@@ -15,6 +15,7 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 [Robot Copernicus](https://skfb.ly/6TGoS) is from Igor Kreinin, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Fancy Picture Frame](https://skfb.ly/6QZpO) is from Jamie McFarlane, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Question Mark Block](https://skfb.ly/6zQJy) is from Anthony Yanez, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
+[Toys Cubes Kids](https://skfb.ly/oxDQQ) is from 3D Render Box, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Decrepit Type II Barricade](https://skfb.ly/6RX9v) is from Sigmation9, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
 
 ### Outline
