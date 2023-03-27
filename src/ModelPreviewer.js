@@ -126,6 +126,7 @@ export class ModelPreviewer{
 
         // Scene
         scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0f0f0f);
 
         // Camera
         camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 10);
@@ -134,7 +135,8 @@ export class ModelPreviewer{
 
         // Renderer
         renderer = new THREE.WebGLRenderer({
-            canvas: canvas
+            canvas: canvas,
+            alpha: true
         });
         renderer.setSize(dimensions().width, dimensions().height);
         //renderer.setPixelRatio(window.devicePixelRatio);
@@ -162,6 +164,7 @@ export class ModelPreviewer{
         // 3) Declare Custom Outline uniforms
         const uniforms = customOutline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+        uniforms.backgroundColor.value.set(new THREE.Color(0x0f0f0f));
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         uniforms.multiplierParameters.value.x = 0.625;
