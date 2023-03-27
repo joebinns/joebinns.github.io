@@ -342,7 +342,7 @@ caption {
 }
 .gradient-multiline:hover {
     --time: 100%;
-    color: black;
+    color: #0f0f0f;
 }
 .gradient-multiline:hover portfolio-prefix{
     text-decoration: underline;
@@ -351,7 +351,7 @@ caption {
 .gradient-multiline-invert {
     position: relative;
     display: block;
-    color: black;
+    color: #0f0f0f;
 }
 .gradient-multiline-invert span{
     background: linear-gradient(to right,
