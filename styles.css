@@ -156,6 +156,20 @@ a {
     color: firebrick;
 }
 
+summary.hyperlink {
+    color: white;
+}
+summary.hyperlink:hover{
+    color: white;
+}
+summary.hyperlink:active{
+    color: white;
+}
+
+details summary{
+    font-weight: bold;
+}
+
 .lowercase {
     text-transform: lowercase;
 }
@@ -230,7 +244,15 @@ optHide {
 }
 
 .document h3 {
-    margin: 2em 0 0 0;
+    margin: 48px 0 0 0;
+}
+
+details {
+    margin-top: 48px;
+}
+
+details summary {
+    font-size: 24px;
 }
 
 caption {
