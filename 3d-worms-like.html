@@ -125,11 +125,6 @@
                 </item>
             </div>
         </div>
-        <iframe height="167" frameborder="0" src="https://itch.io/embed/1738386?dark=true" style="margin-bottom:10px; width:min(552px, 100%)">
-            <a href="https://joebinns.itch.io/3d-worms-like">
-                3D Worms-like by joebinns
-            </a>
-        </iframe>
         <div class="document">
             <h3>
                 Abstract
@@ -137,40 +132,77 @@
             <p>
                 An assignment based on Worms 3D, made for Futuregames' course "Game Programming with C#".
             </p>
-            <h3>
-                Discussion
-            </h3>
-            <p>
-                I have learnt a lot from this project! Although my code is far from perfect, it's the first time I've ever built so many systems into a single project.
-                It's been my first time using Events, Singletons and Scriptable Objects.
-                With so many new principles on the table, I have now come to realise that I have overly relied on Singletons.
-                Whilst I haven't run into any practical problems with Singletons yet, I am aware of their dangers and will be a little more precautious in the future.
-                Going ahead, I expect that spending more time to plan out my code structure will help me to minimise dependencies.
-            </p>
-            <h3>
-                Development Log
-            </h3>
-            <h3>Week 3/4</h3>
             <div class="video-block">
                 <div class="video-wrapper">
                     <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/LG2dpw9yy_M?autoplay=1&controls=0&mute=1&loop=1&playlist=LG2dpw9yy_M" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
                     </iframe>
                 </div>
+                <iframe width="100%" height="167" frameborder="0" src="https://itch.io/embed/1738386?dark=true" style="margin-bottom:10px;">
+                    <a href="https://joebinns.itch.io/3d-worms-like">
+                        3D Worms-like by joebinns
+                    </a>
+                </iframe>
             </div>
-            <h3>Week 2</h3>
-            <div class="video-block">
-                <div class="video-wrapper">
-                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/goXkOxxxBmk?autoplay=1&controls=0&mute=1&loop=1&playlist=goXkOxxxBmk" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-                    </iframe>
+            <div>
+                <h3>
+                    Week 1: Controller & Managers
+                </h3>
+                <p>
+                    No longer pre-occupied with part-time work and University Research; this initial project at Futuregames presented itself as an opportunity for me, with the guidance of some experienced students around me, to push the envelope in terms of how I would approach games programming.
+                    Namely, this project introduced a plethora of fancy new tools into my arsenal: Events, Scriptable Objects and Singletons.
+                </p>
+                <p>
+                    I started off by creating the players, which just meant implementing my own <a href="./stylised-character-controller.html" class="hyperlink">Stylised Character Controller</a> with some minor adjustments.
+                    I then set out to create a singleton turn manager. This kept track of whose turn it is, as required by the input manager.
+                </p>
+                <div class="video-block">
+                    <div class="video-wrapper">
+                        <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/cWKQxPpcWVM?loop=1&playlist=cWKQxPpcWVM" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                        </iframe>
+                    </div>
                 </div>
             </div>
-            <h3>Week 1</h3>
-            <div class="video-block">
-                <div class="video-wrapper">
-                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/cWKQxPpcWVM?autoplay=1&controls=0&mute=1&loop=1&playlist=cWKQxPpcWVM" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-                    </iframe>
+            <div>
+                <h3>
+                    Week 2: Customisation & Menus
+                </h3>
+                <p>
+                    No party game is fit for purpose without silly names... and hats!
+                    I used scriptable objects to store the customisable properties of each character between scenes.
+                    Also, a pause screen!
+                </p>
+                <div class="video-block">
+                    <div class="video-wrapper">
+                        <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/goXkOxxxBmk?loop=1&playlist=goXkOxxxBmk" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                        </iframe>
+                    </div>
                 </div>
             </div>
+            <div>
+                <h3>
+                    Week 3/4: Weapons, a Level & Finishing Touches
+                </h3>
+                <p>
+                    Apart from shoving your wormy foes with sheer will, I had yet to implement any weapons!
+                    I used scriptable objects and abstraction to support weapons with varying behaviour.
+                    As both the hats and weapons would require selecting, I had them both inherit from the Item class and implemented selecting there.
+                    Finally, I put together a simple level before adding some finishing touches &mdash; such as a turn timer and end game screen.
+                </p>
+                <div class="video-block">
+                    <div class="video-wrapper">
+                        <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/LG2dpw9yy_M?loop=1&playlist=LG2dpw9yy_M" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            <h3>
+                Post-mortem
+            </h3>
+            <p>
+                With so many new principles on the table, there were plenty of takeaways from this project.
+                After initially over-relying on events, I learnt the hard way to avoid their usage when execution-order is critical.
+                I have also been cautioned against using too many Singletons, and will experiment with other design patterns in the future.
+            </p>
         </div>
     </project>
     <ul class="portfolio-pieces">
