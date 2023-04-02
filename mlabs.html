@@ -129,7 +129,7 @@
         </div>
         <div class="document">
             <h3>
-                Abstract
+                About
             </h3>
             <p>
                 Fresh out of school, with a few projects to show, I was fortunate enough to acquire a software engineering position at a London-based start-up.
@@ -137,6 +137,12 @@
                 We spent the summer developing a realistic, real-time, urban environment simulation.
                 The simulation was designed for use by an automated transport planning system.
             </p>
+            <div class="video-block">
+                <div class="video-wrapper">
+                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/RGPp9DBX8-E?autoplay=1&controls=0&mute=1&loop=1&playlist=RGPp9DBX8-E" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
             <h3>
                 Contribution
             </h3>
@@ -146,66 +152,53 @@
                 I then used meta-data from OpenStreetMap's to facilitate decorating the world with parks and pavements.
                 Finally, I created a day-and-night weather cycle. Having established the core framework for future developments, I left the project to begin my BSc in Theoretical Physics at Lund University.
             </p>
-            <div class="video-block">
-                <div class="video-wrapper">
-                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/RGPp9DBX8-E?autoplay=1&controls=0&mute=1&loop=1&playlist=RGPp9DBX8-E" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-            <h3>
-                Features
-            </h3>
-            <ul>
-                <li>Buildings, roads, and pavements generated in real-time from world-wide OpenStreetMap's data.</li>
-                <li>Pedestrian pavement path-finding and collision avoidance.</li>
-                <li>Parks and grasslands, scattered with trees and bushes.</li>
-                <li>Performance efficient clouds in a day-and-night weather cycle.</li>
-            </ul>
-            <h3>
-                Post-mortem
-            </h3>
-            <div class="table">
-                <div class="tr">
-                    <div class="td">
-                        <div>
-                            <table style="float:left; margin: 0 10px 5px 0;">
-                                <caption><u>Problematic pavements</u></caption>
-                                <tr>
-                                    <td><img src="../images/projects/mlabs/road.svg" alt="road"></td>
-                                    <td><img src="../images/projects/mlabs/road_bad.svg" alt="bad road"></td>
-                                </tr>
-                            </table>
-                            <p>
-                                The buildings and roads provided by OpenStreetMap's alone are insufficient to truly re-create an urban environment – without some impressionism.
-                                For example, how could we create procedural pavements for people to walk on?
-                                Since the metadata for roads was limited to just the carriageway type, some general assumptions were needed, such as motorways not having pavements.
-                                The problem then became how to create the pavements themselves.
-                                Initial naive attempts to take each segment of road, make two raised copies, and shift them to either side of the road appeared successful, until curved roads were encountered.
-                            </p>
+            <details>
+                <summary>
+                    Procedural mesh pavements
+                </summary>
+                <div class="table">
+                    <div class="tr">
+                        <div class="td">
+                            <div>
+                                <table style="float:left; margin: 0 10px 5px 0;">
+                                    <caption><u>Problematic pavements</u></caption>
+                                    <tr>
+                                        <td><img src="../images/projects/mlabs/road.svg" alt="road"></td>
+                                        <td><img src="../images/projects/mlabs/road_bad.svg" alt="bad road"></td>
+                                    </tr>
+                                </table>
+                                <p>
+                                    The buildings and roads provided by OpenStreetMap's alone are insufficient to truly re-create an urban environment – without some impressionism.
+                                    For example, how could we create procedural pavements for people to walk on?
+                                    Since the metadata for roads was limited to just the carriageway type, some general assumptions were needed, such as motorways not having pavements.
+                                    The problem then became how to create the pavements themselves.
+                                    Initial naive attempts to take each segment of road, make two raised copies, and shift them to either side of the road appeared successful, until curved roads were encountered.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tr">
+                        <div class="td">
+                            <div>
+                                <table style="float: right; margin: 0 0 5px 10px;">
+                                    <caption><u>Procedural mesh pavements</u></caption>
+                                    <tr>
+                                        <td><img src="../images/projects/mlabs/road_cross.svg" alt="road cross section"></td>
+                                        <td><img src="../images/projects/mlabs/road_good.svg" alt="good road"></td>
+                                        <td><img src="../images/projects/mlabs/road_final.svg" alt="final road"></td>
+                                    </tr>
+                                </table>
+                                <p>
+                                    I had hope of a better solution involving procedural mesh creation – something which I didn't have any experience in at the time.
+                                    After doing some research and prototyping, I was ready to give it all a try.
+                                    I made a new game object for the pavements, and generated its mesh from a fixed cross-section consisting of pavements separated by the width of the road.
+                                    I'm glad I tried, because this alternative approach worked great!
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="tr">
-                    <div class="td">
-                        <div>
-                            <table style="float: right; margin: 0 0 5px 10px;">
-                                <caption><u>Procedural mesh pavements</u></caption>
-                                <tr>
-                                    <td><img src="../images/projects/mlabs/road_cross.svg" alt="road cross section"></td>
-                                    <td><img src="../images/projects/mlabs/road_good.svg" alt="good road"></td>
-                                    <td><img src="../images/projects/mlabs/road_final.svg" alt="final road"></td>
-                                </tr>
-                            </table>
-                            <p>
-                                I had hope of a better solution involving procedural mesh creation – something which I didn't have any experience in at the time.
-                                After doing some research and prototyping, I was ready to give it all a try.
-                                I made a new game object for the pavements, and generated its mesh from a fixed cross-section consisting of pavements separated by the width of the road.
-                                I'm glad I tried, because this alternative approach worked great!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </details>
         </div>
     </project>
     <ul class="portfolio-pieces">
