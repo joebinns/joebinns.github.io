@@ -178,7 +178,7 @@ details summary {
 }
 
 details summary:hover{
-    /*text-decoration: underline;*/
+    text-decoration: underline;
 }
 
 details details {
