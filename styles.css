@@ -170,20 +170,40 @@ details {
     margin-top: 48px;
 }
 
-details summary{
+details summary {
     cursor: pointer;
     font-weight: bold;
     font-size: 24px;
     text-decoration: none;
 }
 
-details summary > * {
-    display: inline;
+details summary:hover{
+    /*text-decoration: underline;*/
 }
 
-details summary:hover{
+details details {
+    margin-left: 5%;
+}
+
+details details summary {
+    font-size: 20px;
+    display: inline;
+    text-decoration: none;
+}
+
+details details summary:hover {
     text-decoration: underline;
 }
+
+details details summary::before {
+    content: '< / >\2009\2009';
+    display:inline-block;
+}
+
+details details[open] summary::before {
+    content: '< \2009\2009 >\2009\2009';
+}
+
 
 .lowercase {
     text-transform: lowercase;
