@@ -361,6 +361,10 @@ caption {
     logo h1{
         margin: 0;
     }
+
+    details details {
+        margin-left: 0;
+    }
 }
 
 /* Images */
