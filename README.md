@@ -5,7 +5,7 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 ## Backlog
 - Light theme support, automatically detected from browser settings.
 - Fix text hover and WebGL for Safari.
-- Swap out placeholder models for 'About', 'Stylised Character Controller'.
+- Add head model for 'About'.
 - Optimise model geometries.
 - Switch JavaScript from CDN hosting to npm.
 
