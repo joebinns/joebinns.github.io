@@ -74,7 +74,7 @@ body{
 }
 
 ul {
-    color: #aaaaaa;
+    color: #b2b2b2;
 }
 
 ul.no-bullets {
@@ -128,15 +128,16 @@ h3 {
 }
 
 h4 {
-     font-size: 16px;
-     font-weight: bold;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 40px;
  }
 
 p {
     font-size: 16px;
     text-align: justify;
     word-break: keep-all;
-    color: #aaaaaa;
+    color: #b2b2b2;
 }
 
 a {
@@ -166,15 +167,12 @@ summary.hyperlink:active{
     color: white;
 }
 
-details {
-    margin-top: 48px;
-}
-
 details summary {
     cursor: pointer;
     font-weight: bold;
     font-size: 24px;
     text-decoration: none;
+    margin-top: 48px;
 }
 
 details summary:hover{
@@ -189,6 +187,7 @@ details details summary {
     font-size: 20px;
     text-decoration: none;
     list-style-type: none;
+    margin-top: 20px;
 }
 
 details details summary:hover {
@@ -284,7 +283,7 @@ optHide {
 
 caption {
     caption-side: bottom;
-    color: #aaaaaa;
+    color: #b2b2b2;
 }
 
 /* On screens that are 800px wide or less... */
