@@ -174,7 +174,7 @@
                     Thankfully, I have a trick that'll put a spring in any object's step &mdash; Oscillators!
                 </p>
                 <p>
-                    Similarly to before, I used an empty child protruded in front of the first person camera to denote the target transform for held objects.
+                    As before, I used an empty child protruded in front of the first person camera, although this time to denote the target transform for held objects.
                     I was then able to turn the hold behaviour on or off by simply enabling or disabling the oscillator component.
                     From this simple approach, held objects gain physics-based easing and the ability to be displaced by the environment, whilst also conserving linear momentum &mdash; allowing for objects to be thrown at no extra cost.
                     Adding additional features to the hold system, then comes naturally.
@@ -182,9 +182,9 @@
                 </p>
                 <p>
                     All that's then missing is that objects won't rotate in response to collisions with the environment.
-                    This is remedied by doing all the same but with a torsional oscillator component.
+                    This is remedied by doing all the same with a torsional oscillator component.
                     Adding additional features once again comes naturally;
-                    the ability to rotate objects to inspect them at all angles is just a matter of rotating the target transform.
+                    the ability to rotate objects to inspect held objects at all angles is just a matter of rotating the target transform.
                 </p>
                 <details>
                     <summary>Hold</summary>
@@ -193,16 +193,23 @@
                     Grabbing
                 </h4>
                 <p>
-                    There is a subtle but important distinction between grabbing and holding; grabbed objects have limitations to their motion.
-                    For instance, examples of objects which we grab include drawers in our desks, and doors.
-                    Drawers move restricted to a single fixed axis of motion, and doors rotate whilst remaining fixed in position along an axis determined by their hinges.
-                    Due to the significant difference in these behaviours, I decided to subdivide grabbing into it's linear and torsional cases.
+                    I distinguished grabbing from holding, as grabbed objects have unique limitations to their motion.
+                    For example, we grab desk drawers, which move restricted to a single fixed axis of motion.
+                    Additionally, we grab cupboard doors, which rotate along a single axis determined by their hinges, whilst remaining fixed in position.
+                    Due to the significant difference in these behaviours, I decided to subdivide grabbing into it's linear and torsional forms.
                 </p>
                 <p>
-                    TODO: Talk about the interaction planes
+                    Whilst I was once again able to use oscillators for their many tactile and reactive gains, I soon encountered a new problem at hand.
+                    Namely, how could I accurately interpret how the player wants to move or rotate a grabbed object based on input?
+                    Favouring tactility over the mundane, I decided to try my hand at an approach based on look-direction.
                 </p>
                 <p>
-                    With accurate estimates for the target transform, I was once again able to use linear and torsional oscillators to
+                    For the linear case, ...
+                    TODO: Add illustrations/images/gifs/videos of the debugged approaches
+                </p>
+                <p>
+                    Whilst for the torsional case, ...
+                    TODO: Add illustrations/images/gifs/videos of the debugged approaches
                 </p>
                 <details>
                     <summary>Grab</summary>
