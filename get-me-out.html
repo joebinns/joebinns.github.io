@@ -108,13 +108,15 @@
                             <a class="hyperlink" href="/">Myself</a>, Gameplay Programmer
                             <br>
                             Magnus Andersson, Systems Programmer
-                            <br>
+                        </p>
+                        <p>
                             <a class="hyperlink" href="https://www.ella-lopez.com/" target="_blank">Ella Lopez</a>, Product Owner & Gameplay Designer
                             <br>
                             <a class="hyperlink" href="https://www.linkedin.com/in/kevin-forteza/" target="_blank">Kevin Cruz Forteza</a>, Level Designer
                             <br>
                             <a class="hyperlink" href="https://www.linkedin.com/in/eliana-b-parada-235535239/" target="_blank">Eliana Parada</a>, UI Designer
-                            <br>
+                        </p>
+                        <p>
                             <a class="hyperlink" href="https://www.linkedin.com/in/bj%C3%B6rn-toreld/" target="_blank">Björn Toreld</a>, Environment Artist & Video Editor
                             <br>
                             <a class="hyperlink" href="https://www.linkedin.com/in/annlar/" target="_blank">Anna Larsson</a>, Environment Artist & 2D Artist
@@ -137,7 +139,7 @@
         </div>
         <div class="document">
             <h3>
-                About
+                Trailer
             </h3>
             <p>
                 A co-op puzzle game in which communication is key to your escape.
@@ -158,17 +160,31 @@
                     Interaction System
                 </summary>
                 <p>
-                    Wrote a large part of the interaction system.
-                    Namely, I was responsible for the physics based interactables, which included a hold and grab mechanic.
-                    These are the systems which I believe to be most innovative and for which I am most proud of.
-                    I will be elaborating on these more in my portfolio.
-                    Additionally, I implemented and adapted an outline asset into the project, which was used to indicate which objects were interactable.
+                    A great escape room needs to make the mundane, like searching through drawers and scanning through documents, feel both exciting and fun.
+                    Therefore, with the interaction system at the heart of Get Me Out's experience, I needed to focus on harvesting tactility and reactivity to the brink.
+                    Whilst snappy animation-based buttons and keypads were used, by and large I am most proud of the physics-based hold and grab mechanics.
                 </p>
                 <h4>
                     Holding
                 </h4>
                 <p>
-                    The hold system...
+                    Initial implementations of the hold system involved setting the held object as a child protruded in front of the first person camera.
+                    Whilst the approach worked, it felt rigid.
+                    Crucially, objects lacked momentum and wouldn't react to their surroundings.
+                    Thankfully, I have a trick that'll put a spring in any object's step &mdash; Oscillators!
+                </p>
+                <p>
+                    Similarly to before, I used an empty child protruded in front of the first person camera to denote the target transform for held objects.
+                    I was then able to turn the hold behaviour on or off by simply enabling or disabling the oscillator component.
+                    From this simple approach, held objects gain physics-based easing and the ability to be displaced by the environment, whilst also conserving linear momentum &mdash; allowing for objects to be thrown at no extra cost.
+                    Adding additional features to the hold system, then comes naturally.
+                    For instance, the ability to control the distance at which an object is held is just a matter of controlling the target transform's local position.
+                </p>
+                <p>
+                    All that's then missing is that objects won't rotate in response to collisions with the environment.
+                    This is remedied by doing all the same but with a torsional oscillator component.
+                    Adding additional features once again comes naturally;
+                    the ability to rotate objects to inspect them at all angles is just a matter of rotating the target transform.
                 </p>
                 <details>
                     <summary>Hold</summary>
@@ -176,6 +192,18 @@
                 <h4>
                     Grabbing
                 </h4>
+                <p>
+                    There is a subtle but important distinction between grabbing and holding; grabbed objects have limitations to their motion.
+                    For instance, examples of objects which we grab include drawers in our desks, and doors.
+                    Drawers move restricted to a single fixed axis of motion, and doors rotate whilst remaining fixed in position along an axis determined by their hinges.
+                    Due to the significant difference in these behaviours, I decided to subdivide grabbing into it's linear and torsional cases.
+                </p>
+                <p>
+                    TODO: Talk about the interaction planes
+                </p>
+                <p>
+                    With accurate estimates for the target transform, I was once again able to use linear and torsional oscillators to
+                </p>
                 <details>
                     <summary>Grab</summary>
                 </details>
@@ -186,7 +214,7 @@
                 </summary>
                 <p>
                     Wrote the character controllers movement, crouch, and jump.
-                    I am particularly happy with the feel of the crouch and the jump, which came about because of the malleable curve-based system which I created.
+                    I am particularly happy with the feel of the crouch and the jump, which came about as a result of the malleable curve-based system which I created.
                 </p>
                 <details>
                     <summary>Jump</summary>
