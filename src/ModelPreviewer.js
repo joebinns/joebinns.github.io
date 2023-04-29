@@ -164,7 +164,7 @@ export class ModelPreviewer{
         // 3) Declare Custom Outline uniforms
         const uniforms = customOutline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
-        uniforms.backgroundColor.value.set(new THREE.Color(0x0f0f0f));
+        uniforms.backgroundColor.value.set(new THREE.Color(0x3f3f3f));
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         uniforms.multiplierParameters.value.x = 0.625;
