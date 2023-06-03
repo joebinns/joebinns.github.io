@@ -90,6 +90,11 @@ ul.portfolio-pieces {
     text-align: right;
 }
 
+ul.portfolio-pieces li
+{
+    margin-top: -30px;
+}
+
 .content {
     padding: 0 0 200px 0;
     width: calc(100% - (90px + 326px));
