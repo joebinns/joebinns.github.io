@@ -530,6 +530,87 @@ overlay {
     pointer-events:none;
 }
 
+.wave-text {
+    display: inline-block;
+    font-style: italic;
+    /*transform: translateY(0.3em);*/
+}
+
+.wave-text span {
+    display: inline-block;
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+.wave-text span.one
+{
+    animation-delay: 0.0s;
+}
+.wave-text span.two
+{
+    animation-delay: 0.15s;
+}
+.wave-text span.three
+{
+    animation-delay: 0.3s;
+}
+.wave-text span.four
+{
+    animation-delay: 0.45s;
+}
+.wave-text span.five
+{
+    animation-delay: 0.6s;
+}
+.wave-text span.six
+{
+    animation-delay: 0.75s;
+}
+.wave-text span.seven
+{
+    animation-delay: 0.9s;
+}
+
+@keyframes wave{
+    00%{
+        transform: translateY(0em);
+    }
+    50%{
+        transform: translateY(-0.6em);
+    }
+    100%{
+        transform: translateY(0em);
+    }
+}
+
+.shake-text {
+    display: inline-block;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.shake-text:active {
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 0.6s;
+
+    /* When the animation is finished, start again */
+    animation-iteration-count: 1;
+}
+
+@keyframes shake {
+    0% { transform: translate(2px, 2px) rotate(0deg); }
+    10% { transform: translate(-2px, -4px) rotate(-2deg); }
+    20% { transform: translate(-6px, 0px) rotate(2deg); }
+    30% { transform: translate(6px, 4px) rotate(0deg); }
+    40% { transform: translate(2px, -2px) rotate(2deg); }
+    50% { transform: translate(-2px, 4px) rotate(-2deg); }
+    60% { transform: translate(-6px, 2px) rotate(0deg); }
+    70% { transform: translate(6px, 2px) rotate(-2deg); }
+    80% { transform: translate(-2px, -2px) rotate(2deg); }
+    90% { transform: translate(2px, 4px) rotate(0deg); }
+    100% { transform: translate(2px, -4px) rotate(-2deg); }
+}
+
 /* Dark Mode */
 @media (prefers-color-scheme: dark){
 }
