@@ -322,6 +322,58 @@ caption {
     margin-bottom: 0px
 }
 
+.wave-text {
+    display: inline-block;
+    font-style: italic;
+    /*transform: translateY(0.3em);*/
+}
+
+.wave-text span {
+    display: inline-block;
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+.wave-text span.one
+{
+    animation-delay: 0.0s;
+}
+.wave-text span.two
+{
+    animation-delay: 0.15s;
+}
+.wave-text span.three
+{
+    animation-delay: 0.3s;
+}
+.wave-text span.four
+{
+    animation-delay: 0.45s;
+}
+.wave-text span.five
+{
+    animation-delay: 0.6s;
+}
+.wave-text span.six
+{
+    animation-delay: 0.75s;
+}
+.wave-text span.seven
+{
+    animation-delay: 0.9s;
+}
+
+@keyframes wave{
+    00%{
+        transform: translateY(0em);
+    }
+    50%{
+        transform: translateY(-0.6em);
+    }
+    100%{
+        transform: translateY(0em);
+    }
+}
+
 /* On screens that are 800px wide or less... */
 @media screen and (max-width: 800px) {
     h1 {
@@ -408,6 +460,11 @@ caption {
 
     .footer {
         padding-left: 0;
+        padding-bottom: 20px;
+    }
+
+    .wave-text {
+        transform: translateY(0.3em);
     }
 }
 
@@ -573,58 +630,6 @@ overlay {
     background: #f8f0e3;
     mix-blend-mode: darken;
     pointer-events:none;
-}
-
-.wave-text {
-    display: inline-block;
-    font-style: italic;
-    /*transform: translateY(0.3em);*/
-}
-
-.wave-text span {
-    display: inline-block;
-    animation: wave 1.5s ease-in-out infinite;
-}
-
-.wave-text span.one
-{
-    animation-delay: 0.0s;
-}
-.wave-text span.two
-{
-    animation-delay: 0.15s;
-}
-.wave-text span.three
-{
-    animation-delay: 0.3s;
-}
-.wave-text span.four
-{
-    animation-delay: 0.45s;
-}
-.wave-text span.five
-{
-    animation-delay: 0.6s;
-}
-.wave-text span.six
-{
-    animation-delay: 0.75s;
-}
-.wave-text span.seven
-{
-    animation-delay: 0.9s;
-}
-
-@keyframes wave{
-    00%{
-        transform: translateY(0em);
-    }
-    50%{
-        transform: translateY(-0.6em);
-    }
-    100%{
-        transform: translateY(0em);
-    }
 }
 
 .shake-text {
