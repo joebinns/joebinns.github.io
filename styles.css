@@ -90,6 +90,11 @@ ul.portfolio-pieces {
     text-align: right;
 }
 
+ul.portfolio-pieces li
+{
+    margin-top: -30px;
+}
+
 .content {
     padding: 0 0 200px 0;
     width: calc(100% - (90px + 326px));
@@ -148,13 +153,30 @@ a {
 .hyperlink{
     color: royalblue;
     text-decoration: none;
+
 }
 .hyperlink:hover{
     color: #34568B;
     text-decoration: underline;
+
 }
 .hyperlink:active{
     color: firebrick;
+}
+
+a.hyperlink {
+    display: inline-block;
+    transition: .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
+    text-decoration:none;
+    padding: 2px 8px 2px 8px;
+    margin: -2px -8px -2px -8px;
+}
+a.hyperlink:hover {
+    transform: scale(1.3) rotate(-2deg);
+    background: #0f0f0f;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
 }
 
 summary.hyperlink {
@@ -286,6 +308,71 @@ caption {
     color: #b2b2b2;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+    display: block;
+    text-align: left;
+    padding: 40px 30px;
+}
+
+.footer p{
+    margin-top: 10px;
+    margin-bottom: 0px
+}
+
+.wave-text {
+    display: inline-block;
+    font-style: italic;
+    /*transform: translateY(0.3em);*/
+}
+
+.wave-text span {
+    display: inline-block;
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+.wave-text span.one
+{
+    animation-delay: 0.0s;
+}
+.wave-text span.two
+{
+    animation-delay: 0.15s;
+}
+.wave-text span.three
+{
+    animation-delay: 0.3s;
+}
+.wave-text span.four
+{
+    animation-delay: 0.45s;
+}
+.wave-text span.five
+{
+    animation-delay: 0.6s;
+}
+.wave-text span.six
+{
+    animation-delay: 0.75s;
+}
+.wave-text span.seven
+{
+    animation-delay: 0.9s;
+}
+
+@keyframes wave{
+    00%{
+        transform: translateY(0em);
+    }
+    50%{
+        transform: translateY(-0.6em);
+    }
+    100%{
+        transform: translateY(0em);
+    }
+}
+
 /* On screens that are 800px wide or less... */
 @media screen and (max-width: 800px) {
     h1 {
@@ -364,15 +451,38 @@ caption {
     details details {
         margin-left: 0;
     }
+
+    ul.portfolio-pieces li
+    {
+        margin-top: -15px;
+    }
+
+    .footer {
+        padding-left: 0;
+        padding-bottom: 20px;
+    }
+
+    .wave-text {
+        transform: translateY(0.3em);
+    }
 }
 
 /* Images */
 
 .hyperimage{
     opacity: 1.0;
+
 }
 .hyperimage:hover{
     opacity: 0.6;
+}
+
+.hyperimage img {
+    transition: transform .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
+}
+
+.hyperimage img:hover {
+    transform: scale(1.3) rotate(-4deg);
 }
 
 
@@ -385,12 +495,19 @@ caption {
 .gradient-multiline portfolio-title{
     display: inline;
     background: linear-gradient(to right,
-            white,
-            white)
+        white,
+        white)
         calc(100% - var(--time, 0%)) / var(--time, 0%)
         no-repeat;
     padding: 0rem 0.8rem;
     transition: .4s, background-position 0s;
+
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-decoration-break: clone;
+    -o-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 .gradient-multiline portfolio-prefix {
     display: inline-block;
@@ -414,18 +531,28 @@ caption {
     position: relative;
     display: block;
     color: #0f0f0f;
+    transition: transform .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
 }
 .gradient-multiline-invert span{
-    background: linear-gradient(to right,
-            white,
-            white)
-        var(--time, 100%) / var(--time, 100%)
-        no-repeat;
-    transition: .4s, background-position 0s;
+    background-color: white;
+    transition: .3s;
+
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-decoration-break: clone;
+    -o-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 .gradient-multiline-invert:hover {
     --time: 0%;
     color: white;
+    transform: scale(1.25);
+}
+
+.gradient-multiline-invert:hover span{
+    --time: 0%;
+    background-color: transparent;
 }
 
 @supports(mix-blend-mode: multiply) {
@@ -492,8 +619,49 @@ overlay {
     opacity: 0.8;
 }
 
-/* Dark Mode */
+.tint-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    min-width: 100%;
+    z-index: 100;
+    background: #f8f0e3;
+    mix-blend-mode: darken;
+    pointer-events:none;
+}
 
+.shake-text {
+    display: inline-block;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.shake-text:active {
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 0.6s;
+
+    /* When the animation is finished, start again */
+    animation-iteration-count: 1;
+}
+
+@keyframes shake {
+    0% { transform: translate(2px, 2px) rotate(0deg); }
+    10% { transform: translate(-2px, -4px) rotate(-2deg); }
+    20% { transform: translate(-6px, 0px) rotate(2deg); }
+    30% { transform: translate(6px, 4px) rotate(0deg); }
+    40% { transform: translate(2px, -2px) rotate(2deg); }
+    50% { transform: translate(-2px, 4px) rotate(-2deg); }
+    60% { transform: translate(-6px, 2px) rotate(0deg); }
+    70% { transform: translate(6px, 2px) rotate(-2deg); }
+    80% { transform: translate(-2px, -2px) rotate(2deg); }
+    90% { transform: translate(2px, 4px) rotate(0deg); }
+    100% { transform: translate(2px, -4px) rotate(-2deg); }
+}
+
+/* Dark Mode */
 @media (prefers-color-scheme: dark){
 }
+
 
