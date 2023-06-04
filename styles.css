@@ -309,6 +309,20 @@ caption {
     color: #aaaaaa;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+    display: block;
+    line-height: 0;
+    text-align: left;
+    padding: 40px 30px;
+}
+
+.footer p{
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
 /* On screens that are 800px wide or less... */
 @media screen and (max-width: 800px) {
     h1 {
@@ -391,6 +405,10 @@ caption {
     ul.portfolio-pieces li
     {
         margin-top: -15px;
+    }
+
+    .footer {
+        padding-left: 0;
     }
 }
 
