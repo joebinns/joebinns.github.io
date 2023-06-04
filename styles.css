@@ -167,8 +167,8 @@ a.hyperlink {
     display: inline-block;
     transition: .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
     text-decoration:none;
-    padding: 4px;
-    margin: -4px;
+    padding: 2px 8px 2px 8px;
+    margin: -2px -8px -2px -8px;
 }
 a.hyperlink:hover {
     transform: scale(1.3) rotate(-2deg);
@@ -176,8 +176,6 @@ a.hyperlink:hover {
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
-    background-size: 100px;
-
 }
 
 summary.hyperlink {
