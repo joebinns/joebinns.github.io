@@ -152,13 +152,32 @@ a {
 .hyperlink{
     color: royalblue;
     text-decoration: none;
+
 }
 .hyperlink:hover{
     color: #34568B;
     text-decoration: underline;
+
 }
 .hyperlink:active{
     color: firebrick;
+}
+
+a.hyperlink {
+    display: inline-block;
+    transition: .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
+    text-decoration:none;
+    padding: 4px;
+    margin: -4px;
+}
+a.hyperlink:hover {
+    transform: scale(1.4) rotate(-3deg);
+    background: #0f0f0f;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-size: 100px;
+
 }
 
 summary.hyperlink {
@@ -381,9 +400,18 @@ caption {
 
 .hyperimage{
     opacity: 1.0;
+
 }
 .hyperimage:hover{
     opacity: 0.6;
+}
+
+.hyperimage img {
+    transition: transform .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
+}
+
+.hyperimage img:hover {
+    transform: scale(1.3) rotate(-4deg);
 }
 
 
@@ -432,6 +460,7 @@ caption {
     position: relative;
     display: block;
     color: #0f0f0f;
+    transition: transform .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
 }
 .gradient-multiline-invert span{
     background-color: white;
@@ -447,6 +476,7 @@ caption {
 .gradient-multiline-invert:hover {
     --time: 0%;
     color: white;
+    transform: scale(1.25);
 }
 
 .gradient-multiline-invert:hover span{
