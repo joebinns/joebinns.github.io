@@ -514,17 +514,27 @@ caption {
     display: inline-block;
     font-size: 16px;
     position: relative;
-    color: white;
     text-decoration: inherit;
-    line-height: 1.2em;
+    line-height: 1em;
     vertical-align: text-top;
+    transform: translateY(.8em);
+    color: white;
+}
+.gradient-multiline portfolio-prefix date{
     transform: translateY(.5em);
+}
+.gradient-multiline portfolio-prefix badge{
+    display:inline-block;
+    font-size: 36px;
+    transform: translateY(.5em) translateX(.175em);
 }
 .gradient-multiline:hover {
     --time: 100%;
     color: #0f0f0f;
 }
-.gradient-multiline:hover portfolio-prefix{
+.gradient-multiline:hover portfolio-prefix badge {
+}
+.gradient-multiline:hover portfolio-prefix date {
     text-decoration: underline;
 }
 
@@ -571,7 +581,6 @@ caption {
         mix-blend-mode: darken;
     }
 }
-
 
 /* Youtube */
 
