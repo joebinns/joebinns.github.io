@@ -517,7 +517,7 @@ caption {
     text-decoration: inherit;
     line-height: 1em;
     vertical-align: text-top;
-    transform: translateY(.85em);
+    transform: translateY(.9em);
     color: white;
 }
 .gradient-multiline portfolio-prefix date{
