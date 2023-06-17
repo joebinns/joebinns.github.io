@@ -132,6 +132,8 @@
                             Unity
                             <br>
                             C#
+                            <br>
+                            Perforce
                         </p>
                     </info>
                 </item>
@@ -160,7 +162,7 @@
                     Interaction System
                 </summary>
                 <p>
-                    A great escape room needs to make the mundane, like searching through drawers and scanning through documents, feel both exciting and fun.
+                    A great escape room needs to make the mundane, like searching through drawers and scanning through documents, feel like an exciting exploration.
                     Therefore, with the interaction system at the heart of Get Me Out's experience, I needed to focus on harvesting tactility and reactivity to the brink.
                     Whilst snappy animation-based buttons and keypads were used, by and large I am most proud of the physics-based hold and grab mechanics.
                 </p>
@@ -177,14 +179,14 @@
                     As before, I used an empty child protruded in front of the first person camera, although this time to denote the target transform for held objects.
                     I was then able to turn the hold behaviour on or off by simply enabling or disabling the oscillator component.
                     From this simple approach, held objects gain physics-based easing and the ability to be displaced by the environment, whilst also conserving linear momentum &mdash; allowing for objects to be thrown at no extra cost.
-                    Adding additional features to the hold system, then comes naturally.
-                    For instance, the ability to control the distance at which an object is held is just a matter of controlling the target transform's local position.
+                    Adding additional features to the hold system then comes naturally.
+                    For instance, the ability to control the distance at which an object is held is then just a matter of manipulating the target transform's local forward position.
                 </p>
                 <p>
                     All that's then missing is that objects won't rotate in response to collisions with the environment.
                     This is remedied by doing all the same with a torsional oscillator component.
                     Adding additional features once again comes naturally;
-                    the ability to rotate objects to inspect held objects at all angles is just a matter of rotating the target transform.
+                    the ability to rotate held objects for inspection is just a matter of manipulating the target transform's local rotation.
                 </p>
                 <details>
                     <summary>Hold</summary>
@@ -199,8 +201,8 @@
                     Due to the significant difference in these behaviours, I decided to subdivide grabbing into it's linear and torsional forms.
                 </p>
                 <p>
-                    Whilst I was once again able to use oscillators for their many tactile and reactive gains, I soon encountered a new problem at hand.
-                    Namely, how could I accurately interpret how the player wants to move or rotate a grabbed object based on input?
+                    Whilst I was once again able to use oscillators for their responsive physics-based benefits, I soon encountered a new problem at hand.
+                    Namely, how could I accurately interpret how the player wants to move or rotate a grabbed object based on mouse input alone?
                     Favouring tactility over the mundane, I decided to try my hand at an approach based on look-direction.
                 </p>
                 <p>
