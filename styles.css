@@ -481,9 +481,10 @@ caption {
         bottom: 0;
         left: 0;
         background: linear-gradient(to right,
-                rgba(255, 15, 15, 1),
+                rgba(15, 100, 200, 1),
                 rgba(255, 15, 180, 1),
-                rgba(15, 100, 200, 1));
+                rgba(255, 15, 15, 1))
+                ;
         mix-blend-mode: darken;
     }
 }
