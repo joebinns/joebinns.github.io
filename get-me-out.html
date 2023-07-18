@@ -171,23 +171,50 @@
                     Initial implementations of the hold system involved setting the held object as a child protruded in front of the first person camera.
                     Whilst the approach worked, it felt rigid.
                     Crucially, objects lacked momentum and wouldn't react to their surroundings.
-                    Thankfully, I have a trick that'll put a spring in any object's step &mdash; Oscillators!
                 </p>
+                ADD GIF
                 <p>
-                    As before, I used an empty child protruded in front of the first person camera, although this time to denote the target transform for held objects.
+                    Thankfully, I have a trick that'll put a spring in any object's step &mdash; Oscillators! As before, I used an empty child protruded in front of the first person camera, although this time to denote the target transform for held objects.
                     I was then able to turn the hold behaviour on or off by simply enabling or disabling the oscillator component.
                     From this simple approach, held objects gain physics-based easing and the ability to be displaced by the environment, whilst also conserving linear momentum &mdash; allowing for objects to be thrown at no extra cost.
                     Adding additional features to the hold system then comes naturally.
                     For instance, the ability to control the distance at which an object is held is then just a matter of manipulating the target transform's local forward position.
                 </p>
+                ADD GIF
                 <p>
                     All that's then missing is that objects won't rotate in response to collisions with the environment.
                     This is remedied by doing all the same with a torsional oscillator component.
                     Adding additional features once again comes naturally;
                     the ability to rotate held objects for inspection is just a matter of manipulating the target transform's local rotation.
                 </p>
+                ADD GIF
                 <details>
-                    <summary>Hold</summary>
+                    <summary>Hold Interaction</summary>
+                    <div id="hold-interaction">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FInteractions%2FHoldInteraction.cs%23L7-L67&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Hold</summary>
+                    <div id="player-hold">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FHold%2FPlayerHold.cs%23L7-L81&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Hold Distance</summary>
+                    <div id="player-hold-distance">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FHold%2FPlayerHoldDistance.cs%23L9-L109&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Hold Rotation</summary>
+                    <div id="player-hold-rotation">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FHold%2FPlayerHoldRotation.cs%23L9-L124&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
                 </details>
                 <h4>
                     Grabbing
@@ -196,7 +223,7 @@
                     I distinguished grabbing from holding, as grabbed objects have unique limitations to their motion.
                     For example, we grab desk drawers, which move restricted to a single fixed axis of motion.
                     Additionally, we grab cupboard doors, which rotate along a single axis determined by their hinges, whilst remaining fixed in position.
-                    Due to the significant difference in these behaviours, I decided to subdivide grabbing into it's linear and torsional forms.
+                    Due to the significant difference in these behaviours, I further subdivided grabbing into it's linear and torsional forms.
                 </p>
                 <p>
                     Whilst I was once again able to use oscillators for their responsive physics-based benefits, I soon encountered a new problem at hand.
@@ -205,14 +232,53 @@
                 </p>
                 <p>
                     For the linear case, ...
-                    TODO: Add illustrations/images/gifs/videos of the debugged approaches
                 </p>
+                ADD GIF
                 <p>
                     Whilst for the torsional case, ...
-                    TODO: Add illustrations/images/gifs/videos of the debugged approaches
                 </p>
+                ADD GIF
                 <details>
-                    <summary>Grab</summary>
+                    <summary>Grab Interaction</summary>
+                    <div id="grab-interaction">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FInteractions%2FGrabInteraction.cs%23L8-L84&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Linear Grab Interaction</summary>
+                    <div id="linear-grab-interaction">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FInteractions%2FLinearGrabInteraction.cs%23L6-L27&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Torsional Grab Interaction</summary>
+                    <div id="torsional-grab-interaction">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FInteractions%2FTorsionalGrabInteraction.cs%23L6-L54&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Grab</summary>
+                    <div id="player-grab">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FGrab%2FPlayerGrab.cs%23L6-L44&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Linear Grab</summary>
+                    <div id="player-linear-grab">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FGrab%2FPlayerLinearGrab.cs%23L6-L84&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Torsional Grab</summary>
+                    <div id="player-torsional-grab">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FGrab%2FPlayerTorsionalGrab.cs%23L6-L98&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
                 </details>
             </details>
             <details>
@@ -222,8 +288,8 @@
                 <p>
                     Wrote the character controllers movement, crouch, and jump.
                     I am particularly happy with the feel of the crouch and the jump, which came about as a result of the malleable curve-based system which I created.
-                    TODO: Show the research paper with the classic jumps and how certain jumps could be re-created using the curve system. Discuss how to improve upon this further.
                 </p>
+                SHOW THE RESEARCH PAPER WITH THE CLASSIC JUMPS AND HOW CERTAIN JUMPS COULD BE RE-CREATED USING THE CURVE SYSTEM. DISCUSS HOW TO IMPROVE UPON THIS FURTHER.
                 <details>
                     <summary>Jump</summary>
                 </details>
@@ -236,7 +302,7 @@
                     Heads-Up Display
                 </summary>
                 <p>
-                    I added the game timer to the Heads-Up Display (HUD).
+                    I created the Heads-Up Display (HUD) which included a timer, reactive reticle and interaction prompts.
                 </p>
                 <h4>
                     Reactive reticle
