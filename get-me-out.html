@@ -228,7 +228,7 @@
                 <p>
                     Whilst I was once again able to use oscillators for their responsive physics-based benefits, I soon encountered a new problem at hand.
                     Namely, how could I accurately interpret how the player wants to move or rotate a grabbed object based on mouse input alone?
-                    Favouring tactility over the mundane, I decided to try my hand at deriving a look-direction based approach.
+                    Favouring tactility over the mundane, I decided to try my hand at deriving a look vector based approach.
                 </p>
                 <p>
                     For the linear case, the problem becomes one of interpreting which point along the fixed axis of motion best represents where the player's looking.
@@ -245,7 +245,12 @@
                 </p>
                 ADD GIF
                 <p>
-                    For the torsional case,
+                    The torsional case went through a similar development, but with its own unique problems.
+                    My final approach uses a combination of both computational and analytical techniques to interpret the angle around the rotation axis which best represents where the player's looking.
+                    First, I center a static sphere collider at the axis of rotation and give it a radius that matches that of the mesh.
+                    By raycasting along the look vector, the computed intersection of the look vector and the surface of the sphere can be found and converted to an angle around the axis of rotation.
+                    In the case that the look vector doesn't intersect the sphere, it is most important that the converted angle is continuous with the angle on the sphere.
+                    I found the analytical intersection of the look vector and a mathematical plane (as finalised with linear grabbing) to perform well in this regard.
                 </p>
                 ADD GIF
                 <details>
