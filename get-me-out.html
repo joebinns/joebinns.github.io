@@ -301,15 +301,76 @@
                     Character Controller
                 </summary>
                 <p>
-                    Wrote the character controllers movement, crouch, and jump.
-                    I am particularly happy with the feel of the crouch and the jump, which came about as a result of the malleable curve-based system which I created.
+                    I am particularly happy with the feel of the crouch and the jump, which came about as a result of a malleable curve-based system.
+                </p>
+                <h4>
+                    Falling, and Jumping
+                </h4>
+                <p>
+                    With an aim of giving designers complete control over the player's jump trajectory, I opted to explore the path of curve-based (rather than numerical-based) parameters.
+                    This extended to controlling how a player would fall when walking off a ledge, and that's where the discussion will begin.
+                </p>
+                <p>
+                    Quite simply, the only parameter required for falling is the fall curve &mdash; a graph of height against time.
+                    Using the curve to fall is then just a matter of sampling the curve at each update and setting the relative height of the player appropriately.
+                    Given that curves made in Unity's editor can occur over a finite interval, the gradient at the end of the fall curve is repeated after the curve is complete.
+                </p>
+                SHOW FALL CURVE
+                <p>
+                    Likewise, jumping requires a jump curve, and a similar procedure is adopted.
+                    In order to give the player more freedom over jump height, dynamic jump durations are supported.
+                    Because the height of a jump cannot be predicted before the jump begins, shortened jumps will cause the trajectory to be discontinuous as the prematurely dismissed rise curve is unable to finish flattening out before starting the fall curve.
+                    It's interesting to note that such a jump is what you find in Metroid.
+                    For Get Me Out, this tradeoff was also acceptable, but a platformer would likely need to further develop this approach.
+                    If continuity is the aim, then another way to tackle the problem of a dynamic rise trajectory is to implement how the fall curve works but in reverse.
+                    For instance, the initial gradient of the rise curve can be followed until the jump button is released or the maximum jump duration is exceeded, at which point the remainder of the rise curve is followed.
+                    That's the approach we ended up with on Get Me Out, and it's done the job well enough.
+                    A final piece of flavour I like to add to dynamic height jumps is a minimum jump duration.
+                    This prevents teeny-tiny jumps and ensures that even the briefest of taps results in a satisfying hop.
                 </p>
                 SHOW THE RESEARCH PAPER WITH THE CLASSIC JUMPS AND HOW CERTAIN JUMPS COULD BE RE-CREATED USING THE CURVE SYSTEM. DISCUSS HOW TO IMPROVE UPON THIS FURTHER.
+                <br>
+                <br>
+                SHOW JUMP CURVE
+                <!--
                 <details>
-                    <summary>Jump</summary>
+                    <summary>Movement Settings</summary>
+                    <div id="movement-settings">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FMovement%2FMovementSettings.cs%23L5-L75&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                -->
+                <details>
+                    <summary>Player Fall</summary>
+                    <div id="player-fall">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FMovement%2FPlayerFall.cs%23L6-L108&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
                 </details>
                 <details>
-                    <summary>Crouch</summary>
+                    <summary>Player Jump</summary>
+                    <div id="player-jump">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FMovement%2FPlayerJump.cs%23L8-L148&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <h4>
+                    Crouching
+                </h4>
+                <p>
+                    Crouching was implemented just like a simplified falling and jumping with some curves of its own.
+                    The only addition made to crouching was that the crouch curves were also used to control the height of the player's capsule collider.
+                    This allowed for the player to fit snug underneath pipes and the like.
+                    I was pleased to find crouch jumping working out of the box, hurrah!
+                </p>
+                SHOW CROUCH CURVE AND STAND CURVE
+                <details>
+                    <summary>Player Crouch</summary>
+                    <div id="player-crouch">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FMovement%2FPlayerCrouch.cs%23L8-L138&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
                 </details>
             </details>
             <details>
@@ -317,7 +378,7 @@
                     Heads-Up Display
                 </summary>
                 <p>
-                    I created the Heads-Up Display (HUD) which included a timer, reactive reticle and interaction prompts.
+                    The Heads-Up Display (HUD) includes a timer, reactive reticle and interaction prompts.
                 </p>
                 <h4>
                     Reactive reticle
