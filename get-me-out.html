@@ -231,11 +231,21 @@
                     Favouring tactility over the mundane, I decided to try my hand at deriving a look-direction based approach.
                 </p>
                 <p>
-                    For the linear case, ...
+                    For the linear case, the problem becomes one of interpreting which point along the fixed axis of motion best represents where the player's looking.
+                    After playing around with some ways of using colliders to assist in solving the problem, I landed on more eloquent analytical solutions with better results.
+                    The initial analytical solution came from laying a mathematical plane along the fixed axis of motion and finding the point of intersection of the camera's look direction and the plane.
+                    The results were much more predictable than with colliders, but still performed poorly in some cases.
+                    For instance, whilst a single vertical plane works great from a 'side on' viewpoint, it's a very poor analogue from a 'top down' viewpoint.
+                    Introducing multiple planes and sorting them by greatest dot product can help remedy this issue.
+                    From a desire for continuous transitions between planes and a maximised dot product, I continued thinking of ways to optimise the solution.
+                    I found that substituting the multiple planes for a single plane which is dynamically oriented perpendicular to the camera's look direction worked well.
+                    Interpretive problems like this are tricky, too many layers of substitution from the core problem can mean messy results.
+                    Thankfully this analytical solution has the best results of anything I've tried.
+                    I'd be interested in knowing how other games have approached this problem.
                 </p>
                 ADD GIF
                 <p>
-                    Whilst for the torsional case, ...
+                    For the torsional case,
                 </p>
                 ADD GIF
                 <details>
