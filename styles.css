@@ -448,13 +448,13 @@ caption {
 
 .gradient-multiline-invert {
     display: block;
-    transition: transform .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
+    transition: transform .2s cubic-bezier(0.77, 2.2, 0.71, 0.5);
 }
 .gradient-multiline-invert span{
     color: black;
     background-color: white;
 
-    transition: .3s;
+    transition: .1s;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
