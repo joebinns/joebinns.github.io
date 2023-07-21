@@ -378,8 +378,11 @@
                     Heads-Up Display
                 </summary>
                 <p>
-                    The Heads-Up Display (HUD) includes a timer, reactive reticle and interaction prompts.
+                    As pressing the wrong button could be difference between life and death, it must be starkly clear to the player what interactions are available at any given time.
+                    Outlines worked well to purvey which object would be interacted with, but didn't help illustrate the action at hand.
+                    We therefore introduced a dynamic reticle; one that switches to a gestured hand based on the type of interactable.
                 </p>
+                ADD GIF (showing outlines and reticle)
                 <details>
                     <summary>Interactable Type</summary>
                     <div id="interactable-type">
@@ -388,9 +391,37 @@
                     </div>
                 </details>
                 <details>
+                    <summary>Reticle</summary>
+                    <div id="reticle">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FReticle%2FReticle.cs%23L6-L26&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <p>
+                    Due to the unconventional nature of the interaction system, we found some players face some initial difficulty when interacting with more complex interactables, such as valves.
+                    We therefore introduced control prompts to interactables, which briefly illustrate how to perform an interaction.
+                    An interactable such as a valve, may have a different control prompt before being grabbed and whilst being grabbed.
+                    Each mode of the interactable therefore had its own control prompt which was displayed as appropriate.
+                    All the interactable specific HUD properties are compiled and stored in <a href="#interactable-settings" class="hyperlink">Interactable Settings</a>.
+                </p>
+                <details>
                     <summary>Interactable Mode</summary>
                     <div id="interactable-mode">
                         <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FData%2FInteractableMode.cs%23L3-L7&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Prompt Info</summary>
+                    <div id="prompt-info">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FData%2FPromptInfo.cs%23L5-L16&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Prompt</summary>
+                    <div id="prompt">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FPrompts%2FPrompt.cs%23L8-L30&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
                         </script>
                     </div>
                 </details>
@@ -408,6 +439,13 @@
                         </script>
                     </div>
                 </details>
+                <p>
+                    After many play tests, we found players would often ignore the control prompts &mdash; even when they are struggling to pick up a mechanic!
+                    This was surely not helped by the fact that every interactable in the game displays the prompt.
+                    Given more iterations, we would have tutorialised the mechanics and reduced the frequency of prompts to only when they're necessary; such as on the first encounter with a new mechanic.
+                </p>
+                ADD GIF (showing control prompts)
+                <!--
                 <details>
                     <summary>Crew HUD Controller</summary>
                     <div id="crew-hud-controller">
@@ -422,6 +460,7 @@
                         </script>
                     </div>
                 </details>
+                -->
                 <!--
                 <details>
                     <summary>UI Timer</summary>
@@ -431,39 +470,6 @@
                     </div>
                 </details>
                 -->
-                <h4>
-                    Reactive reticle
-                </h4>
-                <p>
-                    To further draw attention to interactable objects, I implemented a reactive reticle
-                </p>
-                <details>
-                    <summary>Reticle</summary>
-                    <div id="reticle">
-                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FReticle%2FReticle.cs%23L6-L26&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
-                        </script>
-                    </div>
-                </details>
-                <h4>
-                    Interaction prompts
-                </h4>
-                <p>
-                    Finally, I added interaction prompts to the HUD, which assisted new players in picking up the controls on the fly.
-                </p>
-                <details>
-                    <summary>Prompt Info</summary>
-                    <div id="prompt-info">
-                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FData%2FPromptInfo.cs%23L5-L16&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
-                        </script>
-                    </div>
-                </details>
-                <details>
-                    <summary>Prompt</summary>
-                    <div id="prompt">
-                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FPrompts%2FPrompt.cs%23L8-L30&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
-                        </script>
-                    </div>
-                </details>
             </details>
         </div>
     </project>
