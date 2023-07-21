@@ -259,7 +259,6 @@ logo {
     width: 266px;
     bottom: 0;
     position: fixed;
-    mix-blend-mode: screen;
 }
 
 .interface item {
@@ -273,6 +272,15 @@ logo {
     display: inline-block;
     vertical-align: top;
     width: 153px;
+}
+
+.logo-wrapper {
+    z-index: 50;
+    position: fixed;
+    mix-blend-mode: screen;
+    bottom: 0;
+    transform: translateY(-88px);
+    padding-bottom: 0;
 }
 
 optHide {
@@ -623,13 +631,26 @@ overlay {
 
     .interface menu {
         width: calc(100% - 60px);
-        height: 75px;
+        height: 100px;
         display: flex;
         justify-content: space-between;
         min-width: 300px;
         top: 0%;
         backdrop-filter: blur(20px);
         -webkit-mask-image: -webkit-gradient(linear, left 80%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    }
+
+    .interface menu item {
+        transform: translateY(16px);
+    }
+
+    .interface menu itemAlt {
+        transform: translateY(16px);
+    }
+
+    .logo-wrapper {
+        top: 0;
+        transform: translateY(0);
     }
 
     logo {
