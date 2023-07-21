@@ -179,8 +179,8 @@
                 </p>
                 ADD GIF
                 <p>
-                    All that's then missing is that objects won't rotate in response to collisions with the environment.
-                    This is remedied by doing all the same with a torsional oscillator component.
+                    All that's then missing is that held objects won't rotate in response to collisions with the environment.
+                    This is remedied by doing all the above with the addition of a torsional oscillator component.
                     Adding additional features once again comes naturally;
                     the ability to rotate held objects for inspection is just a matter of manipulating the target transform's local rotation.
                 </p>
@@ -236,7 +236,7 @@
                     Introducing multiple planes and sorting them by greatest dot product can help remedy this issue.
                     From a desire for continuous transitions between planes and a maximised dot product, I continued thinking of ways to optimise the solution.
                     I found that substituting the multiple planes for a single plane which is dynamically oriented perpendicular to the camera's look direction worked well.
-                    Interpretive problems like this are tricky, too many layers of substitution from the core problem can mean messy results.
+                    Interpretive problems like this are tricky; too many layers of substitution from the core problem can mean messy results.
                     Thankfully this analytical solution has the best results of anything I've tried.
                     I'd be interested in knowing how other games have approached this problem.
                 </p>
@@ -245,7 +245,8 @@
                     The torsional case went through a similar development, but with its own unique problems.
                     My final approach uses a combination of both computational and analytical techniques to interpret the angle around the rotation axis which best represents where the player's looking.
                     First, I center a static sphere collider at the axis of rotation and give it a radius that matches that of the mesh.
-                    By raycasting along the look vector, the computed intersection of the look vector and the surface of the sphere can be found and converted to an angle around the axis of rotation.
+                    By raycasting along the look vector, the computed intersection of the look vector and the surface of the sphere can be found.
+                    The point of intersection can then be converted to an angle around the axis of rotation.
                     In the case that the look vector doesn't intersect the sphere, it is most important that the converted angle is continuous with the angle on the sphere.
                     I found the analytical intersection of the look vector and a mathematical plane (as finalised with linear grabbing) to perform well in this regard.
                 </p>
@@ -310,13 +311,13 @@
                 <p>
                     Quite simply, the only parameter required for falling is the fall curve &mdash; a graph of height against time.
                     Using the curve to fall is then just a matter of sampling the curve at each update and setting the relative height of the player appropriately.
-                    Given that curves made in Unity's editor can occur over a finite interval, the gradient at the end of the fall curve is repeated after the curve is complete.
+                    Given that curves made in Unity's editor can occur over a finite interval, the gradient at the end of the fall curve is sampled and repeated after the curve is complete.
                 </p>
                 SHOW FALL CURVE
                 <p>
-                    Likewise, jumping requires a jump curve, and a similar procedure is adopted.
+                    Jumping requires a jump curve, and a similar procedure is adopted.
                     In order to give the player more freedom over jump height, dynamic jump durations are supported.
-                    Because the height of a jump cannot be predicted before the jump begins, shortened jumps will cause the trajectory to be discontinuous as the prematurely dismissed rise curve is unable to finish flattening out before starting the fall curve.
+                    Because the height of a jump cannot be predicted before the jump begins, shortened jumps will cause the trajectory to be discontinuous; this is because the prematurely dismissed rise curve is unable to finish flattening out before starting the fall curve.
                     It's interesting to note that such a jump is what you find in Metroid.
                     For Get Me Out, this tradeoff was also acceptable, but a platformer would likely need to further develop this approach.
                     If continuity is the aim, then another way to tackle the problem of a dynamic rise trajectory is to implement how the fall curve works but in reverse.
@@ -356,8 +357,7 @@
                     Crouching
                 </h4>
                 <p>
-                    Crouching was implemented just like a simplified falling and jumping with some curves of its own.
-                    The only addition made to crouching was that the crouch curves were also used to control the height of the player's capsule collider.
+                    Crouching was implemented similarly to falling and jumping, with the addition of crouch curves also being used to control the height of the player's capsule collider.
                     This allowed for the player to fit snug underneath pipes and the like.
                     I was pleased to find crouch jumping worked nicely out of the box, hurrah!
                 </p>
@@ -395,12 +395,13 @@
                     </div>
                 </details>
                 <p>
-                    Due to the unconventional nature of the interaction system, we found some players face some initial difficulty when interacting with more complex interactables, such as valves.
-                    We therefore introduced control prompts to interactables, which briefly illustrate how to perform an interaction.
+                    Due to the unconventional nature of the interaction system, some players faced initial difficulty with the more complex interactables, such as valves.
+                    We therefore introduced control prompts, which briefly illustrate how to perform an interaction.
                     An interactable such as a valve, may have a different control prompt before being grabbed and whilst being grabbed.
-                    Each mode of the interactable therefore had its own control prompt which was displayed as appropriate.
+                    Each <a href="#interactable-mode" class="hyperlink">Interactable Mode</a> therefore has its own control prompt, which is displayed as appropriate.
                     All the interactable specific HUD properties are compiled and stored in <a href="#interactable-settings" class="hyperlink">Interactable Settings</a>.
                 </p>
+                ADD GIF (showing control prompts)
                 <details>
                     <summary>Interactable Mode</summary>
                     <div id="interactable-mode">
@@ -438,10 +439,9 @@
                 </details>
                 <p>
                     After many play tests, we found players would often ignore the control prompts &mdash; even when they are struggling to pick up a mechanic!
-                    This was surely not helped by the fact that every interactable in the game displays the prompt.
+                    This was surely not helped by the fact that every interactable in the game displays a prompt.
                     Given more iterations, we would have tutorialised the mechanics and reduced the frequency of prompts to only when they're necessary; such as on the first encounter with a new mechanic.
                 </p>
-                ADD GIF (showing control prompts)
                 <!--
                 <details>
                     <summary>Crew HUD Controller</summary>
