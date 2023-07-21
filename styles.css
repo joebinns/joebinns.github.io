@@ -624,11 +624,12 @@ overlay {
     .interface hotbar {
         width: calc(100% - 60px);
         height: 75px;
-        backdrop-filter: blur(50px);
         display: flex;
         justify-content: space-between;
         min-width: 300px;
         top: 0%;
+        backdrop-filter: blur(20px);
+        -webkit-mask-image: -webkit-gradient(linear, left 80%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
     }
 
     logo {
@@ -721,4 +722,3 @@ overlay {
 /* Dark Mode */
 @media (prefers-color-scheme: dark){
 }
-
