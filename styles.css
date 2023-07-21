@@ -474,6 +474,7 @@ caption {
 
 @supports(mix-blend-mode: multiply) {
     .gradient-multiline:hover::after {
+        /*
         position: absolute;
         content: '';
         top: 0;
@@ -486,6 +487,7 @@ caption {
                 rgba(255, 15, 15, 1))
                 ;
         mix-blend-mode: darken;
+        */
     }
 }
 
@@ -501,6 +503,24 @@ caption {
     left: 0;
     width: 100%;
     height: 100%;
+}
+
+
+/* MP4 */
+.fullscreen {
+    position: fixed;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -o-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
 }
 
 
@@ -545,6 +565,19 @@ overlay {
     z-index: 100;
     background: #f8f0e3;
     mix-blend-mode: darken;
+    pointer-events:none;
+}
+
+.video-tint-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    min-width: 100%;
+    z-index: -99;
+    backdrop-filter: blur(0px);
+    background: #d5d5d5;
+    mix-blend-mode: multiply;
     pointer-events:none;
 }
 
