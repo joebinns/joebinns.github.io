@@ -252,7 +252,7 @@ logo {
     height: 65px
 }
 
-.interface hotbar {
+.interface menu {
     z-index: 10;
     margin: 0;
     display: block;
@@ -621,7 +621,7 @@ overlay {
         font-size: 42px;
     }
 
-    .interface hotbar {
+    .interface menu {
         width: calc(100% - 60px);
         height: 75px;
         display: flex;
