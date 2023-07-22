@@ -10,7 +10,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '/src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -60,8 +60,6 @@ function onWindowResize() {
 
     preview.style.width = `${dimensions().width}px`;
     preview.style.height = `${dimensions().height}px`;
-    overlay.style.width = `${dimensions().width}px`;
-    overlay.style.height = `${dimensions().height}px`;
 
     renderer.setSize(dimensions().width, dimensions().height);
     composer.setSize(dimensions().width, dimensions().height);
@@ -117,9 +115,6 @@ export class ModelPreviewer{
 
         // Model preview
         preview = document.querySelector('.model-preview');
-
-        // Overlay
-        overlay = document.querySelector('overlay');
 
         // Canvas
         const canvas = document.querySelector('canvas.webgl');
@@ -263,13 +258,6 @@ export class ModelPreviewer{
             //scale = easeOutElastic(scale);
             item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
         });
-
-        // Adjust overlay blur based on appeared
-        let maxAppeared = 0;
-        this.portfolioItems.forEach(item => {
-            maxAppeared = Math.max(maxAppeared, item.appeared);
-        });
-        overlay.style.setProperty('--blur', 4 * (1 - maxAppeared) + 'px');
 
         // Decelerate angular speed
         angularSpeed -= deltaTime * angularSpeed * angularDamper;
