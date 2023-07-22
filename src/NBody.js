@@ -8,7 +8,7 @@ import { ModelPreviewer } from '../src/ModelPreviewer.js';
 let portfolioItems = [];
 
 portfolioItems.push(
-    new PortfolioItem(null, 'space-shuttle.glb'),
+    new PortfolioItem(null, 'space-shuttle.glb', ''),
 );
 
 let promises = [];
