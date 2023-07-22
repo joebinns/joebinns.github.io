@@ -232,7 +232,6 @@ export class ModelPreviewer{
             else {
                 this.defaultItem.appeared += appearRate * deltaTime;
             }
-
             this.defaultItem.appeared = THREE.MathUtils.clamp(this.defaultItem.appeared, 0, 1);
         }
 
@@ -284,7 +283,7 @@ export class ModelPreviewer{
         this.portfolioItems.forEach(item => {
             maxAppeared = Math.max(maxAppeared, item.appeared);
         });
-        videoTintOverlay.style.setProperty('--blur', 32 * (1 - maxAppeared) + 'px');
+        videoTintOverlay.style.setProperty('--blur', 32 * (1.2 - maxAppeared) + 'px');
         portfolioVideo.opacity = maxAppeared * maxAppeared * maxAppeared;
         if (maxAppeared <= 0) portfolioVideo.src = '';
 
