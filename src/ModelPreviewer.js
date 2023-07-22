@@ -162,7 +162,7 @@ export class ModelPreviewer{
 
         // 3) Declare Custom Outline uniforms
         const uniforms = customOutline.fsQuad.material.uniforms;
-        uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+        uniforms.outlineColor.value.set(new THREE.Color(0xf8f0ef));
         uniforms.backgroundColor.value.set(new THREE.Color(0x454545));
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
@@ -246,18 +246,21 @@ export class ModelPreviewer{
         });
 
         // Select video
-        this.portfolioItems.forEach(item => {
-            if (item.isHovered != item.wasHovered){
-                if (item.isHovered) {
-                    portfolioVideo.src = '/videos/' + item.video;
-                    portfolioVideo.load();
+        if (portfolioVideo)
+        {
+            this.portfolioItems.forEach(item => {
+                if (item.isHovered != item.wasHovered){
+                    if (item.isHovered) {
+                        portfolioVideo.src = '/videos/' + item.video;
+                        portfolioVideo.load();
+                    }
+                    else {
+                        //portfolioVideo.src = '';
+                    }
                 }
-                else {
-                    //portfolioVideo.src = '';
-                }
-            }
-            item.wasHovered = item.isHovered;
-        });
+                item.wasHovered = item.isHovered;
+            });
+        }
 
         // Update mouse's selected object
         picker.pick(mouse, scene, camera);
@@ -279,13 +282,16 @@ export class ModelPreviewer{
         });
 
         // Adjust overlay blur based on appeared
-        let maxAppeared = 0;
-        this.portfolioItems.forEach(item => {
-            maxAppeared = Math.max(maxAppeared, item.appeared);
-        });
-        videoTintOverlay.style.setProperty('--blur', 32 * (1.2 - maxAppeared) + 'px');
-        portfolioVideo.opacity = maxAppeared * maxAppeared * maxAppeared;
-        if (maxAppeared <= 0) portfolioVideo.src = '';
+        if (portfolioVideo)
+        {
+            let maxAppeared = 0;
+            this.portfolioItems.forEach(item => {
+                maxAppeared = Math.max(maxAppeared, item.appeared);
+            });
+            videoTintOverlay.style.setProperty('--blur', 32 * (1.2 - maxAppeared) + 'px');
+            portfolioVideo.opacity = maxAppeared * maxAppeared * maxAppeared;
+            if (maxAppeared <= 0) portfolioVideo.src = '';
+        }
 
         // Decelerate angular speed
         angularSpeed -= deltaTime * angularSpeed * angularDamper;
