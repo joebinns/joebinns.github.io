@@ -1,14 +1,14 @@
 // Portfolio item
-import { PortfolioItem } from '/src/PortfolioItem.js';
+import { PortfolioItem } from '../src/PortfolioItem.js';
 
 // Model previewer
-import { ModelPreviewer } from '/src/ModelPreviewer.js';
+import { ModelPreviewer } from '../src/ModelPreviewer.js';
 
 
 let portfolioItems = [];
 
 portfolioItems.push(
-    new PortfolioItem(null, 'barricade.glb'),
+    new PortfolioItem(null, 'barricade.glb', ''),
 );
 
 let promises = [];
