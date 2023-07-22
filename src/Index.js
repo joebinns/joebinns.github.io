@@ -12,7 +12,7 @@ portfolioItems.push(
     new PortfolioItem('getMeOut', 'plane.glb', 'get-me-out.mp4'),
     new PortfolioItem('wordle', 'alphabet-block.glb', 'wordle.mp4'),
     new PortfolioItem('worms', 'crown.glb', 'worms.mp4'),
-    new PortfolioItem('scc', 'spring.glb', 'njuma.mp4'),
+    new PortfolioItem('scc', 'spring.glb', 'stylised-character-controller.mp4'),
     new PortfolioItem('mLabs', 'arc-de-triomphe.glb', ''),
     new PortfolioItem('ann', 'robot.glb', ''),
     new PortfolioItem('pde', 'painting.glb', ''),
