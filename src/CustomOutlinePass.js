@@ -128,6 +128,11 @@ class CustomOutlinePass extends Pass {
 			vec3 lighten(vec3 base, vec3 blend) {
 			    return vec3(max(base.r, blend.r), max(base.g, blend.g), max(base.b, blend.b));
 			}
+			
+            vec4 transpare(vec3 base) {
+                float intensity = (base.r + base.g + base.b) / 3.0;
+			    return vec4(base.r, base.g, base.b, intensity);
+			}
 
 			void main() {
 				float depth = getPixelDepth(0, 0);
@@ -151,9 +156,10 @@ class CustomOutlinePass extends Pass {
 				
 				// Blend with background
 				vec3 fragColor = vec3(outline * outlineColor);
-				fragColor = lighten(backgroundColor, fragColor); // TODO: Swap this to darken for light-mode...
+				//fragColor = lighten(backgroundColor, fragColor); // TODO: Swap this to darken for light-mode...
+				vec4 fullFragColor = transpare(fragColor);
 				
-				gl_FragColor = vec4(fragColor, 1.0);
+				gl_FragColor = fullFragColor; //vec4(fragColor, 1.0);
 			}
 			`;
     }
