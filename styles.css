@@ -585,7 +585,7 @@ overlay {
     min-width: 100%;
     z-index: -99;
     backdrop-filter: blur(0px);
-    background: #d5d5d5;
+    background: #8a8a8a;
     mix-blend-mode: multiply;
     pointer-events:none;
 }

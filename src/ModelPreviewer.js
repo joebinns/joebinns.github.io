@@ -10,7 +10,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '/src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview, portfolioVideo;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -97,6 +97,9 @@ export class ModelPreviewer{
     }
 
     Init () {
+        // Portfolio video
+        portfolioVideo = document.getElementById('portfoliovid');
+
         // Timer
         clock = new THREE.Clock();
         time = 0;
@@ -209,10 +212,12 @@ export class ModelPreviewer{
         this.portfolioItems.forEach(item => {
             if (item.element) {
                 if (isElementHovered(item.element)){
+                    item.isHovered = true;
                     item.appeared += appearRate * deltaTime;
                     isAnyElementHovered = true;
                 }
                 else {
+                    item.isHovered = false;
                     item.appeared -= appearRate * deltaTime;
                 }
                 item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
@@ -238,6 +243,24 @@ export class ModelPreviewer{
             else {
                 SetObjectVisibility(item.object, false);
             }
+        });
+
+        //
+        this.portfolioItems.forEach(item => {
+            if (item.isHovered != item.wasHovered){
+                if (item.isHovered) {
+                    portfolioVideo.src = '/videos/' + item.video;
+                    portfolioVideo.load();
+                }
+                else {
+                    portfolioVideo.src = '';
+                }
+            }
+        });
+
+        // Update was hovered
+        this.portfolioItems.forEach(item => {
+            item.wasHovered = item.isHovered;
         });
 
         // Update mouse's selected object
