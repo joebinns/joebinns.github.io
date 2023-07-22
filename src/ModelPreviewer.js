@@ -10,7 +10,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '/src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview, portfolioVideo;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview, portfolioVideo, videoTintOverlay;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -99,6 +99,7 @@ export class ModelPreviewer{
     Init () {
         // Portfolio video
         portfolioVideo = document.getElementById('portfoliovid');
+        videoTintOverlay = document.getElementById('videotintoverlay');
 
         // Timer
         clock = new THREE.Clock();
@@ -245,7 +246,7 @@ export class ModelPreviewer{
             }
         });
 
-        //
+        // Select video
         this.portfolioItems.forEach(item => {
             if (item.isHovered != item.wasHovered){
                 if (item.isHovered) {
@@ -253,13 +254,9 @@ export class ModelPreviewer{
                     portfolioVideo.load();
                 }
                 else {
-                    portfolioVideo.src = '';
+                    //portfolioVideo.src = '';
                 }
             }
-        });
-
-        // Update was hovered
-        this.portfolioItems.forEach(item => {
             item.wasHovered = item.isHovered;
         });
 
@@ -281,6 +278,15 @@ export class ModelPreviewer{
             //scale = easeOutElastic(scale);
             item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
         });
+
+        // Adjust overlay blur based on appeared
+        let maxAppeared = 0;
+        this.portfolioItems.forEach(item => {
+            maxAppeared = Math.max(maxAppeared, item.appeared);
+        });
+        videoTintOverlay.style.setProperty('--blur', 32 * (1 - maxAppeared) + 'px');
+        portfolioVideo.opacity = maxAppeared * maxAppeared * maxAppeared;
+        if (maxAppeared <= 0) portfolioVideo.src = '';
 
         // Decelerate angular speed
         angularSpeed -= deltaTime * angularSpeed * angularDamper;

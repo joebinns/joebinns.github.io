@@ -516,6 +516,10 @@ caption {
 
 
 /* MP4 */
+video {
+    opacity: 0.35;
+}
+
 .fullscreen {
     position: fixed;
     -webkit-transform: translateX(-50%) translateY(-50%);
@@ -584,10 +588,9 @@ overlay {
     min-height: 100%;
     min-width: 100%;
     z-index: -99;
-    backdrop-filter: blur(0px);
-    background: #8a8a8a;
-    mix-blend-mode: multiply;
     pointer-events:none;
+    --blur: 0px;
+    backdrop-filter: blur(var(--blur));
 }
 
 .shake-text {
