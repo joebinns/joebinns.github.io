@@ -288,7 +288,7 @@ export class ModelPreviewer{
             this.portfolioItems.forEach(item => {
                 maxAppeared = Math.max(maxAppeared, item.appeared);
             });
-            videoTintOverlay.style.setProperty('--blur', 32 * (1.2 - maxAppeared) + 'px');
+            videoTintOverlay.style.setProperty('--blur', 32 * (1.15 - maxAppeared) + 'px');
             portfolioVideo.opacity = maxAppeared * maxAppeared * maxAppeared;
             if (maxAppeared <= 0) portfolioVideo.src = '';
         }
