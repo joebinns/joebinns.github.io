@@ -537,6 +537,7 @@ caption {
 
 .model-preview {
     position: fixed;
+    user-select: none;
 }
 
 overlay {
