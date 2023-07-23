@@ -8,7 +8,7 @@ import { ModelPreviewer } from '../src/ModelPreviewer.js';
 let portfolioItems = [];
 
 portfolioItems.push(
-    new PortfolioItem(null, 'spring.glb'),
+    new PortfolioItem(null, 'saloon.glb'),
     new PortfolioItem('mLabs', 'arc-de-triomphe.glb'),
 );
 

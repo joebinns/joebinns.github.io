@@ -173,7 +173,7 @@ a.hyperlink {
 }
 a.hyperlink:hover {
     transform: scale(1.3) rotate(-2deg);
-    background: #0f0f0f;
+    /*background: #0f0f0f;*/
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -256,8 +256,8 @@ logo {
     margin: 0;
     display: block;
     width: 266px;
+    bottom: 0;
     position: fixed;
-    bottom: 0%;
 }
 
 .interface item {
@@ -271,6 +271,15 @@ logo {
     display: inline-block;
     vertical-align: top;
     width: 153px;
+}
+
+.logo-wrapper {
+    z-index: 50;
+    position: fixed;
+    mix-blend-mode: screen;
+    bottom: 0;
+    transform: translateY(-88px);
+    padding-bottom: 0;
 }
 
 optHide {
@@ -407,6 +416,7 @@ caption {
         no-repeat;
     padding: 0rem 0.8rem;
     transition: .4s, background-position 0s;
+    mix-blend-mode: screen;
 
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -444,15 +454,14 @@ caption {
 }
 
 .gradient-multiline-invert {
-    position: relative;
     display: block;
-    color: #0f0f0f;
-    transition: transform .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
+    transition: transform .2s cubic-bezier(0.77, 2.2, 0.71, 0.5);
 }
 .gradient-multiline-invert span{
+    color: black;
     background-color: white;
-    transition: .3s;
 
+    transition: .1s;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
@@ -462,17 +471,18 @@ caption {
 }
 .gradient-multiline-invert:hover {
     --time: 0%;
-    color: white;
     transform: scale(1.25);
 }
 
 .gradient-multiline-invert:hover span{
     --time: 0%;
+    color: white;
     background-color: transparent;
 }
 
 @supports(mix-blend-mode: multiply) {
     .gradient-multiline:hover::after {
+        /*
         position: absolute;
         content: '';
         top: 0;
@@ -480,10 +490,12 @@ caption {
         bottom: 0;
         left: 0;
         background: linear-gradient(to right,
-                rgba(255, 15, 15, 1),
+                rgba(15, 100, 200, 1),
                 rgba(255, 15, 180, 1),
-                rgba(15, 100, 200, 1));
+                rgba(255, 15, 15, 1))
+                ;
         mix-blend-mode: darken;
+        */
     }
 }
 
@@ -502,10 +514,29 @@ caption {
 }
 
 
+/* MP4 */
+.fullscreen {
+    position: fixed;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -o-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+}
+
+
 /* Three.js */
 
 .model-preview {
     position: fixed;
+    user-select: none;
 }
 
 overlay {
@@ -544,6 +575,18 @@ overlay {
     background: #f8f0e3;
     mix-blend-mode: darken;
     pointer-events:none;
+}
+
+.video-tint-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    min-width: 100%;
+    z-index: -99;
+    pointer-events:none;
+    --blur: 0px;
+    backdrop-filter: blur(var(--blur));
 }
 
 .shake-text {
@@ -587,12 +630,26 @@ overlay {
 
     .interface menu {
         width: calc(100% - 60px);
-        height: 75px;
-        backdrop-filter: blur(50px);
+        height: 100px;
         display: flex;
         justify-content: space-between;
         min-width: 300px;
         top: 0%;
+        backdrop-filter: blur(20px);
+        -webkit-mask-image: -webkit-gradient(linear, left 80%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    }
+
+    .interface menu item {
+        transform: translateY(16px);
+    }
+
+    .interface menu itemAlt {
+        transform: translateY(16px);
+    }
+
+    .logo-wrapper {
+        top: 0;
+        transform: translateY(0);
     }
 
     logo {
@@ -685,5 +742,3 @@ overlay {
 /* Dark Mode */
 @media (prefers-color-scheme: dark){
 }
-
-

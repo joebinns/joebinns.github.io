@@ -1,6 +1,9 @@
 // Three.js
 import * as THREE from "three";
 
+// Utilities
+import { isElementHovered, cubicBezier } from '../src/Utilities.js';
+
 // Render requirements
 import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
@@ -10,7 +13,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '/src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, overlay, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -60,8 +63,6 @@ function onWindowResize() {
 
     preview.style.width = `${dimensions().width}px`;
     preview.style.height = `${dimensions().height}px`;
-    overlay.style.width = `${dimensions().width}px`;
-    overlay.style.height = `${dimensions().height}px`;
 
     renderer.setSize(dimensions().width, dimensions().height);
     composer.setSize(dimensions().width, dimensions().height);
@@ -86,11 +87,6 @@ function onDocumentMouseDown(event) {
     }
 }
 
-function isElementHovered(element) {
-    if (element == null) return null;
-    return element == element.parentElement.querySelector(":hover");
-}
-
 export class ModelPreviewer{
     constructor(portfolioItems) {
         this.portfolioItems = portfolioItems;
@@ -106,7 +102,7 @@ export class ModelPreviewer{
         // Controller
         mouse = new THREE.Vector2();
         picker = new ObjectPicker();
-        hoverRate = 1;
+        hoverRate = 10;
         appearRate = 8;
         hovered = 0;
         speed = 1.5;
@@ -117,9 +113,6 @@ export class ModelPreviewer{
 
         // Model preview
         preview = document.querySelector('.model-preview');
-
-        // Overlay
-        overlay = document.querySelector('overlay');
 
         // Canvas
         const canvas = document.querySelector('canvas.webgl');
@@ -163,7 +156,7 @@ export class ModelPreviewer{
 
         // 3) Declare Custom Outline uniforms
         const uniforms = customOutline.fsQuad.material.uniforms;
-        uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+        uniforms.outlineColor.value.set(new THREE.Color(0xf8f0ef));
         uniforms.backgroundColor.value.set(new THREE.Color(0x454545));
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
@@ -231,7 +224,6 @@ export class ModelPreviewer{
             else {
                 this.defaultItem.appeared += appearRate * deltaTime;
             }
-
             this.defaultItem.appeared = THREE.MathUtils.clamp(this.defaultItem.appeared, 0, 1);
         }
 
@@ -255,21 +247,13 @@ export class ModelPreviewer{
         else {
             hovered -= hoverRate * deltaTime;
         }
-        hovered = THREE.MathUtils.clamp(hovered, 0, 0.075);
+        hovered = THREE.MathUtils.clamp(hovered, 0, 1);
 
         // Scale the objects based on appeared and hovered
         this.portfolioItems.forEach(item => {
-            let scale = item.appeared + hovered;
-            //scale = easeOutElastic(scale);
-            item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
+            let scale = item.appeared + 0.15 * cubicBezier(hovered);
+            item.object.scale.set(scale, scale, scale);
         });
-
-        // Adjust overlay blur based on appeared
-        let maxAppeared = 0;
-        this.portfolioItems.forEach(item => {
-            maxAppeared = Math.max(maxAppeared, item.appeared);
-        });
-        overlay.style.setProperty('--blur', 4 * (1 - maxAppeared) + 'px');
 
         // Decelerate angular speed
         angularSpeed -= deltaTime * angularSpeed * angularDamper;

@@ -8,27 +8,39 @@
     <link id="shortcuticon" rel="shortcut icon" href="../images/jb.svg">
 </head>
 <body>
-<div class="model-preview">
-    <overlay>
-    </overlay>
-    <canvas class="webgl">
-    </canvas>
+<video id="njumaVid" autoplay muted loop preload class="fullscreen" hidden>
+    <source src="../videos/njuma.mp4" type="video/mp4">
+</video>
+<video id="getMeOutVid" autoplay muted loop preload class="fullscreen" hidden>
+    <source src="../videos/get-me-out.mp4" type="video/mp4">
+</video>
+<video id="wordleVid" autoplay muted loop preload class="fullscreen" hidden>
+    <source src="../videos/wordle.mp4" type="video/mp4">
+</video>
+<video id="wormsVid" autoplay muted loop preload class="fullscreen" hidden>
+    <source src="../videos/worms.mp4" type="video/mp4">
+</video>
+<video id="sccVid" autoplay muted loop preload class="fullscreen" hidden>
+    <source src="../videos/stylised-character-controller.mp4" type="video/mp4">
+</video>
+<div id="videotintoverlay" class="video-tint-overlay"></div>
+<div class="padding logo-wrapper">
+    <logo>
+        <a href="/" class="gradient-multiline-invert">
+            <h1>
+            <span>
+                &nbsp;Joe&nbsp;
+                <br>
+                &nbsp;Binns&nbsp;
+            </span>
+            </h1>
+        </a>
+    </logo>
 </div>
 <div class="interface">
     <menu class="padding">
-        <item>
-            <logo>
-                <a href="/" class="gradient-multiline-invert">
-                    <h1>
-                        <span>
-                            &nbsp;Joe&nbsp;
-                            <br>
-                            &nbsp;Binns&nbsp;
-                        </span>
-                    </h1>
-                </a>
-            </logo>
-        </item>
+        <div style="width: 100px;">
+        </div>
         <itemAlt>
             <div class="tr" style="height: 24px;">
                 <div class="td">
@@ -74,22 +86,24 @@
                 </h2>
             </a>
         </li>
+        -->
         <li>
             <a id="njuma" href="./njuma" class="gradient-multiline">
                 <h2>
-                    🏅
-                    <portfolio-prefix>2023</portfolio-prefix>
+                    <portfolio-prefix>
+                        <date>2023</date><br>
+                        <badge>🏅</badge>
+                    </portfolio-prefix>
                     <portfolio-title>Njuma</portfolio-title>
                 </h2>
             </a>
         </li>
-        -->
         <li>
             <a id="getMeOut" href="./get-me-out" class="gradient-multiline">
                 <h2>
                     <portfolio-prefix>
                         <date>2023</date><br>
-                        <badge>📌</badge>
+                        <badge></badge>
                     </portfolio-prefix>
                     <portfolio-title>Get Me Out</portfolio-title>
                 </h2>
@@ -120,7 +134,7 @@
                 <h2>
                     <portfolio-prefix>
                         <date>2022</date><br>
-                        <badge>📌</badge>
+                        <badge></badge>
                     </portfolio-prefix>
                     <portfolio-title>3D Worms-like</portfolio-title>
                 </h2>
