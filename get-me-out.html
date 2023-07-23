@@ -169,7 +169,11 @@
                     Whilst the approach worked, it felt rigid.
                     Crucially, objects lacked momentum and wouldn't react to their surroundings.
                 </p>
-                ADD GIF
+                <div class="video-block">
+                    <video autoplay muted loop style="width: 100%; height: 100%;">
+                        <source src="../videos/hold-parenting.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <p>
                     Thankfully, I have a trick that'll put a spring in any object's step &mdash; Oscillators! As before, I used an empty child protruded in front of the first person camera, although this time to denote the target transform for held objects.
                     I was then able to turn the hold behaviour on or off by simply enabling or disabling the oscillator component.
@@ -177,14 +181,22 @@
                     Adding additional features to the hold system then comes naturally.
                     For instance, the ability to control the distance at which an object is held is then just a matter of manipulating the target transform's local forward position.
                 </p>
-                ADD GIF
+                <div class="video-block">
+                    <video autoplay muted loop style="width: 100%; height: 100%;">
+                        <source src="../videos/hold-linear.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <p>
-                    All that's then missing is that held objects won't rotate in response to collisions with the environment.
+                    All that's then missing is that held objects won't rotate with the player based on the look direction.
                     This is remedied by doing all the above with the addition of a torsional oscillator component.
                     Adding additional features once again comes naturally;
                     the ability to rotate held objects for inspection is just a matter of manipulating the target transform's local rotation.
                 </p>
-                ADD GIF
+                <div class="video-block">
+                    <video autoplay muted loop style="width: 100%; height: 100%;">
+                        <source src="../videos/hold-torsional.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <details>
                     <summary>Hold Interaction</summary>
                     <div id="hold-interaction">
