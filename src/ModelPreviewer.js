@@ -251,8 +251,8 @@ export class ModelPreviewer{
 
         // Scale the objects based on appeared and hovered
         this.portfolioItems.forEach(item => {
-            let scale = item.appeared + 0.15 * cubicBezier(hovered); //, [0.56, 0.52, 0.39, 0.92]);
-            item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
+            let scale = item.appeared + 0.15 * cubicBezier(hovered);
+            item.object.scale.set(scale, scale, scale);
         });
 
         // Decelerate angular speed
