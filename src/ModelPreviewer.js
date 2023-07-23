@@ -2,7 +2,7 @@
 import * as THREE from "three";
 
 // Utilities
-import { isElementHovered } from '../src/Utilities.js';
+import { isElementHovered, cubicBezier } from '../src/Utilities.js';
 
 // Render requirements
 import { EffectComposer } from "effect-composer";
@@ -102,7 +102,7 @@ export class ModelPreviewer{
         // Controller
         mouse = new THREE.Vector2();
         picker = new ObjectPicker();
-        hoverRate = 2;
+        hoverRate = 10;
         appearRate = 8;
         hovered = 0;
         speed = 1.5;
@@ -247,12 +247,11 @@ export class ModelPreviewer{
         else {
             hovered -= hoverRate * deltaTime;
         }
-        hovered = THREE.MathUtils.clamp(hovered, 0, 0.15);
+        hovered = THREE.MathUtils.clamp(hovered, 0, 1);
 
         // Scale the objects based on appeared and hovered
         this.portfolioItems.forEach(item => {
-            let scale = item.appeared + hovered;
-            //scale = easeOutElastic(scale);
+            let scale = item.appeared + 0.15 * cubicBezier(hovered); //, [0.56, 0.52, 0.39, 0.92]);
             item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
         });
 
