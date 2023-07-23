@@ -516,10 +516,6 @@ caption {
 
 
 /* MP4 */
-video {
-    opacity: 0.5;
-}
-
 .fullscreen {
     position: fixed;
     -webkit-transform: translateX(-50%) translateY(-50%);

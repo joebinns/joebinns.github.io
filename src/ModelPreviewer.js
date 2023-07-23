@@ -1,6 +1,9 @@
 // Three.js
 import * as THREE from "three";
 
+// Utilities
+import { isElementHovered } from '../src/Utilities.js';
+
 // Render requirements
 import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
@@ -82,11 +85,6 @@ function onDocumentMouseDown(event) {
         // Click
         angularSpeed += (defaultAngularSpeed * 25);
     }
-}
-
-function isElementHovered(element) {
-    if (element == null) return null;
-    return element == element.parentElement.querySelector(":hover");
 }
 
 export class ModelPreviewer{
