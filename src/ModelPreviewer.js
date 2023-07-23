@@ -13,7 +13,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '/src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview, portfolioVideo, videoTintOverlay;
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -95,10 +95,6 @@ export class ModelPreviewer{
     }
 
     Init () {
-        // Portfolio video
-        portfolioVideo = document.getElementById('portfoliovid');
-        videoTintOverlay = document.getElementById('videotintoverlay');
-
         // Timer
         clock = new THREE.Clock();
         time = 0;
@@ -106,7 +102,7 @@ export class ModelPreviewer{
         // Controller
         mouse = new THREE.Vector2();
         picker = new ObjectPicker();
-        hoverRate = 1;
+        hoverRate = 2;
         appearRate = 8;
         hovered = 0;
         speed = 1.5;
@@ -211,12 +207,10 @@ export class ModelPreviewer{
         this.portfolioItems.forEach(item => {
             if (item.element) {
                 if (isElementHovered(item.element)){
-                    item.isHovered = true;
                     item.appeared += appearRate * deltaTime;
                     isAnyElementHovered = true;
                 }
                 else {
-                    item.isHovered = false;
                     item.appeared -= appearRate * deltaTime;
                 }
                 item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
@@ -243,23 +237,6 @@ export class ModelPreviewer{
             }
         });
 
-        // Select video
-        if (portfolioVideo)
-        {
-            this.portfolioItems.forEach(item => {
-                if (item.isHovered != item.wasHovered){
-                    if (item.isHovered) {
-                        portfolioVideo.src = '/videos/' + item.video;
-                        portfolioVideo.load();
-                    }
-                    else {
-                        //portfolioVideo.src = '';
-                    }
-                }
-                item.wasHovered = item.isHovered;
-            });
-        }
-
         // Update mouse's selected object
         picker.pick(mouse, scene, camera);
 
@@ -270,7 +247,7 @@ export class ModelPreviewer{
         else {
             hovered -= hoverRate * deltaTime;
         }
-        hovered = THREE.MathUtils.clamp(hovered, 0, 0.075);
+        hovered = THREE.MathUtils.clamp(hovered, 0, 0.15);
 
         // Scale the objects based on appeared and hovered
         this.portfolioItems.forEach(item => {
@@ -278,18 +255,6 @@ export class ModelPreviewer{
             //scale = easeOutElastic(scale);
             item.object.scale.set(scale, scale, scale); // Scale between 0 and 1.05
         });
-
-        // Adjust overlay blur based on appeared
-        if (portfolioVideo)
-        {
-            let maxAppeared = 0;
-            this.portfolioItems.forEach(item => {
-                maxAppeared = Math.max(maxAppeared, item.appeared);
-            });
-            videoTintOverlay.style.setProperty('--blur', 32 * (1.15 - maxAppeared) + 'px');
-            portfolioVideo.opacity = maxAppeared * maxAppeared * maxAppeared;
-            if (maxAppeared <= 0) portfolioVideo.src = '';
-        }
 
         // Decelerate angular speed
         angularSpeed -= deltaTime * angularSpeed * angularDamper;

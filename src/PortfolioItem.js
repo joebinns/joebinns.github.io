@@ -9,16 +9,13 @@ function loadGLTF(path) {
 }
 
 export class PortfolioItem {
-    constructor(id, object, video) {
+    constructor(id, object) {
         this.id = id;
-        this.video = video;
         if (id) this.element = document.getElementById(id);
         else this.element = null;
 
         this.promise = loadGLTF(object).then(gltf => { this.object = gltf.scene; });
 
         this.appeared = 0;
-        this.isHovered = false;
-        this.wasHovered = false;
     }
 }
