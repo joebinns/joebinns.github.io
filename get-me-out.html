@@ -9,30 +9,27 @@
 </head>
 <body>
 <div class="model-preview">
-    <overlay>
-    </overlay>
     <canvas class="webgl">
     </canvas>
 </div>
+<div class="padding logo-wrapper">
+    <logo>
+        <a href="/" class="gradient-multiline-invert">
+            <h1>
+            <span>
+                &nbsp;Joe&nbsp;
+                <br>
+                &nbsp;Binns&nbsp;
+            </span>
+            </h1>
+        </a>
+    </logo>
+</div>
 <div class="interface">
-    <a class="ribbon" href="https://github.com/joebinns/joebinns.github.io" target="_blank">
-        In Development
-    </a>
     <menu class="padding">
-        <item>
-            <logo>
-                <a href="/" class="gradient-multiline-invert">
-                    <h1>
-                        <span>
-                            &nbsp;Joe&nbsp;
-                            <br>
-                            &nbsp;Binns&nbsp;
-                        </span>
-                    </h1>
-                </a>
-            </logo>
-        </item>
         <optHide>
+            <div style="width: 100px;">
+            </div>
             <itemAlt>
                 <div class="tr" style="height: 24px;">
                     <div class="td">
@@ -107,7 +104,7 @@
                         <p>
                             <a class="hyperlink" href="/">Myself</a>, Gameplay Programmer
                             <br>
-                            Magnus Andersson, Systems Programmer
+                            <a class="hyperlink" href="https://magnuth.com/">Magnus Andersson</a>, Systems Programmer
                             <br>
                             <a class="hyperlink" href="https://www.ella-lopez.com/" target="_blank">Ella Lopez</a>, Product Owner & Gameplay Designer
                             <br>
@@ -130,6 +127,8 @@
                             Unity
                             <br>
                             C#
+                            <br>
+                            Perforce
                         </p>
                     </info>
                 </item>
@@ -139,6 +138,9 @@
             <h3>
                 Trailer
             </h3>
+            <p>
+                A co-op puzzle game in which communication is key to your escape.
+            </p>
             <div class="video-block">
                 <div class="video-wrapper">
                     <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/XE6HnUTll3c?loop=1&playlist=XE6HnUTll3c" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
@@ -150,6 +152,416 @@
                     </a>
                 </iframe>
             </div>
+            <details>
+                <summary>
+                    Interaction System
+                </summary>
+                <p>
+                    A great escape room needs to make the mundane, like searching through drawers and scanning through documents, feel like an exciting expedition.
+                    With the interact system at the heart of Get Me Out's experience, I needed to focus on harvesting tactility and reactivity to the brink.
+                    Whilst snappy animation-based buttons and keypads were used, by and large I am most proud of the physics-based hold and grab mechanics.
+                </p>
+                <h4>
+                    Holding
+                </h4>
+                <p>
+                    Initial implementations of the hold system involved setting the held object as a child protruded in front of the first person camera.
+                    Whilst the approach was a good starting point, it felt rigid.
+                    Crucially, objects lacked momentum and reacted poorly to their surroundings.
+                </p>
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/hold-parenting.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Holding through manipulation of the hierarchy.
+                        </span>
+                    </div>
+                </div>
+                <p>
+                    Thankfully, I have a trick that'll put a spring in any object's step &mdash; Oscillators! As before, I used an empty child protruded in front of the first person camera, although this time to denote the target transform for held objects.
+                    I was then able to turn the hold behaviour on or off by simply enabling or disabling the oscillator component.
+                    From this simple approach, held objects gain physics-based easing and the ability to be displaced by the environment, whilst also conserving linear momentum &mdash; allowing for objects to be thrown at no extra cost.
+                    Adding additional features to the hold system then comes naturally.
+                    For instance, the ability to control the distance at which an object is held is then just a matter of manipulating the target transform's local forward position.
+                </p>
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/hold-linear.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Holding using only a linear oscillator.
+                        </span>
+                    </div>
+                </div>
+                <p>
+                    All that's then missing is that held objects won't rotate with the player based on the look direction.
+                    This is remedied by doing all the above with the addition of a torsional oscillator component.
+                    Adding additional features once again comes naturally;
+                    the ability to rotate held objects for inspection is just a matter of manipulating the target transform's local rotation.
+                </p>
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/hold-torsional.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Holding using both a linear and a torsional oscillator.
+                        </span>
+                    </div>
+                </div>
+                <details>
+                    <summary>Hold Interaction</summary>
+                    <div id="hold-interaction">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FInteractions%2FHoldInteraction.cs%23L7-L67&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Hold</summary>
+                    <div id="player-hold">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FHold%2FPlayerHold.cs%23L7-L81&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Hold Distance</summary>
+                    <div id="player-hold-distance">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FHold%2FPlayerHoldDistance.cs%23L9-L109&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Hold Rotation</summary>
+                    <div id="player-hold-rotation">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FHold%2FPlayerHoldRotation.cs%23L9-L124&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <h4>
+                    Grabbing
+                </h4>
+                <p>
+                    I distinguished grabbing from holding, as grabbed objects have unique limitations to their motion.
+                    For example, we grab desk drawers, which move restricted to a single fixed axis of motion.
+                    Although, nor are all grabbed objects equal;
+                    cupboard doors rotate along a single axis determined by their hinges, whilst remaining fixed in position.
+                    Due to the significant difference in these behaviours, I further subdivided grabbing into it's linear and torsional forms.
+                </p>
+                <p>
+                    Whilst I was once again able to use oscillators for their responsive physics-based benefits, I soon encountered a new problem at hand.
+                    Namely, how could I accurately interpret how the player wants to move or rotate a grabbed object based on mouse input alone?
+                    Favouring tactility over the mundane, I decided to try my hand at deriving a look vector based approach.
+                </p>
+                <p>
+                    For the linear case, the problem becomes one of interpreting which point along the fixed axis of motion best represents where the player's looking.
+                    After playing around with some ways of using colliders to assist in solving the problem, I landed on more eloquent analytical solutions with better results.
+                    The initial analytical solution came from laying a mathematical plane along the fixed axis of motion and finding the point of intersection of the camera's look direction and the plane.
+                    The results were much more predictable than with colliders, but still performed poorly in some cases.
+                    For instance, whilst a single vertical plane works great from a 'side on' viewpoint, it's a very poor analogue from a 'top down' viewpoint.
+                    Introducing multiple planes and sorting them by greatest dot product can help remedy this issue.
+                    From a desire for continuous transitions between planes and a maximised dot product, I continued thinking of ways to optimise the solution.
+                    I found that substituting the multiple planes for a single plane which is dynamically oriented perpendicular to the camera's look direction worked well.
+                    Interpretive problems like this are tricky; too many layers of substitution from the core problem can give poor results.
+                    Whilst this analytical solution has the best results of anything I've tried, it isn't flawless.
+                    Due to the dynamic plane having a fixed position, the intersection is a poor interpretation when the player is looking away from the origin.
+                    Thankfully, that case is typically encountered at larger displacements, which wasn't a requirement for Get Me Out.
+                    I'd be interested in knowing how others have approached this problem!
+                </p>
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/grab-linear.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Linear Grab: Interpreting the look vector using a single dynamic plane.
+                        </span>
+                    </div>
+                </div>
+                <p>
+                    The torsional case went through a similar development, but with its own unique problems.
+                    My final approach uses a combination of both computational and analytical techniques to interpret the angle around the rotation axis which best represents where the player's looking.
+                    First, I center a static sphere collider at the axis of rotation and give it a radius that matches that of the mesh.
+                    By raycasting along the look vector, the computed intersection of the look vector and the surface of the sphere can be found.
+                    The point of intersection can then be converted to an angle around the axis of rotation.
+                    In the case that the look vector doesn't intersect the sphere, it is most important that the converted angle is continuous with the angle on the sphere.
+                    I found the analytical intersection of the look vector and a mathematical plane (as finalised with linear grabbing) to perform well in this regard.
+                </p>
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/grab-torsional.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Torsional Grab: Interpreting the look vector using a sphere and a dynamic plane.
+                        </span>
+                    </div>
+                </div>
+                <details>
+                    <summary>Grab Interaction</summary>
+                    <div id="grab-interaction">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FInteractions%2FGrabInteraction.cs%23L8-L84&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Linear Grab Interaction</summary>
+                    <div id="linear-grab-interaction">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FInteractions%2FLinearGrabInteraction.cs%23L6-L27&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Torsional Grab Interaction</summary>
+                    <div id="torsional-grab-interaction">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FInteractions%2FTorsionalGrabInteraction.cs%23L6-L54&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Grab</summary>
+                    <div id="player-grab">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FGrab%2FPlayerGrab.cs%23L6-L44&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Linear Grab</summary>
+                    <div id="player-linear-grab">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FGrab%2FPlayerLinearGrab.cs%23L6-L84&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Torsional Grab</summary>
+                    <div id="player-torsional-grab">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FGrab%2FPlayerTorsionalGrab.cs%23L6-L98&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+            </details>
+            <details>
+                <summary>
+                    Heads-Up Display
+                </summary>
+                <p>
+                    As pressing the wrong button could mean the difference between life and death, it must be starkly clear to the player what interactions are available at any given time.
+                    Outlines worked well to purvey which object would be interacted with, but didn't help illustrate the action at hand.
+                    We therefore introduced a dynamic reticle; one that switches to a gestured hand based on the <a href="#interactable-type" class="hyperlink">Interactable Type</a>.
+                </p>
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/outline-reticle.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Using outlines and a dynamic reticle to convey information about interactables.
+                        </span>
+                    </div>
+                </div>
+                <details>
+                    <summary>Interactable Type</summary>
+                    <div id="interactable-type">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FData%2FInteractableType.cs%23L3-L9&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Reticle</summary>
+                    <div id="reticle">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FReticle%2FReticle.cs%23L6-L26&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <p>
+                    Due to the unconventional nature of the interaction system, some players faced initial difficulty with the more complex interactables, such as valves.
+                    We therefore introduced control prompts, which briefly illustrate how to perform an interaction.
+                    An interactable such as a valve, may have a different control prompt before being grabbed and whilst being grabbed.
+                    Each <a href="#interactable-mode" class="hyperlink">Interactable Mode</a> therefore has its own control prompt, which is displayed as appropriate.
+                    All the interactable specific HUD properties are compiled and stored in <a href="#interactable-settings" class="hyperlink">Interactable Settings</a>.
+                </p>
+                <div class="video-block">
+                    <div class="info" style="transform: translateX(20px) translateY(15px);">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Using control prompts to inform the player how to use certain interactables.
+                        </span>
+                    </div>
+                    <video autoplay muted loop>
+                        <source src="../videos/prompts.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <details>
+                    <summary>Interactable Mode</summary>
+                    <div id="interactable-mode">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FData%2FInteractableMode.cs%23L3-L7&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Prompt Info</summary>
+                    <div id="prompt-info">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FData%2FPromptInfo.cs%23L5-L16&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Prompt</summary>
+                    <div id="prompt">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FPrompts%2FPrompt.cs%23L8-L30&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Interactable Settings</summary>
+                    <div id="interactable-settings">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FInteraction%2FData%2FInteractableSettings.cs%23L5-L21&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>HUD Controller</summary>
+                    <div id="hud-controller">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FHUDController.cs%23L6-L81&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <p>
+                    After many play tests, we found players would often ignore the control prompts &mdash; even when they are struggling to pick up a mechanic!
+                    This was surely not helped by the fact that every interactable in the game displays a prompt.
+                    Given more iterations, we would have tutorialised the mechanics and reduced the frequency of prompts to only when they're necessary; such as on the first encounter with a new mechanic.
+                </p>
+                <!--
+                <details>
+                    <summary>Crew HUD Controller</summary>
+                    <div id="crew-hud-controller">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FCrewHUDController.cs%23L6-L51&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Engineer HUD Controller</summary>
+                    <div id="engineer-hud-controller">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FEngineerHUDController.cs%23L5-L23&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                -->
+                <!--
+                <details>
+                    <summary>UI Timer</summary>
+                    <div id="ui-timer">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FHUD%2FUI%2520Timer%2FUITimer.cs%23L7-L26&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                -->
+            </details>
+            <details>
+                <summary>
+                    Character Controller
+                </summary>
+                <p>
+                    I am particularly happy with the feel of the crouch and the jump, which came about as a result of a malleable curve-based system.
+                </p>
+                <h4>
+                    Falling, and Jumping
+                </h4>
+                <p>
+                    With an aim of giving designers complete control over the player's jump trajectory, I opted to explore the path of curve-based (rather than numerical-based) parameters.
+                    This extended to controlling how a player would fall when walking off a ledge, and that's where the discussion will begin.
+                </p>
+                <p>
+                    Quite simply, the only parameter required for falling is the fall curve &mdash; a graph of height against time.
+                    Using the curve to fall is then just a matter of sampling the curve at each update and setting the relative height of the player appropriately.
+                    Given that curves made in Unity's editor can occur over a finite interval, the gradient at the end of the fall curve is sampled and repeated after the curve is complete.
+                </p>
+                <div class="video-block">
+                    <table>
+                        <caption><u>Jump curve (left), fall curve (right)</u></caption>
+                        <tr>
+                            <td><img src="../images/get-me-out/jump-curve.png" alt="jump curve" width="100%" height="100%"></td>
+                            <td><img src="../images/get-me-out/fall-curve.png" alt="fall curve" width="100%" height="100%"></td>
+                        </tr>
+                    </table>
+                </div>
+                <p>
+                    Jumping requires a jump curve, and a similar procedure is adopted.
+                    In order to give the player more freedom over jump height, dynamic jump durations are supported.
+                    Because the height of a jump cannot be predicted before the jump begins, shortened jumps will cause the trajectory to be discontinuous; this is because the prematurely dismissed rise curve is unable to finish flattening out before starting the fall curve.
+                    Such a jump is found in <a href="#metroid" class="hyperlink">Metroid</a>!
+                    For Get Me Out, this tradeoff was also acceptable, but a platformer would likely need to further develop this approach.
+                </p>
+                <div id="metroid" class="video-block">
+                    <table class="horizontal-center">
+                        <caption><u>Metroid jump curves</u></caption>
+                        <tr>
+                            <td><img src="../images/get-me-out/metroid-curves.png" alt="metroid jump curves" width="100%" height="100%"></td>
+                        </tr>
+                    </table>
+                </div>
+                <p>
+                    If continuity is the aim, then another way to tackle the problem of a dynamic rise trajectory is to implement how the fall curve works but in reverse.
+                    For instance, the initial gradient of the rise curve can be followed until the jump button is released or the maximum jump duration is exceeded, at which point the remainder of the rise curve is followed.
+                    That's the approach we ended up using on Get Me Out, and it's performed quite well for our needs.
+                    A final piece of flavour I like to add to dynamic height jumps is a minimum jump duration.
+                    This prevents teeny-tiny jumps; ensuring that even the briefest of taps results in a satisfying hop.
+                </p>
+                <!--
+                <details>
+                    <summary>Movement Settings</summary>
+                    <div id="movement-settings">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FMovement%2FMovementSettings.cs%23L5-L75&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                -->
+                <details>
+                    <summary>Player Fall</summary>
+                    <div id="player-fall">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FMovement%2FPlayerFall.cs%23L6-L108&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <details>
+                    <summary>Player Jump</summary>
+                    <div id="player-jump">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FMovement%2FPlayerJump.cs%23L8-L148&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+                <h4>
+                    Crouching
+                </h4>
+                <p>
+                    Crouching was implemented similarly to falling and jumping, with the addition of crouch curves also being used to control the height of the player's capsule collider.
+                    This allowed for the player to fit snug underneath pipes and the like.
+                    I was pleased to find crouch jumping worked nicely out of the box, hurrah!
+                </p>
+                <div class="video-block">
+                    <table>
+                        <caption><u>Crouch curve (left), stand curve (right)</u></caption>
+                        <tr>
+                            <td><img src="../images/get-me-out/crouch-stand-curve.png" alt="crouch stand curve" width="100%" height="100%"></td>
+                        </tr>
+                    </table>
+                </div>
+                <details>
+                    <summary>Player Crouch</summary>
+                    <div id="player-crouch">
+                        <script src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fjoebinns%2FGP2%2Fblob%2Fmain%2FGP2_Team09%2FAssets%2FComplete%2FGame%2520Systems%2FController%2FMovement%2FPlayerCrouch.cs%23L8-L138&style=github-dark&type=code&showBorder=on&showLineNumbers=on&showFullPath=on&showCopy=on">
+                        </script>
+                    </div>
+                </details>
+            </details>
         </div>
     </project>
     <ul class="portfolio-pieces">
