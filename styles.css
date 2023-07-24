@@ -542,6 +542,7 @@ caption {
     transform: translateX(20px) translateY(-60px);
     width: calc(80% - (440px));
     height: 0px;
+    z-index: 10;
 }
 
 .info:hover {
