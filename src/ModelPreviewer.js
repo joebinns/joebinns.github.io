@@ -21,8 +21,8 @@ function SetObjectVisibility(object, visible) {
 
 const dimensions = () => {
     return {
-        width: 386,
-        height: (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 241,
+        width: shouldDisplayPreview() ? 386 : 0,
+        height: shouldDisplayPreview() ? (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 241 : 0,
     };
 };
 
@@ -57,20 +57,26 @@ class ObjectPicker {
     }
 }
 
+function shouldDisplayPreview() {
+    return (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) > 800;
+}
+
 function onWindowResize() {
-    camera.aspect = dimensions().width / dimensions().height;
+    const dimensions1 = dimensions();
+
+    camera.aspect = dimensions1.width / dimensions1.height;
     camera.updateProjectionMatrix();
 
-    preview.style.width = `${dimensions().width}px`;
-    preview.style.height = `${dimensions().height}px`;
+    preview.style.width = `${dimensions1.width}px`;
+    preview.style.height = `${dimensions1.height}px`;
 
-    renderer.setSize(dimensions().width, dimensions().height);
-    composer.setSize(dimensions().width, dimensions().height);
-    effectFXAA.setSize(dimensions().width, dimensions().height);
-    customOutline.setSize(dimensions().width, dimensions().height);
+    renderer.setSize(dimensions1.width, dimensions1.height);
+    composer.setSize(dimensions1.width, dimensions1.height);
+    effectFXAA.setSize(dimensions1.width, dimensions1.height);
+    customOutline.setSize(dimensions1.width, dimensions1.height);
     effectFXAA.uniforms["resolution"].value.set(
-        1 / dimensions().width,
-        1 / dimensions().height
+        1 / dimensions1.width,
+        1 / dimensions1.height
     );
 }
 
@@ -197,6 +203,7 @@ export class ModelPreviewer{
 
     Update () {
         requestAnimationFrame(()=>this.Update()); // Only update when tab open
+        if (!shouldDisplayPreview()) return;
 
         // Update time
         let deltaTime = clock.getDelta();

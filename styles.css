@@ -280,6 +280,7 @@ logo {
     bottom: 0;
     transform: translateY(-88px);
     padding-bottom: 0;
+    padding-top: 0;
 }
 
 optHide {
@@ -500,7 +501,6 @@ caption {
 }
 
 /* Youtube */
-
 .video-wrapper {
     position: relative;
     padding-bottom: 56.25%; /* 16:9, for an aspect ratio of 1:1 change to this value to 100% */
@@ -540,7 +540,7 @@ caption {
 .info {
     position: absolute;
     transform: translateX(20px) translateY(-60px);
-    width: calc(100% - 750px);
+    width: calc(80% - (440px));
     height: 0px;
 }
 
@@ -701,6 +701,7 @@ overlay {
     .logo-wrapper {
         top: 0;
         transform: translateY(0);
+        height:78px;
     }
 
     logo {
@@ -787,6 +788,10 @@ overlay {
     .gradient-multiline portfolio-prefix badge{
         font-size: 24px;
         transform: translateY(.45em) translateX(.18em);
+    }
+
+    .info {
+        width: calc(100% - 90px);
     }
 }
 
