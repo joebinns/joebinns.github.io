@@ -280,7 +280,7 @@
                     <div class="info">
                         <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
                         <span>
-                            Interpreting world space mouse position using a single dynamic plane.
+                            Linear Grab: Interpreting the look vector using a single dynamic plane.
                         </span>
                     </div>
                 </div>
@@ -300,7 +300,7 @@
                     <div class="info">
                         <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
                         <span>
-                            Interpreting world space mouse position using a sphere and a dynamic plane.
+                            Torsional Grab: Interpreting the look vector using a sphere and a dynamic plane.
                         </span>
                     </div>
                 </div>
@@ -366,23 +366,35 @@
                     Using the curve to fall is then just a matter of sampling the curve at each update and setting the relative height of the player appropriately.
                     Given that curves made in Unity's editor can occur over a finite interval, the gradient at the end of the fall curve is sampled and repeated after the curve is complete.
                 </p>
-                SHOW FALL CURVE
+                <div class="video-block">
+                    <table>
+                        <caption><u>Jump curve (left), fall curve (right)</u></caption>
+                        <tr>
+                            <td><img src="../images/get-me-out/jump-curve.png" alt="jump curve" width="100%" height="100%"></td>
+                            <td><img src="../images/get-me-out/fall-curve.png" alt="fall curve" width="100%" height="100%"></td>
+                        </tr>
+                    </table>
+                </div>
                 <p>
                     Jumping requires a jump curve, and a similar procedure is adopted.
                     In order to give the player more freedom over jump height, dynamic jump durations are supported.
                     Because the height of a jump cannot be predicted before the jump begins, shortened jumps will cause the trajectory to be discontinuous; this is because the prematurely dismissed rise curve is unable to finish flattening out before starting the fall curve.
-                    It's interesting to note that such a jump is what you find in Metroid.
+                    Such a jump is found in <a href="#metroid" class="hyperlink">Metroid</a>!
                     For Get Me Out, this tradeoff was also acceptable, but a platformer would likely need to further develop this approach.
                     If continuity is the aim, then another way to tackle the problem of a dynamic rise trajectory is to implement how the fall curve works but in reverse.
                     For instance, the initial gradient of the rise curve can be followed until the jump button is released or the maximum jump duration is exceeded, at which point the remainder of the rise curve is followed.
-                    That's the approach we ended up with on Get Me Out, and it's done the job well enough.
+                    That's the approach we ended up using on Get Me Out, and it's performed quite well for our means.
                     A final piece of flavour I like to add to dynamic height jumps is a minimum jump duration.
-                    This prevents teeny-tiny jumps and ensures that even the briefest of taps results in a satisfying hop.
+                    This prevents teeny-tiny jumps; ensuring that even the briefest of taps results in a satisfying hop.
                 </p>
-                SHOW THE RESEARCH PAPER WITH THE CLASSIC JUMPS AND HOW CERTAIN JUMPS COULD BE RE-CREATED USING THE CURVE SYSTEM. DISCUSS HOW TO IMPROVE UPON THIS FURTHER.
-                <br>
-                <br>
-                SHOW JUMP CURVE
+                <div id="metroid" class="video-block">
+                    <table class="horizontal-center">
+                        <caption><u>Metroid jump curves</u></caption>
+                        <tr>
+                            <td><img src="../images/get-me-out/metroid-curves.png" alt="metroid jump curves" width="100%" height="100%"></td>
+                        </tr>
+                    </table>
+                </div>
                 <!--
                 <details>
                     <summary>Movement Settings</summary>
@@ -414,7 +426,14 @@
                     This allowed for the player to fit snug underneath pipes and the like.
                     I was pleased to find crouch jumping worked nicely out of the box, hurrah!
                 </p>
-                SHOW CROUCH CURVE AND STAND CURVE
+                <div class="video-block">
+                    <table>
+                        <caption><u>Crouch curve (left), stand curve (right)</u></caption>
+                        <tr>
+                            <td><img src="../images/get-me-out/crouch-stand-curve.png" alt="crouch stand curve" width="100%" height="100%"></td>
+                        </tr>
+                    </table>
+                </div>
                 <details>
                     <summary>Player Crouch</summary>
                     <div id="player-crouch">
