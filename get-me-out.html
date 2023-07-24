@@ -499,11 +499,6 @@
                     Because the height of a jump cannot be predicted before the jump begins, shortened jumps will cause the trajectory to be discontinuous; this is because the prematurely dismissed rise curve is unable to finish flattening out before starting the fall curve.
                     Such a jump is found in <a href="#metroid" class="hyperlink">Metroid</a>!
                     For Get Me Out, this tradeoff was also acceptable, but a platformer would likely need to further develop this approach.
-                    If continuity is the aim, then another way to tackle the problem of a dynamic rise trajectory is to implement how the fall curve works but in reverse.
-                    For instance, the initial gradient of the rise curve can be followed until the jump button is released or the maximum jump duration is exceeded, at which point the remainder of the rise curve is followed.
-                    That's the approach we ended up using on Get Me Out, and it's performed quite well for our means.
-                    A final piece of flavour I like to add to dynamic height jumps is a minimum jump duration.
-                    This prevents teeny-tiny jumps; ensuring that even the briefest of taps results in a satisfying hop.
                 </p>
                 <div id="metroid" class="video-block">
                     <table class="horizontal-center">
@@ -513,6 +508,13 @@
                         </tr>
                     </table>
                 </div>
+                <p>
+                    If continuity is the aim, then another way to tackle the problem of a dynamic rise trajectory is to implement how the fall curve works but in reverse.
+                    For instance, the initial gradient of the rise curve can be followed until the jump button is released or the maximum jump duration is exceeded, at which point the remainder of the rise curve is followed.
+                    That's the approach we ended up using on Get Me Out, and it's performed quite well for our means.
+                    A final piece of flavour I like to add to dynamic height jumps is a minimum jump duration.
+                    This prevents teeny-tiny jumps; ensuring that even the briefest of taps results in a satisfying hop.
+                </p>
                 <!--
                 <details>
                     <summary>Movement Settings</summary>
