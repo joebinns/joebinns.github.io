@@ -268,10 +268,22 @@
                     From a desire for continuous transitions between planes and a maximised dot product, I continued thinking of ways to optimise the solution.
                     I found that substituting the multiple planes for a single plane which is dynamically oriented perpendicular to the camera's look direction worked well.
                     Interpretive problems like this are tricky; too many layers of substitution from the core problem can give poor results.
-                    Thankfully this analytical solution has the best results of anything I've tried.
-                    I'd be interested in knowing how other games have approached this problem.
+                    Whilst this analytical solution has the best results of anything I've tried, it isn't flawless.
+                    Due to the dynamic plane having a fixed position, the intersection is a poor interpretation when the player is looking away from the origin.
+                    Thankfully, that case is typically encountered at larger displacements, which wasn't a requirement for Get Me Out.
+                    I'd be interested in knowing how others have approached this problem!
                 </p>
-                ADD GIF -- one plane, two planes, perpendicular plane
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/grab-linear.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Interpreting world space mouse position using a single dynamic plane.
+                        </span>
+                    </div>
+                </div>
                 <p>
                     The torsional case went through a similar development, but with its own unique problems.
                     My final approach uses a combination of both computational and analytical techniques to interpret the angle around the rotation axis which best represents where the player's looking.
@@ -281,7 +293,17 @@
                     In the case that the look vector doesn't intersect the sphere, it is most important that the converted angle is continuous with the angle on the sphere.
                     I found the analytical intersection of the look vector and a mathematical plane (as finalised with linear grabbing) to perform well in this regard.
                 </p>
-                ADD GIF -- sphere, perpendicular plane
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/grab-torsional.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Interpreting world space mouse position using a sphere and a dynamic plane.
+                        </span>
+                    </div>
+                </div>
                 <details>
                     <summary>Grab Interaction</summary>
                     <div id="grab-interaction">
