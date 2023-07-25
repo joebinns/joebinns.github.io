@@ -18,7 +18,6 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 [Decrepit Type II Barricade](https://skfb.ly/6RX9v) is from Sigmation9, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Astronaut Helmet](https://skfb.ly/6RBqR) is from Mostafa Medhat, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Moka Coffee Pot](https://skfb.ly/oEI9K) is from Alexander Jabczyński, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
-[Moka Coffee Pot](https://skfb.ly/oEI9K) is from Alexander Jabczyński, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Saloon](https://skfb.ly/onYCx) is from Dima Zelinsky, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Old Car - VAZ 2107](https://skfb.ly/6YLnQ) is from Arkady Gribachev, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
 
