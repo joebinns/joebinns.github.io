@@ -265,6 +265,7 @@
                     Intuitively, the large planet should be the main effector until your jump has reached a height of roughly half the distance between the planet's surfaces, at which point the main effector should become the smaller planet.
                     If we want to adjust this switching point, we may assign a 'mass' value to the planets, by which their influences can be scaled.
                 </p>
+                ADD IMAGE/GIF OF GRAVITY FIELD WITH SHARP CORNERS
                 <p>
                     A common computational technique for finding the distance to the surface of a shape is signed distance functions, typically limited to shaders.
                     By representing planet's shapes using signed distance functions, we are able to determine the nearest point on the surface of any planet.
@@ -272,14 +273,17 @@
                     Approximations can be scary, but I found the error of the approximation to be completely insignificant with even first order, runtime suitable methods of calculation.
                     And that's it!
                     Just find the signed distance function of a shape and form a planet of any shape at will.
-                    Thankfully, the shader prodigy <a class="hyperlink" href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez</a> has compiled an assortment of signed distance functions for our choosing.
+                    Thankfully, <a class="hyperlink" href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez</a> has compiled an assortment of signed distance functions for our choosing.
                 </p>
+                ADD IMAGE/GIF OF GRAVITY FIELD WITH SHARP CORNERS USING SDF
+                <br>
                 ADD GIF OF VARIOUS SHAPED PLANETS
                 <p>
-                    I additionally experimented with baking differentiated signed distance functions into vector fields: https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0.
+                    I additionally experimented with baking differentiated signed distance functions into vector fields.
+                    You can find the prototype application <a class="hyperlink" href="https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0">here</a>.
                     Whilst we didn't end up implementing it into Unreal during this project, the approach may be beneficial beyond just performance gains.
-                    The program I created exports to the same vector field file type used by Unreal for particle systems and the chaos physics system.
-                    There's certainly more to be explored!
+                    The exported vector field file type is the same used by Unreal for particle systems and the chaos physics system;
+                    there's certainly more to be explored!
                 </p>
                 <div class="mini-video-block">
                     <table>
