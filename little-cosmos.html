@@ -249,10 +249,20 @@
                 <p>
                     Calculating the direction of gravity for a position in the vicinity of a spherical planet is just a matter of taking the difference of the centre of the planet from the sample position.
                     But consider a non-spherical planet, such as a cube.
-                    Our gamified expectation is that the direction of gravity will be at a normal to the planet's surface &mdash; and so we have solved the case of what to do at the surface of the planet!
+                    Our gamified expectation is that the direction of gravity will be at a normal to the planet's surface &mdash;
+                    we have solved the case of what to do at the surface of the planet!
                     However, what if we are not on the surface, but somewhere 'above' the surface?
-                    Even if we are able to determine the nearest point on the surface, we will experience dramatic changes in certain situations &mdash; particularly for shapes with sharp corners.
+                    Even if we are able to determine the nearest point on the surface, we will experience dramatic changes in certain situations &mdash;
+                    particularly for shapes with sharp corners.
                 </p>
+                <div class="mini-video-block">
+                    <table>
+                        <caption><u>Using surface normals</u></caption>
+                        <tr>
+                            <td><img src="../images/little-cosmos/normals.svg" style="width: auto; height: 400px;"></td>
+                        </tr>
+                    </table>
+                </div>
                 <p>
                     We're close to a solution, but not quite there.
                     Let's backtrack and consider what other measurements might be useful to us.
@@ -265,7 +275,6 @@
                     Intuitively, the large planet should be the main effector until your jump has reached a height of roughly half the distance between the planet's surfaces, at which point the main effector should become the smaller planet.
                     If we want to adjust this switching point, we may assign a 'mass' value to the planets, by which their influences can be scaled.
                 </p>
-                ADD IMAGE/GIF OF GRAVITY FIELD WITH SHARP CORNERS
                 <p>
                     A common computational technique for finding the distance to the surface of a shape is signed distance functions, typically limited to shaders.
                     By representing planet's shapes using signed distance functions, we are able to determine the nearest point on the surface of any planet.
@@ -275,12 +284,21 @@
                     Just find the signed distance function of a shape and form a planet of any shape at will.
                     Thankfully, <a class="hyperlink" href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez</a> has compiled an assortment of signed distance functions for our choosing.
                 </p>
-                ADD IMAGE/GIF OF GRAVITY FIELD WITH SHARP CORNERS USING SDF
+                <div class="mini-video-block">
+                    <table>
+                        <caption><u>Using a signed distance function</u></caption>
+                        <tr>
+                            <td>
+                                <img src="../images/little-cosmos/sdf.svg" alt="sdf" style="width: auto; height: 400px;">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <br>
                 ADD GIF OF VARIOUS SHAPED PLANETS
                 <p>
-                    I additionally experimented with baking differentiated signed distance functions into vector fields.
-                    You can find the prototype application <a class="hyperlink" href="https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0">here</a>.
+                    I additionally experimented with baking differentiated signed distance functions into vector fields;
+                    you can find the prototype application <a class="hyperlink" href="https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0">here</a>.
                     Whilst we didn't end up implementing it into Unreal during this project, the approach may be beneficial beyond just performance gains.
                     The exported vector field file type is the same used by Unreal for particle systems and the chaos physics system;
                     there's certainly more to be explored!
