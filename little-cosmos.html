@@ -161,21 +161,28 @@
                 <p>
                     To add arbitrary gravity support to the character provided by Unreal would require major overhauls across the entirety of its movement component.
                     I therefore opted to design and create a bespoke character controller from the ground up.
-                    Taken from my previous experience with character controllers, I re-purposed the design of a physics-based character controller.
-                    Working off a concept I was already comfortable with allowed me to rapidly make progress in an unfamiliar and demanding environment.
-                    The physics-based character controller approach came with some additional benefits in our platformer, such as supporting force-based gravity.
+                    As a starting point, I ported from Unity and redesigned an old physics-based character controller of mine.
+                    Working off a concept I was already comfortable with allowed me to rapidly lay down the foundation for Little Cosmos for the rest of the team;
+                    this was crucial in a fast-paced and otherwise unfamiliar working environment.
+                    The physics-based character controller approach came with some additional benefits specific to our platformer, such as supporting force-based gravity.
                 </p>
+                ADD GIF OF CHARACTER PLATFORMING IN FINAL BUILD
                 <p>
-                    Being my first time working with physics at the core of the player experience in Unreal, I entered the project largely negligent of the implications that may come from applying physics outside of a fixed timestep.
-                    For most of the project, issues were completely insignificant.
-                    But as we approached the final stretch of development, and the level got filled to the brim, we found framerate began to drop – and with poor framerates came an unpredictable and grossly inaccurate physics simulation.
-                    Becoming aware of the importance of a fixed time step with only a couple days of development to go meant that quick thinking would need to come to the rescue.
+                    Being my first time working with physics at the core of the player experience in Unreal, I entered the project largely negligent of the implications that may come from applying physics outside a fixed timestep.
+                    For most of the project, the issue was unseen.
+                    However approaching the final stretch of development, as the level got filled to the brim, we found framerate began to drop – and with poor framerate came an unpredictable and grossly inaccurate physics simulation.
+                    Being made aware of the problem with only a couple of days of development to go meant that quick thinking would need to come to the rescue.
                     With insufficient time to implement an optimal solution, such as a substep tick function, I opted to use a fixed frame rate of 60 fps.
-                    With some QA and profiling, I was able to identify framerate drops to be most drastic when ‘looking up’ at large sections of the level.
+                    With some QA and profiling, we were able to identify framerate drops to be most drastic when ‘looking up’ at large sections of the level.
                     The artists were then able to quickly identify which particle effects and shaders were least performant and remedy the problem.
-                    In build, we were then able to achieve a consistent 60 fps, free from hiccups.
-                    I've learnt my lesson though and will be using a fixed physics tick and sub-stepping from the get-go in future projects! For those interested, here’s a great article written on the matter: http://www.aclockworkberry.com/unreal-engine-substepping.
+                    In the final build, we all achieved a consistent 60 fps, free from hiccups.
                 </p>
+                ADD GIF OF 30 FPS VS 60 FPS
+                <p>
+                    I've learnt my lesson though and will be using a sub-stepping tick from the get-go in future projects!
+                    For those interested, here’s a great article written on the matter: http://www.aclockworkberry.com/unreal-engine-substepping.
+                </p>
+                ADD GIF OF SUBSTEPPING 30 FPS VS 60 FPS
             </details>
             <details>
                 <summary>
