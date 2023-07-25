@@ -15,9 +15,11 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 [Robot Copernicus](https://skfb.ly/6TGoS) is from Igor Kreinin, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Fancy Picture Frame](https://skfb.ly/6QZpO) is from Jamie McFarlane, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Question Mark Block](https://skfb.ly/6zQJy) is from Anthony Yanez, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
-[Toys Cubes Kids](https://skfb.ly/oxDQQ) is from 3D Render Box, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Decrepit Type II Barricade](https://skfb.ly/6RX9v) is from Sigmation9, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
-[Sprial / Spring](https://skfb.ly/6RzAL) is from Omer Bhatti, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
+[Astronaut Helmet](https://skfb.ly/6RBqR) is from Mostafa Medhat, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
+[Moka Coffee Pot](https://skfb.ly/oEI9K) is from Alexander Jabczyński, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
+[Saloon](https://skfb.ly/onYCx) is from Dima Zelinsky, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
+[Old Car - VAZ 2107](https://skfb.ly/6YLnQ) is from Arkady Gribachev, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
 
 ### Outline
 The outlines are my own depth-buffer only adaptation of Omar Shehata's [WebGL Outlines](https://github.com/OmarShehata/webgl-outlines), licensed under [MIT](https://opensource.org/license/mit/).
