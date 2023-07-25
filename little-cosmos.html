@@ -133,6 +133,8 @@
                             <br>
                             C++
                             <br>
+                            Python
+                            <br>
                             Perforce
                         </p>
                     </info>
@@ -177,13 +179,18 @@
                         </span>
                     </div>
                 </div>
+            </details>
+            <details>
+                <summary>
+                    Sub-Stepping Tick
+                </summary>
                 <p>
                     Being my first time working with physics at the core of the player experience in Unreal, I entered the project largely negligent of the implications that may come from applying physics outside a fixed timestep.
                     For most of the project, the issue was unseen.
-                    However approaching the final stretch of development, as the level got filled to the brim, we found framerate began to drop – and with poor framerate came an unpredictable and grossly inaccurate physics simulation.
+                    However approaching the final stretch of development, as the level got filled to the brim, we found framerate began to drop &mdash; and with poor framerate came an unpredictable and grossly inaccurate physics simulation.
                     Being made aware of the problem with only a couple of days of development to go meant that quick thinking would need to come to the rescue.
                     With insufficient time to implement an optimal solution, such as a substep tick function, I opted to use a fixed frame rate of 60 fps.
-                    With some QA and profiling, we were able to identify framerate drops to be most drastic when ‘looking up’ at large sections of the level.
+                    With some QA and profiling, we were able to identify framerate drops to be most drastic when 'looking up' at large sections of the level.
                     The artists were then able to quickly identify which particle effects and shaders were least performant and remedy the problem.
                     In the final build, we all achieved a consistent 60 fps, free from hiccups.
                 </p>
@@ -191,13 +198,13 @@
                     <div class="info" style="transform: translateX(20px) translateY(15px);">
                         <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
                         <span>
-                            Applying physics at ~30 fps.
+                            Applying physics on tick at ~30 fps.
                         </span>
                     </div>
                     <div class="info" style="transform: translateX(calc(50% + 30px)) translateY(15px);">
                         <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
                         <span>
-                            Applying physics at ~60 fps.
+                            Applying physics on tick at ~60 fps.
                         </span>
                     </div>
                     <video autoplay muted loop>
@@ -205,9 +212,12 @@
                     </video>
                 </div>
                 <p>
-                    Since wrapping up Little Cosmos, I've been independently improving the character controller.
-                    First priority of which was to experiment with implementing and using a sub-stepping tick for applying physics.
-                    See the results for yourself!
+                    Since wrapping up Little Cosmos, I've been independently developing the systems used.
+                    The first priority in doing so was to experiment with using a sub-stepped tick for applying physics.
+                    See the results below for yourself!
+                    For those interested in learning more about this topic, here are some excellent resources I came across whilst creating my own sub-stepping tick in Unreal:
+                    <a class="hyperlink" href="http://www.aclockworkberry.com/unreal-engine-substepping/">Giuseppe Portelli (Theoretical)</a>,
+                    <a class="hyperlink" href="http://mansisaksson.com/view/ue4-substepping">Måns Isaksson (Practical)</a>.
                 </p>
                 <div class="video-block">
                     <div class="info" style="transform: translateX(20px) translateY(15px);">
@@ -233,43 +243,52 @@
                 </summary>
                 <p>
                     From researching Mario Galaxies approach to gravity, I learnt that Nintendo used discrete regions of gravity fields placed around the level.
-                    Whilst this worked for a large company like Nintendo on a game with many years of development, I was a little sceptical about limiting our gravity fields to certain regions – what if the player escapes all regions of gravity, and what if multiple regions are overlapping?
+                    Whilst this worked for a large company like Nintendo on a game with many years of development, I was a little sceptical about limiting our gravity fields to certain regions – what if the player escapes all regions of gravity, or multiple regions are overlapping?
                     As our team lacked a dedicated level designer, I instead opted for an approach that was more programmatic, less demanding on designers and frankly, more interesting for me.
                 </p>
                 <p>
                     Calculating the direction of gravity for a position in the vicinity of a spherical planet is just a matter of taking the difference of the centre of the planet from the sample position.
                     But consider a non-spherical planet, such as a cube.
-                    Our gamified expectation is that the axis of gravity will be in the normal of the planet’s surface – and so we have solved the case of what to do at the surface of the planet!
-                    However, what if we are not on the surface, but somewhere ‘above’ the surface?
-                    Even if we are able to determine the nearest point on the surface, we will experience dramatic changes in certain situations – particularly for sharp shapes with corners.
+                    Our gamified expectation is that the direction of gravity will be at a normal to the planet's surface &mdash; and so we have solved the case of what to do at the surface of the planet!
+                    However, what if we are not on the surface, but somewhere 'above' the surface?
+                    Even if we are able to determine the nearest point on the surface, we will experience dramatic changes in certain situations &mdash; particularly for shapes with sharp corners.
                 </p>
                 <p>
-                    We’re close, but not quite there.
-                    Let’s backtrack and consider what other measurements might be useful to us.
+                    We're close to a solution, but not quite there.
+                    Let's backtrack and consider what other measurements might be useful to us.
                     Gravitational force is a vector comprised of both direction and magnitude.
-                    In reality, gravity’s magnitude is determined as a function of the masses of the bodies involved and the distance between those masses.
+                    In reality, gravity's magnitude is determined as a function of the masses of the bodies involved and the distance between those masses.
                     That distance is often simplified to be the distance between the centre of the planet and the other body.
                     Whilst physics is a wonderful starting point, we must break physics in order to make something extraordinary.
                     I propose that a more useful measure of distance in a game with a variety of shapes of planets and planet radii is the distance to the surface of the planet.
                     For instance, take the case of hopping from a planet with a large radius to one with a small radius.
-                    It is intuitive that the large planet should be the main effector until your jump has reached a height of roughly half the distance between the planet's surfaces, at which point the main effector should become the smaller planet.
-                    If we want to adjust this switching point, we may assign a ‘mass’ value to the planets, by which their influences can be scaled.
+                    Intuitively, the large planet should be the main effector until your jump has reached a height of roughly half the distance between the planet's surfaces, at which point the main effector should become the smaller planet.
+                    If we want to adjust this switching point, we may assign a 'mass' value to the planets, by which their influences can be scaled.
                 </p>
                 <p>
-                    A common way of finding the distance to the surface of a shape is signed distance functions, typically limited to shaders.
-                    By representing the planet’s shape using a signed distance function, we are able to determine the nearest point on the surface of any shape.
-                    Furthermore, computationally differentiating the signed distance function gives us an approximation of the direction to the nearest planet’s surface.
+                    A common computational technique for finding the distance to the surface of a shape is signed distance functions, typically limited to shaders.
+                    By representing planet's shapes using signed distance functions, we are able to determine the nearest point on the surface of any planet.
+                    Furthermore, computationally differentiating the signed distance function gives us an approximation of the direction to the nearest planet's surface.
                     Approximations can be scary, but I found the error of the approximation to be completely insignificant with even first order, runtime suitable methods of calculation.
-                    And that’s it!
-                    Just find the signed distance function of a shape and that planet’s shape is yours.
-                    Thankfully, the shader prodigy Inigo Quilez has compiled an assortment of signed distance functions for our choosing: https://iquilezles.org/articles/distfunctions/.
+                    And that's it!
+                    Just find the signed distance function of a shape and form a planet of any shape at will.
+                    Thankfully, the shader prodigy <a class="hyperlink" href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez</a> has compiled an assortment of signed distance functions for our choosing.
                 </p>
+                ADD GIF OF VARIOUS SHAPED PLANETS
                 <p>
-                    I additionally experimented with baking differentiated signed distance functions in vector fields: https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0.
-                    Whilst I didn't end up implementing it into Unreal, this baked approach is beneficial beyond just performance gains.
-                    The program I created exports to the same vector field file type used by Unreal in particle systems and (I believe) the chaos physics system.
-                    There’s certainly more to be explored!
+                    I additionally experimented with baking differentiated signed distance functions into vector fields: https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0.
+                    Whilst we didn't end up implementing it into Unreal during this project, the approach may be beneficial beyond just performance gains.
+                    The program I created exports to the same vector field file type used by Unreal for particle systems and the chaos physics system.
+                    There's certainly more to be explored!
                 </p>
+                <div class="mini-video-block">
+                    <table>
+                        <caption><u>Vector Field Generator application</u></caption>
+                        <tr>
+                            <td><img src="../images/little-cosmos/vector-field-generator.png" alt="vector field generator" width="100%" height="100%"></td>
+                        </tr>
+                    </table>
+                </div>
             </details>
         </div>
     </project>

@@ -112,6 +112,12 @@ ul.portfolio-pieces li
     margin: 1rem 10% 1rem 10%;
 }
 
+.mini-video-block {
+    width: 40%;
+    margin: 1rem 30% 1rem 30%;
+}
+
+
 
 /* Text */
 
@@ -551,9 +557,6 @@ caption {
 
 .info img{
     transition: transform .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
-}
-
-.info img{
     opacity: 0.6;
 }
 
@@ -578,6 +581,7 @@ caption {
     border-radius: 5px;
     transform: scale(0);
     transition: transform .1s cubic-bezier(0.25, 1.0, 0.25, 1.0);
+    z-index: 11;
 }
 
 .info:hover span{
@@ -744,6 +748,11 @@ overlay {
     }
 
     .video-block {
+        width: 100%;
+        margin:0;
+    }
+
+    .mini-video-block {
         width: 100%;
         margin:0;
     }
