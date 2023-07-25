@@ -173,7 +173,7 @@
                     <div class="info">
                         <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
                         <span>
-                            Planet hopping.
+                            The final version of the arbitrary gravity character controller.
                         </span>
                     </div>
                 </div>
@@ -187,7 +187,23 @@
                     The artists were then able to quickly identify which particle effects and shaders were least performant and remedy the problem.
                     In the final build, we all achieved a consistent 60 fps, free from hiccups.
                 </p>
-                ADD GIF OF 30 FPS VS 60 FPS
+                <div class="video-block">
+                    <div class="info" style="transform: translateX(20px) translateY(15px);">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Applying physics at ~30 fps.
+                        </span>
+                    </div>
+                    <div class="info" style="transform: translateX(calc(50% + 30px)) translateY(15px);">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Applying physics at ~60 fps.
+                        </span>
+                    </div>
+                    <video autoplay muted loop>
+                        <source src="../videos/unlocked-framerate.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <p>
                     I've learnt my lesson though and will be using a sub-stepping tick from the get-go in future projects!
                     For those interested, here’s a great article written on the matter: http://www.aclockworkberry.com/unreal-engine-substepping.
