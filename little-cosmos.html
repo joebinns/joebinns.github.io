@@ -285,8 +285,21 @@
                     I propose that a more useful measure of distance for a platformer with a variety of planet shapes and radii is the distance to the surface of the planet.
                     For instance, take the case of hopping from a planet with a large radius to one with a small radius.
                     Intuitively, the large planet should be the main effector until your jump has reached a height of roughly half the distance between the planet's surfaces, at which point the main effector should become the smaller planet.
-                    If we want to adjust this switching point, we may assign a 'mass' value to the planets, by which their influences can be scaled.
+                    If we wanted to adjust this switching point, we could simply assign a 'mass' value to the planets by which their influences could be scaled.
                 </p>
+                <div class="video-block">
+                    <table>
+                        <caption><u>Distance to centre (left), distance to surface (right).</u></caption>
+                        <tr>
+                            <td style="padding-right: 20px;">
+                                <img src="../images/little-cosmos/center-distance.svg" alt="sdf" style="width: 380px; height: auto;">
+                            </td>
+                            <td style="padding-left: 20px;">
+                                <img src="../images/little-cosmos/surface-distance.svg" alt="sdf" style="width: 380px; height: auto;">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <p>
                     A common computational technique for finding the distance to the surface of a shape is signed distance functions, typically limited to shaders.
                     By representing planet's shapes using signed distance functions, we are able to determine the nearest point on the surface of any planet.
