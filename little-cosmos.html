@@ -161,7 +161,7 @@
                     Arbitrary Gravity Character Controller
                 </summary>
                 <p>
-                    To add arbitrary gravity support to the character provided by Unreal would require major overhauls across the entirety of its movement component.
+                    Adding arbitrary gravity support to Unreal's character would require major overhauls to its movement component.
                     I therefore opted to design and create a bespoke character controller from the ground up.
                     As a starting point, I ported from Unity and redesigned an old physics-based character controller of mine.
                     Working off a concept I was already comfortable with allowed me to rapidly lay down the foundation for Little Cosmos for the rest of the team;
@@ -186,9 +186,10 @@
                 </summary>
                 <p>
                     Being my first time working with physics at the core of the player experience in Unreal, I entered the project largely negligent of the implications that may come from applying physics outside a fixed timestep.
-                    For most of the project, the issue was unseen.
-                    However approaching the final stretch of development, as the map got filled to the brim, we found framerate began to drop &mdash; and with poor framerate came an unpredictable and grossly inaccurate physics simulation.
-                    Being made aware of the problem with only a couple of days of development to go meant that quick thinking would need to come to the rescue.
+                    The issue was largely unseen until the final stretch of development.
+                    As the map got filled to the brim, we found framerate began to drop;
+                    with this drop came an unpredictable and grossly inaccurate physics simulation.
+                    Being made aware of the problem with only a couple of days of development remaining meant that quick thinking would need to come to the rescue.
                     With insufficient time to implement an optimal solution, such as a substep tick function, I opted to use a fixed frame rate of 60 fps.
                     With some QA and profiling, we were able to identify framerate drops to be most drastic when 'looking up' at large sections of the level.
                     The artists were then able to quickly identify which particle effects and shaders were least performant and remedy the problem.
@@ -270,7 +271,7 @@
                     In reality, gravity's magnitude is determined as a function of the masses of the bodies involved and the distance between those masses.
                     That distance is often simplified to be the distance between the centre of the planet and the other body.
                     Whilst physics is a wonderful starting point, we must break physics in order to make something extraordinary.
-                    I propose that a more useful measure of distance in a game with a variety of shapes of planets and planet radii is the distance to the surface of the planet.
+                    I propose that a more useful measure of distance for a platformer with a variety of planet shapes and radii is the distance to the surface of the planet.
                     For instance, take the case of hopping from a planet with a large radius to one with a small radius.
                     Intuitively, the large planet should be the main effector until your jump has reached a height of roughly half the distance between the planet's surfaces, at which point the main effector should become the smaller planet.
                     If we want to adjust this switching point, we may assign a 'mass' value to the planets, by which their influences can be scaled.
