@@ -244,15 +244,26 @@
                 </summary>
                 <p>
                     From researching Mario Galaxies approach to gravity, I learnt that Nintendo used discrete regions of gravity fields placed around the level.
-                    Whilst this worked for a large company like Nintendo on a game with many years of development, I was a little sceptical about limiting our gravity fields to certain regions – what if the player escapes all regions of gravity, or multiple regions are overlapping?
+                    Whilst this worked for a large company like Nintendo on a game with many years of development, I was a little sceptical about limiting our gravity fields to certain regions.
+                    What if the player escapes all regions of gravity, or multiple regions are overlapping?
                     As our team lacked a dedicated level designer, I instead opted for an approach that was more programmatic, less demanding on designers and frankly, more interesting for me.
                 </p>
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/any-shape-you-like.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Any shape you like.
+                        </span>
+                    </div>
+                </div>
                 <p>
                     Calculating the direction of gravity for a position in the vicinity of a spherical planet is just a matter of taking the difference of the centre of the planet from the sample position.
                     But consider a non-spherical planet, such as a cube.
-                    Our gamified expectation is that the direction of gravity will be at a normal to the planet's surface &mdash;
-                    we have solved the case of what to do at the surface of the planet!
-                    However, what if we are not on the surface, but somewhere 'above' the surface?
+                    Our gamified expectation is that the direction of gravity will be at a normal to the planet's surface.
+                    However, what happens when we are not on the surface, but somewhere 'above'?
                     Even if we are able to determine the nearest point on the surface, we will experience dramatic changes in certain situations &mdash;
                     particularly for shapes with sharp corners.
                 </p>
@@ -296,19 +307,13 @@
                     </table>
                 </div>
                 <br>
-                <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/any-shape-you-like.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
-                            Any shape you like.
-                        </span>
-                    </div>
-                </div>
+            </details>
+            <details>
+                <summary>
+                    Baked Gravity Fields
+                </summary>
                 <p>
-                    I additionally experimented with baking differentiated signed distance functions into vector fields;
+                    Whilst gravity was calculated at runtime in Little Cosmos, I also experimented with baking the calculation into vector fields;
                     you can find a prototype for this application <a class="hyperlink" href="https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0">here</a>.
                     Whilst we didn't end up implementing it into Unreal during this project, the approach may be beneficial beyond just performance gains.
                     The exported vector field file type is the same used by Unreal for particle systems and the chaos physics system;
