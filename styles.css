@@ -179,7 +179,7 @@ a.hyperlink {
 }
 a.hyperlink:hover {
     transform: scale(1.3) rotate(-2deg);
-    /*background: #0f0f0f;*/
+    background: #0f0f0f;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
