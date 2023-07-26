@@ -187,7 +187,7 @@
                 <p>
                     Being my first time working with physics at the core of the player experience in Unreal, I entered the project largely negligent of the implications that may come from applying physics outside a fixed timestep.
                     For most of the project, the issue was unseen.
-                    However approaching the final stretch of development, as the level got filled to the brim, we found framerate began to drop &mdash; and with poor framerate came an unpredictable and grossly inaccurate physics simulation.
+                    However approaching the final stretch of development, as the map got filled to the brim, we found framerate began to drop &mdash; and with poor framerate came an unpredictable and grossly inaccurate physics simulation.
                     Being made aware of the problem with only a couple of days of development to go meant that quick thinking would need to come to the rescue.
                     With insufficient time to implement an optimal solution, such as a substep tick function, I opted to use a fixed frame rate of 60 fps.
                     With some QA and profiling, we were able to identify framerate drops to be most drastic when 'looking up' at large sections of the level.
@@ -295,10 +295,20 @@
                     </table>
                 </div>
                 <br>
-                ADD GIF OF VARIOUS SHAPED PLANETS
+                <div class="video-block">
+                    <video autoplay muted loop>
+                        <source src="../videos/any-shape-you-like.mp4" type="video/mp4">
+                    </video>
+                    <div class="info">
+                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
+                        <span>
+                            Any shape you like.
+                        </span>
+                    </div>
+                </div>
                 <p>
                     I additionally experimented with baking differentiated signed distance functions into vector fields;
-                    you can find the prototype application <a class="hyperlink" href="https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0">here</a>.
+                    you can find a prototype for this application <a class="hyperlink" href="https://github.com/joebinns/vector-field-generator/releases/tag/0.1.0">here</a>.
                     Whilst we didn't end up implementing it into Unreal during this project, the approach may be beneficial beyond just performance gains.
                     The exported vector field file type is the same used by Unreal for particle systems and the chaos physics system;
                     there's certainly more to be explored!
