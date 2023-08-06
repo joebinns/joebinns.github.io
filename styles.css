@@ -808,3 +808,17 @@ overlay {
 /* Dark Mode */
 @media (prefers-color-scheme: dark){
 }
+
+/* Polaroids */
+.polaroid{
+    position: absolute;
+    background: white;
+    padding: 15px 15px 60px 15px;
+    width: 256px;
+    transform: rotate(2deg);
+}
+
+.polaroid img{
+    width: 256px;
+    height: 256px;
+}
