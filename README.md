@@ -19,7 +19,8 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 [Astronaut Helmet](https://skfb.ly/6RBqR) is from Mostafa Medhat, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Moka Coffee Pot](https://skfb.ly/oEI9K) is from Alexander Jabczyński, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Saloon](https://skfb.ly/onYCx) is from Dima Zelinsky, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
-[Old Car - VAZ 2107](https://skfb.ly/6YLnQ) is from Arkady Gribachev, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
+[Old Car - VAZ 2107](https://skfb.ly/6YLnQ) is from Arkady Gribachev, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
+[Dark metal teapot](https://skfb.ly/oG8XE) is from tiegon, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
 
 ### Outline
 The outlines are my own depth-buffer only adaptation of Omar Shehata's [WebGL Outlines](https://github.com/OmarShehata/webgl-outlines), licensed under [MIT](https://opensource.org/license/mit/).
