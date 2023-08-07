@@ -810,19 +810,30 @@ overlay {
 }
 
 /* Polaroids */
+.polaroids{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.polaroids li{
+    display: inline-block;
+}
+
 .polaroid{
-    position: absolute;
     background: white;
     padding: 15px 15px 60px 15px;
     width: 256px;
     transform: rotate(2deg);
     transition: .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
     margin: 20px;
+    opacity: 1;
 }
 
 .polaroid:hover{
     z-index: 3;
-    transform: scale(1.15) rotate(-3deg);
+    transform: scale(1.1) rotate(-2deg);
+    opacity: 1;
 }
 
 .polaroid img.photo{
@@ -835,4 +846,5 @@ overlay {
     font-size: 16px;
     position: absolute;
     color: #0f0f0f;
+    margin-top: 10px;
 }
