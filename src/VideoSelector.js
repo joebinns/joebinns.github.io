@@ -22,7 +22,7 @@ export class VideoSelector {
 
         // Parameters
         this.rate = 4;
-        this.maxOpacity = 0.5;
+        this.maxOpacity = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 0.5 : 0.8;
     }
 
     Update() {
