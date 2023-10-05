@@ -3,9 +3,7 @@
 My personal website, where I host my portfolio, curriculum vitae and link to the platforms I'm using professionally!
 
 ## Backlog
-- Light theme support, automatically detected from browser settings.
 - Fix text hover and WebGL for Safari.
-- Add head model for 'About'.
 - Optimise model geometries.
 - Switch JavaScript from CDN hosting to npm.
 
