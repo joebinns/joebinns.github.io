@@ -162,15 +162,16 @@
                     Whilst snappy animation-based buttons and keypads were used, by and large I am most proud of the physics-based hold and grab mechanics.
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/hold-and-grab.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
+                    <table>
+                        <caption><u>
                             Gameplay footage of the engineer.
-                        </span>
-                    </div>
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/hold-and-grab.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <h4>
                     Holding
@@ -181,15 +182,16 @@
                     Crucially, objects lacked momentum and reacted poorly to their surroundings.
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/hold-parenting.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
+                    <table>
+                        <caption><u>
                             Holding through manipulation of the hierarchy.
-                        </span>
-                    </div>
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/hold-parenting.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <p>
                     Thankfully, I have a trick that'll put a spring in any object's step &mdash; Oscillators! As before, I used an empty child protruded in front of the first person camera, although this time to denote the target transform for held objects.
@@ -199,15 +201,16 @@
                     For instance, the ability to control the distance at which an object is held is then just a matter of manipulating the target transform's local forward position.
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/hold-linear.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
+                    <table>
+                        <caption><u>
                             Holding using only a linear oscillator.
-                        </span>
-                    </div>
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/hold-linear.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <p>
                     All that's then missing is that held objects won't rotate with the player based on the look direction.
@@ -216,15 +219,16 @@
                     the ability to rotate held objects for inspection is just a matter of manipulating the target transform's local rotation.
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/hold-torsional.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
+                    <table>
+                        <caption><u>
                             Holding using both a linear and a torsional oscillator.
-                        </span>
-                    </div>
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/hold-torsional.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <details>
                     <summary>Hold Interaction</summary>
@@ -285,15 +289,16 @@
                     I'd be interested in knowing how others have approached this problem!
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/grab-linear.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
+                    <table>
+                        <caption><u>
                             Linear Grab: Interpreting the look vector using a single dynamic plane.
-                        </span>
-                    </div>
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/grab-linear.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <p>
                     The torsional case went through a similar development, but with its own unique problems.
@@ -305,15 +310,16 @@
                     I found the analytical intersection of the look vector and a mathematical plane (as finalised with linear grabbing) to perform well in this regard.
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/grab-torsional.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
+                    <table>
+                        <caption><u>
                             Torsional Grab: Interpreting the look vector using a sphere and a dynamic plane.
-                        </span>
-                    </div>
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/grab-torsional.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <details>
                     <summary>Grab Interaction</summary>
@@ -368,15 +374,16 @@
                     We therefore introduced a dynamic reticle; one that switches to a gestured hand based on the <a href="#interactable-type" class="hyperlink">Interactable Type</a>.
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/outline-reticle.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
+                    <table>
+                        <caption><u>
                             Using outlines and a dynamic reticle to convey information about interactables.
-                        </span>
-                    </div>
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/outline-reticle.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <details>
                     <summary>Interactable Type</summary>
@@ -400,15 +407,16 @@
                     All the interactable specific HUD properties are compiled and stored in <a href="#interactable-settings" class="hyperlink">Interactable Settings</a>.
                 </p>
                 <div class="video-block">
-                    <div class="info" style="transform: translateX(20px) translateY(15px);">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
+                    <table>
+                        <caption><u>
                             Using control prompts to inform the player how to use certain interactables.
-                        </span>
-                    </div>
-                    <video autoplay muted loop>
-                        <source src="../videos/prompts.mp4" type="video/mp4">
-                    </video>
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/prompts.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <details>
                     <summary>Interactable Mode</summary>

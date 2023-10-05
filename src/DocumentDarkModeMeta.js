@@ -1,5 +1,5 @@
 const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-if (true) {
+if (userPrefersDark) {
     // Swap document icons to white versions to retain contrast
     document.getElementById("websiteProj").src="/images/globe_box_optimised_white.svg";
     document.getElementById("itchdotioProj").src="/images/itchdotio_box_optimised_white.svg";

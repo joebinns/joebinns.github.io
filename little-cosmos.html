@@ -154,7 +154,7 @@
                 </div>
                 <iframe height="167" frameborder="0" src="https://itch.io/embed/2136039?dark=true" style="margin-bottom:10px; width: 100%;">
                     <a href="https://abramshanna.itch.io/little-cosmos">
-                        Get Me Out by Futuregames
+                        Little Cosmos by Futuregames
                     </a>
                 </iframe>
             </div>
@@ -171,15 +171,14 @@
                     The physics-based character controller approach came with some additional benefits specific to our platformer, such as supporting force-based gravity.
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/planet-hopping.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
-                            The final version of the arbitrary gravity character controller.
-                        </span>
-                    </div>
+                    <table>
+                        <caption><u>Final version of the arbitrary gravity character controller.</u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/planet-hopping.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
             </details>
             <details>
@@ -198,21 +197,14 @@
                     In the final build, we all achieved a consistent 60 fps, free from hiccups.
                 </p>
                 <div class="video-block">
-                    <div class="info" style="transform: translateX(20px) translateY(15px);">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
-                            Applying physics on tick at ~30 fps.
-                        </span>
-                    </div>
-                    <div class="info" style="transform: translateX(calc(50% + 30px)) translateY(15px);">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
-                            Applying physics on tick at ~60 fps.
-                        </span>
-                    </div>
-                    <video autoplay muted loop>
-                        <source src="../videos/unlocked-framerate.mp4" type="video/mp4">
-                    </video>
+                    <table>
+                        <caption><u>Applying physics on tick at ~30 fps (left), applying physics on tick at ~60 fps (right).</u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/unlocked-framerate.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <p>
                     Since wrapping up Little Cosmos, I've been independently developing the systems used.
@@ -223,21 +215,14 @@
                     <a class="hyperlink" href="http://mansisaksson.com/view/ue4-substepping">Måns Isaksson (Practical)</a>.
                 </p>
                 <div class="video-block">
-                    <div class="info" style="transform: translateX(20px) translateY(15px);">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
-                            Applying physics on a sub-stepped tick at 30 fps.
-                        </span>
-                    </div>
-                    <div class="info" style="transform: translateX(calc(50% + 30px)) translateY(15px);">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
-                            Applying physics on a sub-stepped tick at 60 fps.
-                        </span>
-                    </div>
-                    <video autoplay muted loop>
-                        <source src="../videos/substepping-tick.mp4" type="video/mp4">
-                    </video>
+                    <table>
+                        <caption><u>Applying physics on a sub-stepped tick at 30 fps (left), applying physics on a sub-stepped tick at 60 fps (right).</u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/substepping-tick.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
             </details>
             <details>
@@ -251,15 +236,16 @@
                     As our team lacked a dedicated level designer, I instead opted for an approach that was more programmatic, less demanding on designers and frankly, more interesting for me.
                 </p>
                 <div class="video-block">
-                    <video autoplay muted loop>
-                        <source src="../videos/any-shape-you-like.mp4" type="video/mp4">
-                    </video>
-                    <div class="info">
-                        <img src="../images/info_white.svg" alt="info" width="40" height="40"></a>
-                        <span>
-                            Any shape you like.
-                        </span>
-                    </div>
+                    <table>
+                        <caption><u>
+                            Any Shape You Like
+                        </u></caption>
+                        <tr><td>
+                            <video autoplay muted loop>
+                                <source src="../videos/any-shape-you-like.mp4" type="video/mp4">
+                            </video>
+                        </td></tr>
+                    </table>
                 </div>
                 <p>
                     Calculating the direction of gravity for a position in the vicinity of a spherical planet is just a matter of calculating the vector from the sample position to the centre of the planet.
@@ -273,7 +259,7 @@
                     <table>
                         <caption><u>Using surface normals</u></caption>
                         <tr>
-                            <td><img src="../images/little-cosmos/normals.svg" style="width: auto; height: 400px;"></td>
+                            <td><img id="normals" src="../images/little-cosmos/normals-light.svg" style="width: auto; height: 400px;"></td>
                         </tr>
                     </table>
                 </div>
@@ -294,10 +280,10 @@
                         <caption><u>Midpoint between centres (left), midpoint between surfaces (right).</u></caption>
                         <tr>
                             <td style="padding-right: 20px;">
-                                <img src="../images/little-cosmos/center-distance.svg" alt="sdf" style="width: 380px; height: auto;">
+                                <img id="centers" src="../images/little-cosmos/center-distance-light.svg" alt="sdf" style="width: 380px; height: auto;">
                             </td>
                             <td style="padding-left: 20px;">
-                                <img src="../images/little-cosmos/surface-distance.svg" alt="sdf" style="width: 380px; height: auto;">
+                                <img id="surfaces" src="../images/little-cosmos/surface-distance-light.svg" alt="sdf" style="width: 380px; height: auto;">
                             </td>
                         </tr>
                     </table>
@@ -316,7 +302,7 @@
                         <caption><u>Using a signed distance function</u></caption>
                         <tr>
                             <td>
-                                <img src="../images/little-cosmos/sdf.svg" alt="sdf" style="width: auto; height: 400px;">
+                                <img id="sdf" src="../images/little-cosmos/sdf-light.svg" alt="sdf" style="width: auto; height: 400px;">
                             </td>
                         </tr>
                     </table>
@@ -359,7 +345,8 @@
         </li>
     </ul>
 </div>
-<div class="tint-overlay"></div>
+<div class="tint-overlay max"></div>
+<div class="tint-overlay min"></div>
 <script type="importmap"> {
     "imports": {
         "three":            "https://unpkg.com/three/build/three.module.js",

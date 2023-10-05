@@ -174,15 +174,16 @@ a.hyperlink {
     display: inline-block;
     transition: .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
     text-decoration:none;
-    padding: 2px 8px 2px 8px;
-    margin: -2px -8px -2px -8px;
+    padding: 1px 3px 2px 3px;
+    margin: -1px -3px -2px -3px;
 }
 a.hyperlink:hover {
     transform: scale(1.3) rotate(-2deg);
-    background: #0f0f0f;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    backdrop-filter: blur(1px);
+    background: rgba(15, 15, 15, 0.6);
 }
 
 summary.hyperlink {
@@ -321,7 +322,7 @@ optHide {
 
 caption {
     caption-side: bottom;
-    color: #b2b2b2;
+    color: white;
 }
 
 .footer {
@@ -628,9 +629,17 @@ overlay {
     min-height: 100%;
     min-width: 100%;
     z-index: 100;
+    pointer-events:none;
+}
+
+.tint-overlay.max {
     background: #f8f0e3;
     mix-blend-mode: darken;
-    pointer-events:none;
+}
+
+.tint-overlay.min {
+    background: #0f0f0f;
+    mix-blend-mode: lighten;
 }
 
 .video-tint-overlay {
@@ -805,10 +814,6 @@ overlay {
     }
 }
 
-/* Dark Mode */
-@media (prefers-color-scheme: dark){
-}
-
 /* Polaroids */
 .polaroids{
     width: 100%;
@@ -821,18 +826,9 @@ overlay {
 }
 
 .polaroid{
-    background: white;
-    padding: 15px 15px 60px 15px;
     width: 256px;
     transform: rotate(2deg);
-    transition: .1s cubic-bezier(0.77, 2.2, 0.71, 0.5);
     margin: 20px;
-    opacity: 1;
-}
-
-.polaroid:hover{
-    z-index: 3;
-    transform: scale(1.1) rotate(-2deg);
     opacity: 1;
 }
 
@@ -847,4 +843,80 @@ overlay {
     position: absolute;
     color: #0f0f0f;
     margin-top: 10px;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: light){
+    body {
+        background: white;
+        color: #0f0f0f;
+    }
+
+    p {
+        color: #0f0f0f;
+    }
+
+    a {
+        color: #0f0f0f;
+    }
+
+    summary.hyperlink {
+        color: #0f0f0f;
+    }
+    summary.hyperlink:hover{
+        color: #0f0f0f;
+    }
+    summary.hyperlink:active{
+        color: #0f0f0f;
+    }
+
+    caption {
+        color: black;
+    }
+
+    .gradient-multiline portfolio-title{
+        background: linear-gradient(to right,
+        black,
+        black)
+        calc(100% - var(--time, 0%)) / var(--time, 0%)
+        no-repeat;
+        mix-blend-mode: multiply;
+    }
+    .gradient-multiline portfolio-prefix {
+
+        color: black;
+    }
+    .gradient-multiline:hover {
+        color: white;
+    }
+    .gradient-multiline-invert span{
+        color: white;
+        background-color: black;
+    }
+    .gradient-multiline-invert:hover span{
+        color: black;
+    }
+
+    .info span {
+        background-color: white;
+        color: #0f0f0f;
+    }
+
+    @media screen and (max-width: 800px) {
+        .interface menu {
+            -webkit-mask-image: -webkit-gradient(linear, left 80%, left bottom, from(rgba(1, 1, 1, 1)), to(rgba(1, 1, 1, 0)));
+        }
+    }
+
+    .logo-wrapper {
+        mix-blend-mode: multiply;
+    }
+
+    .hyperimage:hover{
+        opacity: 1.0;
+    }
+
+    a.hyperlink:hover {
+        background: rgba(255, 255, 255, 0.6);
+    }
 }

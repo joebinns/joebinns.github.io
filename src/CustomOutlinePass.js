@@ -95,8 +95,8 @@ class CustomOutlinePass extends Pass {
 			uniform float cameraFar;
 			uniform vec4 screenSize;
 			uniform vec3 outlineColor;
-			uniform vec3 backgroundColor;
 			uniform vec2 multiplierParameters;
+			uniform bool isDarkMode;
 
 			varying vec2 vUv;
 
@@ -125,15 +125,11 @@ class CustomOutlinePass extends Pass {
 				return clamp(num, 0.0, 1.0);
 			}
 			
-			vec3 lighten(vec3 base, vec3 blend) {
-			    return vec3(max(base.r, blend.r), max(base.g, blend.g), max(base.b, blend.b));
-			}
-			
             vec4 transpare(vec3 base) {
                 float intensity = (base.r + base.g + base.b) / 3.0;
 			    return vec4(base.r, base.g, base.b, intensity);
 			}
-
+			
 			void main() {
 				float depth = getPixelDepth(0, 0);
 
@@ -154,12 +150,17 @@ class CustomOutlinePass extends Pass {
 
 				float outline = saturateValue(depthDiff);
 				
-				// Blend with background
-				vec3 fragColor = vec3(outline * outlineColor);
-				//fragColor = lighten(backgroundColor, fragColor); // TODO: Swap this to darken for light-mode...
-				vec4 fullFragColor = transpare(fragColor);
+                if (!isDarkMode){
+				    outline = 1.0 - outline;
+				}
 				
-				gl_FragColor = fullFragColor; //vec4(fragColor, 1.0);
+				// Use outline color
+				vec3 fragColor = vec3(outline * outlineColor);
+				
+                //vec4 fullFragColor = transpare(fragColor);
+				vec4 fullFragColor = vec4(fragColor, 1.0);
+				
+				gl_FragColor = fullFragColor;
 			}
 			`;
     }
@@ -169,7 +170,7 @@ class CustomOutlinePass extends Pass {
             uniforms: {
                 depthBuffer: {},
                 outlineColor: { value: new THREE.Color(0xffffff) },
-                backgroundColor: { value: new THREE.Color(0x0f0f0f) },
+                isDarkMode: { value: false },
                 // 2 scalar values packed in one uniform: depth multiplier, depth bias
                 multiplierParameters: {
                     value: new THREE.Vector2(1, 1),
