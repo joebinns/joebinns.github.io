@@ -290,6 +290,13 @@ logo {
     padding-top: 0;
 }
 
+.copyright-notice {
+    bottom: 0;
+    margin: 0px;
+    padding-bottom: 38.5px;
+    text-align: center;
+}
+
 optHide {
 }
 
