@@ -110,6 +110,7 @@ ul.portfolio-pieces li
 .video-block {
     width: 80%;
     margin: 1rem 10% 1rem 10%;
+    line-height: 0px;
 }
 
 .mini-video-block {
