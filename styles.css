@@ -331,6 +331,7 @@ optHide {
 caption {
     caption-side: bottom;
     color: white;
+    line-height: normal;
 }
 
 .footer {
