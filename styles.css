@@ -249,11 +249,6 @@ logo {
     width: 100%;
 }
 
-logo h1{
-    font-size: 46px;
-    font-weight: 600;
-}
-
 .vertical-text{
     writing-mode: vertical-lr;
     text-orientation: upright;
@@ -736,13 +731,15 @@ overlay {
 
 /* On screens that are 800px wide or less... */
 @media screen and (max-width: 800px) {
-    h1 {
-        font-size: 30px;
+    logo h1{
+        font-size: 31px;
+        margin: 0;
     }
 
     h2 {
-        font-size: 56px;
+        font-size: 46px;
     }
+
 
     .interface menu {
         width: calc(100% - 60px);
