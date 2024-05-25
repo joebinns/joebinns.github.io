@@ -122,28 +122,33 @@ ul.portfolio-pieces li
 
 /* Text */
 
-h1{
+h1,
+h2,
+h3,
+h4 {
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    font-weight: bold;
+}
+
+h1 {
     font-size: 46px;
     line-height: 1.3em;
-    font-weight: bold;
 }
 
 h2 {
     font-size: 72px;
     line-height: 1.3em;
-    font-weight: normal;
 }
 
 h3 {
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 32px;
 }
 
 h4 {
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 32px;
     margin-top: 40px;
- }
+}
 
 p {
     font-size: 16px;
@@ -200,7 +205,7 @@ summary.hyperlink:active{
 details summary {
     cursor: pointer;
     font-weight: bold;
-    font-size: 24px;
+    font-size: 32px;
     text-decoration: none;
     margin-top: 48px;
 }
@@ -214,7 +219,7 @@ details details {
 }
 
 details details summary {
-    font-size: 20px;
+    font-size: 24px;
     text-decoration: none;
     list-style-type: none;
     margin-top: 20px;
@@ -242,6 +247,11 @@ logo {
     text-decoration: none;
     line-height: 1.2em;
     width: 100%;
+}
+
+logo h1{
+    font-size: 46px;
+    font-weight: 600;
 }
 
 .vertical-text{
@@ -434,6 +444,7 @@ caption {
     padding: 0rem 0.8rem;
     transition: .4s, background-position 0s;
     mix-blend-mode: screen;
+    font-weight: bold;
 
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -449,7 +460,7 @@ caption {
     text-decoration: inherit;
     line-height: 1em;
     vertical-align: text-top;
-    transform: translateY(.9em);
+    transform: translateX(0.625em) translateY(.9em);
     color: white;
 }
 .gradient-multiline portfolio-prefix date{
@@ -468,6 +479,11 @@ caption {
 }
 .gradient-multiline:hover portfolio-prefix date {
     text-decoration: underline;
+}
+
+h2 portfolio-prefix date{
+    letter-spacing: 0;
+    font-weight: normal;
 }
 
 .gradient-multiline-invert {
@@ -699,7 +715,7 @@ overlay {
     }
 
     h2 {
-        font-size: 42px;
+        font-size: 56px;
     }
 
     .interface menu {
@@ -783,10 +799,6 @@ overlay {
         display: none;
     }
 
-    logo h1{
-        margin: 0;
-    }
-
     details details {
         margin-left: 0;
     }
@@ -813,6 +825,7 @@ overlay {
     .gradient-multiline portfolio-prefix date{
         transform: translateY(.5em);
     }
+
     .gradient-multiline portfolio-prefix badge{
         font-size: 24px;
         transform: translateY(.45em) translateX(.18em);
