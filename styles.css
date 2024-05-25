@@ -142,11 +142,11 @@ h2 {
 }
 
 h3 {
-    font-size: 32px;
+    font-size: 30px;
 }
 
 h4 {
-    font-size: 32px;
+    font-size: 30px;
     margin-top: 40px;
 }
 
@@ -205,7 +205,7 @@ summary.hyperlink:active{
 details summary {
     cursor: pointer;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 30px;
     text-decoration: none;
     margin-top: 48px;
 }
@@ -731,15 +731,33 @@ overlay {
 
 /* On screens that are 800px wide or less... */
 @media screen and (max-width: 800px) {
-    logo h1{
-        font-size: 31px;
+    logo h1 {
         margin: 0;
+    }
+
+    h1 {
+        font-size: 32px;
     }
 
     h2 {
         font-size: 46px;
     }
 
+    h3 {
+        font-size: 24px;
+    }
+
+    h4 {
+        font-size: 24px;
+    }
+
+    details summary {
+        font-size: 24px;
+    }
+
+    details details summary {
+        font-size: 20px;
+    }
 
     .interface menu {
         width: calc(100% - 60px);
