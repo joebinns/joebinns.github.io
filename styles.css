@@ -568,6 +568,32 @@ h2 portfolio-prefix date{
     height: 100%;
 }
 
+/* TV Static */
+
+.tv-static {
+    background-image: url("images/noise.png");
+    opacity: 15%;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    inset: -200%;
+    z-index: -1;
+    pointer-events: none;
+
+    animation: shift 0.1s linear infinite both;
+}
+
+@keyframes shift {
+    0% {
+        transform: translateX(-10%) translateY(10%);
+    }
+
+    100% {
+        transform: translateX(10%) translateY(-10%);
+    }
+}
+
 /* Info */
 .info {
     position: absolute;
