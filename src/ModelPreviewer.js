@@ -1,9 +1,6 @@
 // Three.js
 import * as THREE from "three";
 
-// Utilities
-import { isElementHovered, cubicBezier } from '../src/Utilities.js';
-
 // Render requirements
 import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
@@ -13,11 +10,7 @@ import { FXAAShader } from "fxaa-shader";
 import { CustomOutlinePass } from '/src/CustomOutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
-
-function SetObjectVisibility(object, visible) {
-    object.visible = visible;
-}
+let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview, mesh;
 
 const dimensions = () => {
     return {
@@ -25,37 +18,6 @@ const dimensions = () => {
         height: shouldDisplayPreview() ? (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 241 : 0,
     };
 };
-
-class ObjectPicker {
-    constructor() {
-        this.raycaster = new THREE.Raycaster();
-        this.picked = null;
-    }
-
-    refreshCursor() {
-        if (this.picked) document.body.style.cursor = 'pointer';
-        else document.body.style.cursor = 'auto';
-    }
-
-    pick(normalizedPosition, scene, camera) {
-        let pickedObject = null;
-
-        // Cast a ray through the frustum
-        this.raycaster.setFromCamera(normalizedPosition, camera);
-
-        // Get the list of objects the ray intersected
-        const intersectedObjects = this.raycaster.intersectObjects(scene.children, true);
-
-        if (intersectedObjects.length) {
-            // Pick the first object. It's the closest one
-            pickedObject = intersectedObjects[0].object.parent;
-        }
-
-        this.picked = pickedObject;
-
-        this.refreshCursor();
-    }
-}
 
 function shouldDisplayPreview() {
     return (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) > 800;
@@ -71,26 +33,6 @@ function onWindowResize() {
     preview.style.height = `${dimensions1.height}px`;
 
     renderer.setSize(dimensions1.width, dimensions1.height);
-    composer.setSize(dimensions1.width, dimensions1.height);
-    effectFXAA.setSize(dimensions1.width, dimensions1.height);
-    customOutline.setSize(dimensions1.width, dimensions1.height);
-    effectFXAA.uniforms["resolution"].value.set(
-        1 / dimensions1.width,
-        1 / dimensions1.height
-    );
-}
-
-function onDocumentMouseMove(event) {
-    mouse.x = (event.clientX / dimensions().width) * 2 - 1;
-    mouse.y = -(event.clientY / dimensions().height) * 2 + 1;
-}
-
-function onDocumentMouseDown(event) {
-    let object = picker.picked;
-    if (object) {
-        // Click
-        angularSpeed += (defaultAngularSpeed * 25);
-    }
 }
 
 export class ModelPreviewer{
@@ -101,22 +43,6 @@ export class ModelPreviewer{
     }
 
     Init () {
-        // Timer
-        clock = new THREE.Clock();
-        time = 0;
-
-        // Controller
-        mouse = new THREE.Vector2();
-        picker = new ObjectPicker();
-        hoverRate = 10;
-        appearRate = 8;
-        hovered = 0;
-        speed = 1.5;
-        maximumDisplacement = 0.1;
-        defaultAngularSpeed = 0.5;
-        angularDamper = 2;
-        angularSpeed = defaultAngularSpeed;
-
         // Model preview
         preview = document.querySelector('.model-preview');
 
@@ -125,7 +51,6 @@ export class ModelPreviewer{
 
         // Scene
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0f0f0f);
 
         // Camera
         camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 10);
@@ -140,64 +65,16 @@ export class ModelPreviewer{
         renderer.setSize(dimensions().width, dimensions().height);
         //renderer.setPixelRatio(window.devicePixelRatio);
 
-        // Composer (renderer with post-processing)
-        const renderTarget = new THREE.WebGLRenderTarget(
-            dimensions().width,
-            dimensions().height
-        );
-        composer = new EffectComposer(renderer, renderTarget);
-
-
-        // 1) Render pass
-        // Skipping the regular render pass as to only render a custom outline.
-
-        // 2) Post processing
-        // Outline pass
-        customOutline = new CustomOutlinePass(
-            new THREE.Vector2(dimensions().width, dimensions().height),
-            scene,
-            camera
-        );
-        composer.addPass(customOutline);
-
-        // 3) Declare Custom Outline uniforms
-        const uniforms = customOutline.fsQuad.material.uniforms;
-        uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
-        uniforms.isDarkMode.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
-        uniforms.multiplierParameters.value.x = 0.625;
-        uniforms.multiplierParameters.value.y = 15;
-
-        // 4) Anti-alias pass
-        effectFXAA = new ShaderPass(FXAAShader);
-        effectFXAA.uniforms['resolution'].value.set(
-            1 / dimensions().width,
-            1 / dimensions().height
-        );
-        composer.addPass(effectFXAA);
-
-        // Group
-        objects = new THREE.Group();
-
-        // Set up the objects in their scenes, once all the models have loaded
-        this.portfolioItems.forEach(item => {
-            objects.add(item.object)
-        });
-        this.portfolioItems.forEach(item => SetObjectVisibility(item.object, false));
-
-        // Identify any default item
-        this.defaultItem = null;
-        this.portfolioItems.forEach(item => {
-            if (!item.element) this.defaultItem = item;
-        });
-
-        scene.add(objects);
+        scene.add(new THREE.AmbientLight(0x404040)) 
+  
+        let geometry = new THREE.TorusGeometry(1, 0.4, 12, 48)
+        let material = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.02 })
+        mesh = new THREE.Points(geometry, material)
+        
+        scene.add(mesh)
 
         // Subscribe to events
-        document.addEventListener('mousemove', onDocumentMouseMove, false);
-        document.addEventListener('mousedown', onDocumentMouseDown, false);
-        window.addEventListener( 'resize', onWindowResize );
+        window.addEventListener('resize', onWindowResize);
         onWindowResize();
     }
 
@@ -205,72 +82,6 @@ export class ModelPreviewer{
         requestAnimationFrame(()=>this.Update()); // Only update when tab open
         if (!shouldDisplayPreview()) return;
 
-        // Update time
-        let deltaTime = clock.getDelta();
-        time += deltaTime;
-
-        // Set appeared per item
-        let isAnyElementHovered = false;
-        this.portfolioItems.forEach(item => {
-            if (item.element) {
-                if (isElementHovered(item.element)){
-                    item.appeared += appearRate * deltaTime;
-                    isAnyElementHovered = true;
-                }
-                else {
-                    item.appeared -= appearRate * deltaTime;
-                }
-                item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
-            }
-        });
-
-        if (this.defaultItem) {
-            if (isAnyElementHovered) {
-                this.defaultItem.appeared -= appearRate * deltaTime;
-            }
-            else {
-                this.defaultItem.appeared += appearRate * deltaTime;
-            }
-            this.defaultItem.appeared = THREE.MathUtils.clamp(this.defaultItem.appeared, 0, 1);
-        }
-
-        // Set visibility per item
-        this.portfolioItems.forEach(item => {
-            if (item.appeared > 0) {
-                SetObjectVisibility(item.object, true);
-            }
-            else {
-                SetObjectVisibility(item.object, false);
-            }
-        });
-
-        // Update mouse's selected object
-        picker.pick(mouse, scene, camera);
-
-        // Set hovered per item
-        if (picker.picked) {
-            hovered += hoverRate * deltaTime;
-        }
-        else {
-            hovered -= hoverRate * deltaTime;
-        }
-        hovered = THREE.MathUtils.clamp(hovered, 0, 1);
-
-        // Scale the objects based on appeared and hovered
-        this.portfolioItems.forEach(item => {
-            let scale = item.appeared + 0.15 * cubicBezier(hovered);
-            item.object.scale.set(scale, scale, scale);
-        });
-
-        // Decelerate angular speed
-        angularSpeed -= deltaTime * angularSpeed * angularDamper;
-        angularSpeed = Math.max(defaultAngularSpeed, angularSpeed);
-
-        // Move and rotate the objects
-        objects.position.y = maximumDisplacement * Math.sin(time * speed);
-        objects.rotation.y += deltaTime * angularSpeed;
-
-
-        composer.render();
+        renderer.render(scene, camera)
     }
 }
