@@ -4,7 +4,7 @@ import { Pass, FullScreenQuad } from "pass";
 // Minimalist outline using only depth
 // Follows the structure of
 // 		https://github.com/mrdoob/three.js/blob/master/examples/jsm/postprocessing/OutlinePass.js
-class CustomOutlinePass extends Pass {
+class OutlinePass extends Pass {
     constructor(resolution, scene, camera) {
         super();
 
@@ -129,7 +129,7 @@ class CustomOutlinePass extends Pass {
                 float intensity = (base.r + base.g + base.b) / 3.0;
 			    return vec4(base.r, base.g, base.b, intensity);
 			}
-			
+
 			void main() {
 				float depth = getPixelDepth(0, 0);
 
@@ -156,8 +156,7 @@ class CustomOutlinePass extends Pass {
 				
 				// Use outline color
 				vec3 fragColor = vec3(outline * outlineColor);
-				
-                //vec4 fullFragColor = transpare(fragColor);
+
 				vec4 fullFragColor = vec4(fragColor, 1.0);
 				
 				gl_FragColor = fullFragColor;
@@ -192,4 +191,4 @@ class CustomOutlinePass extends Pass {
     }
 }
 
-export { CustomOutlinePass };
+export { OutlinePass };

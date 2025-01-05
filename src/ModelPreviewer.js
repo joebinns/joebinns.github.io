@@ -9,11 +9,11 @@ import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
 import { FXAAShader } from "fxaa-shader";
 
-// Custom outline
-import { CustomOutlinePass } from '/src/CustomOutlinePass.js';
+// Outline
+import { OutlinePass } from '/src/OutlinePass.js';
 
 
-let scene, camera, renderer, composer, customOutline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, outline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -73,7 +73,7 @@ function onWindowResize() {
     renderer.setSize(dimensions1.width, dimensions1.height);
     composer.setSize(dimensions1.width, dimensions1.height);
     effectFXAA.setSize(dimensions1.width, dimensions1.height);
-    customOutline.setSize(dimensions1.width, dimensions1.height);
+    outline.setSize(dimensions1.width, dimensions1.height);
     effectFXAA.uniforms["resolution"].value.set(
         1 / dimensions1.width,
         1 / dimensions1.height
@@ -149,19 +149,19 @@ export class ModelPreviewer{
 
 
         // 1) Render pass
-        // Skipping the regular render pass as to only render a custom outline.
+        // Skipping the regular render pass as to only render an outline.
 
         // 2) Post processing
         // Outline pass
-        customOutline = new CustomOutlinePass(
+        outline = new OutlinePass(
             new THREE.Vector2(dimensions().width, dimensions().height),
             scene,
             camera
         );
-        composer.addPass(customOutline);
+        composer.addPass(outline);
 
-        // 3) Declare Custom Outline uniforms
-        const uniforms = customOutline.fsQuad.material.uniforms;
+        // 3) Declare Outline uniforms
+        const uniforms = outline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
         uniforms.isDarkMode.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
