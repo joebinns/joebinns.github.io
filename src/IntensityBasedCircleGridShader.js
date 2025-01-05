@@ -74,7 +74,7 @@ const IntensityBasedCircleGridShader = {
                 }
             }
 
-            gl_FragColor = vec4(vec3(IS_DARK_MODE ? mask : 0.0), mask);
+            gl_FragColor = vec4(vec3(IS_DARK_MODE ? mask : 1.0 - mask), 1.0);
         }
         `
     ].join( "\n" )
