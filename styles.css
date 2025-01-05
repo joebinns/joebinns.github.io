@@ -309,7 +309,7 @@ logo {
     float: left;
     display: inline-block;
     vertical-align: top;
-    width: 153px;
+    width: 133px;
 }
 
 .logo-wrapper {
@@ -317,7 +317,7 @@ logo {
     position: fixed;
     mix-blend-mode: screen;
     bottom: 0;
-    transform: translateY(-88px);
+    transform: translateY(-84px);
     padding-bottom: 0;
     padding-top: 0;
 }
