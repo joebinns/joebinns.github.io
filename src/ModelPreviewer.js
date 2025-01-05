@@ -175,16 +175,16 @@ export class ModelPreviewer{
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         uniforms.multiplierParameters.value.x = 0.625;
         uniforms.multiplierParameters.value.y = 15;
+        
+        // 5)
+        intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
+        intensityBasedCircleGrid.uniforms.num
+        composer.addPass(intensityBasedCircleGrid);
 
         // 4) Anti-alias pass
         effectFXAA = new ShaderPass(FXAAShader);
 
         composer.addPass(effectFXAA);
-        
-        // 5)
-        intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
-        intensityBasedCircleGrid
-        composer.addPass(intensityBasedCircleGrid);
 
         // Group
         objects = new THREE.Group();
