@@ -465,7 +465,7 @@ caption {
     padding: 0rem 0.8rem;
     transition: .4s, background-position 0s;
     mix-blend-mode: screen;
-    font-weight: bold;
+    font-weight: normal;
 
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
