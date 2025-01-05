@@ -7,14 +7,13 @@ import { isElementHovered, cubicBezier } from '../src/Utilities.js';
 // Render requirements
 import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
-import { FXAAShader } from "fxaa-shader";
 
 // Outline
 import { OutlinePass } from '../src/OutlinePass.js';
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
 
-let scene, camera, renderer, composer, outline, effectFXAA, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, outline, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -73,18 +72,13 @@ function onWindowResize() {
 
     renderer.setSize(dimensions1.width, dimensions1.height);
     composer.setSize(dimensions1.width, dimensions1.height);
-    effectFXAA.setSize(dimensions1.width, dimensions1.height);
     intensityBasedCircleGrid.setSize(dimensions1.width, dimensions1.height);
     outline.setSize(dimensions1.width, dimensions1.height);
-
-    effectFXAA.uniforms["resolution"].value.set(
-        1 / dimensions1.width,
-        1 / dimensions1.height
+    
+    intensityBasedCircleGrid.uniforms.iResolution.value.set(
+        dimensions1.width,
+        dimensions1.height
     );
-    //intensityBasedCircleGrid.uniforms["resolution"].value.set(
-    //    1 / dimensions1.width,
-    //    1 / dimensions1.height
-    //);
 }
 
 function onDocumentMouseMove(event) {
@@ -178,13 +172,7 @@ export class ModelPreviewer{
         
         // 5)
         intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
-        intensityBasedCircleGrid.uniforms.num
         composer.addPass(intensityBasedCircleGrid);
-
-        // 4) Anti-alias pass
-        effectFXAA = new ShaderPass(FXAAShader);
-
-        composer.addPass(effectFXAA);
 
         // Group
         objects = new THREE.Group();
@@ -206,7 +194,7 @@ export class ModelPreviewer{
         // Subscribe to events
         document.addEventListener('mousemove', onDocumentMouseMove, false);
         document.addEventListener('mousedown', onDocumentMouseDown, false);
-        window.addEventListener( 'resize', onWindowResize );
+        window.addEventListener('resize', onWindowResize);
         onWindowResize();
     }
 
@@ -276,7 +264,7 @@ export class ModelPreviewer{
         angularSpeed = Math.max(defaultAngularSpeed, angularSpeed);
 
         // Move and rotate the objects
-        objects.position.y = maximumDisplacement * Math.sin(time * speed);
+        //objects.position.y = maximumDisplacement * Math.sin(time * speed);
         objects.rotation.y += deltaTime * angularSpeed;
 
 
