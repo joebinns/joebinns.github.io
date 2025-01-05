@@ -150,7 +150,7 @@ h1,
 h2,
 h3,
 h4 {
-    letter-spacing: -0.01em;
+    letter-spacing: 0em;
     line-height: 1.2;
     font-weight: bold;
 }
@@ -163,6 +163,8 @@ h1 {
 h2 {
     font-size: 72px;
     line-height: 1.3em;
+    margin-top: 0.7em;
+    margin-bottom: 0em;
 }
 
 h3 {
