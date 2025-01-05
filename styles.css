@@ -158,6 +158,7 @@ h4 {
 h1 {
     font-size: 46px;
     line-height: 1.3em;
+    letter-spacing: 0.03em;
 }
 
 h2 {
@@ -271,7 +272,7 @@ details details[open] summary::before {
 
 logo {
     text-decoration: none;
-    line-height: 1.2em;
+    letter-spacing: 0.03em;
     width: 100%;
 }
 
@@ -309,7 +310,7 @@ logo {
     float: left;
     display: inline-block;
     vertical-align: top;
-    width: 133px;
+    width: 142px;
 }
 
 .logo-wrapper {
@@ -466,6 +467,8 @@ caption {
     transition: .4s, background-position 0s;
     mix-blend-mode: screen;
     font-weight: normal;
+    letter-spacing: 0.03em;
+
 
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
