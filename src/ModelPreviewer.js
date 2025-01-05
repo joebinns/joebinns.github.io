@@ -164,14 +164,18 @@ export class ModelPreviewer{
         // 3) Declare Outline uniforms
         const uniforms = outline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
-        uniforms.isDarkMode.value = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        uniforms.isDarkMode.value = isDarkMode;
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
-        uniforms.multiplierParameters.value.x = 0.625;
-        uniforms.multiplierParameters.value.y = 15;
+        uniforms.multiplierParameters.value.x = 0.5;
+        uniforms.multiplierParameters.value.y = 50;
         
+        // TODO: Blur?
+
         // 5)
         intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
+        intensityBasedCircleGrid.uniforms.IS_DARK_MODE.value = isDarkMode;
         composer.addPass(intensityBasedCircleGrid);
 
         // Group
@@ -264,7 +268,7 @@ export class ModelPreviewer{
         angularSpeed = Math.max(defaultAngularSpeed, angularSpeed);
 
         // Move and rotate the objects
-        //objects.position.y = maximumDisplacement * Math.sin(time * speed);
+        objects.position.y = maximumDisplacement * Math.sin(time * speed);
         objects.rotation.y += deltaTime * angularSpeed;
 
 
