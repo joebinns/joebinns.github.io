@@ -10,10 +10,11 @@ import { ShaderPass } from "shader-pass";
 import { FXAAShader } from "fxaa-shader";
 
 // Outline
-import { OutlinePass } from '/src/OutlinePass.js';
+import { OutlinePass } from '../src/OutlinePass.js';
+import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
 
-let scene, camera, renderer, composer, outline, effectFXAA, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, outline, effectFXAA, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -73,11 +74,17 @@ function onWindowResize() {
     renderer.setSize(dimensions1.width, dimensions1.height);
     composer.setSize(dimensions1.width, dimensions1.height);
     effectFXAA.setSize(dimensions1.width, dimensions1.height);
+    intensityBasedCircleGrid.setSize(dimensions1.width, dimensions1.height);
     outline.setSize(dimensions1.width, dimensions1.height);
+
     effectFXAA.uniforms["resolution"].value.set(
         1 / dimensions1.width,
         1 / dimensions1.height
     );
+    //intensityBasedCircleGrid.uniforms["resolution"].value.set(
+    //    1 / dimensions1.width,
+    //    1 / dimensions1.height
+    //);
 }
 
 function onDocumentMouseMove(event) {
@@ -171,11 +178,13 @@ export class ModelPreviewer{
 
         // 4) Anti-alias pass
         effectFXAA = new ShaderPass(FXAAShader);
-        effectFXAA.uniforms['resolution'].value.set(
-            1 / dimensions().width,
-            1 / dimensions().height
-        );
+
         composer.addPass(effectFXAA);
+        
+        // 5)
+        intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
+        intensityBasedCircleGrid
+        composer.addPass(intensityBasedCircleGrid);
 
         // Group
         objects = new THREE.Group();
