@@ -643,6 +643,7 @@ h2 portfolio-prefix date{
 .model-preview {
     position: fixed;
     user-select: none;
+    margin-top: 65px;
 }
 
 overlay {

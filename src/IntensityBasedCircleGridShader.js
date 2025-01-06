@@ -8,7 +8,7 @@ const IntensityBasedCircleGridShader = {
     uniforms: {
         tDiffuse: { value: null },
         iResolution: { value: new THREE.Vector3(window.innerWidth, window.innerHeight, 1) },
-        GRID_HEIGHT: { value: 64.0 },
+        GRID_WIDTH: { value: 48.0 },
         MIN_RADIUS: { value: 0.0 },
         MAX_RADIUS: { value: 1.0 },
         MIN_INTENSITY: { value: 0.0 },
@@ -30,7 +30,7 @@ const IntensityBasedCircleGridShader = {
         uniform sampler2D tDiffuse;
         uniform vec3 iResolution;
 
-        uniform float GRID_HEIGHT;
+        uniform float GRID_WIDTH;
         uniform float MIN_RADIUS;
         uniform float MAX_RADIUS;
         uniform float MIN_INTENSITY;
@@ -42,7 +42,7 @@ const IntensityBasedCircleGridShader = {
         float circle(in vec2 st, in float radius)
         {
             float dist = length(st - 0.5);
-            return radius == 0.0 ? 0.0 : smoothstep(GRID_HEIGHT / iResolution.y * 1.5, 0.0, dist - radius / 2.0);
+            return radius == 0.0 ? 0.0 : smoothstep(GRID_WIDTH / iResolution.x * 1.5, 0.0, dist - radius / 2.0);
         }
 
         float intensity(in vec3 col)
@@ -58,16 +58,16 @@ const IntensityBasedCircleGridShader = {
 
         void main()
         {
-            vec2 gv = (vUv - 0.5) * iResolution.xy / iResolution.y;
+            vec2 gv = (vUv - 0.5) * iResolution.xy / iResolution.x;
             vec2 ouv = gv + 0.5;
-            gv = fract(gv * GRID_HEIGHT);
-            ouv = floor(ouv * GRID_HEIGHT) / GRID_HEIGHT;
+            gv = fract(gv * GRID_WIDTH);
+            ouv = floor(ouv * GRID_WIDTH) / GRID_WIDTH;
 
             float mask = 0.0;
             for (float y = -1.0; y <= 1.0; y++) {
                 for (float x = -1.0; x <= 1.0; x++) {
                     vec2 offset = vec2(x, y);
-                    vec3 texCol = texture2D(tDiffuse, ouv + offset / GRID_HEIGHT).rgb;
+                    vec3 texCol = texture2D(tDiffuse, ouv + offset / GRID_WIDTH).rgb;
                     float intensity = intensity(texCol);
                     float radius = remap(MIN_INTENSITY, MAX_INTENSITY, MIN_RADIUS, MAX_RADIUS, intensity * intensity);            
                     mask = max(mask, circle(gv - offset, radius));

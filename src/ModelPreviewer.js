@@ -23,7 +23,7 @@ function SetObjectVisibility(object, visible) {
 const dimensions = () => {
     return {
         width: shouldDisplayPreview() ? 386 : 0,
-        height: shouldDisplayPreview() ? (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 241 : 0,
+        height: shouldDisplayPreview() ? 386 : 0,
     };
 };
 
@@ -59,7 +59,8 @@ class ObjectPicker {
 }
 
 function shouldDisplayPreview() {
-    return (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) > 800;
+    return ((window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) > 800 &&
+        ((window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 241 - 65) >= 386);
 }
 
 function onWindowResize() {
@@ -84,7 +85,7 @@ function onWindowResize() {
 
 function onDocumentMouseMove(event) {
     mouse.x = (event.clientX / dimensions().width) * 2 - 1;
-    mouse.y = -(event.clientY / dimensions().height) * 2 + 1;
+    mouse.y = -((event.clientY - 65) / dimensions().height) * 2 + 1;
 }
 
 function onDocumentMouseDown(event) {
@@ -150,33 +151,30 @@ export class ModelPreviewer{
         composer = new EffectComposer(renderer, renderTarget);
 
 
-        // 1) Render pass
+        // Render pass
         // Skipping the regular render pass as to only render an outline.
 
-        // 2) Post processing
-        // Outline pass
+        // Post processing
+        // Outline
         outline = new OutlinePass(
             new THREE.Vector2(dimensions().width, dimensions().height),
             scene,
             camera
         );
         composer.addPass(outline);
-
-        // 3) Declare Outline uniforms
         const uniforms = outline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
         const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         uniforms.isDarkMode.value = true;
-
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         uniforms.multiplierParameters.value.x = 0.5;
         uniforms.multiplierParameters.value.y = 50;
         
-        // TODO: Blur?
+        // Bloom
         bloom = new BloomPass(1.5, 25, 4); // Strength, Kernel Size, Sigma
         composer.addPass(bloom);
 
-        // 5)
+        // Intensity Based Circle Grid
         intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
         intensityBasedCircleGrid.uniforms.IS_DARK_MODE.value = isDarkMode;
         composer.addPass(intensityBasedCircleGrid);
