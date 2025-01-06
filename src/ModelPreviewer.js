@@ -7,13 +7,14 @@ import { isElementHovered, cubicBezier } from '../src/Utilities.js';
 // Render requirements
 import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
+import { BloomPass } from "bloom-pass";
 
-// Outline
+// Custom shaders
 import { OutlinePass } from '../src/OutlinePass.js';
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
 
-let scene, camera, renderer, composer, outline, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, outline, bloom, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -101,7 +102,7 @@ export class ModelPreviewer{
         this.Update();
     }
 
-    Init () {
+    Init() {
         // Timer
         clock = new THREE.Clock();
         time = 0;
@@ -172,6 +173,8 @@ export class ModelPreviewer{
         uniforms.multiplierParameters.value.y = 50;
         
         // TODO: Blur?
+        bloom = new BloomPass(1.5, 25, 4); // Strength, Kernel Size, Sigma
+        composer.addPass(bloom);
 
         // 5)
         intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);

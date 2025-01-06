@@ -8,10 +8,10 @@ const IntensityBasedCircleGridShader = {
     uniforms: {
         tDiffuse: { value: null },
         iResolution: { value: new THREE.Vector3(window.innerWidth, window.innerHeight, 1) },
-        GRID_HEIGHT: { value: 86.0 },
+        GRID_HEIGHT: { value: 64.0 },
         MIN_RADIUS: { value: 0.0 },
         MAX_RADIUS: { value: 1.0 },
-        MIN_INTENSITY: { value: 0.3 },
+        MIN_INTENSITY: { value: 0.0 },
         MAX_INTENSITY: { value: 0.8 },
         IS_DARK_MODE: { value: false }
     },
