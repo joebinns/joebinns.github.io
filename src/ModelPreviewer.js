@@ -166,7 +166,7 @@ export class ModelPreviewer{
         const uniforms = outline.fsQuad.material.uniforms;
         uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
         const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        uniforms.isDarkMode.value = isDarkMode;
+        uniforms.isDarkMode.value = true;
 
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         uniforms.multiplierParameters.value.x = 0.5;

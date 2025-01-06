@@ -69,8 +69,7 @@ const IntensityBasedCircleGridShader = {
                     vec2 offset = vec2(x, y);
                     vec3 texCol = texture2D(tDiffuse, ouv + offset / GRID_HEIGHT).rgb;
                     float intensity = intensity(texCol);
-                    intensity *= intensity;
-                    float radius = remap(MIN_INTENSITY, MAX_INTENSITY, MIN_RADIUS, MAX_RADIUS, IS_DARK_MODE ? intensity : 1.0 - intensity);            
+                    float radius = remap(MIN_INTENSITY, MAX_INTENSITY, MIN_RADIUS, MAX_RADIUS, intensity * intensity);            
                     mask = max(mask, circle(gv - offset, radius));
                 }
             }
