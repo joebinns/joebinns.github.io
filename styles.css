@@ -912,6 +912,16 @@ overlay {
     margin-top: 10px;
 }
 
+.fidget-toy
+{
+    position: absolute;
+    left: 275px;
+    top: 298px;
+    font-size: 20px;
+    color: #f8cda8;
+    transform: rotate(-10deg);
+}
+
 /* Dark Mode */
 @media (prefers-color-scheme: light){
     body {
@@ -985,5 +995,9 @@ overlay {
 
     a.hyperlink:hover {
         background: rgba(255, 255, 255, 0.6);
+    }
+
+    .fidget-toy {
+        color: #825ece;
     }
 }

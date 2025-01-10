@@ -18,3 +18,11 @@ portfolioItems.forEach(item => {
 Promise.all(promises).then(() => {
     new ModelPreviewer(portfolioItems);
 });
+
+
+
+// Dark mode
+const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+if (userPrefersDark) {
+    document.getElementById("fidget-toy").src="/images/about/arrow.svg";
+}
