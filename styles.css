@@ -915,11 +915,12 @@ overlay {
 .fidget-toy
 {
     position: absolute;
-    left: 275px;
-    top: 298px;
-    font-size: 20px;
+    left: 265px;
+    top: 288px;
+    font-size: 24px;
     color: #f8cda8;
     transform: rotate(-10deg);
+    font-family: 'Gloria Hallelujah';
 }
 
 /* Dark Mode */

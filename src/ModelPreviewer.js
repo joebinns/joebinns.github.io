@@ -58,7 +58,7 @@ class ObjectPicker {
     }
 }
 
-function shouldDisplayPreview() {
+export function shouldDisplayPreview() {
     return ((window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) > 800 &&
         ((window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 241 - 65) >= 386);
 }
