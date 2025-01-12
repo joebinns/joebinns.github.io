@@ -8,6 +8,8 @@ const IntensityBasedCircleGridShader = {
     uniforms: {
         tDiffuse: { value: null },
         iResolution: { value: new THREE.Vector3(window.innerWidth, window.innerHeight, 1) },
+        iMouse: { value: new THREE.Vector2(0.0, 0.0) },
+        iTime: { value: 0.0 },
         GRID_WIDTH: { value: 48.0 },
         MIN_RADIUS: { value: 0.0 },
         MAX_RADIUS: { value: 1.0 },
@@ -29,6 +31,8 @@ const IntensityBasedCircleGridShader = {
     fragmentShader: [`
         uniform sampler2D tDiffuse;
         uniform vec3 iResolution;
+        uniform vec2 iMouse;
+        uniform float iTime;
 
         uniform float GRID_WIDTH;
         uniform float MIN_RADIUS;
@@ -38,6 +42,8 @@ const IntensityBasedCircleGridShader = {
         uniform bool IS_DARK_MODE;
 
         varying vec2 vUv;
+
+        const float PI = 3.14;
 
         float circle(in vec2 st, in float radius)
         {
@@ -58,10 +64,16 @@ const IntensityBasedCircleGridShader = {
 
         void main()
         {
+            vec2 mc = iMouse * 0.5 + vec2(0.5);
             vec2 gv = (vUv - 0.5) * iResolution.xy / iResolution.x;
             vec2 ouv = gv + 0.5;
             gv = fract(gv * GRID_WIDTH);
             ouv = floor(ouv * GRID_WIDTH) / GRID_WIDTH;
+
+            // Mouse
+            float blur = 50.0 / iResolution.y;   
+            float r = 0.08 + 0.01 * cos(PI * iTime);
+            float col = smoothstep( r+blur, r-blur, length( mc - ouv )); 
 
             float mask = 0.0;
             for (float y = -1.0; y <= 1.0; y++) {
@@ -69,6 +81,7 @@ const IntensityBasedCircleGridShader = {
                     vec2 offset = vec2(x, y);
                     vec3 texCol = texture2D(tDiffuse, ouv + offset / GRID_WIDTH).rgb;
                     float intensity = intensity(texCol);
+                    intensity = ceil(intensity) * max(intensity, col);
                     float radius = remap(MIN_INTENSITY, MAX_INTENSITY, MIN_RADIUS, MAX_RADIUS, intensity * intensity);            
                     mask = max(mask, circle(gv - offset, radius));
                 }

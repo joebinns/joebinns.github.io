@@ -11,10 +11,10 @@ import { BloomPass } from "bloom-pass";
 
 // Custom shaders
 import { OutlinePass } from '../src/OutlinePass.js';
+import { ShockwaveShader } from "../src/ShockwaveShader.js";
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
-
-let scene, camera, renderer, composer, outline, bloom, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, outline, bloom, shockwave, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -74,9 +74,15 @@ function onWindowResize() {
 
     renderer.setSize(dimensions1.width, dimensions1.height);
     composer.setSize(dimensions1.width, dimensions1.height);
+    shockwave.setSize(dimensions1.width, dimensions1.height);
     intensityBasedCircleGrid.setSize(dimensions1.width, dimensions1.height);
     outline.setSize(dimensions1.width, dimensions1.height);
-    
+
+    shockwave.uniforms.iResolution.value.set(
+        dimensions1.width,
+        dimensions1.height
+    );
+
     intensityBasedCircleGrid.uniforms.iResolution.value.set(
         dimensions1.width,
         dimensions1.height
@@ -84,16 +90,27 @@ function onWindowResize() {
 }
 
 function onDocumentMouseMove(event) {
-    mouse.x = (event.clientX / dimensions().width) * 2 - 1;
-    mouse.y = -((event.clientY - 65) / dimensions().height) * 2 + 1;
+    const dimensions1 = dimensions();
+    mouse.x = (event.clientX / dimensions1.width) * 2 - 1;
+    mouse.y = -((event.clientY - 65) / dimensions1.height) * 2 + 1;
 }
 
 function onDocumentMouseDown(event) {
     let object = picker.picked;
     if (object) {
         // Click
-        angularSpeed += (defaultAngularSpeed * 25);
+        angularSpeed += (defaultAngularSpeed * 20);
+
+        shockwave.uniforms.iMouse.value.set(
+            mouse.x,
+            mouse.y
+        );
+        shockwaveTime = 0;
+        
     }
+}
+
+function onDocumentMouseUp(event) {
 }
 
 export class ModelPreviewer{
@@ -107,6 +124,7 @@ export class ModelPreviewer{
         // Timer
         clock = new THREE.Clock();
         time = 0;
+        shockwaveTime = 10;
 
         // Controller
         mouse = new THREE.Vector2();
@@ -148,13 +166,13 @@ export class ModelPreviewer{
             dimensions().width,
             dimensions().height
         );
-        composer = new EffectComposer(renderer, renderTarget);
-
+        composer = new EffectComposer(renderer, renderTarget); 
 
         // Render pass
         // Skipping the regular render pass as to only render an outline.
 
         // Post processing
+
         // Outline
         outline = new OutlinePass(
             new THREE.Vector2(dimensions().width, dimensions().height),
@@ -169,7 +187,11 @@ export class ModelPreviewer{
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         uniforms.multiplierParameters.value.x = 0.5;
         uniforms.multiplierParameters.value.y = 50;
-        
+
+        // Shockwave
+        shockwave = new ShaderPass(ShockwaveShader);
+        composer.addPass(shockwave);
+
         // Bloom
         bloom = new BloomPass(1.5, 25, 4); // Strength, Kernel Size, Sigma
         composer.addPass(bloom);
@@ -199,6 +221,7 @@ export class ModelPreviewer{
         // Subscribe to events
         document.addEventListener('mousemove', onDocumentMouseMove, false);
         document.addEventListener('mousedown', onDocumentMouseDown, false);
+        document.addEventListener('mouseup', onDocumentMouseUp, false);
         window.addEventListener('resize', onWindowResize);
         onWindowResize();
     }
@@ -210,6 +233,14 @@ export class ModelPreviewer{
         // Update time
         let deltaTime = clock.getDelta();
         time += deltaTime;
+        shockwaveTime += deltaTime;
+
+        shockwave.uniforms.iTime.value = shockwaveTime;
+        intensityBasedCircleGrid.uniforms.iTime.value = shockwaveTime;
+        intensityBasedCircleGrid.uniforms.iMouse.value.set(
+            mouse.x,
+            mouse.y
+        );
 
         // Set appeared per item
         let isAnyElementHovered = false;
@@ -272,7 +303,7 @@ export class ModelPreviewer{
         objects.position.y = maximumDisplacement * Math.sin(time * speed);
         objects.rotation.y += deltaTime * angularSpeed;
 
-
+        // Render final scene
         composer.render();
     }
 }
