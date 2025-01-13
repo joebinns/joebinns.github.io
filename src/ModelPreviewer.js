@@ -289,11 +289,13 @@ export class ModelPreviewer{
         }
         hovered = THREE.MathUtils.clamp(hovered, 0, 1);
 
+        /*
         // Scale the objects based on appeared and hovered
         this.portfolioItems.forEach(item => {
-            let scale = item.appeared + 0.15 * cubicBezier(hovered);
+            let scale = item.appeared; //+ 0.15 * cubicBezier(hovered);
             item.object.scale.set(scale, scale, scale);
         });
+        */
 
         // Decelerate angular speed
         angularSpeed -= deltaTime * angularSpeed * angularDamper;
