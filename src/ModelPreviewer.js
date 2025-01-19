@@ -103,7 +103,7 @@ function onDocumentMouseMove(event) {
 function onDocumentMouseDown(event) {
     let object = picker.picked;
     if (object) {
-        var forceMagnitude = 4.0;
+        var forceMagnitude = 15.0;
         var force = new THREE.Vector3(0, 0, 1).multiplyScalar(-forceMagnitude);
         AddForceAtPosition(force, picker.hitPoint);
         shockwaveTime = 0;
@@ -142,7 +142,7 @@ export class ModelPreviewer{
         appearRate = 8;
         speed = 1.5;
         maximumDisplacement = 0.1;
-        defaultAngularSpeed = 0.0002;
+        defaultAngularSpeed = 0.05;
         targetYawVelocity = defaultAngularSpeed;
         forceToApply = new THREE.Vector3(0, 0, 0);
         torqueToApply = new THREE.Vector3(0, 0, 0);
@@ -299,8 +299,8 @@ export class ModelPreviewer{
 
         // Linear oscillator
         let stiffness = -0.5;
-        let damper = -20.0;
-        let mass = 10000.0;
+        let damper = -0.25;
+        let mass = 1.0;
         var position = objects.position.clone();
         var displacement = position.clone().sub(targetPosition);
         let restorativeForce = displacement.multiplyScalar(stiffness)
@@ -308,16 +308,16 @@ export class ModelPreviewer{
         forceToApply.add(restorativeForce);
         forceToApply.add(dampingForce);
         var acceleration = forceToApply.divideScalar(mass);
-        deltaTime = 0.05;
-        var deltaVelocity = acceleration.clone().divideScalar(deltaTime);
+        deltaTime = 0.100;
+        var deltaVelocity = acceleration.clone().multiplyScalar(deltaTime);
         velocity.add(deltaVelocity);   
-        var deltaPosition = velocity.clone().divideScalar(deltaTime)
+        var deltaPosition = velocity.clone().multiplyScalar(deltaTime)
         position.add(deltaPosition);
         forceToApply = new THREE.Vector3(0, 0, 0);
 
         // Torsional oscillator
-        let torsionalStiffness = -0.25;
-        let torsionalDamper = -30.0;
+        let torsionalStiffness = -0.5;
+        let torsionalDamper = -0.25;
         var rotation = new THREE.Vector3(objects.rotation.x, objects.rotation.y, objects.rotation.z);
         var torsionalDisplacement = rotation.clone().sub(targetRotation);
         let restorativeTorque = torsionalDisplacement.multiplyScalar(torsionalStiffness);
@@ -327,13 +327,13 @@ export class ModelPreviewer{
         torqueToApply.add(restorativeTorque);
         torqueToApply.add(dampingTorque);
         var torsionalAcceleration = torqueToApply.divideScalar(mass);
-        var deltaAngularVelocity = torsionalAcceleration.clone().divideScalar(deltaTime);
+        var deltaAngularVelocity = torsionalAcceleration.clone().multiplyScalar(deltaTime);
         angularVelocity.add(deltaAngularVelocity);
 
-        let fixedProgress = 0.3;
+        let fixedProgress = 0.15;
         angularVelocity.y = lerp(angularVelocity.y, targetYawVelocity, 1.0 - Math.pow(1.0 - fixedProgress, deltaTime));
 
-        var deltaRotation = angularVelocity.clone().divideScalar(deltaTime);
+        var deltaRotation = angularVelocity.clone().multiplyScalar(deltaTime);
         rotation.add(deltaRotation);
         torqueToApply = new THREE.Vector3(0, 0, 0);
         
