@@ -300,7 +300,7 @@ export class ModelPreviewer{
         // Linear oscillator
         let stiffness = -0.5;
         let damper = -20.0;
-        let mass = 1000000.0;
+        let mass = 10000.0;
         var position = objects.position.clone();
         var displacement = position.clone().sub(targetPosition);
         let restorativeForce = displacement.multiplyScalar(stiffness)
