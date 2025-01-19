@@ -1,3 +1,7 @@
+/*
+Heyo! Congrats on finding this, please don't judge my mess ;)
+*/
+
 // Three.js
 import * as THREE from "three";
 
@@ -14,7 +18,7 @@ import { OutlinePass } from '../src/OutlinePass.js';
 import { ShockwaveShader } from "../src/ShockwaveShader.js";
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
-let scene, camera, renderer, composer, outline, bloom, shockwave, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, angularSpeed, defaultAngularSpeed, angularDamper, preview;
+let scene, camera, renderer, composer, outline, bloom, shockwave, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -31,6 +35,8 @@ class ObjectPicker {
     constructor() {
         this.raycaster = new THREE.Raycaster();
         this.picked = null;
+        this.hitPoint = null;
+        this.hitNormal = null;
     }
 
     refreshCursor() {
@@ -40,6 +46,8 @@ class ObjectPicker {
 
     pick(normalizedPosition, scene, camera) {
         let pickedObject = null;
+        let hitPoint = null;
+        let hitNormal = null;
 
         // Cast a ray through the frustum
         this.raycaster.setFromCamera(normalizedPosition, camera);
@@ -50,9 +58,13 @@ class ObjectPicker {
         if (intersectedObjects.length) {
             // Pick the first object. It's the closest one
             pickedObject = intersectedObjects[0].object.parent;
+            hitPoint = intersectedObjects[0].point;
+            hitNormal = intersectedObjects[0].normal;
         }
 
         this.picked = pickedObject;
+        this.hitPoint = hitPoint;
+        this.hitNormal = hitNormal;
 
         this.refreshCursor();
     }
@@ -98,20 +110,30 @@ function onDocumentMouseMove(event) {
 function onDocumentMouseDown(event) {
     let object = picker.picked;
     if (object) {
-        // Click
-        angularSpeed += (defaultAngularSpeed * 20);
+        var forceMagnitude = 4.0;
+        var force = new THREE.Vector3(0, 0, 1).multiplyScalar(-forceMagnitude);
+        AddForceAtPosition(force, picker.hitPoint);
 
         shockwave.uniforms.iMouse.value.set(
             mouse.x,
             mouse.y
         );
         shockwaveTime = 0;
-        
     }
 }
 
 function onDocumentMouseUp(event) {
 }
+
+function AddForceAtPosition(force, position)
+{
+    forceToApply.add(force);
+    torqueToApply.add((position.sub(objects.position)).cross(force));
+}
+
+function lerp( a, b, alpha ) {
+    return a + alpha * ( b - a );
+   }
 
 export class ModelPreviewer{
     constructor(portfolioItems) {
@@ -134,9 +156,14 @@ export class ModelPreviewer{
         hovered = 0;
         speed = 1.5;
         maximumDisplacement = 0.1;
-        defaultAngularSpeed = 0.5;
-        angularDamper = 2;
-        angularSpeed = defaultAngularSpeed;
+        defaultAngularSpeed = 0.0002;
+        targetYawVelocity = defaultAngularSpeed;
+        forceToApply = new THREE.Vector3(0, 0, 0);
+        torqueToApply = new THREE.Vector3(0, 0, 0);
+        targetPosition = new THREE.Vector3(0, 0, 0);
+        targetRotation = new THREE.Vector3(0, 0, 0);
+        velocity = new THREE.Vector3(0, 0, 0);
+        angularVelocity = new THREE.Vector3(0, targetYawVelocity, 0);
 
         // Model preview
         preview = document.querySelector('.model-preview');
@@ -289,21 +316,53 @@ export class ModelPreviewer{
         }
         hovered = THREE.MathUtils.clamp(hovered, 0, 1);
 
-        /*
-        // Scale the objects based on appeared and hovered
-        this.portfolioItems.forEach(item => {
-            let scale = item.appeared; //+ 0.15 * cubicBezier(hovered);
-            item.object.scale.set(scale, scale, scale);
-        });
-        */
+        targetYawVelocity = defaultAngularSpeed * (angularVelocity.y >= 0.0 ? 1.0 : -1.0);
+        targetPosition.y = maximumDisplacement * Math.sin(time * speed);
+        //targetRotation.y += deltaTime * targetYawVelocity;
 
-        // Decelerate angular speed
-        angularSpeed -= deltaTime * angularSpeed * angularDamper;
-        angularSpeed = Math.max(defaultAngularSpeed, angularSpeed);
+        // Linear oscillator
+        let stiffness = -0.5;
+        let damper = -20.0;
+        let mass = 10000.0;
+        var position = objects.position.clone();
+        var displacement = position.clone().sub(targetPosition);
+        let restorativeForce = displacement.multiplyScalar(stiffness)
+        let dampingForce = velocity.clone().multiplyScalar(damper);
+        forceToApply.add(restorativeForce);
+        forceToApply.add(dampingForce);
+        var acceleration = forceToApply.divideScalar(mass);
+        deltaTime = 0.05;
+        var deltaVelocity = acceleration.clone().divideScalar(deltaTime);
+        velocity.add(deltaVelocity);   
+        var deltaPosition = velocity.clone().divideScalar(deltaTime)
+        position.add(deltaPosition);
+        forceToApply = new THREE.Vector3(0, 0, 0);
 
-        // Move and rotate the objects
-        objects.position.y = maximumDisplacement * Math.sin(time * speed);
-        objects.rotation.y += deltaTime * angularSpeed;
+        // Torsional oscillator
+        let torsionalStiffness = -0.1;
+        let torsionalDamper = -15.0;
+        var rotation = new THREE.Vector3(objects.rotation.x, objects.rotation.y, objects.rotation.z);
+        var torsionalDisplacement = rotation.clone().sub(targetRotation);
+        let restorativeTorque = torsionalDisplacement.multiplyScalar(torsionalStiffness);
+        restorativeTorque.y = 0.0;
+        let dampingTorque = angularVelocity.clone().multiplyScalar(torsionalDamper);
+        dampingTorque.y = 0.0;
+        torqueToApply.add(restorativeTorque);
+        torqueToApply.add(dampingTorque);
+        var torsionalAcceleration = torqueToApply.divideScalar(mass);
+        var deltaAngularVelocity = torsionalAcceleration.clone().divideScalar(deltaTime);
+        angularVelocity.add(deltaAngularVelocity);
+
+        let fixedProgress = 0.3;
+        angularVelocity.y = lerp(angularVelocity.y, targetYawVelocity, 1.0 - Math.pow(1.0 - fixedProgress, deltaTime));
+
+        var deltaRotation = angularVelocity.clone().divideScalar(deltaTime);
+        rotation.add(deltaRotation);
+        torqueToApply = new THREE.Vector3(0, 0, 0);
+        
+        // Move and rotate the objects 
+        objects.position.set(position.x, position.y, position.z);
+        objects.rotation.set(rotation.x, rotation.y, rotation.z);
 
         // Render final scene
         composer.render();
