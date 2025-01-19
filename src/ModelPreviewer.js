@@ -322,8 +322,8 @@ export class ModelPreviewer{
         forceToApply = new THREE.Vector3(0, 0, 0);
 
         // Torsional oscillator
-        let torsionalStiffness = -0.1;
-        let torsionalDamper = -15.0;
+        let torsionalStiffness = -0.25;
+        let torsionalDamper = -30.0;
         var rotation = new THREE.Vector3(objects.rotation.x, objects.rotation.y, objects.rotation.z);
         var torsionalDisplacement = rotation.clone().sub(targetRotation);
         let restorativeTorque = torsionalDisplacement.multiplyScalar(torsionalStiffness);
