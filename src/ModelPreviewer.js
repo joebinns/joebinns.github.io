@@ -6,7 +6,7 @@ Heyo! Congrats on finding this, please don't judge my mess ;)
 import * as THREE from "three";
 
 // Utilities
-import { isElementHovered, cubicBezier } from '../src/Utilities.js';
+import { isElementHovered } from '../src/Utilities.js';
 
 // Render requirements
 import { EffectComposer } from "effect-composer";
@@ -17,7 +17,7 @@ import { BloomPass } from "bloom-pass";
 import { OutlinePass } from '../src/OutlinePass.js';
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
-let scene, camera, renderer, composer, outline, bloom, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
+let scene, camera, renderer, composer, outline, bloom, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -139,9 +139,7 @@ export class ModelPreviewer{
         // Controller
         mouse = new THREE.Vector2(-100, -100);
         picker = new ObjectPicker();
-        hoverRate = 10;
         appearRate = 8;
-        hovered = 0;
         speed = 1.5;
         maximumDisplacement = 0.1;
         defaultAngularSpeed = 0.0002;
@@ -290,23 +288,19 @@ export class ModelPreviewer{
         // Update mouse's selected object
         picker.pick(mouse, scene, camera);
 
-        // Set hovered per item
-        if (picker.picked) {
-            hovered += hoverRate * deltaTime;
-        }
-        else {
-            hovered -= hoverRate * deltaTime;
-        }
-        hovered = THREE.MathUtils.clamp(hovered, 0, 1);
+        // Scale the objects based on appeared
+        this.portfolioItems.forEach(item => {
+            let scale = item.appeared;
+            item.object.scale.set(scale, scale, scale);
+        });
 
         targetYawVelocity = defaultAngularSpeed * (angularVelocity.y >= 0.0 ? 1.0 : -1.0);
         targetPosition.y = maximumDisplacement * Math.sin(time * speed);
-        //targetRotation.y += deltaTime * targetYawVelocity;
 
         // Linear oscillator
         let stiffness = -0.5;
         let damper = -20.0;
-        let mass = 10000.0;
+        let mass = 1000000.0;
         var position = objects.position.clone();
         var displacement = position.clone().sub(targetPosition);
         let restorativeForce = displacement.multiplyScalar(stiffness)
