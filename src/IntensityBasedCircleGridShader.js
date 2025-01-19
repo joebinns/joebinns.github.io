@@ -72,8 +72,8 @@ const IntensityBasedCircleGridShader = {
 
             // Mouse
             float blur = 50.0 / iResolution.y;   
-            float progress = iTime / 0.3;
-            float r = 0.08 - 0.03 * min(progress * progress, 1.0);
+            float progress = iTime / 0.2;
+            float r = 0.1 - 0.05 * min(progress * progress, 1.0);
             float col = smoothstep( r+blur, r-blur, length( mc - ouv )); 
 
             float mask = 0.0;

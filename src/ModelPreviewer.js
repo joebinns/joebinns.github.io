@@ -15,10 +15,9 @@ import { BloomPass } from "bloom-pass";
 
 // Custom shaders
 import { OutlinePass } from '../src/OutlinePass.js';
-import { ShockwaveShader } from "../src/ShockwaveShader.js";
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
-let scene, camera, renderer, composer, outline, bloom, shockwave, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
+let scene, camera, renderer, composer, outline, bloom, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, hoverRate, appearRate, hovered, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -86,14 +85,8 @@ function onWindowResize() {
 
     renderer.setSize(dimensions1.width, dimensions1.height);
     composer.setSize(dimensions1.width, dimensions1.height);
-    shockwave.setSize(dimensions1.width, dimensions1.height);
     intensityBasedCircleGrid.setSize(dimensions1.width, dimensions1.height);
     outline.setSize(dimensions1.width, dimensions1.height);
-
-    shockwave.uniforms.iResolution.value.set(
-        dimensions1.width,
-        dimensions1.height
-    );
 
     intensityBasedCircleGrid.uniforms.iResolution.value.set(
         dimensions1.width,
@@ -113,11 +106,6 @@ function onDocumentMouseDown(event) {
         var forceMagnitude = 4.0;
         var force = new THREE.Vector3(0, 0, 1).multiplyScalar(-forceMagnitude);
         AddForceAtPosition(force, picker.hitPoint);
-
-        shockwave.uniforms.iMouse.value.set(
-            mouse.x,
-            mouse.y
-        );
         shockwaveTime = 0;
     }
 }
@@ -149,7 +137,7 @@ export class ModelPreviewer{
         shockwaveTime = 10;
 
         // Controller
-        mouse = new THREE.Vector2();
+        mouse = new THREE.Vector2(-100, -100);
         picker = new ObjectPicker();
         hoverRate = 10;
         appearRate = 8;
@@ -215,10 +203,6 @@ export class ModelPreviewer{
         uniforms.multiplierParameters.value.x = 0.5;
         uniforms.multiplierParameters.value.y = 50;
 
-        // Shockwave
-        shockwave = new ShaderPass(ShockwaveShader);
-        composer.addPass(shockwave);
-
         // Bloom
         bloom = new BloomPass(1.5, 25, 4); // Strength, Kernel Size, Sigma
         composer.addPass(bloom);
@@ -262,7 +246,6 @@ export class ModelPreviewer{
         time += deltaTime;
         shockwaveTime += deltaTime;
 
-        shockwave.uniforms.iTime.value = shockwaveTime;
         intensityBasedCircleGrid.uniforms.iTime.value = shockwaveTime;
         intensityBasedCircleGrid.uniforms.iMouse.value.set(
             mouse.x,
