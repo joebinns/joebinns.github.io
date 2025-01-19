@@ -19,17 +19,14 @@ portfolioItems.forEach(item => {
 });
 Promise.all(promises).then(() => {
     new ModelPreviewer(portfolioItems);
+    Update();
 });
-
-
 
 // Dark mode
 const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 if (userPrefersDark) {
     fidgettoyarrow.src="/images/about/arrow.svg";
 }
-
-Update();
 
 function Update() {
     requestAnimationFrame(() => Update()); // Only update when tab open
