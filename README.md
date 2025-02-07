@@ -20,8 +20,10 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 [Old Car - VAZ 2107](https://skfb.ly/6YLnQ) is from Arkady Gribachev, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Dark metal teapot](https://skfb.ly/oG8XE) is from tiegon, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
 
-### Outline
+### Shaders
+An outline shader is applied, followed by an intensity based circle grid shader.
 The outlines are my own depth-buffer only adaptation of Omar Shehata's [WebGL Outlines](https://github.com/OmarShehata/webgl-outlines), licensed under [MIT](https://opensource.org/license/mit/).
+The intensity based circle grid shader is my own.
 
 ### All else
 Is [my own](https://joebinns.com/).
