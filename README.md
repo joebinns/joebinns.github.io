@@ -17,8 +17,8 @@ My personal website, where I host my portfolio, curriculum vitae and link to the
 [Astronaut Helmet](https://skfb.ly/6RBqR) is from Mostafa Medhat, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Moka Coffee Pot](https://skfb.ly/oEI9K) is from Alexander Jabczyński, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
 [Saloon](https://skfb.ly/onYCx) is from Dima Zelinsky, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
-[Old Car - VAZ 2107](https://skfb.ly/6YLnQ) is from Arkady Gribachev, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br>
-[Dark metal teapot](https://skfb.ly/oG8XE) is from tiegon, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
+[Watering can](https://skfb.ly/6snIw) is from Frewill, licensed under [Creative Commons Attribution-ShareAlike](https://creativecommons.org/licenses/by-sa/4.0/).<br>
+[Dark metal teapot](https://skfb.ly/oG8XE) is from tiegon, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).<br> [Low Poly Easel](https://skfb.ly/opItU) is from Fabian De Jager, licensed under [Creative Commons Attribution](http://creativecommons.org/licenses/by/4.0/).
 
 ### Shaders
 An outline shader is applied, followed by an intensity based circle grid shader.
