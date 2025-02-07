@@ -8,7 +8,7 @@ import { ModelPreviewer } from './ModelPreviewer.js';
 let portfolioItems = [];
 
 portfolioItems.push(
-    new PortfolioItem(null, 'crystal-pedestal.glb'),
+    new PortfolioItem(null, 'watering-can.glb'),
     new PortfolioItem('littleCosmos', 'space-helmet.glb'),
 );
 
