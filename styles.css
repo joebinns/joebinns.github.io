@@ -29,7 +29,7 @@ html{
 }
 
 body{
-    background: #080808;
+    background: #090909;
     color: white;
     min-height: 100%;
     overflow-y: auto;
@@ -497,7 +497,7 @@ caption {
 }
 .gradient-multiline:hover {
     --time: 100%;
-    color: #080808;
+    color: #090909;
 }
 .gradient-multiline:hover portfolio-prefix badge {
 }
@@ -623,7 +623,7 @@ h2 portfolio-prefix date{
     position: absolute;
     top: 0;
     left: 50px;
-    background-color: #080808;
+    background-color: #090909;
     margin: 5px;
     padding: 5px;
     border: 40px;
@@ -688,7 +688,7 @@ overlay {
 }
 
 .tint-overlay.min {
-    background: #080808;
+    background: #090909;
     mix-blend-mode: lighten;
 }
 
@@ -908,7 +908,7 @@ overlay {
     font-family: 'Gloria Hallelujah';
     font-size: 16px;
     position: absolute;
-    color: #080808;
+    color: #090909;
     margin-top: 10px;
 }
 
@@ -927,25 +927,25 @@ overlay {
 @media (prefers-color-scheme: light){
     body {
         background: white;
-        color: #0f0f0f;
+        color: #090909;
     }
 
     p {
-        color: #0f0f0f;
+        color: #090909;
     }
 
     a {
-        color: #0f0f0f;
+        color: #090909;
     }
 
     summary.hyperlink {
-        color: #0f0f0f;
+        color: #090909;
     }
     summary.hyperlink:hover{
-        color: #0f0f0f;
+        color: #090909;
     }
     summary.hyperlink:active{
-        color: #0f0f0f;
+        color: #090909;
     }
 
     caption {
@@ -977,7 +977,7 @@ overlay {
 
     .info span {
         background-color: white;
-        color: #0f0f0f;
+        color: #090909;
     }
 
     @media screen and (max-width: 800px) {

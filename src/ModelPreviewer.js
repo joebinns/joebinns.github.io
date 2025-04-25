@@ -160,7 +160,7 @@ export class ModelPreviewer{
 
         // Scene
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x080808);
+        scene.background = new THREE.Color(0x090909);
 
         // Camera
         camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 10);
