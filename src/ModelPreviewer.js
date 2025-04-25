@@ -119,9 +119,10 @@ function AddForceAtPosition(force, position)
     torqueToApply.add((position.sub(objects.position)).cross(force));
 }
 
-function lerp( a, b, alpha ) {
+function lerp(a, b, alpha)
+{
     return a + alpha * ( b - a );
-   }
+}
 
 export class ModelPreviewer{
     constructor(portfolioItems) {
@@ -324,6 +325,7 @@ export class ModelPreviewer{
         restorativeTorque.y = 0.0;
         let dampingTorque = angularVelocity.clone().multiplyScalar(torsionalDamper);
         dampingTorque.y = 0.0;
+        torqueToApply.x *= 0.3;
         torqueToApply.add(restorativeTorque);
         torqueToApply.add(dampingTorque);
         var torsionalAcceleration = torqueToApply.divideScalar(mass);
