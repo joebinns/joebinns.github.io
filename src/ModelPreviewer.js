@@ -11,10 +11,10 @@ import { isElementHovered } from '../src/Utilities.js';
 // Render requirements
 import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
-import { BloomPass } from "bloom-pass";
 
 // Custom shaders
 import { OutlinePass } from '../src/OutlinePass.js';
+import { BloomPass } from "../src/BloomPass.js";
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
 let scene, camera, renderer, composer, outline, bloom, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
@@ -180,6 +180,9 @@ export class ModelPreviewer{
             dimensions().width,
             dimensions().height
         );
+        renderTarget.depthBuffer = true;
+        renderTarget.depthTexture = new THREE.DepthTexture();
+        renderTarget.depthTexture.type = THREE.UnsignedShortType;
         composer = new EffectComposer(renderer, renderTarget); 
 
         // Render pass
