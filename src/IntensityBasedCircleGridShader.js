@@ -12,9 +12,9 @@ const IntensityBasedCircleGridShader = {
         iTime: { value: 0.0 },
         GRID_WIDTH: { value: 48.0 },
         MIN_RADIUS: { value: 0.0 },
-        MAX_RADIUS: { value: 1.0 },
+        MAX_RADIUS: { value: 0.75 },
         MIN_INTENSITY: { value: 0.0 },
-        MAX_INTENSITY: { value: 0.8 },
+        MAX_INTENSITY: { value: 0.4 },
         IS_DARK_MODE: { value: false }
     },
 

@@ -10,7 +10,7 @@ class DepthMaskPass extends Pass {
         this.resolution = new THREE.Vector2(resolution.x, resolution.y);
 
         this.fsQuad = new FullScreenQuad(null);
-        this.fsQuad.material = this.createBloomPostProcessMaterial();
+        this.fsQuad.material = this.createDepthMaskPostProcessMaterial();
 
         // Create a buffer to store the depth of the scene
         const depthTarget = new THREE.WebGLRenderTarget(
@@ -54,8 +54,8 @@ class DepthMaskPass extends Pass {
 
         renderer.render(this.renderScene, this.renderCamera);
 
-        this.fsQuad.material.uniforms["depthBuffer"].value =
-            this.depthTarget.depthTexture;
+        this.fsQuad.material.uniforms["depthBuffer"].value = this.depthTarget.depthTexture;
+        this.fsQuad.material.uniforms["tDiffuse"].value = readBuffer.texture;
 
         if (this.renderToScreen) {
             // If this is the last effect, then renderToScreen is true.
@@ -86,6 +86,7 @@ class DepthMaskPass extends Pass {
 			#include <packing>
 			// The above include imports "perspectiveDepthToViewZ"
 			// and other GLSL functions from ThreeJS we need for reading depth.
+            uniform sampler2D tDiffuse;
 			uniform sampler2D depthBuffer;
 			uniform float cameraNear;
 			uniform float cameraFar;
@@ -109,17 +110,19 @@ class DepthMaskPass extends Pass {
 			}
 
 			void main() {
+                vec3 texCol = texture2D(tDiffuse, vUv + screenSize.zw).rgb;
 				float depth = readDepth(depthBuffer, vUv + screenSize.zw);
-				vec3 fragColor = vec3(step(depth, 0.99));
+				vec3 fragColor = texCol * step(depth, 0.99);
 				vec4 fullFragColor = vec4(fragColor, 1.0);			
 				gl_FragColor = fullFragColor;
 			}
 			`;
     }
 
-    createBloomPostProcessMaterial() {
+    createDepthMaskPostProcessMaterial() {
         return new THREE.ShaderMaterial({
             uniforms: {
+                tDiffuse: { value: null },
                 depthBuffer: {},
                 cameraNear: { value: this.renderCamera.near },
                 cameraFar: { value: this.renderCamera.far },

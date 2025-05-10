@@ -205,10 +205,10 @@ export class ModelPreviewer{
         outlineUniforms.isDarkMode.value = true; // TODO: Uhhr, why is this set always true?
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         outlineUniforms.multiplierParameters.value.x = 0.5;
-        outlineUniforms.multiplierParameters.value.y = 50;
+        outlineUniforms.multiplierParameters.value.y = 100;
 
         // Bloom
-        bloom = new BloomPass(1.5, 25, 4); // Strength, Kernel Size, Sigma
+        bloom = new BloomPass(1, 25, 4); // Strength, Kernel Size, Sigma
         composer.addPass(bloom);
 
         // Depth Mask
@@ -222,7 +222,7 @@ export class ModelPreviewer{
         // Intensity Based Circle Grid
         intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
         intensityBasedCircleGrid.uniforms.IS_DARK_MODE.value = isDarkMode;
-        //composer.addPass(intensityBasedCircleGrid);
+        composer.addPass(intensityBasedCircleGrid);
 
         // Group
         objects = new THREE.Group();
