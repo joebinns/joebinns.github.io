@@ -1,290 +1,160 @@
-/*
- * This is a modified version of https://unpkg.com/three@0.176.0/examples/jsm/postprocessing/BloomPass.js
- * that uses the depth buffer to restrict bloom to within the silhoutte of an object.
- */
+import * as THREE from "three";
+import { Pass, FullScreenQuad } from "pass";
 
-import {
-	AdditiveBlending,
-	HalfFloatType,
-	ShaderMaterial,
-	UniformsUtils,
-	Vector2,
-    WebGLRenderTarget,
-    DepthTexture,
-    UnsignedShortType
-} from 'three';
-import { Pass, FullScreenQuad } from 'pass';
-import { ConvolutionShader } from 'convolution-shader';
-
-/**
- * A pass for a basic Bloom effect.
- *
- * {@link UnrealBloomPass} produces a more advanced Bloom but is also
- * more expensive.
- *
- * ```js
- * const effectBloom = new BloomPass( 0.75 );
- * composer.addPass( effectBloom );
- * ```
- *
- * @augments Pass
- * @three_import import { BloomPass } from 'three/addons/postprocessing/BloomPass.js';
- */
 class BloomPass extends Pass {
+    constructor(resolution, scene, camera) {
+        super();
 
-	/**
-	 * Constructs a new Bloom pass.
-	 *
-	 * @param {number} [strength=1] - The Bloom strength.
-	 * @param {number} [kernelSize=25] - The kernel size.
-	 * @param {number} [sigma=4] - The sigma.
-	 */
-	constructor( strength = 1, kernelSize = 25, sigma = 4 ) {
+        this.renderScene = scene;
+        this.renderCamera = camera;
+        this.resolution = new THREE.Vector2(resolution.x, resolution.y);
 
-		super();
+        this.fsQuad = new FullScreenQuad(null);
+        this.fsQuad.material = this.createOutlinePostProcessMaterial();
 
-		// combine material
+        // Create a buffer to store the depth of the scene
+        const depthTarget = new THREE.WebGLRenderTarget(
+            this.resolution.x,
+            this.resolution.y
+        );
+        depthTarget.texture.format = THREE.RGBAFormat;
+        depthTarget.texture.minFilter = THREE.NearestFilter;
+        depthTarget.texture.magFilter = THREE.NearestFilter;
+        depthTarget.texture.generateMipmaps = false;
+        depthTarget.stencilBuffer = false;
+        depthTarget.depthBuffer = true;
+        depthTarget.depthTexture = new THREE.DepthTexture();
+        depthTarget.depthTexture.type = THREE.UnsignedShortType;
+        this.depthTarget = depthTarget;
+    }
 
-		/**
-		 * The combine pass uniforms.
-		 *
-		 * @type {Object}
-		 */
-		this.combineUniforms = UniformsUtils.clone( CombineShader.uniforms );
-		this.combineUniforms[ 'strength' ].value = strength;
+    dispose() {
+        this.depthTarget.dispose();
+        this.fsQuad.dispose();
+    }
 
-		/**
-		 * The combine pass material.
-		 *
-		 * @type {ShaderMaterial}
-		 */
-		this.materialCombine = new ShaderMaterial( {
+    setSize(width, height) {
+        this.resolution.set(width, height);
 
-			name: CombineShader.name,
-			uniforms: this.combineUniforms,
-			vertexShader: CombineShader.vertexShader,
-			fragmentShader: CombineShader.fragmentShader,
-			blending: AdditiveBlending,
-			transparent: true
+        this.fsQuad.material.uniforms.screenSize.value.set(
+            this.resolution.x,
+            this.resolution.y,
+            1 / this.resolution.x,
+            1 / this.resolution.y
+        );
+    }
 
-		} );
+    render(renderer, writeBuffer, readBuffer) {
+        // Turn off writing to the depth buffer
+        // because we need to read from it in the subsequent passes.
+        const depthBufferValue = writeBuffer.depthBuffer;
+        writeBuffer.depthBuffer = false;
 
-		// convolution material
+        renderer.setRenderTarget(this.depthTarget);
 
-		const convolutionShader = ConvolutionShader;
+        renderer.render(this.renderScene, this.renderCamera);
 
-		/**
-		 * The convolution pass uniforms.
-		 *
-		 * @type {Object}
-		 */
-		this.convolutionUniforms = UniformsUtils.clone( convolutionShader.uniforms );
+        this.fsQuad.material.uniforms["depthBuffer"].value =
+            this.depthTarget.depthTexture;
 
-		this.convolutionUniforms[ 'uImageIncrement' ].value = BloomPass.blurX;
-		this.convolutionUniforms[ 'cKernel' ].value = buildKernel( sigma );
+        // 2. Draw the outlines using the depth texture
+        if (this.renderToScreen) {
+            // If this is the last effect, then renderToScreen is true.
+            // So we should render to the screen by setting target null
+            // Otherwise, just render into the writeBuffer that the next effect will use as its read buffer.
+            renderer.setRenderTarget(null);
+            this.fsQuad.render(renderer);
+        } else {
+            renderer.setRenderTarget(writeBuffer);
+            this.fsQuad.render(renderer);
+        }
 
-		/**
-		 * The convolution pass material.
-		 *
-		 * @type {ShaderMaterial}
-		 */
-		this.materialConvolution = new ShaderMaterial( {
+        // Reset the depthBuffer value so we continue writing to it in the next render.
+        writeBuffer.depthBuffer = depthBufferValue;
+    }
 
-			name: convolutionShader.name,
-			uniforms: this.convolutionUniforms,
-			vertexShader: convolutionShader.vertexShader,
-			fragmentShader: convolutionShader.fragmentShader,
-			defines: {
-				'KERNEL_SIZE_FLOAT': kernelSize.toFixed( 1 ),
-				'KERNEL_SIZE_INT': kernelSize.toFixed( 0 )
+    get vertexShader() {
+        return `
+			varying vec2 vUv;
+			void main() {
+				vUv = uv;
+				gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+			}
+			`;
+    }
+    get fragmentShader() {
+        return `
+			#include <packing>
+			// The above include imports "perspectiveDepthToViewZ"
+			// and other GLSL functions from ThreeJS we need for reading depth.
+			uniform sampler2D depthBuffer;
+			uniform float cameraNear;
+			uniform float cameraFar;
+			uniform vec4 screenSize;
+			uniform vec3 outlineColor;
+			uniform vec2 multiplierParameters;
+			uniform bool isDarkMode;
+
+			varying vec2 vUv;
+
+			// Helper functions for reading from depth buffer.
+			float readDepth (sampler2D depthSampler, vec2 coord) {
+				float fragCoordZ = texture2D(depthSampler, coord).x;
+				float viewZ = perspectiveDepthToViewZ( fragCoordZ, cameraNear, cameraFar );
+				return viewZToOrthographicDepth( viewZ, cameraNear, cameraFar );
+			}
+			float getLinearDepth(vec3 pos) {
+				return -(viewMatrix * vec4(pos, 1.0)).z;
 			}
 
-		} );
+			float getLinearScreenDepth(sampler2D map) {
+					vec2 uv = gl_FragCoord.xy * screenSize.zw;
+					return readDepth(map,uv);
+			}
+			// Helper functions for reading normals and depth of neighboring pixels.
+			float getPixelDepth(int x, int y) {
+				// screenSize.zw is pixel size 
+				// vUv is current position
+				return readDepth(depthBuffer, vUv + screenSize.zw * vec2(x, y));
+			}
 
-		/**
-		 * Overwritten to disable the swap.
-		 *
-		 * @type {boolean}
-		 * @default false
-		 */
-		this.needsSwap = false;
+			void main() {
+				float depth = getPixelDepth(0, 0);
 
-		// internals
+				vec3 fragColor = vec3(depth);
 
-		this._renderTargetX = new WebGLRenderTarget( 1, 1, { type: HalfFloatType } ); // will be resized later
-		this._renderTargetX.texture.name = 'BloomPass.x';
-		this._renderTargetY = new WebGLRenderTarget( 1, 1, { type: HalfFloatType } ); // will be resized later
-        this._renderTargetY.texture.name = 'BloomPass.y';
-        this._renderTargetY.depthBuffer = true;
-        this._renderTargetY.depthTexture = new DepthTexture();
-        this._renderTargetY.depthTexture.type = UnsignedShortType;
+				vec4 fullFragColor = vec4(fragColor, 1.0);
+				
+				gl_FragColor = fullFragColor;
+			}
+			`;
+    }
 
-		this._fsQuad = new FullScreenQuad( null );
-	}
-
-	/**
-	 * Performs the Bloom pass.
-	 *
-	 * @param {WebGLRenderer} renderer - The renderer.
-	 * @param {WebGLRenderTarget} writeBuffer - The write buffer. This buffer is intended as the rendering
-	 * destination for the pass.
-	 * @param {WebGLRenderTarget} readBuffer - The read buffer. The pass can access the result from the
-	 * previous pass from this buffer.
-	 * @param {number} deltaTime - The delta time in seconds.
-	 * @param {boolean} maskActive - Whether masking is active or not.
-	 */
-	render( renderer, writeBuffer, readBuffer, deltaTime, maskActive ) {
-
-		if ( maskActive ) renderer.state.buffers.stencil.setTest( false );
-
-		// Render quad with blurred scene into texture (convolution pass 1)
-
-		this._fsQuad.material = this.materialConvolution;
-
-        this.convolutionUniforms['tDiffuse'].value = readBuffer.texture;
-		this.convolutionUniforms[ 'uImageIncrement' ].value = BloomPass.blurX;
-
-		renderer.setRenderTarget( this._renderTargetX );
-		renderer.clear();
-		this._fsQuad.render( renderer );
-
-
-		// Render quad with blurred scene into texture (convolution pass 2)
-
-        this.convolutionUniforms['tDiffuse'].value = this._renderTargetX.texture;
-		this.convolutionUniforms[ 'uImageIncrement' ].value = BloomPass.blurY;
-
-		renderer.setRenderTarget( this._renderTargetY );
-		renderer.clear();
-		this._fsQuad.render( renderer );
-
-		// Render original scene with superimposed blur to texture
-
-		this._fsQuad.material = this.materialCombine;
-
-        this.combineUniforms['tDiffuse'].value = this._renderTargetY.texture;
-        this.combineUniforms['tDepth'].value = this._renderTargetY.depthTexture;
-
-		if ( maskActive ) renderer.state.buffers.stencil.setTest( true );
-
-		renderer.setRenderTarget( readBuffer );
-		if ( this.clear ) renderer.clear();
-		this._fsQuad.render( renderer );
-
-	}
-
-	/**
-	 * Sets the size of the pass.
-	 *
-	 * @param {number} width - The width to set.
-	 * @param {number} height - The width to set.
-	 */
-	setSize( width, height ) {
-
-		this._renderTargetX.setSize( width, height );
-		this._renderTargetY.setSize( width, height );
-
-	}
-
-	/**
-	 * Frees the GPU-related resources allocated by this instance. Call this
-	 * method whenever the pass is no longer used in your app.
-	 */
-	dispose() {
-
-		this._renderTargetX.dispose();
-		this._renderTargetY.dispose();
-
-		this.materialCombine.dispose();
-		this.materialConvolution.dispose();
-
-		this._fsQuad.dispose();
-
-	}
-
-}
-
-const CombineShader = {
-
-	name: 'CombineShader',
-
-	uniforms: {
-
-		'tDiffuse': { value: null },
-        'strength': { value: 1.0 },
-        'tDepth': { value: null },
-	    'depthThreshold': { value: 0.0 }
-
-	},
-
-	vertexShader: /* glsl */`
-
-		varying vec2 vUv;
-
-		void main() {
-
-			vUv = uv;
-			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-		}`,
-
-	fragmentShader: /* glsl */`
-
-		uniform float strength;
-        uniform float depthThreshold;
-
-		uniform sampler2D tDiffuse;
-        uniform sampler2D tDepth;
-
-		varying vec2 vUv;
-
-		void main() {
-
-			vec4 texel = texture2D( tDiffuse, vUv );
-            float depth = texture2D( tDepth, vUv ).r;
-			/*gl_FragColor = strength * texel * step(depthThreshold, depth);*/
-            gl_FragColor = vec4(vec3(depth), 1.0);
-        
-		}`
-
-};
-
-BloomPass.blurX = new Vector2( 0.001953125, 0.0 );
-BloomPass.blurY = new Vector2( 0.0, 0.001953125 );
-
-
-function gauss( x, sigma ) {
-
-	return Math.exp( - ( x * x ) / ( 2.0 * sigma * sigma ) );
-
-}
-
-function buildKernel( sigma ) {
-
-	// We loop off the sqrt(2 * pi) * sigma term, since we're going to normalize anyway.
-
-	const kMaxKernelSize = 25;
-	let kernelSize = 2 * Math.ceil( sigma * 3.0 ) + 1;
-
-	if ( kernelSize > kMaxKernelSize ) kernelSize = kMaxKernelSize;
-
-	const halfWidth = ( kernelSize - 1 ) * 0.5;
-
-	const values = new Array( kernelSize );
-	let sum = 0.0;
-	for ( let i = 0; i < kernelSize; ++ i ) {
-
-		values[ i ] = gauss( i - halfWidth, sigma );
-		sum += values[ i ];
-
-	}
-
-	// normalize the kernel
-
-	for ( let i = 0; i < kernelSize; ++ i ) values[ i ] /= sum;
-
-	return values;
-
+    createOutlinePostProcessMaterial() {
+        return new THREE.ShaderMaterial({
+            uniforms: {
+                depthBuffer: {},
+                outlineColor: { value: new THREE.Color(0xffffff) },
+                isDarkMode: { value: false },
+                // 2 scalar values packed in one uniform: depth multiplier, depth bias
+                multiplierParameters: {
+                    value: new THREE.Vector2(1, 1),
+                },
+                cameraNear: { value: this.renderCamera.near },
+                cameraFar: { value: this.renderCamera.far },
+                screenSize: {
+                    value: new THREE.Vector4(
+                        this.resolution.x,
+                        this.resolution.y,
+                        1 / this.resolution.x,
+                        1 / this.resolution.y
+                    ),
+                },
+            },
+            vertexShader: this.vertexShader,
+            fragmentShader: this.fragmentShader,
+        });
+    }
 }
 
 export { BloomPass };

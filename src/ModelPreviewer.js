@@ -196,23 +196,33 @@ export class ModelPreviewer{
             scene,
             camera
         );
-        composer.addPass(outline);
-        const uniforms = outline.fsQuad.material.uniforms;
-        uniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+        //composer.addPass(outline);
+        const outlineUniforms = outline.fsQuad.material.uniforms;
+        outlineUniforms.outlineColor.value.set(new THREE.Color(0xffffff));
         const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        uniforms.isDarkMode.value = true;
+        outlineUniforms.isDarkMode.value = true; // TODO: Uhhr, why is this set always true?
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
-        uniforms.multiplierParameters.value.x = 0.5;
-        uniforms.multiplierParameters.value.y = 50;
+        outlineUniforms.multiplierParameters.value.x = 0.5;
+        outlineUniforms.multiplierParameters.value.y = 50;
 
         // Bloom
-        bloom = new BloomPass(1.5, 25, 4); // Strength, Kernel Size, Sigma
+        bloom = new BloomPass(
+            new THREE.Vector2(dimensions().width, dimensions().height),
+            scene,
+            camera
+        );
         composer.addPass(bloom);
+        const bloomUniforms = bloom.fsQuad.material.uniforms;
+        bloomUniforms.outlineColor.value.set(new THREE.Color(0xffffff));
+        bloomUniforms.isDarkMode.value = true;
+        // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
+        bloomUniforms.multiplierParameters.value.x = 0.5;
+        bloomUniforms.multiplierParameters.value.y = 50;
 
         // Intensity Based Circle Grid
         intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
         intensityBasedCircleGrid.uniforms.IS_DARK_MODE.value = isDarkMode;
-        composer.addPass(intensityBasedCircleGrid);
+        //composer.addPass(intensityBasedCircleGrid);
 
         // Group
         objects = new THREE.Group();
