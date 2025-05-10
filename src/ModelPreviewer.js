@@ -14,10 +14,10 @@ import { ShaderPass } from "shader-pass";
 
 // Custom shaders
 import { OutlinePass } from '../src/OutlinePass.js';
-import { BloomPass } from "../src/BloomPass.js";
+import { DepthMaskPass } from "../src/DepthMaskPass.js";
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
-let scene, camera, renderer, composer, outline, bloom, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
+let scene, camera, renderer, composer, outline, depthMask, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -205,13 +205,13 @@ export class ModelPreviewer{
         outlineUniforms.multiplierParameters.value.x = 0.5;
         outlineUniforms.multiplierParameters.value.y = 50;
 
-        // Bloom
-        bloom = new BloomPass(
+        // Depth Mask
+        depthMask = new DepthMaskPass(
             new THREE.Vector2(dimensions().width, dimensions().height),
             scene,
             camera
         );
-        composer.addPass(bloom);
+        composer.addPass(depthMask);
 
         // Intensity Based Circle Grid
         intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);

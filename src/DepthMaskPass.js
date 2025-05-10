@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Pass, FullScreenQuad } from "pass";
 
-class BloomPass extends Pass {
+class DepthMaskPass extends Pass {
     constructor(resolution, scene, camera) {
         super();
 
@@ -138,4 +138,4 @@ class BloomPass extends Pass {
     }
 }
 
-export { BloomPass };
+export { DepthMaskPass };
