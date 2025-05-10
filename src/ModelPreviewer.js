@@ -11,13 +11,14 @@ import { isElementHovered } from '../src/Utilities.js';
 // Render requirements
 import { EffectComposer } from "effect-composer";
 import { ShaderPass } from "shader-pass";
+import { BloomPass } from "bloom-pass";
 
 // Custom shaders
 import { OutlinePass } from '../src/OutlinePass.js';
 import { DepthMaskPass } from "../src/DepthMaskPass.js";
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
-let scene, camera, renderer, composer, outline, depthMask, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
+let scene, camera, renderer, composer, outline, bloom, depthMask, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -87,6 +88,7 @@ function onWindowResize() {
     composer.setSize(dimensions1.width, dimensions1.height);
     intensityBasedCircleGrid.setSize(dimensions1.width, dimensions1.height);
     outline.setSize(dimensions1.width, dimensions1.height);
+    depthMask.setSize(dimensions1.width, dimensions1.height);
 
     intensityBasedCircleGrid.uniforms.iResolution.value.set(
         dimensions1.width,
@@ -196,7 +198,7 @@ export class ModelPreviewer{
             scene,
             camera
         );
-        //composer.addPass(outline);
+        composer.addPass(outline);
         const outlineUniforms = outline.fsQuad.material.uniforms;
         outlineUniforms.outlineColor.value.set(new THREE.Color(0xffffff));
         const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -204,6 +206,10 @@ export class ModelPreviewer{
         // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
         outlineUniforms.multiplierParameters.value.x = 0.5;
         outlineUniforms.multiplierParameters.value.y = 50;
+
+        // Bloom
+        bloom = new BloomPass(1.5, 25, 4); // Strength, Kernel Size, Sigma
+        composer.addPass(bloom);
 
         // Depth Mask
         depthMask = new DepthMaskPass(
