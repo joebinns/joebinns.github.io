@@ -10,7 +10,7 @@ class BloomPass extends Pass {
         this.resolution = new THREE.Vector2(resolution.x, resolution.y);
 
         this.fsQuad = new FullScreenQuad(null);
-        this.fsQuad.material = this.createOutlinePostProcessMaterial();
+        this.fsQuad.material = this.createBloomPostProcessMaterial();
 
         // Create a buffer to store the depth of the scene
         const depthTarget = new THREE.WebGLRenderTarget(
@@ -57,7 +57,6 @@ class BloomPass extends Pass {
         this.fsQuad.material.uniforms["depthBuffer"].value =
             this.depthTarget.depthTexture;
 
-        // 2. Draw the outlines using the depth texture
         if (this.renderToScreen) {
             // If this is the last effect, then renderToScreen is true.
             // So we should render to the screen by setting target null
@@ -91,9 +90,6 @@ class BloomPass extends Pass {
 			uniform float cameraNear;
 			uniform float cameraFar;
 			uniform vec4 screenSize;
-			uniform vec3 outlineColor;
-			uniform vec2 multiplierParameters;
-			uniform bool isDarkMode;
 
 			varying vec2 vUv;
 
@@ -111,35 +107,20 @@ class BloomPass extends Pass {
 					vec2 uv = gl_FragCoord.xy * screenSize.zw;
 					return readDepth(map,uv);
 			}
-			// Helper functions for reading normals and depth of neighboring pixels.
-			float getPixelDepth(int x, int y) {
-				// screenSize.zw is pixel size 
-				// vUv is current position
-				return readDepth(depthBuffer, vUv + screenSize.zw * vec2(x, y));
-			}
 
 			void main() {
-				float depth = getPixelDepth(0, 0);
-
-				vec3 fragColor = vec3(depth);
-
-				vec4 fullFragColor = vec4(fragColor, 1.0);
-				
+				float depth = readDepth(depthBuffer, vUv + screenSize.zw);
+				vec3 fragColor = vec3(step(depth, 0.99));
+				vec4 fullFragColor = vec4(fragColor, 1.0);			
 				gl_FragColor = fullFragColor;
 			}
 			`;
     }
 
-    createOutlinePostProcessMaterial() {
+    createBloomPostProcessMaterial() {
         return new THREE.ShaderMaterial({
             uniforms: {
                 depthBuffer: {},
-                outlineColor: { value: new THREE.Color(0xffffff) },
-                isDarkMode: { value: false },
-                // 2 scalar values packed in one uniform: depth multiplier, depth bias
-                multiplierParameters: {
-                    value: new THREE.Vector2(1, 1),
-                },
                 cameraNear: { value: this.renderCamera.near },
                 cameraFar: { value: this.renderCamera.far },
                 screenSize: {

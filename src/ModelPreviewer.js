@@ -212,12 +212,6 @@ export class ModelPreviewer{
             camera
         );
         composer.addPass(bloom);
-        const bloomUniforms = bloom.fsQuad.material.uniforms;
-        bloomUniforms.outlineColor.value.set(new THREE.Color(0xffffff));
-        bloomUniforms.isDarkMode.value = true;
-        // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
-        bloomUniforms.multiplierParameters.value.x = 0.5;
-        bloomUniforms.multiplierParameters.value.y = 50;
 
         // Intensity Based Circle Grid
         intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
