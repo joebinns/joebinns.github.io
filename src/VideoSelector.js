@@ -2,11 +2,13 @@
 import * as THREE from "three";
 
 // Utilities
-import { clamp, isElementHovered } from '../src/Utilities.js';
+import { isElementHovered } from '../src/Utilities.js';
 
 export class VideoSelector {
     constructor(videoItems) {
         this.videoItems = videoItems;
+        this.videoItemsToFadeOut = [];
+        this.videoItemToFadeIn = this.videoItems[0];
 
         this.Init();
         this.Update();
@@ -34,16 +36,25 @@ export class VideoSelector {
 
         // Update trigger elements
         this.videoItems.forEach(item => {
-            if (isElementHovered(item.triggerElement)){
-                item.isHovered = true;
-                item.on += this.rate * deltaTime;
+            if (isElementHovered(item.triggerElement)) {          
+                if (item != this.videoItemToFadeIn) {
+                    this.videoItemsToFadeOut.push(this.videoItemToFadeIn);
+                }
+                this.videoItemToFadeIn = item;
             }
-            else {
-                item.isHovered = false;
-                item.on -= this.rate * deltaTime;
-            }
-            item.on = clamp(item.on, 0.0, 1.0);
         });
+
+        this.videoItemToFadeIn.on += this.rate * deltaTime;        
+        this.videoItemToFadeIn.on = Math.min(this.videoItemToFadeIn.on, 1.0);
+
+        for (let i = 0; i < this.videoItemsToFadeOut.length; i++) {
+            this.videoItemsToFadeOut[i].on -= this.rate * deltaTime;
+            this.videoItemsToFadeOut[i].on = Math.max(this.videoItemsToFadeOut[i].on, 0.0);
+
+            if (this.videoItemsToFadeOut[i].on <= 0.0) {   
+                this.videoItemsToFadeOut.splice(i, 1);             
+            }
+        }
 
         // Update overlay
         let maxOn = 0;
@@ -56,7 +67,6 @@ export class VideoSelector {
         this.videoItems.forEach(item => {
             item.videoElement.style.opacity = (item.on * this.maxOpacity).toString();
             item.videoElement.hidden = (item.on <= 0);
-            item.wasHovered = item.isHovered;
         });
 
     }

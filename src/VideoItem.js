@@ -7,7 +7,5 @@ export class VideoItem {
         this.videoElement = videoID ? document.getElementById(videoID) : null;
 
         this.on = 0;
-        this.isHovered = false;
-        this.wasHovered = false;
     }
 }
