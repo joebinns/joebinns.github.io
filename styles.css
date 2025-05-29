@@ -924,6 +924,10 @@ overlay {
 
 /* Dark Mode */
 @media (prefers-color-scheme: light){
+    body.index{
+        background: #6d6d6d;
+    }
+
     body {
         background: #f8f0e3;
         color: #090909;
