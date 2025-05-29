@@ -993,10 +993,6 @@ overlay {
         opacity: 1.0;
     }
 
-    a.hyperlink:hover {
-        background: rgba(255, 255, 255, 0.6);
-    }
-
     .fidget-toy {
         color: #825ece;
     }
