@@ -30,7 +30,7 @@ html{
 
 body{
     background: #090909;
-    color: white;
+    color: #f8f0e3;
     min-height: 100%;
     overflow-y: auto;
     overflow-x: hidden; /* Hide horizontal scrollbar */
@@ -925,7 +925,7 @@ overlay {
 /* Dark Mode */
 @media (prefers-color-scheme: light){
     body {
-        background: white;
+        background: #f8f0e3;
         color: #090909;
     }
 
@@ -975,7 +975,7 @@ overlay {
     }
 
     .info span {
-        background-color: white;
+        background-color: #f8f0e3;
         color: #090909;
     }
 
