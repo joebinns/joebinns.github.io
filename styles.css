@@ -195,7 +195,7 @@ a {
 
 }
 .hyperlink:hover{
-    color: #34568B;
+    /*color: #4169e1;*/
     text-decoration: underline;
 
 }
@@ -216,7 +216,6 @@ a.hyperlink:hover {
     -webkit-border-radius: 6px;
     border-radius: 6px;
     backdrop-filter: blur(1px);
-    background: rgba(15, 15, 15, 0.6);
 }
 
 summary.hyperlink {
