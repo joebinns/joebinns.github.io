@@ -14,5 +14,6 @@ if (ribbon)
 
     const randomIndex = Math.floor(Math.random() * values.length);
     ribbon.textContent = values[randomIndex];
+    ribbon.hidden = false;
 }
 
