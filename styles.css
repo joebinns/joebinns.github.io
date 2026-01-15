@@ -666,6 +666,7 @@ overlay {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    z-index: 9999;
 }
 
 .ribbon:hover {

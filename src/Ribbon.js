@@ -8,7 +8,7 @@ if (ribbon)
         "Recruiters Welcome! 🤝",
         "Looking for my Next Role 🔍",
         "Let's Work Together! 😃😌",
-        "Opportunities Encouraged! 🪜",
+        "Opportunities Welcome! 🪜",
         "Now Accepting Cool Jobs 📡"
     ];
 
