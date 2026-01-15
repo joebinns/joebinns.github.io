@@ -654,20 +654,22 @@ overlay {
 
 /* Ribbon */
 .ribbon {
-    width: 200px;
-    padding: 0.5em;
+    width: 300px;
+    padding: 0.618em;
     position: absolute;
     text-align: center;
     position: fixed;
-    top: 30px;
-    left: -60px;
+    top: 60px;
+    left: -80px;
     transform: rotate(-45deg);
     background-color: #e43;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
+
 .ribbon:hover {
+    text-decoration: underline;
     opacity: 0.8;
 }
 
