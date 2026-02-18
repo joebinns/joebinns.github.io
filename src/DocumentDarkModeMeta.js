@@ -8,5 +8,6 @@ if (userPrefersDark) {
     document.getElementById("metaProj").src = "/images/meta_box_white.svg";
     document.getElementById("githubProj").src="/images/github_box_optimised_white.svg";
     document.getElementById("youtubeProj").src="/images/youtube_box_optimised_white.svg";
-    document.getElementById("documentProj").src="/images/document_box_white.svg";
+    document.getElementById("documentProj").src = "/images/document_box_white.svg";
+    document.getElementById("spotifyProj").src="/images/spotify_box_white.svg";
 }
