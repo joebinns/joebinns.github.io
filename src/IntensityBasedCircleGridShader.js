@@ -13,7 +13,7 @@ const IntensityBasedCircleGridShader = {
         GRID_WIDTH: { value: 48.0 },
         MIN_RADIUS: { value: 0.0 },
         MAX_RADIUS: { value: 0.8 },
-        MIN_INTENSITY: { value: 0.0 },
+        MIN_INTENSITY: { value: 0.0001 },
         MAX_INTENSITY: { value: 0.4 },
         IS_DARK_MODE: { value: false }
     },
@@ -71,7 +71,7 @@ const IntensityBasedCircleGridShader = {
             ouv = floor(ouv * GRID_WIDTH) / GRID_WIDTH;
 
             // Mouse
-            float blur = 50.0 / iResolution.y;   
+            float blur = 48.0 / iResolution.y;   
             float progress = iTime / 0.15;
             float r = 0.1 - 0.05 * min(progress * progress, 1.0);
             float col = smoothstep( r+blur, r-blur, length( mc - ouv )); 
