@@ -10,11 +10,11 @@ const IntensityBasedCircleGridShader = {
         iResolution: { value: new THREE.Vector3(window.innerWidth, window.innerHeight, 1) },
         iMouse: { value: new THREE.Vector2(0.0, 0.0) },
         iTime: { value: 0.0 },
-        GRID_WIDTH: { value: 48.0 },
+        GRID_WIDTH: { value: 52.0 },
         MIN_RADIUS: { value: 0.0 },
-        MAX_RADIUS: { value: 0.8 },
-        MIN_INTENSITY: { value: 0.0001 },
-        MAX_INTENSITY: { value: 0.4 },
+        MAX_RADIUS: { value: 1.0 },
+        MIN_INTENSITY: { value: 0.005 },
+        MAX_INTENSITY: { value: 0.96 },
         IS_DARK_MODE: { value: false }
     },
 
@@ -71,7 +71,7 @@ const IntensityBasedCircleGridShader = {
             ouv = floor(ouv * GRID_WIDTH) / GRID_WIDTH;
 
             // Mouse
-            float blur = 48.0 / iResolution.y;   
+            float blur = 32.0 / iResolution.y;   
             float progress = iTime / 0.15;
             float r = 0.1 - 0.05 * min(progress * progress, 1.0);
             float col = smoothstep( r+blur, r-blur, length( mc - ouv )); 
@@ -82,8 +82,9 @@ const IntensityBasedCircleGridShader = {
                     vec2 offset = vec2(x, y);
                     vec3 texCol = texture2D(tDiffuse, ouv + offset / GRID_WIDTH).rgb;
                     float intensity = intensity(texCol);
+                    intensity = remap(MIN_INTENSITY, MAX_INTENSITY, 0.0, 1.0, intensity);
                     intensity = ceil(intensity) * max(intensity, col);
-                    float radius = remap(MIN_INTENSITY, MAX_INTENSITY, MIN_RADIUS, MAX_RADIUS, intensity * intensity);            
+                    float radius = remap(0.0, 1.0, MIN_RADIUS, MAX_RADIUS, intensity);            
                     mask = max(mask, circle(gv - offset, radius));
                 }
             }
