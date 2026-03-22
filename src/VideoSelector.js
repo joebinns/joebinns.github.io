@@ -16,8 +16,7 @@ export class VideoSelector {
 
     Init() {
         // Time
-        this.clock = new THREE.Clock();
-        this.time = 0;
+        this.time = performance.now() / 1000;
 
         // Overlay
         this.overlay = document.getElementById('videotintoverlay');
@@ -31,8 +30,9 @@ export class VideoSelector {
         requestAnimationFrame(()=>this.Update()); // Only update when tab open
 
         // Update time
-        let deltaTime = this.clock.getDelta();
-        this.time += deltaTime;
+        let previousTime = this.time;
+        this.time = performance.now() / 1000;
+        let deltaTime = this.time - previousTime;
 
         // Update trigger elements
         this.videoItems.forEach(item => {
