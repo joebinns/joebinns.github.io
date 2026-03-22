@@ -17,7 +17,7 @@ import { BloomPass } from "bloom-pass";
 import { OutlinePass } from '../src/OutlinePass.js';
 import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
 
-let scene, camera, renderer, composer, outline, bloom, shockwaveTime, intensityBasedCircleGrid, objects, clock, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
+let scene, camera, renderer, composer, outline, bloom, shockwaveTime, intensityBasedCircleGrid, objects, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
 
 function SetObjectVisibility(object, visible) {
     object.visible = visible;
@@ -103,7 +103,7 @@ function onDocumentMouseMove(event) {
 function onDocumentMouseDown(event) {
     let object = picker.picked;
     if (object) {
-        var forceMagnitude = 15.0;
+        var forceMagnitude = 1100.0;
         var force = new THREE.Vector3(0, 0, 1).multiplyScalar(-forceMagnitude);
         AddForceAtPosition(force, picker.hitPoint);
         shockwaveTime = 0;
@@ -133,17 +133,16 @@ export class ModelPreviewer{
 
     Init() {
         // Timer
-        clock = new THREE.Clock();
-        time = 0;
-        shockwaveTime = 10;
+        time = performance.now() / 1000;
+        shockwaveTime = 0;
 
         // Controller
         mouse = new THREE.Vector2(-100, -100);
         picker = new ObjectPicker();
-        appearRate = 8;
-        speed = 1.5;
+        appearRate = 6;
+        speed = 2.5;
         maximumDisplacement = 0.1;
-        defaultAngularSpeed = 0.05;
+        defaultAngularSpeed = 0.6;
         targetYawVelocity = defaultAngularSpeed;
         forceToApply = new THREE.Vector3(0, 0, 0);
         torqueToApply = new THREE.Vector3(0, 0, 0);
@@ -241,8 +240,10 @@ export class ModelPreviewer{
         if (!shouldDisplayPreview()) return;
 
         // Update time
-        let deltaTime = clock.getDelta();
-        time += deltaTime;
+        let previousTime = time;
+        time = performance.now() / 1000;
+        const MAX_DELTA_TIME = 1 / 30;
+        let deltaTime = Math.min(time - previousTime, MAX_DELTA_TIME);
         shockwaveTime += deltaTime;
 
         intensityBasedCircleGrid.uniforms.iTime.value = shockwaveTime;
@@ -299,8 +300,8 @@ export class ModelPreviewer{
         targetPosition.y = maximumDisplacement * Math.sin(time * speed);
 
         // Linear oscillator
-        let stiffness = -0.5;
-        let damper = -0.25;
+        let stiffness = -100;
+        let damper = -5;
         let mass = 1.0;
         var position = objects.position.clone();
         var displacement = position.clone().sub(targetPosition);
@@ -309,30 +310,29 @@ export class ModelPreviewer{
         forceToApply.add(restorativeForce);
         forceToApply.add(dampingForce);
         var acceleration = forceToApply.divideScalar(mass);
-        deltaTime = 0.100;
         var deltaVelocity = acceleration.clone().multiplyScalar(deltaTime);
-        velocity.add(deltaVelocity);   
+        velocity.add(deltaVelocity);
         var deltaPosition = velocity.clone().multiplyScalar(deltaTime)
         position.add(deltaPosition);
         forceToApply = new THREE.Vector3(0, 0, 0);
 
         // Torsional oscillator
-        let torsionalStiffness = -0.5;
-        let torsionalDamper = -0.25;
+        let torsionalStiffness = -100;
+        let torsionalDamper = -5;
         var rotation = new THREE.Vector3(objects.rotation.x, objects.rotation.y, objects.rotation.z);
         var torsionalDisplacement = rotation.clone().sub(targetRotation);
         let restorativeTorque = torsionalDisplacement.multiplyScalar(torsionalStiffness);
         restorativeTorque.y = 0.0;
         let dampingTorque = angularVelocity.clone().multiplyScalar(torsionalDamper);
         dampingTorque.y = 0.0;
-        torqueToApply.x *= 0.3;
+        torqueToApply.x *= 0.333;
         torqueToApply.add(restorativeTorque);
         torqueToApply.add(dampingTorque);
         var torsionalAcceleration = torqueToApply.divideScalar(mass);
         var deltaAngularVelocity = torsionalAcceleration.clone().multiplyScalar(deltaTime);
         angularVelocity.add(deltaAngularVelocity);
 
-        let fixedProgress = 0.15;
+        let fixedProgress = 0.8;
         angularVelocity.y = lerp(angularVelocity.y, targetYawVelocity, 1.0 - Math.pow(1.0 - fixedProgress, deltaTime));
 
         var deltaRotation = angularVelocity.clone().multiplyScalar(deltaTime);
