@@ -1,6 +1,3 @@
-// Three.js
-import * as THREE from "three";
-
 // Utilities
 import { isElementHovered } from '../src/Utilities.js';
 
