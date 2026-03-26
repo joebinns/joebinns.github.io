@@ -180,9 +180,8 @@
                     Convincing Virtual Reality: Sound, Haptics & Inertia
                 </summary>
                 <p>
-                    Full dexterity over the protagonists hands, as made possible in Virtual Reality (VR), completely reinvents traditional gameplay.
-                    Interacting with your hands comes very naturally to us, and so the gameplay programmer can spend much fewer iterations interpreting how the player wants to interact with the world.
-                    Instead, you get to really hone in on making a truly immersive and responsive world!
+                    Full dexterity over the protagonists hands, as enabled by Virtual Reality (VR), fundamentally reinvents traditional gameplay.
+                    Since interacting with our hands is so intuitive, we as developers can spend much less time interpreting player intent and more time refining tactility.
                 </p>
                 <div class="video-block">
                     <table>
@@ -195,10 +194,10 @@
                     </table>
                 </div>
                 <p>
-                    Whilst taking the bow from inception to completion, we continuously collaborated across disciplines to make repetitive actions like drawing and shooting incredibly fullfilling.
-                    Working alongside our audio partner Two Feathers, we provide dynamic feedback down to the creak of the wood as an arrow is drawn.
-                    This was then combined with animated bow limbs and controller haptics that respond to the rate of draw back.
-                    The result was a bow that changed from being a 'one-of-many' consumable into a permanent sidearm with various flavours of explosive tip ammunition.
+                    Whilst taking the bow from inception to completion, we continuously collaborated across disciplines to make repetitive actions like drawing and shooting fullfilling.
+                    Working alongside our audio partner Two Feathers, we provide dynamic feedback down to the subtle creak of the bow as an arrow is drawn.
+                    This was complemented with animated bow limbs and controller haptics that respond to the draw speed.
+                    The result transformed the bow from a 'one-of-many' consumable into a permanent sidearm with various flavours of explosive tip ammunition.
                 </p>
                 <div class="video-block">
                     <table>
@@ -216,10 +215,12 @@
                     Gesture Based Magic
                 </summary>
                 <p>
-                    The solution we landed on for reliably detecting gestures was to split detection into both a composition requirement and a motion requirement.
-                    The former focused on the relative positions and rotations of the hands, and acted as a prerequisite for the latter.
-                    This proved especially useful as it enabled us to inform the player if they have sufficient mana before commiting to any given motion.
-                    This crucially prevented frustration during tense moments of combat.
+                    To reliably detect gestures, we designed a two-stage system: composition and motion.
+                    Composition evaluates the relative position and rotation of the hands.
+                    Motion validates the gesture trajectory once composition requirements are met.
+                    This separation proved crucial.
+                    By validating composition first we could provide immediate feedback, such as indiciating insufficient mana, before the player committed to any motion.
+                    This significantly reduced frustration during high-pressure combat scenarios.
                 </p>
                 <div class="video-block">
                     <table>
@@ -232,7 +233,7 @@
                     </table>
                 </div>
                 <p> 
-                    I went on to implement the Upgrade Altars and the Clearing, along with 19 unique spells.
+                    I later implemented the Upgrade Altars, the Clearing, and a total of 19 unique spells, each built on top of this system.
                 </p>
                 <div class="video-block">
                     <table>
@@ -250,19 +251,19 @@
                     From Flicks and Flails, to Full Body Combat
                 </summary>
                 <p>
-                    For as long as VR sword fighting has existed, players have fallen into a trap in which they discover that rapid, chaotic flailing is ideal.
-                    This could be considered fairplay as it does use up some real life stamina.
-                    However, as we are biologically inclined to conserve energy and optimize for laziness, we soon stop moving the arm at all, and simply flick the wrist.
-                    The player has unintenionally optimized the fun out of the game, and the compelling axe-wielding fantasy which the player was sold on had quickly dissolved.
+                    A common issue in VR melee combat is the tendency for players to exploit the system through rapid, chaotic movements.
+                    While physically demanding at first, players quickly optimize for minimal effort by reducing full-arm swings to small wrist flicks.
+                    In doing so, they unintentionally remove both challenge and fantasy from the experience.
                 </p>
                 <p>
-                    In order to give a sense of mass to held weapons, we began by simulating their inertia.
-                    This came with a plethora of additional benefits, from limiting the feasibility of weapon flailing to filtering out unintentional muscle spasms.
-                    In fact, what started as a quality of life improvement ended up becoming a core system in the game.
-                    We split weapons into three classes based on their unique feel: Swords, Axes and Clubs.
-                    Swords, the lightest and most aerodynamic class, worked well with just a small dose of a simple dampened oscillator.
-                    However, as the effect became more saturated for the heavier classes and the weapon began to trail more and more behind the controller, the effect lost it's charm.
-                    To remedy this, we switched to fine-tuned velocity based oscillators for the axe and the club.
+                    To address this, we introduced simulated weapon inertia to create a convincing sense of mass.
+                    This not only discouraged erratic flailing but also filtered out unintended micro-movements.
+                    What began as a quality-of-life improvement evolved into a core gameplay system.
+                </p>
+                <p>
+                    Weapons were divided into three distinc classes: Swords, Axes and Clubs.
+                    Swords are lightweight and responsive, driven by a subtle damped oscillator.
+                    Axes and Clubs are progressively heavier and more deliberate, requiring velocity-based oscillators to remain responsiv whilst maintaing a sense of weight and follow-through.
                 </p>
                <div class="video-block">
                     <table>
@@ -275,10 +276,9 @@
                     </table>
                 </div>
                 <p>
-                    Finally, we incentivized a more fullfilling playstyle with the introduction of combos.
-                    Weapons you find in the world come with a collection of available combos to perform.
-                    Whilst completely optional, performing a combo delivers a meaningful damage multiplier.
-                    As longer combos are easier to perform with lighter weapons, we ended up designing sets of combos that were tailored to be satisfying and unique for each of the weapon classes.
+                    To further encourage intentional movement, we introduced the combo system.
+                    Each weapon includes a set of optional combos that reward precise execution with meaningful damage multipliers.
+                    Combo design was tailored per weapon class, ensuring that the level of challenge was appropriate for the swiftness of the weapon.
                 </p>
                <div class="video-block">
                     <table>
@@ -296,15 +296,11 @@
                     Status Effects for Systemic Gameplay
                 </summary>
                 <p>
-                    We originally added the status effect system as a means for spells to have a greater effect beyond just damage.
-                    With each status effect providing it's own unique flavour:
-                    Ice slows enemies movement and attacks,
-                    Fire deals damage over time,
-                    Electricity causes enemies to flinch,
-                    and so on,
-                    players can lean towards whichever flavour suits their current playstyle.
-                    This system quickly spread into all forms of combat, including the explosive arrow tips and combo rewards.
-                    With the ability to upgrade the damage of your chosen status effects, this became one of our most powerful tools for making each run feel unique.
+                    The status effect system was initially introduced to give spells impact beyond raw damage.
+                    Each effect contributes a unique gameplay mechanic which the player can deliver to enemies, for example:
+                    Ice slows movement and attacks, Fire deals damage over time and Electricity interrupts and staggers.
+                    Over time, this system expanded into all areas of combat—including explosive arrows and combo rewards—becoming a cornerstone of systemic gameplay.
+                    By allowing players to upgrade specific effects, we created a flexible framework that supports diverse playstyles and ensures that each run feels meaningfully different.
                 </p>
                <div class="video-block">
                     <table>
