@@ -7,7 +7,7 @@ import { VideoSelector } from '../src/VideoSelector.js';
 // Videos
 let videoItems = [];
 videoItems.push(
-    new VideoItem('projectTrainslop', 'projectTrainslopVid'),
+    new VideoItem('tonKaTon', 'tonKaTonVid'),
     new VideoItem('crossings', 'crossingsVid'),
     new VideoItem('gardenOfTheSea', 'gardenOfTheSeaVid'),
     new VideoItem('littleCosmos', 'littleCosmosVid'),
