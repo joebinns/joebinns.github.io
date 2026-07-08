@@ -27,44 +27,69 @@ export class VideoSelector {
         requestAnimationFrame(()=>this.Update()); // Only update when tab open
 
         // Update time
-        let previousTime = this.time;
+        const previousTime = this.time;
         this.time = performance.now() / 1000;
-        let deltaTime = this.time - previousTime;
+        const deltaTime = this.time - previousTime;
 
-        // Update trigger elements
-        this.videoItems.forEach(item => {
-            if (isElementHovered(item.triggerElement)) {          
-                if (item != this.videoItemToFadeIn) {
-                    this.videoItemsToFadeOut.push(this.videoItemToFadeIn);
-                }
-                this.videoItemToFadeIn = item;
+        // Find the currently hovered video (if any)
+        let hoveredItem = null;
+
+        for (const item of this.videoItems) {
+            if (isElementHovered(item.triggerElement)) {
+                hoveredItem = item;
+                break;
             }
-        });
+        }
 
-        this.videoItemToFadeIn.on += this.rate * deltaTime;        
-        this.videoItemToFadeIn.on = Math.min(this.videoItemToFadeIn.on, 1.0);
+        // Switch active video only if a different one is hovered
+        if (hoveredItem && hoveredItem !== this.videoItemToFadeIn) {
 
-        for (let i = 0; i < this.videoItemsToFadeOut.length; i++) {
-            this.videoItemsToFadeOut[i].on -= this.rate * deltaTime;
-            this.videoItemsToFadeOut[i].on = Math.max(this.videoItemsToFadeOut[i].on, 0.0);
+            // Fade out the previous active video (only once)
+            if (
+                this.videoItemToFadeIn &&
+                !this.videoItemsToFadeOut.includes(this.videoItemToFadeIn)
+            ) {
+                this.videoItemsToFadeOut.push(this.videoItemToFadeIn);
+            }
 
-            if (this.videoItemsToFadeOut[i].on <= 0.0) {   
-                this.videoItemsToFadeOut.splice(i, 1);             
+            // Ensure the new active video isn't also fading out
+            this.videoItemsToFadeOut = this.videoItemsToFadeOut.filter(
+                item => item !== hoveredItem
+            );
+
+            this.videoItemToFadeIn = hoveredItem;
+        }
+
+        // Fade in the active video
+        if (this.videoItemToFadeIn) {
+            this.videoItemToFadeIn.on += this.rate * deltaTime;
+            this.videoItemToFadeIn.on = Math.min(this.videoItemToFadeIn.on, 1);
+        }
+
+        // Fade out inactive videos
+        for (let i = this.videoItemsToFadeOut.length - 1; i >= 0; i--) {
+            const item = this.videoItemsToFadeOut[i];
+
+            item.on -= this.rate * deltaTime;
+            item.on = Math.max(item.on, 0);
+
+            if (item.on === 0) {
+                this.videoItemsToFadeOut.splice(i, 1);
             }
         }
 
         // Update overlay
         let maxOn = 0;
-        this.videoItems.forEach(item => {
+        for (const item of this.videoItems) {
             maxOn = Math.max(maxOn, item.on);
-        });
-        this.overlay.style.setProperty('--blur', 32 * (1 - maxOn) + 'px');
+        }
+
+        this.overlay.style.setProperty('--blur', `${32 * (1 - maxOn)}px`);
 
         // Update video elements
-        this.videoItems.forEach(item => {
+        for (const item of this.videoItems) {
             item.videoElement.style.opacity = (item.on * this.maxOpacity).toString();
-            item.videoElement.hidden = (item.on <= 0);
-        });
-
+            item.videoElement.hidden = item.on <= 0;
+        }
     }
 }
