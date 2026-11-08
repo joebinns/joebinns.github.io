@@ -14,7 +14,7 @@ export function registerThemeImages(sources, attribute = 'src') {
     update();
 }
 
-// The HTML href stays the light PDF so downloads also work without JavaScript.
+// The HTML href stays the light PDF so the CV also opens without JavaScript.
 export function registerThemeLinks() {
     if (!window.matchMedia) return;
     // Match the CSS: light is an override of the site's default dark palette.

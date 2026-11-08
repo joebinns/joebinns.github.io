@@ -13,7 +13,8 @@ typst compile --font-path documents/cv/assets/fonts --input theme=dark documents
 ```
 
 Keep `cv-joe-binns.pdf` as the light version for existing links and visitors
-without JavaScript. Website CV links use `download` and `data-theme-dark`;
+without JavaScript. Website CV links open in a new tab with `target="_blank"`
+and `rel="noopener"`, without a forced download. They use `data-theme-dark`;
 `registerThemeLinks()` in `src/Theme.js` selects the PDF using the same
 `prefers-color-scheme: light` query as the stylesheet and updates it when the
 browser/system preference changes.
