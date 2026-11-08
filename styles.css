@@ -866,7 +866,7 @@ overlay {
         margin:0;
     }
 
-    .model-preview {
+    .model-preview, .model-preview-hint {
         display: none;
     }
 
@@ -939,11 +939,87 @@ overlay {
     object-fit: cover;
 }
 
-.polaroid span{
-    font-size: 14px;
+.polaroid-pin {
     position: absolute;
+    top: -32px;
+    left: calc(50% - 22px + var(--pin-offset, 0px));
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: 36px;
+    line-height: 44px;
+    text-align: center;
     color: #090909;
-    margin-top: 10px;
+    text-shadow: #090909 2px 2px 0px;
+    transform: rotate(var(--pin-angle, -32deg));
+    cursor: pointer;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+.polaroid-pin:focus-visible {
+    outline: 2px solid #825ece;
+    outline-offset: 4px;
+    border-radius: 50%;
+}
+
+.polaroid.is-released .polaroid-pin {
+    visibility: hidden;
+}
+
+.polaroid.is-released .photo {
+    opacity: 0;
+}
+
+.about .content,
+.about .copyright-notice {
+    position: relative;
+    z-index: 2;
+}
+
+.about .model-preview {
+    z-index: 0;
+}
+
+.model-preview-hint {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    z-index: 40;
+    pointer-events: none;
+    user-select: none;
+}
+
+.polaroid-physics {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.polaroid-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    max-width: none;
+    margin: 0;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+}
+
+.polaroid-body.falling-pin {
+    z-index: 30;
+    font-size: 36px;
+    line-height: 44px;
+    text-align: center;
+    color: #090909;
 }
 
 .fidget-toy
@@ -1040,7 +1116,7 @@ overlay {
 
 /* Short windows use the same preview visibility rule as the JavaScript. */
 @media (max-height: 691px) {
-    .model-preview { display: none; }
+    .model-preview, .model-preview-hint { display: none; }
 }
 
 @media (max-width: 420px) {
@@ -1068,5 +1144,5 @@ overlay {
         transition: none !important;
         scroll-behavior: auto !important;
     }
-    .model-preview, video.fullscreen { display: none; }
+    .model-preview, .model-preview-hint, video.fullscreen { display: none; }
 }

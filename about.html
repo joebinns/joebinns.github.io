@@ -8,7 +8,7 @@
     <link id="shortcuticon" rel="shortcut icon" href="../images/jb.svg">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" />
 </head>
-<body>
+<body class="about">
 <!--
 <a class="ribbon" href="mailto:hello@joebinns.com" target="_blank">
     Hire Me! 🚀
@@ -17,12 +17,13 @@
 <div class="model-preview">
     <canvas class="webgl">
     </canvas>
+</div>
+<div class="model-preview-hint">
     <img alt="" id="fidget-toy-arrow" src="../images/about/arrow_purple.svg" style="position: absolute; left: 190px; top: 300px;" hidden=true>
-        <h1 id="fidget-toy-text" class="fidget-toy" hidden=true>
-            heckin'<br>
-            &nbsp;spinny
-        </h1>
-
+    <h1 id="fidget-toy-text" class="fidget-toy" hidden=true>
+        heckin'<br>
+        &nbsp;spinny
+    </h1>
 </div>
 <div class="padding logo-wrapper">
     <logo>
@@ -100,25 +101,25 @@
         <ul class="polaroids">
             <li>
                 <div class="polaroid">
-                    <span style="width: 256px; text-align: center; font-size: 36px; text-shadow: #090909 2px 2px 0px; transform: translateY(-50px) rotate(-32deg); user-select: none;">
+                    <button class="polaroid-pin" type="button" aria-label="Unpin photo: At Shambala festival" title="Unpin photo" style="--pin-angle: -32deg;">
                         📌
-                    </span>
+                    </button>
                     <img class="photo" alt="At Shambala festival" loading="lazy" width="256" height="256" src="../images/about/shambala.png">
                 </div>
             </li>
             <li>
                 <div class="polaroid" style="transform: rotate(-1deg);">
-                    <span style="width: 256px; text-align: center; font-size: 36px; text-shadow: #090909 -1px 3px 0px; transform: translateY(-50px) translateX(-3.5px) rotate(-67deg); user-select: none;">
+                    <button class="polaroid-pin" type="button" aria-label="Unpin photo: With friends" title="Unpin photo" style="--pin-angle: -67deg; --pin-offset: -3.5px; text-shadow: #090909 -1px 3px 0px;">
                         📌
-                    </span>
+                    </button>
                     <img class="photo" alt="With friends" loading="lazy" width="256" height="256" src="../images/about/boys.png">
                 </div>
             </li>
             <li>
                 <div class="polaroid">
-                    <span style="width: 256px; text-align: center; font-size: 36px; text-shadow: #090909 2px 2px 0px; transform: translateY(-50px) translateX(2px) rotate(-14deg); user-select: none;">
+                    <button class="polaroid-pin" type="button" aria-label="Unpin photo: With Eli" title="Unpin photo" style="--pin-angle: -14deg; --pin-offset: 2px;">
                         📌
-                    </span>
+                    </button>
                     <img class="photo" alt="With Eli" loading="lazy" width="256" height="256" src="../images/about/eli.png">
                 </div>
             </li>
@@ -164,5 +165,7 @@
 <script type="module" src="src/DocumentDarkMode.js"></script>
 <script type="module" src="src/DocumentDarkModePage.js"></script>
 <script type="module" src="src/About.js"></script>
+<script src="src/vendor/matter-0.20.0.min.js"></script>
+<script type="module" src="src/PolaroidPhysics.js"></script>
 </body>
 </html>
