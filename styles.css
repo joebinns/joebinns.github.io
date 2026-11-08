@@ -33,8 +33,8 @@
 /* Body */
 
 :root {
-    /* Subtle rounding inspired by the SVG icons. */
-    --ui-corner-radius: 3px;
+    /* SVG corners are roughly 7.5% of their height; scale with each text line. */
+    --ui-corner-radius: 0.075lh;
 }
 
 html{
