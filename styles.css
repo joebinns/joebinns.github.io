@@ -344,7 +344,7 @@ logo {
 .logo-wrapper {
     z-index: 50;
     position: fixed;
-    mix-blend-mode: screen;
+    left: 0;
     bottom: 0;
     transform: translateY(-84px);
     padding-bottom: 0;
@@ -537,17 +537,42 @@ h2 portfolio-prefix date{
 
 .gradient-multiline-invert {
     display: block;
+    color: white;
     transition: transform .2s cubic-bezier(0.77, 2.2, 0.71, 0.5);
 }
-.gradient-multiline-invert span{
-    color: black;
-    background-color: white;
+.gradient-multiline-invert h1 {
+    position: relative;
+}
 
-    transition: .1s;
-    border-radius: var(--ui-corner-radius);
-    -webkit-box-decoration-break: clone;
-    -o-box-decoration-break: clone;
-    box-decoration-break: clone;
+/* Font outlines cut transparent letters out of each separate block. */
+.gradient-multiline-invert h1::before,
+.gradient-multiline-invert h1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    height: 1.2099609375em;
+    background-color: currentColor;
+    -webkit-mask: var(--logo-mask) center / 100% 100% no-repeat;
+    mask: var(--logo-mask) center / 100% 100% no-repeat;
+    transition: opacity .1s;
+    pointer-events: none;
+}
+
+.gradient-multiline-invert h1::before {
+    top: calc((1lh - 1.2099609375em) / 2);
+    width: 2.21708984375em;
+    --logo-mask: url("./images/logo-joe-cutout.svg");
+}
+
+.gradient-multiline-invert h1::after {
+    top: calc((3lh - 1.2099609375em) / 2);
+    width: 3.14142578125em;
+    --logo-mask: url("./images/logo-binns-cutout.svg");
+}
+
+.gradient-multiline-invert span {
+    opacity: 0;
+    transition: opacity .1s;
 }
 .gradient-multiline-invert:hover {
     --time: 0%;
@@ -555,9 +580,12 @@ h2 portfolio-prefix date{
 }
 
 .gradient-multiline-invert:hover span{
-    --time: 0%;
-    color: white;
-    background-color: transparent;
+    opacity: 1;
+}
+
+.gradient-multiline-invert:hover h1::before,
+.gradient-multiline-invert:hover h1::after {
+    opacity: 0;
 }
 
 @supports(mix-blend-mode: multiply) {
@@ -765,11 +793,17 @@ overlay {
     logo h1 {
         margin: 0;
         font-size: 18px;
-        line-height: 22px;
+        line-height: 24px;
     }
 
-    logo h1 span {
-        display: inline-block;
+    /* Match the 4px gap between the icon rows without resizing the letters. */
+    logo .gradient-multiline-invert h1::before {
+        top: auto;
+        bottom: calc(1lh + 2px);
+    }
+
+    logo .gradient-multiline-invert h1::after {
+        top: calc(1lh + 2px);
     }
 
     h1 {
@@ -834,6 +868,43 @@ overlay {
 
     .interface itemAlt{
         width: auto;
+    }
+
+    .index .interface menu {
+        display: grid;
+        grid-template-columns: repeat(3, max-content);
+        align-items: center;
+        column-gap: 16px;
+    }
+
+    .index .interface .logo-wrapper {
+        position: static;
+        height: auto;
+        padding: 0;
+    }
+
+    .index .interface menu item,
+    .index .interface menu itemAlt {
+        display: grid;
+        grid-auto-rows: 24px;
+        transform: none;
+    }
+
+    .index .interface menu .tr {
+        display: block;
+        position: static;
+    }
+
+    .index .interface menu .td {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        height: 24px;
+        white-space: nowrap;
+    }
+
+    .index .interface menu .hyperimage img {
+        display: block;
     }
 
     .content {
@@ -1088,11 +1159,7 @@ overlay {
     .gradient-multiline:hover {
         color: white;
     }
-    .gradient-multiline-invert span{
-        color: white;
-        background-color: black;
-    }
-    .gradient-multiline-invert:hover span{
+    .gradient-multiline-invert {
         color: black;
     }
 
@@ -1105,10 +1172,6 @@ overlay {
         .interface menu {
             -webkit-mask-image: -webkit-gradient(linear, left 80%, left bottom, from(rgba(1, 1, 1, 1)), to(rgba(1, 1, 1, 0)));
         }
-    }
-
-    .logo-wrapper {
-        mix-blend-mode: multiply;
     }
 
     .hyperimage:hover{
@@ -1130,18 +1193,6 @@ overlay {
     .content { width: calc(100% - 40px); margin-left: 20px; margin-right: 20px; }
     h2 { font-size: 32px; }
     .gradient-multiline portfolio-prefix date { top: 0.3em; }
-    .index .interface { height: 180px; }
-    .index .interface menu {
-        height: 170px;
-        display: grid;
-        grid-template-columns: 90px minmax(0, 1fr);
-        column-gap: 12px;
-        row-gap: 6px;
-        align-content: start;
-    }
-    .index .interface menu > div { display: none; }
-    .index .interface menu itemAlt { grid-column: 2; }
-    .index .interface menu item { grid-column: 2; }
 }
 
 @media (prefers-reduced-motion: reduce) {
