@@ -1,25 +1,33 @@
 @font-face {
-    font-family: Tate;
-    src: url("./fonts/Tate/Tate\ Regular.otf") format("opentype");
+    font-family: "Inter";
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    src: url("./documents/cv/assets/fonts/Inter-Regular.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: Tate;
-    font-weight: bold;
-    src: url("./fonts/Tate/Tate\ Bold.otf") format("opentype");
+    font-family: "Inter";
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+    src: url("./documents/cv/assets/fonts/Inter-SemiBold.ttf") format("truetype");
 }
 
 @font-face {
-    font-family: Tate;
+    font-family: "Inter";
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    src: url("./documents/cv/assets/fonts/Inter-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Inter";
+    font-weight: 400;
     font-style: italic;
-    src: url("./fonts/Tate/Tate\ Regular\ Italic.otf") format("opentype");
-}
-
-@font-face {
-    font-family: Tate;
-    font-weight: bold;
-    font-style: italic;
-    src: url("./fonts/Tate/Tate\ Bold\ Italic.otf") format("opentype");
+    font-display: swap;
+    src: url("./documents/cv/assets/fonts/InterExportOblique-Italic.ttf") format("truetype");
 }
 
 /* Body */
@@ -34,9 +42,9 @@ body{
     min-height: 100%;
     overflow-y: auto;
     overflow-x: hidden; /* Hide horizontal scrollbar */
-    font-family: "Tate", "Helvetica", sans-serif;
+    font-family: "Inter", "Helvetica", sans-serif;
     font-weight: normal;
-    font-size: 16px;
+    font-size: 14px;
     line-height: normal;
     margin: 0;
 }
@@ -150,36 +158,35 @@ h1,
 h2,
 h3,
 h4 {
-    letter-spacing: 0em;
+    letter-spacing: -0.01em;
     line-height: 1.2;
     font-weight: bold;
 }
 
 h1 {
-    font-size: 46px;
+    font-size: 44px;
     line-height: 1.3em;
-    letter-spacing: 0.03em;
 }
 
 h2 {
-    font-size: 72px;
+    font-size: 70px;
     line-height: 1.3em;
     margin-top: 0.7em;
     margin-bottom: 0em;
 }
 
 h3 {
-    font-size: 30px;
+    font-size: 28px;
 }
 
 h4 {
-    font-size: 30px;
+    font-size: 28px;
     margin-top: 40px;
 }
 
 p {
-    font-size: 16px;
-    text-align: justify;
+    font-size: 14px;
+    text-align: left;
     word-break: keep-all;
     color: #b2b2b2;
 }
@@ -231,7 +238,8 @@ summary.hyperlink:active{
 details summary {
     cursor: pointer;
     font-weight: bold;
-    font-size: 30px;
+    letter-spacing: -0.01em;
+    font-size: 28px;
     text-decoration: none;
     margin-top: 48px;
 }
@@ -245,7 +253,7 @@ details details {
 }
 
 details details summary {
-    font-size: 24px;
+    font-size: 22px;
     text-decoration: none;
     list-style-type: none;
     margin-top: 20px;
@@ -271,7 +279,7 @@ details details[open] summary::before {
 
 logo {
     text-decoration: none;
-    letter-spacing: 0.03em;
+    letter-spacing: -0.01em;
     width: 100%;
 }
 
@@ -466,7 +474,7 @@ caption {
     transition: .4s, background-position 0s;
     mix-blend-mode: screen;
     font-weight: normal;
-    letter-spacing: 0.03em;
+    letter-spacing: -0.01em;
 
 
     -moz-border-radius: 4px;
@@ -478,7 +486,7 @@ caption {
 }
 .gradient-multiline portfolio-prefix {
     display: inline-block;
-    font-size: 16px;
+    font-size: 14px;
     position: relative;
     text-decoration: inherit;
     line-height: 1em;
@@ -491,7 +499,7 @@ caption {
 }
 .gradient-multiline portfolio-prefix badge{
     display:inline-block;
-    font-size: 36px;
+    font-size: 34px;
     transform: translateY(.45em) translateX(.18em);
 }
 .gradient-multiline:hover {
@@ -742,27 +750,27 @@ overlay {
     }
 
     h1 {
-        font-size: 32px;
+        font-size: 30px;
     }
 
     h2 {
-        font-size: 46px;
+        font-size: 44px;
     }
 
     h3 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     h4 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     details summary {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     details details summary {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .interface menu {
@@ -865,7 +873,7 @@ overlay {
     }
 
     .gradient-multiline portfolio-prefix {
-        font-size: 16px;
+        font-size: 14px;
         line-height: .75em;
         transform: translateY(0.3em);
     }
@@ -874,7 +882,7 @@ overlay {
     }
 
     .gradient-multiline portfolio-prefix badge{
-        font-size: 24px;
+        font-size: 22px;
         transform: translateY(.45em) translateX(.18em);
     }
 
@@ -907,8 +915,7 @@ overlay {
 }
 
 .polaroid span{
-    font-family: 'Gloria Hallelujah';
-    font-size: 16px;
+    font-size: 14px;
     position: absolute;
     color: #090909;
     margin-top: 10px;
@@ -916,13 +923,14 @@ overlay {
 
 .fidget-toy
 {
+    font-family: 'Gloria Hallelujah', cursive;
+    letter-spacing: 0.03em;
     position: absolute;
     left: 265px;
     top: 288px;
     font-size: 24px;
     color: #f8cda8;
     transform: rotate(-10deg);
-    font-family: 'Gloria Hallelujah';
 }
 
 /* Dark Mode */
