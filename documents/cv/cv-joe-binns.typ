@@ -83,11 +83,10 @@
     spacing: 0pt,
     paragraph(text(size: 27.3pt, weight: 700, fill: heading-color, tracking: -0.01em)[Joseph Alexander Binns]),
     40.95pt,
-    paragraph(label[Gameplay Programmer & Technical Artist]),
+    paragraph(label[Game Developer and Computational Physicist]),
     line-height,
     paragraph[
-      Exploring how machine learning can shape games, extended reality and large-scale
-      installations, informed by theoretical physics and computational research.
+      Exploring applications of machine learning to games, real-time simulations and large-scale interactive installations.
     ],
   )
 ])
@@ -103,8 +102,8 @@
       22.5225pt,
       role(
         [Interactive Experience Programmer #employer("https://sony.se/")[Sony]],
-        [#emph[Jul 2026 — Present · Lund, SE]],
-        description: [Prototyping immersive installations within the Advanced Content Creation team.],
+        [*Student* · #emph[Jul 2026 — Present · Lund, SE]],
+        description: [Prototyping immersive installations using agentic workflows within the Advanced Content Creation team.],
       ),
       paragraph-gap,
       role(

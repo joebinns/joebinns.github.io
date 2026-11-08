@@ -1,0 +1,8 @@
+{
+  "tinymist.fontPaths": [
+    "${workspaceFolder}/documents/cv/assets/fonts"
+  ],
+  "tinymist.systemFonts": false,
+  "tinymist.preview.invertColors": "never",
+  "tinymist.typstExtraArgs": ["--input=theme=light"]
+}
