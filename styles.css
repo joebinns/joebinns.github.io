@@ -2,32 +2,32 @@
     font-family: "Inter";
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
-    src: url("./documents/cv/assets/fonts/Inter-Regular.ttf") format("truetype");
+    font-display: block;
+    src: url("./fonts/Inter-Regular.woff2") format("woff2");
 }
 
 @font-face {
     font-family: "Inter";
     font-weight: 600;
     font-style: normal;
-    font-display: swap;
-    src: url("./documents/cv/assets/fonts/Inter-SemiBold.ttf") format("truetype");
+    font-display: block;
+    src: url("./fonts/Inter-SemiBold.woff2") format("woff2");
 }
 
 @font-face {
     font-family: "Inter";
     font-weight: 700;
     font-style: normal;
-    font-display: swap;
-    src: url("./documents/cv/assets/fonts/Inter-Bold.ttf") format("truetype");
+    font-display: block;
+    src: url("./fonts/Inter-Bold.woff2") format("woff2");
 }
 
 @font-face {
     font-family: "Inter";
     font-weight: 400;
     font-style: italic;
-    font-display: swap;
-    src: url("./documents/cv/assets/fonts/InterExportOblique-Italic.ttf") format("truetype");
+    font-display: block;
+    src: url("./fonts/InterExportOblique-Italic.woff2") format("woff2");
 }
 
 /* Body */
