@@ -1111,33 +1111,47 @@ overlay {
     transform: rotate(-10deg);
 }
 
-/* Dark Mode */
+/* Light mode: restore the original CV's text hierarchy. */
 @media (prefers-color-scheme: light){
+    :root {
+        --text-heading: #000000;
+        --text-body: #6f6c67;
+        --text-link: #387dc9;
+    }
+
     body.index{
         background: #6d6d6d;
     }
 
     body {
         background: #f8f0e3;
-        color: #090909;
+        color: var(--text-heading);
     }
 
-    p {
-        color: #090909;
+    p, ul {
+        color: var(--text-body);
+    }
+
+    b, strong {
+        color: var(--text-heading);
     }
 
     a {
-        color: #090909;
+        color: var(--text-heading);
+    }
+
+    .hyperlink {
+        color: var(--text-link);
     }
 
     summary.hyperlink {
-        color: #090909;
+        color: var(--text-heading);
     }
     summary.hyperlink:hover{
-        color: #090909;
+        color: var(--text-heading);
     }
     summary.hyperlink:active{
-        color: #090909;
+        color: var(--text-heading);
     }
 
     caption {

@@ -5,10 +5,11 @@
 #let ink = rgb("090909")
 #let cream = rgb("f8f0e3")
 #let dark = theme == "dark"
-#let heading-color = if dark { cream } else { ink }
-#let body-color = if dark { rgb("b2b2b2") } else { ink }
-#let link-color = rgb("4169e1")
-#let rule-color = heading-color.transparentize(90.98%)
+// Use the original PDF's light palette with slightly darker body text.
+#let heading-color = if dark { cream } else { black }
+#let body-color = if dark { rgb("b2b2b2") } else { rgb("6f6c67") }
+#let link-color = if dark { rgb("4169e1") } else { rgb("387dc9") }
+#let rule-color = (if dark { heading-color } else { rgb("37352f") }).transparentize(90.98%)
 #set page(width: 595.92pt, height: 842.88pt, margin: 0pt, fill: if dark { ink } else { cream })
 
 // Bake the website's channel clamp into the vector icons as well.
