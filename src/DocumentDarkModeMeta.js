@@ -1,13 +1,12 @@
-const userPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-if (userPrefersDark) {
-    // Swap document icons to white versions to retain contrast
-    document.getElementById("websiteProj").src="/images/globe_box_optimised_white.svg";
-    document.getElementById("itchdotioProj").src="/images/itchdotio_box_optimised_white.svg";
-    document.getElementById("steamProj").src = "/images/steam_box_white.svg";
-    document.getElementById("switchProj").src = "/images/switch_box_white.svg";
-    document.getElementById("metaProj").src = "/images/meta_box_white.svg";
-    document.getElementById("githubProj").src="/images/github_box_optimised_white.svg";
-    document.getElementById("youtubeProj").src="/images/youtube_box_optimised_white.svg";
-    document.getElementById("documentProj").src = "/images/document_box_white.svg";
-    document.getElementById("spotifyProj").src="/images/spotify_box_white.svg";
-}
+import { registerThemeImages } from './Theme.js';
+registerThemeImages({
+    websiteProj: '/images/globe_box_optimised_white.svg',
+    itchdotioProj: '/images/itchdotio_box_optimised_white.svg',
+    steamProj: '/images/steam_box_white.svg',
+    switchProj: '/images/switch_box_white.svg',
+    metaProj: '/images/meta_box_white.svg',
+    githubProj: '/images/github_box_optimised_white.svg',
+    youtubeProj: '/images/youtube_box_optimised_white.svg',
+    documentProj: '/images/document_box_white.svg',
+    spotifyProj: '/images/spotify_box_white.svg',
+});

@@ -48,7 +48,7 @@ const IntensityBasedCircleGridShader = {
         float circle(in vec2 st, in float radius)
         {
             float dist = length(st - 0.5);
-            return radius == 0.0 ? 0.0 : smoothstep(GRID_WIDTH / iResolution.x * 1.5, 0.0, dist - radius / 2.0);
+            return radius == 0.0 ? 0.0 : 1.0 - smoothstep(0.0, GRID_WIDTH / iResolution.x * 1.5, dist - radius / 2.0);
         }
 
         float intensity(in vec3 col)
@@ -74,7 +74,7 @@ const IntensityBasedCircleGridShader = {
             float blur = 32.0 / iResolution.y;   
             float progress = iTime / 0.15;
             float r = 0.1 - 0.05 * min(progress * progress, 1.0);
-            float col = smoothstep( r+blur, r-blur, length( mc - ouv )); 
+            float col = 1.0 - smoothstep(r-blur, r+blur, length(mc - ouv));
 
             float mask = 0.0;
             for (float y = -1.0; y <= 1.0; y++) {

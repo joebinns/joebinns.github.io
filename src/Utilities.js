@@ -1,6 +1,5 @@
 export function isElementHovered(element) {
-    if (element == null) return null;
-    return element == element.parentElement.querySelector(":hover");
+    return Boolean(element && (element.matches(':hover') || element.contains(document.activeElement)));
 }
 
 export function clamp(value, minimum, maximum) {

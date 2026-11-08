@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Me Out · Joe Binns</title>
     <link rel="stylesheet" href="styles.css">
     <link id="shortcuticon" rel="shortcut icon" href="../images/jb.svg">
@@ -152,10 +152,10 @@
             </p>
             <div class="video-block">
                 <div class="video-wrapper">
-                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/XE6HnUTll3c?loop=1&playlist=XE6HnUTll3c" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                    <iframe frameborder="0" width="100%" height="100%" src="https://www.youtube.com/embed/XE6HnUTll3c?loop=1&playlist=XE6HnUTll3c" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy">
                     </iframe>
                 </div>
-                <iframe height="167" frameborder="0" src="https://itch.io/embed/1984093?dark=true" style="margin-bottom:10px; width: 100%;">
+                <iframe height="167" frameborder="0" src="https://itch.io/embed/1984093?dark=true" style="margin-bottom:10px; width: 100%;" loading="lazy" title="Play on itch.io">
                     <a href="https://futuregames.itch.io/get-me-out">
                         Get Me Out by Futuregames
                     </a>
@@ -176,8 +176,8 @@
                             Gameplay footage of the engineer.
                         </u></caption>
                         <tr><td>
-                            <video autoplay muted loop>
-                                <source src="../videos/hold-and-grab.mp4" type="video/mp4">
+                            <video data-autoplay muted loop playsinline controls preload="none">
+                                <source data-src="../videos/hold-and-grab.mp4" type="video/mp4">
                             </video>
                         </td></tr>
                     </table>
@@ -196,8 +196,8 @@
                             Holding through manipulation of the hierarchy.
                         </u></caption>
                         <tr><td>
-                            <video autoplay muted loop>
-                                <source src="../videos/hold-parenting.mp4" type="video/mp4">
+                            <video data-autoplay muted loop playsinline controls preload="none">
+                                <source data-src="../videos/hold-parenting.mp4" type="video/mp4">
                             </video>
                         </td></tr>
                     </table>
@@ -215,8 +215,8 @@
                             Holding using only a linear oscillator.
                         </u></caption>
                         <tr><td>
-                            <video autoplay muted loop>
-                                <source src="../videos/hold-linear.mp4" type="video/mp4">
+                            <video data-autoplay muted loop playsinline controls preload="none">
+                                <source data-src="../videos/hold-linear.mp4" type="video/mp4">
                             </video>
                         </td></tr>
                     </table>
@@ -233,8 +233,8 @@
                             Holding using both a linear and a torsional oscillator.
                         </u></caption>
                         <tr><td>
-                            <video autoplay muted loop>
-                                <source src="../videos/hold-torsional.mp4" type="video/mp4">
+                            <video data-autoplay muted loop playsinline controls preload="none">
+                                <source data-src="../videos/hold-torsional.mp4" type="video/mp4">
                             </video>
                         </td></tr>
                     </table>
@@ -303,8 +303,8 @@
                             Linear Grab: Interpreting the look vector using a single dynamic plane.
                         </u></caption>
                         <tr><td>
-                            <video autoplay muted loop>
-                                <source src="../videos/grab-linear.mp4" type="video/mp4">
+                            <video data-autoplay muted loop playsinline controls preload="none">
+                                <source data-src="../videos/grab-linear.mp4" type="video/mp4">
                             </video>
                         </td></tr>
                     </table>
@@ -324,8 +324,8 @@
                             Torsional Grab: Interpreting the look vector using a sphere and a dynamic plane.
                         </u></caption>
                         <tr><td>
-                            <video autoplay muted loop>
-                                <source src="../videos/grab-torsional.mp4" type="video/mp4">
+                            <video data-autoplay muted loop playsinline controls preload="none">
+                                <source data-src="../videos/grab-torsional.mp4" type="video/mp4">
                             </video>
                         </td></tr>
                     </table>
@@ -388,8 +388,8 @@
                             Using outlines and a dynamic reticle to convey information about interactables.
                         </u></caption>
                         <tr><td>
-                            <video autoplay muted loop>
-                                <source src="../videos/outline-reticle.mp4" type="video/mp4">
+                            <video data-autoplay muted loop playsinline controls preload="none">
+                                <source data-src="../videos/outline-reticle.mp4" type="video/mp4">
                             </video>
                         </td></tr>
                     </table>
@@ -421,8 +421,8 @@
                             Using control prompts to inform the player how to use certain interactables.
                         </u></caption>
                         <tr><td>
-                            <video autoplay muted loop>
-                                <source src="../videos/prompts.mp4" type="video/mp4">
+                            <video data-autoplay muted loop playsinline controls preload="none">
+                                <source data-src="../videos/prompts.mp4" type="video/mp4">
                             </video>
                         </td></tr>
                     </table>
@@ -612,12 +612,12 @@
 <div class="tint-overlay min"></div>
 <script type="importmap"> {
     "imports": {
-        "three":            "https://unpkg.com/three/build/three.module.js",
-        "gltf-loader":      "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
-        "pass":             "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js",
-        "effect-composer":  "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
-        "shader-pass":      "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
-        "bloom-pass":      "https://unpkg.com/three/examples/jsm/postprocessing/BloomPass.js"
+        "three":            "https://unpkg.com/three@0.187.0/build/three.module.js",
+        "gltf-loader":      "https://unpkg.com/three@0.187.0/examples/jsm/loaders/GLTFLoader.js",
+        "pass":             "https://unpkg.com/three@0.187.0/examples/jsm/postprocessing/Pass.js",
+        "effect-composer":  "https://unpkg.com/three@0.187.0/examples/jsm/postprocessing/EffectComposer.js",
+        "shader-pass":      "https://unpkg.com/three@0.187.0/examples/jsm/postprocessing/ShaderPass.js",
+        "bloom-pass":      "https://unpkg.com/three@0.187.0/examples/jsm/postprocessing/BloomPass.js"
     }
 }
 </script>
@@ -625,5 +625,6 @@
 <script type="module" src="src/DocumentDarkModePage.js"></script>
 <script type="module" src="src/DocumentDarkModeMeta.js"></script>
 <script type="module" src="src/GetMeOut.js"></script>
+<script type="module" src="src/Media.js"></script>
 </body>
 </html>

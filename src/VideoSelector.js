@@ -1,95 +1,77 @@
-// Utilities
-import { isElementHovered } from '../src/Utilities.js';
-
 export class VideoSelector {
-    constructor(videoItems) {
-        this.videoItems = videoItems;
-        this.videoItemsToFadeOut = [];
-        this.videoItemToFadeIn = this.videoItems[0];
-
-        this.Init();
-        this.Update();
-    }
-
-    Init() {
-        // Time
-        this.time = performance.now() / 1000;
-
-        // Overlay
+    constructor(items) {
+        this.items = items.filter(item => item.videoElement && item.triggerElement);
+        this.active = this.items[0];
         this.overlay = document.getElementById('videotintoverlay');
-
-        // Parameters
-        this.rate = 4;
-        this.maxOpacity = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 0.5 : 0.65;
+        this.motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        this.darkMode = window.matchMedia('(prefers-color-scheme: dark)');
+        this.update = this.update.bind(this);
+        for (const item of this.items) {
+            item.triggerElement.addEventListener('pointerenter', () => this.select(item));
+            item.triggerElement.addEventListener('focus', () => this.select(item));
+        }
+        document.addEventListener('visibilitychange', () => this.sync());
+        this.motion.addEventListener('change', () => this.sync());
+        this.darkMode.addEventListener('change', () => this.start());
+        this.sync();
     }
 
-    Update() {
-        requestAnimationFrame(()=>this.Update()); // Only update when tab open
+    play(item) {
+        const video = item.videoElement;
+        if (!video.dataset.loaded) {
+            for (const source of video.querySelectorAll('source[data-src]')) source.src = source.dataset.src;
+            video.dataset.loaded = 'true';
+            video.load();
+        }
+        // Muted inline autoplay can still be denied by browser/user policy.
+        video.play().catch(() => {});
+    }
 
-        // Update time
-        const previousTime = this.time;
-        this.time = performance.now() / 1000;
-        const deltaTime = this.time - previousTime;
+    select(item) {
+        if (this.active === item) return;
+        this.active = item;
+        this.sync();
+    }
 
-        // Find the currently hovered video (if any)
-        let hoveredItem = null;
-
-        for (const item of this.videoItems) {
-            if (isElementHovered(item.triggerElement)) {
-                hoveredItem = item;
-                break;
+    sync() {
+        if (this.frame) cancelAnimationFrame(this.frame);
+        this.frame = null;
+        if (document.hidden || this.motion.matches) {
+            for (const item of this.items) {
+                item.videoElement.pause();
+                if (this.motion.matches) {
+                    item.on = 0;
+                    item.videoElement.hidden = true;
+                }
             }
+            return;
         }
+        if (this.active) this.play(this.active);
+        this.start();
+    }
 
-        // Switch active video only if a different one is hovered
-        if (hoveredItem && hoveredItem !== this.videoItemToFadeIn) {
+    start() {
+        if (this.frame || document.hidden || this.motion.matches) return;
+        this.previousTime = null;
+        this.frame = requestAnimationFrame(this.update);
+    }
 
-            // Fade out the previous active video (only once)
-            if (
-                this.videoItemToFadeIn &&
-                !this.videoItemsToFadeOut.includes(this.videoItemToFadeIn)
-            ) {
-                this.videoItemsToFadeOut.push(this.videoItemToFadeIn);
-            }
-
-            // Ensure the new active video isn't also fading out
-            this.videoItemsToFadeOut = this.videoItemsToFadeOut.filter(
-                item => item !== hoveredItem
-            );
-
-            this.videoItemToFadeIn = hoveredItem;
-        }
-
-        // Fade in the active video
-        if (this.videoItemToFadeIn) {
-            this.videoItemToFadeIn.on += this.rate * deltaTime;
-            this.videoItemToFadeIn.on = Math.min(this.videoItemToFadeIn.on, 1);
-        }
-
-        // Fade out inactive videos
-        for (let i = this.videoItemsToFadeOut.length - 1; i >= 0; i--) {
-            const item = this.videoItemsToFadeOut[i];
-
-            item.on -= this.rate * deltaTime;
-            item.on = Math.max(item.on, 0);
-
-            if (item.on === 0) {
-                this.videoItemsToFadeOut.splice(i, 1);
-            }
-        }
-
-        // Update overlay
+    update(timestamp) {
+        const delta = this.previousTime === null ? 0 : Math.min((timestamp - this.previousTime) / 1000, 0.25);
+        this.previousTime = timestamp;
+        const maxOpacity = this.darkMode.matches ? 0.5 : 0.65;
+        let moving = false;
         let maxOn = 0;
-        for (const item of this.videoItems) {
+        for (const item of this.items) {
+            const target = item === this.active ? 1 : 0;
+            item.on = Math.max(0, Math.min(1, item.on + (target ? 4 : -4) * delta));
+            moving ||= item.on !== target;
             maxOn = Math.max(maxOn, item.on);
+            item.videoElement.style.opacity = String(item.on * maxOpacity);
+            item.videoElement.hidden = item.on === 0;
+            if (item.on === 0 && item !== this.active) item.videoElement.pause();
         }
-
         this.overlay.style.setProperty('--blur', `${32 * (1 - maxOn)}px`);
-
-        // Update video elements
-        for (const item of this.videoItems) {
-            item.videoElement.style.opacity = (item.on * this.maxOpacity).toString();
-            item.videoElement.hidden = item.on <= 0;
-        }
+        this.frame = moving ? requestAnimationFrame(this.update) : null;
     }
 }

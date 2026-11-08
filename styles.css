@@ -33,8 +33,26 @@
 /* Body */
 
 :root {
+    --ui-corner-radius: 0.09em;
+}
+
+@supports (border-radius: 1lh) {
     /* SVG corners are roughly 7.5% of their height; scale with each text line. */
-    --ui-corner-radius: 0.075lh;
+    :root { --ui-corner-radius: 0.075lh; }
+}
+
+/* Keep content readable when long links or project titles cannot fit. */
+.content {
+    overflow-wrap: anywhere;
+}
+
+a:focus-visible, summary:focus-visible, video:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
+
+[id] {
+    scroll-margin-top: 130px;
 }
 
 html{
@@ -494,7 +512,8 @@ caption {
     color: white;
 }
 .gradient-multiline portfolio-prefix date{
-    transform: translateY(.5em);
+    position: relative;
+    top: 0.2em;
 }
 .gradient-multiline portfolio-prefix badge{
     display:inline-block;
@@ -584,10 +603,9 @@ h2 portfolio-prefix date{
     transform: translateX(-50%) translateY(-50%);
     top: 50%;
     left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     z-index: -100;
 }
 
@@ -646,6 +664,8 @@ h2 portfolio-prefix date{
 
 .model-preview {
     position: fixed;
+    top: 0;
+    left: 0;
     user-select: none;
     margin-top: 65px;
 }
@@ -771,13 +791,16 @@ overlay {
     }
 
     .interface menu {
-        width: calc(100% - 60px);
+        width: 100%;
+        box-sizing: border-box;
         height: 100px;
         display: flex;
         justify-content: space-between;
-        min-width: 300px;
+        min-width: 0;
         top: 0%;
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        mask-image: linear-gradient(to bottom, black 80%, transparent);
         -webkit-mask-image: -webkit-gradient(linear, left 80%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
     }
 
@@ -875,7 +898,7 @@ overlay {
         transform: translateY(0.3em);
     }
     .gradient-multiline portfolio-prefix date{
-        transform: translateY(.5em);
+        top: 0.5em;
     }
 
     .gradient-multiline portfolio-prefix badge{
@@ -897,10 +920,12 @@ overlay {
 
 .polaroids li{
     display: inline-block;
+    max-width: 100%;
 }
 
 .polaroid{
     width: 256px;
+    max-width: calc(100% - 40px);
     transform: rotate(2deg);
     margin: 20px;
     opacity: 1;
@@ -908,7 +933,10 @@ overlay {
 
 .polaroid img.photo{
     width: 256px;
-    height: 256px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
 }
 
 .polaroid span{
@@ -1008,4 +1036,37 @@ overlay {
     .fidget-toy {
         color: #825ece;
     }
+}
+
+/* Short windows use the same preview visibility rule as the JavaScript. */
+@media (max-height: 691px) {
+    .model-preview { display: none; }
+}
+
+@media (max-width: 420px) {
+    .padding { padding-left: 20px; padding-right: 20px; }
+    .content { width: calc(100% - 40px); margin-left: 20px; margin-right: 20px; }
+    h2 { font-size: 32px; }
+    .gradient-multiline portfolio-prefix date { top: 0.3em; }
+    .index .interface { height: 180px; }
+    .index .interface menu {
+        height: 170px;
+        display: grid;
+        grid-template-columns: 90px minmax(0, 1fr);
+        column-gap: 12px;
+        row-gap: 6px;
+        align-content: start;
+    }
+    .index .interface menu > div { display: none; }
+    .index .interface menu itemAlt { grid-column: 2; }
+    .index .interface menu item { grid-column: 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+    .model-preview, video.fullscreen { display: none; }
 }

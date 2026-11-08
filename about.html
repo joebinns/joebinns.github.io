@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About · Joe Binns</title>
     <link rel="stylesheet" href="styles.css">
     <link id="shortcuticon" rel="shortcut icon" href="../images/jb.svg">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Gloria+Hallelujah" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" />
 </head>
 <body>
 <!--
@@ -17,12 +17,12 @@
 <div class="model-preview">
     <canvas class="webgl">
     </canvas>
-    <img id="fidget-toy-arrow" src="../images/about/arrow_purple.svg" style="position: absolute; left: 190px; top: 300px;" hidden=true>
+    <img alt="" id="fidget-toy-arrow" src="../images/about/arrow_purple.svg" style="position: absolute; left: 190px; top: 300px;" hidden=true>
         <h1 id="fidget-toy-text" class="fidget-toy" hidden=true>
             heckin'<br>
             &nbsp;spinny
         </h1>
-    </img>
+
 </div>
 <div class="padding logo-wrapper">
     <logo>
@@ -103,7 +103,7 @@
                     <span style="width: 256px; text-align: center; font-size: 36px; text-shadow: #090909 2px 2px 0px; transform: translateY(-50px) rotate(-32deg); user-select: none;">
                         📌
                     </span>
-                    <img class="photo" src="../images/about/shambala.png">
+                    <img class="photo" alt="At Shambala festival" loading="lazy" width="256" height="256" src="../images/about/shambala.png">
                 </div>
             </li>
             <li>
@@ -111,7 +111,7 @@
                     <span style="width: 256px; text-align: center; font-size: 36px; text-shadow: #090909 -1px 3px 0px; transform: translateY(-50px) translateX(-3.5px) rotate(-67deg); user-select: none;">
                         📌
                     </span>
-                    <img class="photo" src="../images/about/boys.png">
+                    <img class="photo" alt="With friends" loading="lazy" width="256" height="256" src="../images/about/boys.png">
                 </div>
             </li>
             <li>
@@ -119,7 +119,7 @@
                     <span style="width: 256px; text-align: center; font-size: 36px; text-shadow: #090909 2px 2px 0px; transform: translateY(-50px) translateX(2px) rotate(-14deg); user-select: none;">
                         📌
                     </span>
-                    <img class="photo" src="../images/about/eli.png">
+                    <img class="photo" alt="With Eli" loading="lazy" width="256" height="256" src="../images/about/eli.png">
                 </div>
             </li>
         </ul>
@@ -152,12 +152,12 @@
 <div class="tint-overlay min"></div>
 <script type="importmap"> {
     "imports": {
-        "three":            "https://unpkg.com/three/build/three.module.js",
-        "gltf-loader":      "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js",
-        "pass":             "https://unpkg.com/three/examples/jsm/postprocessing/Pass.js",
-        "effect-composer":  "https://unpkg.com/three/examples/jsm/postprocessing/EffectComposer.js",
-        "shader-pass":      "https://unpkg.com/three/examples/jsm/postprocessing/ShaderPass.js",
-        "bloom-pass":      "https://unpkg.com/three/examples/jsm/postprocessing/BloomPass.js"
+        "three":            "https://unpkg.com/three@0.187.0/build/three.module.js",
+        "gltf-loader":      "https://unpkg.com/three@0.187.0/examples/jsm/loaders/GLTFLoader.js",
+        "pass":             "https://unpkg.com/three@0.187.0/examples/jsm/postprocessing/Pass.js",
+        "effect-composer":  "https://unpkg.com/three@0.187.0/examples/jsm/postprocessing/EffectComposer.js",
+        "shader-pass":      "https://unpkg.com/three@0.187.0/examples/jsm/postprocessing/ShaderPass.js",
+        "bloom-pass":      "https://unpkg.com/three@0.187.0/examples/jsm/postprocessing/BloomPass.js"
     }
 }
 </script>

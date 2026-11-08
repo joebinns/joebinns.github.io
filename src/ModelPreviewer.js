@@ -1,349 +1,136 @@
-/*
-Heyo! Congrats on finding this, please don't judge my mess ;)
-*/
+import * as THREE from 'three';
+import { EffectComposer } from 'effect-composer';
+import { ShaderPass } from 'shader-pass';
+import { BloomPass } from 'bloom-pass';
+import { OutlinePass } from './OutlinePass.js';
+import { IntensityBasedCircleGridShader } from './IntensityBasedCircleGridShader.js';
+import { PreviewPhysics } from './PreviewPhysics.js';
+import { shouldDisplayPreview } from './Preview.js';
+import { isElementHovered } from './Utilities.js';
 
-// Three.js
-import * as THREE from "three";
+const SIZE = 386;
+const axes = ['x', 'y', 'z'];
 
-// Utilities
-import { isElementHovered } from '../src/Utilities.js';
-
-// Render requirements
-import { EffectComposer } from "effect-composer";
-import { ShaderPass } from "shader-pass";
-import { BloomPass } from "bloom-pass";
-
-// Custom shaders
-import { OutlinePass } from '../src/OutlinePass.js';
-import { IntensityBasedCircleGridShader } from "../src/IntensityBasedCircleGridShader.js";
-
-let scene, camera, renderer, composer, outline, bloom, shockwaveTime, intensityBasedCircleGrid, objects, time, mouse, picker, appearRate, speed, maximumDisplacement, targetYawVelocity, defaultAngularSpeed, preview, forceToApply, torqueToApply, targetPosition, targetRotation, velocity, angularVelocity;
-
-function SetObjectVisibility(object, visible) {
-    object.visible = visible;
-}
-
-const dimensions = () => {
-    return {
-        width: shouldDisplayPreview() ? 386 : 0,
-        height: shouldDisplayPreview() ? 386 : 0,
-    };
-};
-
-class ObjectPicker {
-    constructor() {
+export class ModelPreviewer {
+    constructor(items) {
+        this.items = items;
+        this.physics = new PreviewPhysics();
+        this.preview = document.querySelector('.model-preview');
+        this.canvas = this.preview.querySelector('canvas');
+        this.mouse = new THREE.Vector2(-100, -100);
         this.raycaster = new THREE.Raycaster();
-        this.picked = null;
-        this.hitPoint = null;
-        this.hitNormal = null;
-    }
-
-    refreshCursor() {
-        if (this.picked) document.body.style.cursor = 'pointer';
-        else document.body.style.cursor = 'auto';
-    }
-
-    pick(normalizedPosition, scene, camera) {
-        let pickedObject = null;
-        let hitPoint = null;
-        let hitNormal = null;
-
-        // Cast a ray through the frustum
-        this.raycaster.setFromCamera(normalizedPosition, camera);
-
-        // Get the list of objects the ray intersected
-        const intersectedObjects = this.raycaster.intersectObjects(scene.children, true);
-
-        if (intersectedObjects.length) {
-            // Pick the first object. It's the closest one
-            pickedObject = intersectedObjects[0].object.parent;
-            hitPoint = intersectedObjects[0].point;
-            hitNormal = intersectedObjects[0].normal;
+        this.hits = [];
+        this.offset = new THREE.Vector3();
+        // Match the former kick at 60 FPS, now as an instantaneous impulse.
+        this.impulse = new THREE.Vector3(0, 0, -1100 / 60);
+        this.shockwaveTime = 1;
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0x090909);
+        this.camera = new THREE.PerspectiveCamera(55, 1, 0.1, 10);
+        this.camera.position.z = 6;
+        this.objects = new THREE.Group();
+        for (const item of items) {
+            item.object.visible = false;
+            this.objects.add(item.object);
         }
-
-        this.picked = pickedObject;
-        this.hitPoint = hitPoint;
-        this.hitNormal = hitNormal;
-
-        this.refreshCursor();
-    }
-}
-
-export function shouldDisplayPreview() {
-    return ((window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) > 800 &&
-        ((window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) - 241 - 65) >= 386);
-}
-
-function onWindowResize() {
-    const dimensions1 = dimensions();
-
-    camera.aspect = dimensions1.width / dimensions1.height;
-    camera.updateProjectionMatrix();
-
-    preview.style.width = `${dimensions1.width}px`;
-    preview.style.height = `${dimensions1.height}px`;
-
-    renderer.setSize(dimensions1.width, dimensions1.height);
-    composer.setSize(dimensions1.width, dimensions1.height);
-    intensityBasedCircleGrid.setSize(dimensions1.width, dimensions1.height);
-    outline.setSize(dimensions1.width, dimensions1.height);
-
-    intensityBasedCircleGrid.uniforms.iResolution.value.set(
-        dimensions1.width,
-        dimensions1.height
-    );
-}
-
-function onDocumentMouseMove(event) {
-    const dimensions1 = dimensions();
-    mouse.x = (event.clientX / dimensions1.width) * 2 - 1;
-    mouse.y = -((event.clientY - 65) / dimensions1.height) * 2 + 1;
-}
-
-function onDocumentMouseDown(event) {
-    let object = picker.picked;
-    if (object) {
-        var forceMagnitude = 1100.0;
-        var force = new THREE.Vector3(0, 0, 1).multiplyScalar(-forceMagnitude);
-        AddForceAtPosition(force, picker.hitPoint);
-        shockwaveTime = 0;
-    }
-}
-
-function onDocumentMouseUp(event) {
-}
-
-function AddForceAtPosition(force, position)
-{
-    forceToApply.add(force);
-    torqueToApply.add((position.sub(objects.position)).cross(force));
-}
-
-function lerp(a, b, alpha)
-{
-    return a + alpha * ( b - a );
-}
-
-export class ModelPreviewer{
-    constructor(portfolioItems) {
-        this.portfolioItems = portfolioItems;
-        this.Init();
-        this.Update();
-    }
-
-    Init() {
-        // Timer
-        time = performance.now() / 1000;
-        shockwaveTime = 0;
-
-        // Controller
-        mouse = new THREE.Vector2(-100, -100);
-        picker = new ObjectPicker();
-        appearRate = 6;
-        speed = 2.5;
-        maximumDisplacement = 0.1;
-        defaultAngularSpeed = 0.6;
-        targetYawVelocity = defaultAngularSpeed;
-        forceToApply = new THREE.Vector3(0, 0, 0);
-        torqueToApply = new THREE.Vector3(0, 0, 0);
-        targetPosition = new THREE.Vector3(0, 0, 0);
-        targetRotation = new THREE.Vector3(0, 0, 0);
-        velocity = new THREE.Vector3(0, 0, 0);
-        angularVelocity = new THREE.Vector3(0, targetYawVelocity, 0);
-
-        // Model preview
-        preview = document.querySelector('.model-preview');
-
-        // Canvas
-        const canvas = document.querySelector('canvas.webgl');
-
-        // Scene
-        scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x090909);
-
-        // Camera
-        camera = new THREE.PerspectiveCamera(55, dimensions().width / dimensions().height, 0.1, 10);
-        camera.position.z = 6;
-        scene.add(camera);
-
-        // Renderer
-        renderer = new THREE.WebGLRenderer({
-            canvas: canvas,
-            alpha: true
+        this.scene.add(this.objects);
+        this.defaultItem = items.find(item => !item.element);
+        this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, alpha: true });
+        // The dot grid is intentionally rendered at CSS resolution.
+        this.renderer.setSize(SIZE, SIZE);
+        this.composer = new EffectComposer(this.renderer, new THREE.WebGLRenderTarget(SIZE, SIZE));
+        this.outline = new OutlinePass(new THREE.Vector2(SIZE, SIZE), this.scene, this.camera);
+        const uniforms = this.outline.fsQuad.material.uniforms;
+        uniforms.outlineColor.value.set(0xffffff);
+        // Bloom/grid consume a white-on-black mask; theme inversion happens last.
+        uniforms.isDarkMode.value = true;
+        uniforms.multiplierParameters.value.set(0.5, 75);
+        this.composer.addPass(this.outline);
+        this.composer.addPass(new BloomPass(1, 25, 4));
+        this.grid = new ShaderPass(IntensityBasedCircleGridShader);
+        this.grid.uniforms.iResolution.value.set(SIZE, SIZE, 1);
+        this.composer.addPass(this.grid);
+        this.darkMode = window.matchMedia('(prefers-color-scheme: dark)');
+        this.motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        this.updateTheme = () => { this.grid.uniforms.IS_DARK_MODE.value = this.darkMode.matches; };
+        this.updateTheme();
+        this.darkMode.addEventListener('change', this.updateTheme);
+        this.update = this.update.bind(this);
+        this.sync = this.sync.bind(this);
+        this.canvas.addEventListener('pointermove', event => this.updateMouse(event));
+        this.canvas.addEventListener('pointerleave', () => {
+            this.mouse.set(-100, -100);
+            this.canvas.style.cursor = '';
         });
-        renderer.setSize(dimensions().width, dimensions().height);
-        //renderer.setPixelRatio(window.devicePixelRatio);
-
-        // Composer (renderer with post-processing)
-        const renderTarget = new THREE.WebGLRenderTarget(
-            dimensions().width,
-            dimensions().height
-        );
-        composer = new EffectComposer(renderer, renderTarget); 
-
-        // Render pass
-        // Skipping the regular render pass as to only render an outline.
-
-        // Post processing
-
-        // Outline
-        outline = new OutlinePass(
-            new THREE.Vector2(dimensions().width, dimensions().height),
-            scene,
-            camera
-        );
-        composer.addPass(outline);
-        const outlineUniforms = outline.fsQuad.material.uniforms;
-        outlineUniforms.outlineColor.value.set(new THREE.Color(0xffffff));
-        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        outlineUniforms.isDarkMode.value = true; // TODO: Uhhr, why is this set always true?
-        // Multiple scalar values packed into one uniform: Depth bias, depth multiplier
-        outlineUniforms.multiplierParameters.value.x = 0.5;
-        outlineUniforms.multiplierParameters.value.y = 75;
-
-        // Bloom
-        bloom = new BloomPass(1, 25, 4); // Strength, Kernel Size, Sigma
-        composer.addPass(bloom);
-
-        // Intensity Based Circle Grid
-        intensityBasedCircleGrid = new ShaderPass(IntensityBasedCircleGridShader);
-        intensityBasedCircleGrid.uniforms.IS_DARK_MODE.value = isDarkMode;
-        composer.addPass(intensityBasedCircleGrid);
-
-        // Group
-        objects = new THREE.Group();
-
-        // Set up the objects in their scenes, once all the models have loaded
-        this.portfolioItems.forEach(item => {
-            objects.add(item.object)
-        });
-        this.portfolioItems.forEach(item => SetObjectVisibility(item.object, false));
-
-        // Identify any default item
-        this.defaultItem = null;
-        this.portfolioItems.forEach(item => {
-            if (!item.element) this.defaultItem = item;
-        });
-
-        scene.add(objects);
-
-        // Subscribe to events
-        document.addEventListener('mousemove', onDocumentMouseMove, false);
-        document.addEventListener('mousedown', onDocumentMouseDown, false);
-        document.addEventListener('mouseup', onDocumentMouseUp, false);
-        window.addEventListener('resize', onWindowResize);
-        onWindowResize();
-    }
-
-    Update () {
-        requestAnimationFrame(()=>this.Update()); // Only update when tab open
-        if (!shouldDisplayPreview()) return;
-
-        // Update time
-        let previousTime = time;
-        time = performance.now() / 1000;
-        const MAX_DELTA_TIME = 1 / 30;
-        let deltaTime = Math.min(time - previousTime, MAX_DELTA_TIME);
-        shockwaveTime += deltaTime;
-
-        intensityBasedCircleGrid.uniforms.iTime.value = shockwaveTime;
-        intensityBasedCircleGrid.uniforms.iMouse.value.set(
-            mouse.x,
-            mouse.y
-        );
-
-        // Set appeared per item
-        let isAnyElementHovered = false;
-        this.portfolioItems.forEach(item => {
-            if (item.element) {
-                if (isElementHovered(item.element)){
-                    item.appeared += appearRate * deltaTime;
-                    isAnyElementHovered = true;
-                }
-                else {
-                    item.appeared -= appearRate * deltaTime;
-                }
-                item.appeared = THREE.MathUtils.clamp(item.appeared, 0, 1);
+        this.canvas.addEventListener('pointerdown', event => {
+            if (event.button !== 0) return;
+            this.updateMouse(event);
+            const hit = this.pick();
+            if (hit) {
+                this.offset.copy(hit.point).sub(this.objects.position);
+                this.physics.applyImpulse(this.impulse, this.offset);
+                this.shockwaveTime = 0;
             }
         });
+        window.addEventListener('resize', this.sync);
+        document.addEventListener('visibilitychange', this.sync);
+        this.motion.addEventListener('change', this.sync);
+        this.sync();
+    }
 
-        if (this.defaultItem) {
-            if (isAnyElementHovered) {
-                this.defaultItem.appeared -= appearRate * deltaTime;
-            }
-            else {
-                this.defaultItem.appeared += appearRate * deltaTime;
-            }
-            this.defaultItem.appeared = THREE.MathUtils.clamp(this.defaultItem.appeared, 0, 1);
+    updateMouse(event) {
+        const rect = this.canvas.getBoundingClientRect();
+        this.mouse.set((event.clientX - rect.left) / rect.width * 2 - 1,
+            1 - (event.clientY - rect.top) / rect.height * 2);
+    }
+
+    pick() {
+        if (Math.abs(this.mouse.x) > 1 || Math.abs(this.mouse.y) > 1) return null;
+        this.scene.updateMatrixWorld();
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        this.hits.length = 0;
+        // Raycaster also intersects invisible objects: only pass visible roots.
+        for (const item of this.items) {
+            if (item.object.visible) this.raycaster.intersectObject(item.object, true, this.hits);
         }
+        const hit = this.hits.sort((a, b) => a.distance - b.distance)[0];
+        this.canvas.style.cursor = hit ? 'pointer' : '';
+        return hit;
+    }
 
-        // Set visibility per item
-        this.portfolioItems.forEach(item => {
-            if (item.appeared > 0) {
-                SetObjectVisibility(item.object, true);
-            }
-            else {
-                SetObjectVisibility(item.object, false);
-            }
-        });
+    sync() {
+        const visible = shouldDisplayPreview();
+        this.preview.style.width = visible ? `${SIZE}px` : '0px';
+        this.preview.style.height = visible ? `${SIZE}px` : '0px';
+        this.preview.hidden = !visible;
+        const running = visible && !document.hidden;
+        if (this.frame) cancelAnimationFrame(this.frame);
+        this.frame = null;
+        this.previousTime = null;
+        this.physics.accumulator = 0;
+        if (running) this.frame = requestAnimationFrame(this.update);
+    }
 
-        // Update mouse's selected object
-        picker.pick(mouse, scene, camera);
-
-        // Scale the objects based on appeared
-        this.portfolioItems.forEach(item => {
-            let scale = item.appeared;
-            item.object.scale.set(scale, scale, scale);
-        });
-
-        targetYawVelocity = defaultAngularSpeed * (angularVelocity.y >= 0.0 ? 1.0 : -1.0);
-        targetPosition.y = maximumDisplacement * Math.sin(time * speed);
-
-        // Linear oscillator
-        let stiffness = -100;
-        let damper = -5;
-        let mass = 1.0;
-        var position = objects.position.clone();
-        var displacement = position.clone().sub(targetPosition);
-        let restorativeForce = displacement.multiplyScalar(stiffness)
-        let dampingForce = velocity.clone().multiplyScalar(damper);
-        forceToApply.add(restorativeForce);
-        forceToApply.add(dampingForce);
-        var acceleration = forceToApply.divideScalar(mass);
-        var deltaVelocity = acceleration.clone().multiplyScalar(deltaTime);
-        velocity.add(deltaVelocity);
-        var deltaPosition = velocity.clone().multiplyScalar(deltaTime)
-        position.add(deltaPosition);
-        forceToApply = new THREE.Vector3(0, 0, 0);
-
-        // Torsional oscillator
-        let torsionalStiffness = -100;
-        let torsionalDamper = -5;
-        var rotation = new THREE.Vector3(objects.rotation.x, objects.rotation.y, objects.rotation.z);
-        var torsionalDisplacement = rotation.clone().sub(targetRotation);
-        let restorativeTorque = torsionalDisplacement.multiplyScalar(torsionalStiffness);
-        restorativeTorque.y = 0.0;
-        let dampingTorque = angularVelocity.clone().multiplyScalar(torsionalDamper);
-        dampingTorque.y = 0.0;
-        torqueToApply.x *= 0.333;
-        torqueToApply.add(restorativeTorque);
-        torqueToApply.add(dampingTorque);
-        var torsionalAcceleration = torqueToApply.divideScalar(mass);
-        var deltaAngularVelocity = torsionalAcceleration.clone().multiplyScalar(deltaTime);
-        angularVelocity.add(deltaAngularVelocity);
-
-        let fixedProgress = 0.8;
-        angularVelocity.y = lerp(angularVelocity.y, targetYawVelocity, 1.0 - Math.pow(1.0 - fixedProgress, deltaTime));
-
-        var deltaRotation = angularVelocity.clone().multiplyScalar(deltaTime);
-        rotation.add(deltaRotation);
-        torqueToApply = new THREE.Vector3(0, 0, 0);
-        
-        // Move and rotate the objects 
-        objects.position.set(position.x, position.y, position.z);
-        objects.rotation.set(rotation.x, rotation.y, rotation.z);
-
-        // Render final scene
-        composer.render();
+    update(timestamp) {
+        const delta = this.previousTime === null ? 0 : Math.min((timestamp - this.previousTime) / 1000, 0.25);
+        this.previousTime = timestamp;
+        this.shockwaveTime += delta;
+        this.grid.uniforms.iTime.value = this.shockwaveTime;
+        this.grid.uniforms.iMouse.value.copy(this.mouse);
+        let selected = this.items.find(item => item.element && isElementHovered(item.element));
+        selected ??= this.defaultItem;
+        for (const item of this.items) {
+            item.appeared = THREE.MathUtils.clamp(item.appeared + (item === selected ? 6 : -6) * delta, 0, 1);
+            item.object.visible = item.appeared > 0;
+            item.object.scale.setScalar(item.appeared);
+        }
+        const alpha = this.physics.advance(delta);
+        for (const axis of axes) {
+            this.objects.position[axis] = THREE.MathUtils.lerp(this.physics.previousPosition[axis], this.physics.position[axis], alpha);
+            this.objects.rotation[axis] = THREE.MathUtils.lerp(this.physics.previousRotation[axis], this.physics.rotation[axis], alpha);
+        }
+        this.composer.render(delta);
+        this.pick();
+        this.frame = requestAnimationFrame(this.update);
     }
 }

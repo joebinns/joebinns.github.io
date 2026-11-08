@@ -2,8 +2,12 @@
 
 My personal website, where I host my portfolio, curriculum vitae and link to the platforms I'm using professionally!
 
+## Review and checks
+
+See [WEBSITE_REVIEW.md](WEBSITE_REVIEW.md) for findings, fixes, remaining work, and verification results.
+
 ## Backlog
-- Fix text hover and WebGL for Safari.
+- Validate hover effects and WebGL on physical Safari devices.
 - Optimise model geometries.
 - Switch JavaScript from CDN hosting to npm.
 

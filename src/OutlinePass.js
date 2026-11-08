@@ -33,11 +33,13 @@ class OutlinePass extends Pass {
 
     dispose() {
         this.depthTarget.dispose();
+        this.fsQuad.material.dispose();
         this.fsQuad.dispose();
     }
 
     setSize(width, height) {
         this.resolution.set(width, height);
+        this.depthTarget.setSize(width, height);
 
         this.fsQuad.material.uniforms.screenSize.value.set(
             this.resolution.x,
