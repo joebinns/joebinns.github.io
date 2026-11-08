@@ -1,4 +1,5 @@
-import { registerThemeImages } from './Theme.js';
+import { registerThemeImages, registerThemeLinks } from './Theme.js';
+registerThemeLinks();
 registerThemeImages({ shortcuticon: '/images/jb_white.svg' }, 'href');
 registerThemeImages({
     github: '/images/github_box_optimised_white.svg',

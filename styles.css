@@ -764,6 +764,12 @@ overlay {
 @media screen and (max-width: 800px) {
     logo h1 {
         margin: 0;
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    logo h1 span {
+        display: inline-block;
     }
 
     h1 {
