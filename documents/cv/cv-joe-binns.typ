@@ -1,6 +1,7 @@
 #set document(title: "Joseph Alexander Binns", author: "Joseph Alexander Binns")
-#let theme = sys.inputs.at("theme", default: "light")
-#assert(("light", "dark").contains(theme), message: "theme must be light or dark")
+// Export white as cv-joe-binns.pdf, light as cv-joe-binns-light.pdf, and dark as cv-joe-binns-dark.pdf.
+#let theme = sys.inputs.at("theme", default: "white")
+#assert(("white", "light", "dark").contains(theme), message: "theme must be white, light or dark")
 // Match styles.css, including its darken/lighten tint overlays.
 #let ink = rgb("090909")
 #let cream = rgb("f8f0e3")
@@ -10,7 +11,8 @@
 #let body-color = if dark { rgb("b2b2b2") } else { rgb("6f6c67") }
 #let link-color = if dark { rgb("4169e1") } else { rgb("387dc9") }
 #let rule-color = (if dark { heading-color } else { rgb("37352f") }).transparentize(90.98%)
-#set page(width: 595.92pt, height: 842.88pt, margin: 0pt, fill: if dark { ink } else { cream })
+#let background-color = if dark { ink } else if theme == "light" { cream } else { white }
+#set page(width: 595.92pt, height: 842.88pt, margin: 0pt, fill: background-color)
 
 // Bake the website's channel clamp into the vector icons as well.
 #let tint(color) = {
