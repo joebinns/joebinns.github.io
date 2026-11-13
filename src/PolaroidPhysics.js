@@ -1,7 +1,7 @@
 // Keep this independent of the WebGL preview so the pins also work without it.
-const { Bodies, Body, Composite, Engine, Sleeping } = window.Matter;
+const { Bodies, Body, Composite, Engine, Query, Sleeping } = window.Matter;
 const engine = Engine.create({ enableSleeping: true });
-const step = 1000 / 120;
+const step = 1000 / 50;
 const pieces = [];
 const collisionCategory = { photo: 1, pin: 2, wall: 4, floor: 8 };
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -66,6 +66,8 @@ function updateBounds() {
             }
         }
         positioned.push(body);
+        piece.previousPosition = { ...body.position };
+        piece.previousAngle = body.angle;
         Sleeping.set(body, false);
     }
 }
@@ -102,18 +104,25 @@ function addPiece(source, angle, isPin) {
             // Pins pass through the photos and floor, so they always leave the page.
             collisionFilter: {
                 category: isPin ? collisionCategory.pin : collisionCategory.photo,
-                mask: isPin ? collisionCategory.wall : 0xFFFFFFFF,
+                mask: isPin ? collisionCategory.wall : 0,
             },
         },
     );
     Composite.add(engine.world, body);
-    pieces.push({ body, visual, width: pieceWidth, height: pieceHeight, isPin });
+    pieces.push({
+        body, visual, width: pieceWidth, height: pieceHeight, isPin,
+        previousPosition: { ...body.position }, previousAngle: body.angle,
+        collisionEnabled: isPin,
+    });
     return body;
 }
 
-function render() {
-    for (const { body, visual, width, height } of pieces) {
-        visual.style.transform = `translate(${body.position.x - width / 2}px, ${body.position.y - height / 2}px) rotate(${body.angle}rad)`;
+function render(alpha = 1) {
+    for (const { body, visual, width, height, previousPosition, previousAngle } of pieces) {
+        const x = previousPosition.x + (body.position.x - previousPosition.x) * alpha;
+        const y = previousPosition.y + (body.position.y - previousPosition.y) * alpha;
+        const angle = previousAngle + (body.angle - previousAngle) * alpha;
+        visual.style.transform = `translate(${x - width / 2}px, ${y - height / 2}px) rotate(${angle}rad)`;
     }
 }
 
@@ -129,13 +138,26 @@ function tick(time) {
     if (previousTime !== null) accumulator += Math.min(time - previousTime, 100);
     previousTime = time;
     while (accumulator >= step) {
+        for (const piece of pieces) {
+            piece.previousPosition.x = piece.body.position.x;
+            piece.previousPosition.y = piece.body.position.y;
+            piece.previousAngle = piece.body.angle;
+        }
         Engine.update(engine, step);
+        const bodies = Composite.allBodies(engine.world);
+        for (const piece of pieces) {
+            if (!piece.isPin && !piece.collisionEnabled &&
+                Query.collides(piece.body, bodies.filter(body => body !== piece.body)).length === 0) {
+                piece.body.collisionFilter.mask = 0xFFFFFFFF;
+                piece.collisionEnabled = true;
+            }
+        }
         accumulator -= step;
     }
     for (let i = pieces.length - 1; i >= 0; i--) {
         if (pieces[i].isPin && pieces[i].body.bounds.min.y > floor) removePiece(i);
     }
-    render();
+    render(accumulator / step);
     if (pieces.some(({ body }) => !body.isSleeping)) {
         frame = requestAnimationFrame(tick);
     } else {
